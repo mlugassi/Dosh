@@ -1,20 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
+import { QubicViewComponent } from './qubic-view/qubic-view.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    QubicViewComponent
   ],
   imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClientModule,
-    NgbModule.forRoot()
+    BrowserModule
   ],
   providers: [],
   bootstrap: [AppComponent]
