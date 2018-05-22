@@ -8,6 +8,6 @@ import 'rxjs/add/operator/map';
   providedIn: 'root'
 })
 export class ViewsService {
-  api_url = 'http://localhost:8080';
+  api_url = 'http://localhost:80';
   constructor(private http: HttpClient) { }
 }
