@@ -3,11 +3,15 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { QubicViewComponent } from './qubic-view/qubic-view.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LoginComponent } from './navbar/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QubicViewComponent
+    QubicViewComponent,
+    NavbarComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule
