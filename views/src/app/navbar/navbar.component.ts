@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
     { link: "#", name: ' Logout' , class:"glyphicon glyphicon-log-out", modal:'#login-modal'},
   ];
   //user: User = new User();
-  userName= "";
+  userName= "Refael";
   password = "";
   navHeader: NavHeader[] = [];
 

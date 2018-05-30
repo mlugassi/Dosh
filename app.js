@@ -41,8 +41,8 @@ let login = require('./routes/login');    // it will be our controller for loggi
   app.use(logger('dev'));
   app.set('views', path.join(__dirname, 'views'));
   app.use(express.static(path.join(__dirname, 'public')));
-  app.use(express.static(path.join(__dirname, 'views', 'dist')));
-  app.use('/', express.static(path.join(__dirname, 'views', 'dist')));
+  app.use(express.static(path.join(__dirname, 'views', 'dist', 'views')));
+  app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
   app.use(bodyParser.json()); // support json encoded bodies
   app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
   //app.use(cookieParser());
