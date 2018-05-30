@@ -23,6 +23,7 @@ export class NavbarComponent implements OnInit {
     { link: "#", name: ' Login' , class:"glyphicon glyphicon-log-in" , modal:'#login-modal'},
     { link: "#", name: ' Logout' , class:"glyphicon glyphicon-log-out", modal:'#login-modal'},
   ];
+  location="sdfsdfsxdfx";
   //user: User = new User();
   userName= "Refael";
   password = "";
@@ -35,13 +36,5 @@ export class NavbarComponent implements OnInit {
 
   }
 
-  login() {
-    this.appService.post_login(new User(this.userName,this.password))
-      .subscribe(res => {
-        //this.todosList.push(res.data)
-        //assign the todolist property to the proper http response
-        this.navHeader = res;
-        console.log(res);
-      })
-  }
+
 }

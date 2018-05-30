@@ -9,10 +9,13 @@
       <!-- /.modal-header -->
 
       <div class="modal-body">
-        <form role="form">
+          <input type="text" [(ngModel)]="location">
+          <input type="text" [(ngModel)]="location">
+
+        <form role="form" class="form">
           <div class="form-group">
             <div class="input-group">
-              <input type="text" class="form-control" id="uLogin" placeholder="Login">
+              <input type="text" class="form-control" [(ngModel)] = "name" id="uLogin" placeholder="Login">
               <label for="uLogin" class="input-group-addon glyphicon glyphicon-user"></label>
             </div>
           </div>
@@ -20,7 +23,7 @@
 
           <div class="form-group">
             <div class="input-group">
-              <input type="password" class="form-control" id="uPassword" placeholder="Password">
+              <input type="password" class="form-control" [ngModel]="password" id="uPassword" placeholder="Password">
               <label for="uPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
             </div>
             <!-- /.input-group -->
@@ -37,23 +40,22 @@
             <a href="#">password?</a>
           </span>
 
+          <div class="modal-footer">
+            <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
+              Log In</button>
+          </div>
+          <div class="form-group">
+            <div class="pull-right">
+              Don't have an account?
+              <a href="#signup-modal" data-toggle="modal" data-dismiss="modal">
+                Sign Up Here
+              </a>
+            </div>
+          </div>
         </form>
 
       </div>
       <!-- /.modal-body -->
-
-      <div class="modal-footer">
-        <button class="form-control btn btn-primary">Ok</button>
-
-        <div class="progress">
-          <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100"
-            style="width: 0%;">
-            <span class="sr-only">progress</span>
-          </div>
-        </div>
-      </div>
-      <!-- /.modal-footer -->
-
     </div>
     <!-- /.modal-content -->
   </div>
@@ -72,10 +74,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">Sign Up</h4>
+      </div>
+      <!-- /.modal-header -->
       <div class="modal-body">
         <form accept-charset="utf-8" class="form" role="form">
-          <legend>Sign Up</legend>
-          <h4>It's free and always will be.</h4>
           <div class="row">
             <div class="col-xs-6 col-md-6">
               <input type="text" name="firstname" value="" class="form-control input-lg" placeholder="First Name" /> </div>
@@ -237,8 +243,20 @@
           <br />
           <span class="help-block">By clicking Create my account, you agree to our Terms and that you have read our Data Use Policy, including our
             Cookie Use.</span>
-          <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
-            Create my account</button>
+          <div class="modal-footer">
+
+            <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
+              Create my account</button>
+          </div>
+
+          <div class="form-group">
+            <div class="pull-right">
+              Already have an account?
+              <a href="#login-modal" data-toggle="modal" data-dismiss="modal">
+                Sign In Here
+              </a>
+            </div>
+          </div>
         </form>
 
       </div>
