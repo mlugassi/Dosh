@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AppService } from '../services/app.service';
+import User from '../models/User';
+import NavHeader from '../models/navHeader';
 
 @Component({
   selector: 'app-navbar',
@@ -12,17 +15,33 @@ export class NavbarComponent implements OnInit {
     { link: "sale.html", name: 'Manage users' },
     { link: "about.html", name: 'Manage items' },
     { link: "about.html", name: 'About' },
-    { link: "contact.html", name: 'Contact' }
+    { link: "contact.html", name: 'Contact' },
   ];
   items2 = [
-    { link: "#", name: ' Sign Up' , class:"glyphicon glyphicon-user", modal:'#signupModal' , target:'data-target'},
-    { link: "#", name: ' Login' , class:"glyphicon glyphicon-log-in" , modal:'#loginModal', target:'data-target'},
-    { link: "#", name: ' Logout' , class:"glyphicon glyphicon-log-out", modal:'#loginModal', target:'data-target'},
+    { link: "#", name: ' Edit' , class:"glyphicon glyphicon-cog", modal:'#signup-modal'},
+    { link: "#", name: ' Sign Up' , class:"glyphicon glyphicon-user", modal:'#signup-modal'},
+    { link: "#", name: ' Login' , class:"glyphicon glyphicon-log-in" , modal:'#login-modal'},
+    { link: "#", name: ' Logout' , class:"glyphicon glyphicon-log-out", modal:'#login-modal'},
   ];
-  constructor() { }
+  //user: User = new User();
+  userName= "";
+  password = "";
+  navHeader: NavHeader[] = [];
+
+  constructor(private appService: AppService) { 
+  }
 
   ngOnInit() {
 
   }
 
+  login() {
+    this.appService.post_login(new User(this.userName,this.password))
+      .subscribe(res => {
+        //this.todosList.push(res.data)
+        //assign the todolist property to the proper http response
+        this.navHeader = res;
+        console.log(res);
+      })
+  }
 }
