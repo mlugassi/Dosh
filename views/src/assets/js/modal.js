@@ -109,6 +109,7 @@ $(document).click(function (e) {
             $(this).modal('hide');
         }
     }
+}
 
 // });
 // function editUserData() {
