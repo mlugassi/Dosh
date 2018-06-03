@@ -11,11 +11,11 @@ import NavHeader from '../models/navHeader';
 export class NavbarComponent implements OnInit {
   items1 = [
     { link: "index.html", name: 'Home' },
-    { link: "shop.html", name: 'Catalog' },
-    { link: "sale.html", name: 'Manage users' },
-    { link: "about.html", name: 'Manage items' },
-    { link: "about.html", name: 'About' },
-    { link: "contact.html", name: 'Contact' },
+    // { link: "shop.html", name: 'Catalog' },
+    // { link: "sale.html", name: 'Manage users' },
+    // { link: "about.html", name: 'Manage items' },
+    // { link: "about.html", name: 'About' },
+    // { link: "contact.html", name: 'Contact' },
   ];
   items2 = [
     { link: "#", name: ' Edit' , class:"glyphicon glyphicon-cog", modal:'#signup-modal'},
@@ -23,7 +23,6 @@ export class NavbarComponent implements OnInit {
     { link: "#", name: ' Login' , class:"glyphicon glyphicon-log-in" , modal:'#login-modal'},
     { link: "#", name: ' Logout' , class:"glyphicon glyphicon-log-out", modal:'#login-modal'},
   ];
-  location="sdfsdfsxdfx";
   //user: User = new User();
   userName= "Refael";
   password = "";
@@ -35,6 +34,11 @@ export class NavbarComponent implements OnInit {
   ngOnInit() {
 
   }
-
+  onAddItem(data:{name:string, link:string}){
+    this.items1.push({
+      name: data.name,
+      link: data.link
+    })
+  }
 
 }

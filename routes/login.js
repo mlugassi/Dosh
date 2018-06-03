@@ -14,8 +14,7 @@ router.post('/', async (req, res, next) => {
   //   return res.status(200).json({ "status": "fail", "message": info.message });
   //   req.logIn(user, function (err) {
   //     if (err) { return next(err); }
-     return res.json([{ link: "index.html", name: 'Home' },
-      { link: "shop.html", name: 'Catalog' },
+     return res.json([{ link: "shop.html", name: 'Catalog' },
       { link: "sale.html", name: 'Manage users' },
       { link: "about.html", name: 'Manage items' },
       { link: "about.html", name: 'About' },
