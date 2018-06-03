@@ -64,17 +64,17 @@ let login = require('./routes/login');    // it will be our controller for loggi
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-    usernameField: 'uname',
-    passwordField: 'psw',
+    usernameField: 'username',
+    passwordField: 'password',
     passReqToCallback: true
   },
-    function (req, uname, psw, done) {
-      User.findOne({ userName: uname }, function (err, user) {
+    function (req, username, password, done) {
+      User.findOne({ userName: username }, function (err, user) {
         if (err) { return done(err); }
         if (!user) {
           return done(null, false, { message: 'Incorrect username.' });
         }
-        if (!((md5(user.password + req.body.salt)) == psw)) {
+        if (!(user.password == password)) {
           return done(null, false, { message: 'Incorrect password.' });
         }
         return done(null, user);

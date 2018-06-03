@@ -18,28 +18,30 @@ export class NavbarComponent implements OnInit {
     // { link: "contact.html", name: 'Contact' },
   ];
   items2 = [
-    { link: "#", name: ' Edit' , class:"glyphicon glyphicon-cog", modal:'#signup-modal'},
     { link: "#", name: ' Sign Up' , class:"glyphicon glyphicon-user", modal:'#signup-modal'},
     { link: "#", name: ' Login' , class:"glyphicon glyphicon-log-in" , modal:'#login-modal'},
-    { link: "#", name: ' Logout' , class:"glyphicon glyphicon-log-out", modal:'#login-modal'},
   ];
   //user: User = new User();
   userName= "Refael";
   password = "";
-  navHeader: NavHeader[] = [];
-
   constructor(private appService: AppService) { 
   }
 
   ngOnInit() {
 
   }
-  onAddItem(data:{name:string, link:string}){
-    this.items1.push({
-      name: data.name,
-      link: data.link
-    })
-    
+  onAddItem(data:{navheader: NavHeader[]}){
+    data.navheader.forEach(element => {
+      this.items1.push({
+        name: element.name,
+        link: element.link
+      })
+    });
+this.items2=  [
+  { link: "#", name: ' Edit' , class:"glyphicon glyphicon-cog", modal:'#signup-modal'},
+  { link: "#", name: ' Logout' , class:"glyphicon glyphicon-log-out", modal:'#login-modal'},
+];
+
   }
 
 }
