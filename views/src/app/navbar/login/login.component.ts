@@ -14,8 +14,9 @@ export class LoginComponent implements OnInit {
   userName= "";
   location = ""
   password = "";
-  navHeader: NavHeader[] = [];
+  // navHeader: NavHeader[] = [];
   constructor(private appService: AppService) { }
+  @Output() addItem = new EventEmitter<{name:string, link:string}>();
 
   ngOnInit() {
   }
@@ -25,10 +26,18 @@ export class LoginComponent implements OnInit {
       .subscribe(res => {
         //this.todosList.push(res.data)
         //assign the todolist property to the proper http response
-        this.navHeader = res;
-        alert(this.navHeader[0].link);
-        alert(this.navHeader[0].name);
-        console.log(res);
+
+        res.forEach(element => {
+          this.addItem.emit({
+            name: element.name,
+            link: element.link
+          });
+        });
+
+        // this.navHeader = res;
+        // alert(this.navHeader[0].link);
+        // alert(this.navHeader[0].name);
+        // console.log(res);
       })
     }
 
