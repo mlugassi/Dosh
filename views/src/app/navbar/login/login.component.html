@@ -9,10 +9,7 @@
       <!-- /.modal-header -->
 
       <div class="modal-body">
-        <input type="text" [(ngModel)]="location">
-        <input type="text" [(ngModel)]="location">
-
-        <form role="form" class="form">
+        <div class="form">
           <div class="form-group">
             <div class="input-group">
               <input type="text" class="form-control" [(ngModel)]="userName" id="uLogin" placeholder="Login">
@@ -41,7 +38,7 @@
           </span>
 
           <div class="modal-footer">
-            <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
+            <button class="btn btn-lg btn-primary btn-block signup-btn" (click)="login()">
               Log In</button>
           </div>
           <div class="form-group">
@@ -52,7 +49,7 @@
               </a>
             </div>
           </div>
-        </form>
+        </div>
       </div>
       <!-- /.modal-body -->
     </div>

@@ -11,24 +11,25 @@ import NavHeader from '../../models/navHeader';
 })
 export class LoginComponent implements OnInit {
 
-  userName= "Refael";
-  location = "dfsgvxcv"
-  password = "1234567890";
+  userName= "";
+  location = ""
+  password = "";
   navHeader: NavHeader[] = [];
   constructor(private appService: AppService) { }
 
   ngOnInit() {
   }
   login() {
-    console.log("In login");
     alert("in login");
-    // this.appService.post_login(new User(this.userName,this.password))
-    //   .subscribe(res => {
-    //     //this.todosList.push(res.data)
-    //     //assign the todolist property to the proper http response
-    //     this.navHeader = res;
-    //     console.log(res);
-    //   })
+    this.appService.post_login(new User(this.userName,this.password))
+      .subscribe(res => {
+        //this.todosList.push(res.data)
+        //assign the todolist property to the proper http response
+        this.navHeader = res;
+        alert(this.navHeader[0].link);
+        alert(this.navHeader[0].name);
+        console.log(res);
+      })
     }
 
 }
