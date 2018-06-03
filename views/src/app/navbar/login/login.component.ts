@@ -1,7 +1,8 @@
-import { Component, OnInit, EventEmitter, Output} from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
 import { AppService } from '../../services/app.service';
 import User from '../../models/User';
 import NavHeader from '../../models/navHeader';
+import { $ } from 'protractor';
 
 
 @Component({
@@ -12,27 +13,24 @@ import NavHeader from '../../models/navHeader';
 export class LoginComponent implements OnInit {
 
   userName= "";
-  location = ""
   password = "";
+  @ViewChild('login-modal')  login_modal: ElementRef ;
   // navHeader: NavHeader[] = [];
   constructor(private appService: AppService) { }
-  @Output() addItem = new EventEmitter<{name:string, link:string}>();
+  @Output() addItem = new EventEmitter<{navheader: NavHeader[]}>();
 
   ngOnInit() {
   }
   login() {
-    alert("in login");
     this.appService.post_login(new User(this.userName,this.password))
       .subscribe(res => {
         //this.todosList.push(res.data)
         //assign the todolist property to the proper http response
 
-        res.forEach(element => {
           this.addItem.emit({
-            name: element.name,
-            link: element.link
+            navheader: res,
           });
-        });
+          //$(this.login_modal.nativeElement).modal('hide');
 
         // this.navHeader = res;
         // alert(this.navHeader[0].link);

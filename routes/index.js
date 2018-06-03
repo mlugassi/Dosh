@@ -4,8 +4,7 @@ var debug = require('debug')('Dosh:index');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log("Get to the root");
-  res.sendfile('./views/src/index.html');
+  
   return res.json([{ link: "index.html", name: 'Home' },
   { link: "shop.html", name: 'Catalog' },
   { link: "sale.html", name: 'Manage users' },
