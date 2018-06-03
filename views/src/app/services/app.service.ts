@@ -1,4 +1,6 @@
 import NavHeader from '../models/NavHeader';
+import Card from '../models/Card';
+// import CardComponent from '../catalog/card/card.component';
 import User from '../models/User';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -20,6 +22,11 @@ export class AppService {
   post_login(user: User): Observable<NavHeader[]>{
     return this.http.post(`${this.api_url}/login`, user)
       .pipe(map(res  => res as NavHeader[] || []));
+  }
+
+  get_catalog(){
+    return this.http.get(`${this.api_url}/index/catalog`)
+    .pipe(map(res  => res as Card[] || []));
   }
 }
 

@@ -39,6 +39,7 @@ export class NavbarComponent implements OnInit {
       name: data.name,
       link: data.link
     })
+    
   }
 
 }
