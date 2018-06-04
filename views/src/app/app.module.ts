@@ -7,12 +7,16 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LoginComponent } from './navbar/login/login.component';
 import { AppService } from './services/app.service';
+import { CatalogComponent } from './catalog/catalog.component';
+import { CardComponent } from './catalog/card/card.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    LoginComponent
+    LoginComponent,
+    CatalogComponent,
+    CardComponent
   ],
   imports: [
     BrowserModule,
