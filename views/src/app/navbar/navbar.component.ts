@@ -22,7 +22,7 @@ export class NavbarComponent implements OnInit {
     { link: "#", name: ' Login', class: "glyphicon glyphicon-log-in", modal: '#login-modal' },
   ];
   //user: User = new User();
-  userName = "Refael";
+  userName = "";
   password = "";
   @Input() nav: { link: string, name: string };
 
@@ -34,7 +34,13 @@ export class NavbarComponent implements OnInit {
       .subscribe(res => {
         //this.todosList.push(res.data)
         //assign the todolist property to the proper http response
-        this.items1=res;/*.forEach(element => {
+        this.items1=res[0];
+        this.userName="Hello " + res[1].name;
+        this.items2 = [
+          { link: "#", name: ' Edit', class: "glyphicon glyphicon-cog", modal: '#signup-modal' },
+          { link: "#", name: ' Logout', class: "glyphicon glyphicon-log-out", modal: '#login-modal' },
+        ];
+        /*.forEach(element => {
 
         res.forEach(element => {
           this.items1.push({

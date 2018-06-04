@@ -14,7 +14,7 @@ router.get('/stam',checksession, function (req, res, next) {
     { link: "about.html", name: "Manage items" },
     { link: "about.html", name: "About" },
     { link: "contact.html", name: "Contact" }
-  ]);
+  ],[{name:req.session.passport.user}]);
   //  res.redirect('/login');
 });
 

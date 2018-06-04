@@ -23,9 +23,9 @@ export class AppService {
     return this.http.post(`${this.api_url}/login`, user)
       .pipe(map(res  => res as NavHeader[] || []));
   }
-  index(): Observable<NavHeader[]>{
+  index(): Observable<any[]>{
     return this.http.get(`${this.api_url}/stam`)
-      .pipe(map(res  => res as NavHeader[] || []));
+      .pipe(map(res  => res as any[] || []));
   }
 
   get_catalog(){
