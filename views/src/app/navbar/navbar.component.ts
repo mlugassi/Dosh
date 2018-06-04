@@ -11,17 +11,13 @@ import NavHeader from '../models/navHeader';
 export class NavbarComponent implements OnInit {
   items1 = [
     { link: "index.html", name: 'Home' },
-    // { link: "shop.html", name: 'Catalog' },
-    // { link: "sale.html", name: 'Manage users' },
-    // { link: "about.html", name: 'Manage items' },
-    // { link: "about.html", name: 'About' },
-    // { link: "contact.html", name: 'Contact' },
+    { link: "about.html", name: 'About' },
+    { link: "contact.html", name: 'Contact' },
   ];
   items2 = [
     { link: "#", name: ' Sign Up', class: "glyphicon glyphicon-user", modal: '#signup-modal' },
     { link: "#", name: ' Login', class: "glyphicon glyphicon-log-in", modal: '#login-modal' },
   ];
-  //user: User = new User();
   userName = "";
   password = "";
   @Input() nav: { link: string, name: string };
