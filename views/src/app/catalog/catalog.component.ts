@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-// import CardComponent from '../catalog/card/card.component'
 import Card from '../models/Card'
 import { AppService } from '../services/app.service';
 
@@ -18,10 +17,7 @@ export class CatalogComponent implements OnInit {
   ngOnInit() {
     this.appService.get_catalog()
       .subscribe(res => {
-        //this.todosList.push(res.data)
-        //assign the todolist property to the proper http response
         this.items = [];
-
         res.forEach(element => {
           this.items.push(element);
         });

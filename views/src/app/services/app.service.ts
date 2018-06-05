@@ -25,7 +25,7 @@ export class AppService {
   }
 
   get_catalog(){
-    return this.http.get(`${this.api_url}/index/catalog`)
+    return this.http.get(`${this.api_url}/catalog`)
     .pipe(map(res  => res as Card[] || []));
   }
 }

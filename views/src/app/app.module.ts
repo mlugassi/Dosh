@@ -9,6 +9,8 @@ import { LoginComponent } from './navbar/login/login.component';
 import { AppService } from './services/app.service';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CardComponent } from './catalog/card/card.component';
+import { UsersComponent } from './users/users.component';
+import { UserComponent } from './users/user/user.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { CardComponent } from './catalog/card/card.component';
     NavbarComponent,
     LoginComponent,
     CatalogComponent,
-    CardComponent
+    CardComponent,
+    UsersComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

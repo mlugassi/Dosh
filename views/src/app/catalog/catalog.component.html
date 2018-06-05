@@ -1,22 +1,5 @@
-
-
 <section class="banner bgwhite p-t-40 p-b-40">
   <div class="container">
-    <ul>
-      <li *ngFor="let item of items2">
-        <div class="col-lg-3 col-md-6 mb-4 text-center">
-          <div class="card">
-            <img class="card-img-top" src="{{item.imgPath}}" alt="">
-            <div class="card-body">
-              <h4 class="card-title">{{item.title}}</h4>
-              <p class="card-text">{{item.subTitle}}</p>
-            </div>
-            <div class="card-footer">
-              <a href="#" class="btn btn-primary">{{item.btnContent}}</a>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
+      <app-card *ngFor="let item of items" [card]="item"></app-card>
   </div>
 </section>
