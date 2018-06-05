@@ -14,42 +14,43 @@ router.post('/', async (req, res, next) => {
     req.logIn(user, function (err) {
       if (err) { return next(err); }
       console.log("login to: " + user);
-      return res.json([{ link: "shop.html", name: 'Catalog' },
-      { link: "sale.html", name: 'Manage users' },
-      { link: "about.html", name: 'Manage items' },
-      { link: "about.html", name: 'About' },
-      { link: "contact.html", name: 'Contact' }]);// return all todos in JSON format
-      //////////return res.status(200).json({ "status": "success" });
-         });
-       })(req, res, next);
-    });
-
-
-    router.get('/', async (req, res) => {
-      console.log("Get to /login");
       return res.json([{ link: "index.html", name: 'Home' },
       { link: "shop.html", name: 'Catalog' },
       { link: "sale.html", name: 'Manage users' },
       { link: "about.html", name: 'Manage items' },
       { link: "about.html", name: 'About' },
-      { link: "contact.html", name: 'Contact' }]);
-
-      // if (req.session === undefined) {
-      //   req.session.referer = req.get('Referer');
-      //   if (req.session.referer === undefined)
-      //     req.session.referer = '/';
-      //   res.render("index", { "uname": "", "role": "", "flowers": "" });
-      // }
-      // else
-      //   res.redirect('/');
+      { link: "contact.html", name: 'Contact' }]);// return all todos in JSON format
+      //////////return res.status(200).json({ "status": "success" });
     });
+  })(req, res, next);
+});
 
-    router.get('/logout', async (req, res) => {
-      console.log(req.session.passport.user + ' is logging out');
-      req.session.regenerate(err => {
-        console.log('logged out');
-        res.redirect('/');
-      });
-    });
 
-    module.exports = router;
+router.get('/', async (req, res) => {
+  console.log("Get to /login");
+  return res.json([{ link: "index.html", name: 'Home' },
+  { link: "shop.html", name: 'Catalog' },
+  { link: "sale.html", name: 'Manage users' },
+  { link: "about.html", name: 'Manage items' },
+  { link: "about.html", name: 'About' },
+  { link: "contact.html", name: 'Contact' }]);
+
+  // if (req.session === undefined) {
+  //   req.session.referer = req.get('Referer');
+  //   if (req.session.referer === undefined)
+  //     req.session.referer = '/';
+  //   res.render("index", { "uname": "", "role": "", "flowers": "" });
+  // }
+  // else
+  //   res.redirect('/');
+});
+
+router.get('/logout', async (req, res) => {
+  console.log(req.session.passport.user + ' is logging out');
+  req.session.regenerate(err => {
+    console.log('logged out');
+    res.redirect('/');
+  });
+});
+
+module.exports = router;

@@ -77,24 +77,45 @@
       </div>
       <!-- /.modal-header -->
       <div class="modal-body">
-        <form accept-charset="utf-8" class="form" role="form">
+        <div accept-charset="utf-8" class="form">
           <div class="row">
             <div class="col-xs-6 col-md-6">
-              <input type="text" name="firstname" value="" class="form-control input-lg" placeholder="First Name" /> </div>
+              <input type="text" name="firstname" class="form-control" [(ngModel)]="firsname" placeholder="First Name" /> </div>
             <div class="col-xs-6 col-md-6">
-              <input type="text" name="lastname" value="" class="form-control input-lg" placeholder="Last Name" /> </div>
+              <input type="text" name="lastname" class="form-control" [(ngModel)]="lastname" placeholder="Last Name" /> </div>
           </div>
           <br>
-          <input type="text" name="email" value="" class="form-control input-lg" placeholder="Your Email" />
+          <div class="row">
+            <div class="col-xs-6 col-md-6">
+              <input type="text" name="username" class="form-control" [(ngModel)]="userName" placeholder="User name" /> </div>
+            <div class="col-xs-6 col-md-6">
+
+              <div>
+                <select name="month" class="form-control" [(ngModel)]="role">
+                  <option value="Employee">Employee</option>
+                  <option value="Vendor">Vendor</option>
+                  <option value="Manager">Manager</option>
+                  <option value="Customer">Customer</option>
+                </select>
+              </div>
+            </div>
+          </div>
           <br>
-          <input type="password" name="password" value="" class="form-control input-lg" placeholder="Password" />
+          <input type="text" name="email" class="form-control" [(ngModel)]="email" placeholder="Your Email" />
           <br>
-          <input type="password" name="confirm_password" value="" class="form-control input-lg" placeholder="Confirm Password" />
+          <div class="row">
+            <div class="col-xs-6 col-md-6">
+              <input type="password" name="password" class="form-control" [(ngModel)]="password" placeholder="Password" />
+            </div>
+            <div class="col-xs-6 col-md-6">
+              <input type="password" name="confirm_password" class="form-control" [(ngModel)]="confirmPassword" placeholder="Confirm Password"
+              /> </div>
+          </div>
           <br>
           <label>Birth Date</label>
           <div class="row">
             <div class="col-xs-4 col-md-4">
-              <select name="month" class="form-control input-lg">
+              <select name="month" class="form-control">
                 <option value="01">Jan</option>
                 <option value="02">Feb</option>
                 <option value="03">Mar</option>
@@ -110,7 +131,7 @@
               </select>
             </div>
             <div class="col-xs-4 col-md-4">
-              <select name="day" class="form-control input-lg">
+              <select name="day" class="form-control">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -145,7 +166,7 @@
               </select>
             </div>
             <div class="col-xs-4 col-md-4">
-              <select name="year" class="form-control input-lg">
+              <select name="year" class="form-control">
                 <option value="1935">1935</option>
                 <option value="1936">1936</option>
                 <option value="1937">1937</option>
@@ -231,17 +252,17 @@
           <br>
           <label>Gender : </label>
           <label class="radio-inline">
-            <input type="radio" name="gender" value="M" id=male /> Male
+            <input type="radio" name="gender" [checked]="check" (change)="onSelectionChange()"> Male
           </label>
           <label class="radio-inline">
-            <input type="radio" name="gender" value="F" id=female /> Female
+            <input type="radio" name="gender" [checked]="!check" (change)="onSelectionChange()">Female
           </label>
-          <br />
+          <br/>
           <span class="help-block">By clicking Create my account, you agree to our Terms and that you have read our Data Use Policy, including our
             Cookie Use.</span>
           <div class="modal-footer">
 
-            <button class="btn btn-lg btn-primary btn-block signup-btn" type="submit">
+            <button class="btn btn-lg btn-primary btn-block signup-btn" (click)="signup()">
               Create my account</button>
           </div>
 
@@ -253,7 +274,7 @@
               </a>
             </div>
           </div>
-        </form>
+        </div>
 
       </div>
       <!-- /.modal-body -->

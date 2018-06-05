@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
 import { AppService } from '../../services/app.service';
 import User from '../../models/User';
 import NavHeader from '../../models/navHeader';
@@ -12,31 +12,58 @@ import { $ } from 'protractor';
 })
 export class LoginComponent implements OnInit {
 
-  userName= "";
+  userName = "";
   password = "";
-  @ViewChild('login-modal')  login_modal: ElementRef ;
+  confirmPassword = "";
+  firstName = "";
+  lastName = "";
+  email = "";
+  gender = "";
+  role = "Manager";
+  active = "";
+  admin = "";
+  check = true;
+
+
+  @ViewChild('login-modal') login_modal: ElementRef;
   // navHeader: NavHeader[] = [];
   constructor(private appService: AppService) { }
-  @Output() addItem = new EventEmitter<{navheader: NavHeader[]}>();
+  @Output() addItem = new EventEmitter<{ navheader: NavHeader[] }>();
 
   ngOnInit() {
   }
   login() {
-    this.appService.post_login(new User(this.userName,this.password))
+    this.appService.login(new User(this.userName, this.password))
       .subscribe(res => {
-        //this.todosList.push(res.data)
-        //assign the todolist property to the proper http response
-
-          this.addItem.emit({
-            navheader: res,
-          });
-          //$(this.login_modal.nativeElement).modal('hide');
-
-        // this.navHeader = res;
-        // alert(this.navHeader[0].link);
-        // alert(this.navHeader[0].name);
-        // console.log(res);
+        this.addItem.emit({
+          navheader: res,
+        });
       })
+  }
+
+  signup() {
+    if (this.password == this.confirmPassword) {
+      this.appService.signup(new User(this.userName, this.password,
+        this.firstName, this.lastName, this.email, this.gender, this.role))
+        .subscribe(res => {
+          this.login();
+          // this.addItem.emit({
+          //   navheader: res,
+          // });
+        })
     }
+    else {
+      alert("The passwords are differents");
+      this.password = "";
+      this.confirmPassword = "";
+    }
+  }
+  onSelectionChange() {
+    this.check = !this.check;
+    if (!this.check)
+      this.gender = "Female";
+    else
+      this.gender = "Male";
+  }
 
 }

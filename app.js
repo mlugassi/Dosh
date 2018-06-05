@@ -93,7 +93,6 @@ let login = require('./routes/login');    // it will be our controller for loggi
   app.use(favicon(path.join(__dirname, 'public', 'images', 'flower.ico')));
   app.use('/users', users);
   app.use('/login', login); // register login controller
-  //app.use('/flowers', flowers);
   app.use('/', index);
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
