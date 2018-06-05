@@ -37,6 +37,11 @@ export class AppService {
     return this.http.get(`${this.api_url}/catalog`)
     .pipe(map(res  => res as Card[] || []));
   }
+
+  get_users(){
+    return this.http.get(`${this.api_url}/users`)
+    .pipe(map(res  => res as User[] || []));
+  }
 }
 
 // @Injectable()

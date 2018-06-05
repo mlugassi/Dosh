@@ -1,1 +1,9 @@
-<app-user>
+<div class="container">
+  <div class="row">
+    <div class="span12">
+      <ul class="thumbnails">
+        <app-user *ngFor="let user of users" [user]="user"></app-user>
+      </ul>
+    </div>
+  </div>
+</div>
