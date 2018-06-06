@@ -10,16 +10,11 @@ router.post('/', async (req, res, next) => {
     if (err)
       return next(err);
     if (!user)
-      return res.status(200).json({ "status": "fail", "message": info.message });
+      res.status(200).json({ status: "Fail", message: info.message });
     req.logIn(user, function (err) {
       if (err) { return next(err); }
       console.log("login to: " + user);
-      return res.json([{ link: "index.html", name: 'Home' },
-      { link: "shop.html", name: 'Catalog' },
-      { link: "sale.html", name: 'Manage users' },
-      { link: "about.html", name: 'Manage items' },
-      { link: "about.html", name: 'About' },
-      { link: "contact.html", name: 'Contact' }]);// return all todos in JSON format
+      res.status(200).json({ status: "OK", message: "You loged in successfully." });
       //////////return res.status(200).json({ "status": "success" });
     });
   })(req, res, next);

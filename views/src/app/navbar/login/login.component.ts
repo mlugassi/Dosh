@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../services/app.service';
 import User from '../../models/User';
 import NavHeader from '../../models/navHeader';
@@ -25,19 +25,21 @@ export class LoginComponent implements OnInit {
   check = true;
 
 
-  @ViewChild('login-modal') login_modal: ElementRef;
   // navHeader: NavHeader[] = [];
   constructor(private appService: AppService) { }
-  @Output() addItem = new EventEmitter<{ navheader: NavHeader[] }>();
+  //@Output() addItem = new EventEmitter<{ navheader: NavHeader[] }>();
 
   ngOnInit() {
   }
   login() {
     this.appService.login(new User(this.userName, this.password))
       .subscribe(res => {
-        this.addItem.emit({
-          navheader: res,
-        });
+        if (res.status == "OK")
+          this.login();
+        alert(res.message);
+        // this.addItem.emit({
+        //   navheader: res,
+        // });
       })
   }
 
@@ -46,12 +48,9 @@ export class LoginComponent implements OnInit {
       this.appService.signup(new User(this.userName, this.password,
         this.firstName, this.lastName, this.email, this.gender, this.role))
         .subscribe(res => {
-          if (res.status == "OK") {
-            alert(res.message);        
+          if (res.status == "OK")
             this.login();
-          }
-          else
-            alert(res.message);
+          alert(res.message);
         })
     }
     else {
@@ -60,6 +59,7 @@ export class LoginComponent implements OnInit {
       this.confirmPassword = "";
     }
   }
+
   onSelectionChange() {
     this.check = !this.check;
     if (!this.check)
