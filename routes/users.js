@@ -5,31 +5,20 @@ const Branch = require('../model')("Branch");
 const checksession = require('./checksession');
 
 
-router.get('/', checksession, function (req, res) {
-    var name = req.session.passport.user;
+router.get('/', function (req, res) {
+    // var name = req.session.passport.user;
     User.findOne({
-        userName: name,
+        userName: 'refael' /*name*/ ,
         active: true
     }, function (err, result) {
         if (err) throw err;
-        if (result == null) return res.status(404);
-        else
+        if (result != null && result.role == "manager")
             (async () => {
-                var branch = await Branch.findOne({
-                    id: result.branch
-                });
-                var user = {};
-                user.firstName = result.firstName;
-                user.lastName = result.lastName;
-                user.userName = result.userName;
-                user.password = result.password;
-                user.email = result.email;
-                user.role = result.role;
-                if (user.role == "employee")
-                    user.branch = result.branch + " " + branch.name + ", " + branch.address;
-                user.gender = result.gender;
-                user.active = result.active;
-                res.status(200).json(JSON.stringify(user));
+                var users = await User.find({
+                    active: true
+                }).exec();
+
+                res.json(users);
             })();
     });
 });

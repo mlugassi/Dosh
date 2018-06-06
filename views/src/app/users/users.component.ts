@@ -21,6 +21,7 @@ export class UsersComponent implements OnInit {
       .subscribe(res => {
         this.users = [];
         res.forEach(element => {
+          alert(element.firstName);
           this.users.push(element);
         });
       })
