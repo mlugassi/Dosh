@@ -9,5 +9,5 @@ let db = mongo.createConnection();
     }
 })();
 require("./user")(db);
-//require("./todo")(db);
+require("./branch")(db);
 module.exports = model => db.model(model);

@@ -16,7 +16,6 @@ var path = require('path');
 const User = require('./model')("User");
 
 var app = express();
-
 let index = require('./routes/index');
 let users = require('./routes/users');
 let login = require('./routes/login');    // it will be our controller for logging in/out
@@ -47,7 +46,7 @@ let login = require('./routes/login');    // it will be our controller for loggi
   app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
   //app.use(cookieParser());
 
-  let secret = 'FlowerRM secret'; // must be the same one for cookie parser and for session
+  let secret = 'Dosh secret'; // must be the same one for cookie parser and for session
   app.use(cookieParser(secret));
 
   app.use(session({
@@ -100,7 +99,6 @@ let login = require('./routes/login');    // it will be our controller for loggi
     err.status = 404;
     next(err);
   });
-
   // error handler
   // define as the last app.use callback
   app.use(function (err, req, res, next) {

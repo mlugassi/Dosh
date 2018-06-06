@@ -11,9 +11,11 @@ export class UsersComponent implements OnInit {
 
   users: User[];
   private appService: AppService;
+
   constructor(appService: AppService) {
     this.appService = appService;
   }
+
   ngOnInit() {
     this.appService.get_users()
       .subscribe(res => {
