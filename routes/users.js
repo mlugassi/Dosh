@@ -5,16 +5,16 @@ const checksession = require('./checksession');
 
 
 router.get('/', function (req, res) {
-    var name = req.session.passport.user;
+    var name = 'michael'; //req.session.passport.user;
     User.findOne({
-        userName: name ,
-        active: true
+        userName: name,
+        isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (result != null && result.role == "manager")
+        if (result != null && result.isAdmin)
             (async () => {
                 var users = await User.find({
-                    active: true
+                    isActive: true
                 }).exec();
 
                 res.json(users);

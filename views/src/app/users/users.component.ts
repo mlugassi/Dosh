@@ -35,27 +35,27 @@ export class UsersComponent implements OnInit {
   }
 
   editPassword() {
-    if ($("#checkbox-pass-editUser").prop('checked')) {
-      $("#lopass-editUser").show();
-      $("#opass-editUser").show();
-      $("#lpass-editUser").show();
-      $("#pass-editUser").show();
-      $("#lvpass-editUser").show();
-      $("#vpass-editUser").show();
-      $("#opass-editUser").prop('required', true);
-      $("#pass-editUser").prop('required', true);
-      $("#vpass-editUser").prop('required', true);
-    } else {
-      $("#lopass-editUser").hide();
-      $("#opass-editUser").hide();
-      $("#lpass-editUser").hide();
-      $("#pass-editUser").hide();
-      $("#lvpass-editUser").hide();
-      $("#vpass-editUser").hide();
-      $("#opass-editUser").prop('required', false);
-      $("#pass-editUser").prop('required', false);
-      $("#vpass-editUser").prop('required', false);
-    }
+    // if ($("#checkbox-pass-editUser").prop('checked')) {
+    //   $("#lopass-editUser").show();
+    //   $("#opass-editUser").show();
+    //   $("#lpass-editUser").show();
+    //   $("#pass-editUser").show();
+    //   $("#lvpass-editUser").show();
+    //   $("#vpass-editUser").show();
+    //   $("#opass-editUser").prop('required', true);
+    //   $("#pass-editUser").prop('required', true);
+    //   $("#vpass-editUser").prop('required', true);
+    // } else {
+    //   $("#lopass-editUser").hide();
+    //   $("#opass-editUser").hide();
+    //   $("#lpass-editUser").hide();
+    //   $("#pass-editUser").hide();
+    //   $("#lvpass-editUser").hide();
+    //   $("#vpass-editUser").hide();
+    //   $("#opass-editUser").prop('required', false);
+    //   $("#pass-editUser").prop('required', false);
+    //   $("#vpass-editUser").prop('required', false);
+    // }
   }
   updateUser() {
 

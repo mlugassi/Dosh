@@ -1,4 +1,4 @@
-<!-- <table class="table table-hover">
+<table class="table table-hover">
   <thead>
     <tr>
       <th colspan="3" scope="col"></th>
@@ -9,14 +9,14 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of user">
+    <tr *ngFor="let user of users">
       <th colspan="3" scope="row"></th>
       <td colspan="5">{{user.fisrtName}} {{user.lastName}}</td>
       <td colspan="3">{{user.userName}}</td>
       <td colspan="1">{{user.blogs}}</td>
       <td colspan="1">
-        <a href="#" class="btn btn-primary fa fa-vcard pull-right" (click)="openModal('{{user.userName}}')"></a>
-        <a href="#" class="btn btn-danger fa fa-trash pull-right" (click)="deleteUser('{{user.userName}}')"></a>
+        <a href="#" class="btn btn-primary fa fa-vcard pull-right" ></a>
+        <a href="#" class="btn btn-danger fa fa-trash pull-right" ></a>
       </td>
       <tr>
   </tbody>
@@ -47,4 +47,4 @@
     <label for="pass-editUser">Edit password</label>
     <button type="submit">Update</button>
   </div>
-</form> -->
+</form>
