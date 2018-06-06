@@ -23,13 +23,12 @@ export class AppService {
     return this.http.post(`${this.api_url}/login`, user)
       .pipe(map(res  => res as NavHeader[] || []));
   }
-  signup(user: User): Observable<NavHeader[]>{
-    alert("In service signup");
+  signup(user: User): Observable<any>{
     return this.http.post(`${this.api_url}/signup`, user)
-      .pipe(map(res  => res as NavHeader[] || []));
+      .pipe(map(res  => res as any || ""));
   }
-  index(): Observable<any[]>{
-    return this.http.get(`${this.api_url}/stam`)
+  navbar(): Observable<any[]>{
+    return this.http.get(`${this.api_url}/navbar`)
       .pipe(map(res  => res as any[] || []));
   }
 
@@ -43,42 +42,3 @@ export class AppService {
     .pipe(map(res  => res as User[] || []));
   }
 }
-
-// @Injectable()
-// export class TodoService {
-
-//   //Create todo, takes a ToDo Object
-//   createTodo(todo: ToDo): Observable<ToDo[]>{
-//     return this.http.post(`${this.todoUrl}`, todo)
-//       .map(res  => res as ToDo[] || []);
-//   }
-
-//   //Read todo, takes no arguments
-//   getToDos(): Observable<ToDo[]>{
-//     let getUrl = `${this.todoUrl}/list`;
-//     return this.http.get(getUrl)
-//       .map(res  => res as ToDo[] || []);
-//   }
-
-//   //Delete todo, takes a ToDo Object
-//   deleteTodo(todo: ToDo): Observable<ToDo[]> {
-//     //Delete the object by the id
-//     let deleteUrl = `${this.todoUrl}/${todo._id}`;
-//     return this.http.delete(deleteUrl)
-//       .map(res  => res as ToDo[] || []);
-//   }
-
-//   //Update todo, takes a ToDo Object as parameter
-//   editTodo(todo:ToDo){
-//     let editUrl = `${this.todoUrl}/${todo._id}`
-//     //returns the observable of http put request
-//     return this.http.put(editUrl, {text: todo.text})
-//       .map(res  => res as ToDo[] || []);
-//   }
-
-//   //Default Error handling method.
-//   private handleError(error: any): Promise<any> {
-//     console.error('An error occurred', error); // for demo purposes only
-//     return Promise.reject(error.message || error);
-//   }
-// }
