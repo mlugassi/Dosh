@@ -15,16 +15,17 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li *ngFor="let item of items1">
-          <a href={{item.link}} >{{item.name}}</a>
+          <a href="#" (click)="test()">{{item.name}}</a>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li *ngFor="let item of items2">
-          <a href={{item.link}} data-toggle="modal" attr.data-target={{item.modal}} attr.click={{item.click}}>
-            <span class={{item.class}} ></span>{{item.name}}</a>
+          <a href={{item.link}} data-toggle="modal" attr.data-target={{item.modal}} attr.click="{{item.click}}">
+            <span class={{item.class}}></span>{{item.name}}</a>
         </li>
       </ul>
     </div>
     <!--/.nav-collapse -->
   </div>
 </nav>
+

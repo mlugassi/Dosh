@@ -60,6 +60,10 @@ export class NavbarComponent implements OnInit {
   //   ];
   // }
 
+  test(){
+    alert("test ");
+
+  }
   logout(){
     alert("logout ");
     // this.appService.navbar()
