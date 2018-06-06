@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appService.index()
+    this.appService.navbar()
       .subscribe(res => {
         //this.todosList.push(res.data)
         //assign the todolist property to the proper http response
@@ -62,7 +62,7 @@ export class NavbarComponent implements OnInit {
 
   logout(){
     alert("logout ");
-    // this.appService.index()
+    // this.appService.navbar()
     // .subscribe(res => {
     //   this.items1=res[0];
     //   this.userName="Hello " + res[1].name;

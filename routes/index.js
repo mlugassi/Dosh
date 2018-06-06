@@ -6,8 +6,8 @@ const checksession = require('./checksession');
 
 
 /* GET home page. */
-router.get('/stam', checksession, function (req, res, next) {
-  console.log("I'm in the stam GET");
+router.get('/navbar', checksession, function (req, res, next) {
+  console.log("I'm in the navbar GET");
   return res.json([[
     { link: "index.html", name: "Home" },
     { link: "shop.html", name: "Catalog" },
@@ -25,30 +25,25 @@ router.post('/signup', async (req, res, next) => {
   User.findOne({ userName: req.body.username }, function (err, user) {
     if (err) throw err;
     if (user != null)
-      res.status(200).json({ error: "User Name Alredy Exist" });
+      res.status(200).json({ status: "Fail", message: "User Name Alredy Exist" });
     else {
       var user = {};
-      user.firstName = req.body.firstName;
-      user.lastName = req.body.lastName;
+      user.firstName = req.body.firstName || "";
+      user.lastName = req.body.lastName || "";
       user.userName = req.body.username;
       user.password = req.body.password;
-      user.email = req.body.email;
-      user.role = req.body.role;
+      user.email = req.body.email || "";
+      user.role = req.body.role || "";
       if (user.role == "employee")
         user.branch = req.body.branch.split(" ")[0];
-      user.gender = req.body.gender;
+      user.gender = req.body.gender || "";
       user.active = req.body.active;
       user.reset = false;
       user.uuid = "";
       User.create(user, function (err, user) {
         if (err) throw err;
         console.log('user created:' + user);
-        return res.json([{ link: "index.html", name: 'Home' },
-        { link: "shop.html", name: 'Catalog' },
-        { link: "sale.html", name: 'Manage users' },
-        { link: "about.html", name: 'Manage items' },
-        { link: "about.html", name: 'About' },
-        { link: "contact.html", name: 'Contact' }]);
+        res.status(200).json({ status: "OK", message: "The user " + user.userName + " sucess to signup" });
       });
     }
   });

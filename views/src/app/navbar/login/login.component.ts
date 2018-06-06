@@ -46,10 +46,12 @@ export class LoginComponent implements OnInit {
       this.appService.signup(new User(this.userName, this.password,
         this.firstName, this.lastName, this.email, this.gender, this.role))
         .subscribe(res => {
-          this.login();
-          // this.addItem.emit({
-          //   navheader: res,
-          // });
+          if (res.status == "OK") {
+            alert(res.message);        
+            this.login();
+          }
+          else
+            alert(res.message);
         })
     }
     else {
