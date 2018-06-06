@@ -19,9 +19,9 @@ export class AppService {
     private http: HttpClient
   ) { }
 
-  login(user: User): Observable<NavHeader[]>{
+  login(user: User): Observable<any>{
     return this.http.post(`${this.api_url}/login`, user)
-      .pipe(map(res  => res as NavHeader[] || []));
+      .pipe(map(res  => res as any || ""));
   }
   signup(user: User): Observable<any>{
     return this.http.post(`${this.api_url}/signup`, user)

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AppService } from '../services/app.service';
 import User from '../models/User';
 import NavHeader from '../models/navHeader';
@@ -20,7 +20,7 @@ export class NavbarComponent implements OnInit {
   ];
   userName = "";
   password = "";
-  @Input() nav: { link: string, name: string };
+ // @Input() nav: { link: string, name: string };
 
   constructor(private appService: AppService) {
   }
@@ -47,18 +47,18 @@ export class NavbarComponent implements OnInit {
       })
   }
 
-  onAddItem(data: { navheader: NavHeader[] }) {
-    this.items1=data.navheader;/*.forEach(element => {
-      this.items1.push({
-        name: element.name,
-        link: element.link
-      })
-    });*/
-    this.items2 = [
-      { link: "#", name: ' Edit', class: "glyphicon glyphicon-cog", modal: '#signup-modal', click:"logout()" },
-      { link: "#", name: ' Logout', class: "glyphicon glyphicon-log-out", modal: '#login-modal' ,click:"logout()"},
-    ];
-  }
+  // onAddItem(data: { navheader: NavHeader[] }) {
+  //   this.items1=data.navheader;/*.forEach(element => {
+  //     this.items1.push({
+  //       name: element.name,
+  //       link: element.link
+  //     })
+  //   });*/
+  //   this.items2 = [
+  //     { link: "#", name: ' Edit', class: "glyphicon glyphicon-cog", modal: '#signup-modal', click:"logout()" },
+  //     { link: "#", name: ' Logout', class: "glyphicon glyphicon-log-out", modal: '#login-modal' ,click:"logout()"},
+  //   ];
+  // }
 
   logout(){
     alert("logout ");
