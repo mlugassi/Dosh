@@ -49,7 +49,7 @@ router.post('/signup', async (req, res, next) => {
   });
 });
 
-router.get('/catalog', function (req, res, next) {
+router.get('/catalog', checksession, function (req, res, next) {
   console.log("Get to the catalog");
   return res.json([
     { imgPath: "http://placehold.it/500x325", title: "test title 1", subTitle: "test sub-title 1", btnContent: "test button content 1" },

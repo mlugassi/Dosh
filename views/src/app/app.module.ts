@@ -11,6 +11,7 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { CardComponent } from './catalog/card/card.component';
 import { UsersComponent } from './users/users.component';
 import { UserComponent } from './users/user/user.component';
+import { DefaultComponent } from './default/default.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { UserComponent } from './users/user/user.component';
     CatalogComponent,
     CardComponent,
     UsersComponent,
-    UserComponent
+    UserComponent,
+    DefaultComponent
   ],
   imports: [
     BrowserModule,

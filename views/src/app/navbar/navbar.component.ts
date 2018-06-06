@@ -15,9 +15,11 @@ export class NavbarComponent implements OnInit {
     { link: "contact.html", name: 'Contact' },
   ];
   items2 = [
-    { link: "#", name: ' Sign Up', class: "glyphicon glyphicon-user", modal: '#signup-modal',click:"logout()"},
-    { link: "#", name: ' Login', class: "glyphicon glyphicon-log-in", modal: '#login-modal',click:"logout()" },
+    { link: "#", name: ' Sign Up', class: "glyphicon glyphicon-user", modal: '#signup-modal' },
+    { link: "#", name: ' Login', class: "glyphicon glyphicon-log-in", modal: '#login-modal' },
+    //{ link: "#", name:  ' Logout',  class: "glyphicon glyphicon-log-out", toggle:"collapse",modal: ''},
   ];
+  logoutShow=false;
   userName = "";
   password = "";
  // @Input() nav: { link: string, name: string };
@@ -32,9 +34,10 @@ export class NavbarComponent implements OnInit {
         //assign the todolist property to the proper http response
         this.items1=res[0];
         this.userName="Hello " + res[1][0].name;
+        this.logoutShow=true;
         this.items2 = [
-          { link: "#", name:  ' Edit',    class: "glyphicon glyphicon-cog",     modal: '#edit-modal',  click:"logout()"},
-          { link: "#", name:  ' Logout',  class: "glyphicon glyphicon-log-out", modal: '', click:"logout()"},
+          { link: "#", name:  ' Edit',    class: "glyphicon glyphicon-cog", modal: '#edit-modal'},
+          { link: "/login/logout", name:' Logout',  class: "glyphicon glyphicon-log-out", modal: ''},
         ];
         /*.forEach(element => {
 
@@ -62,7 +65,7 @@ export class NavbarComponent implements OnInit {
 
   logout(){
     alert("logout ");
-    // this.appService.navbar()
+    // this.appService.logout()
     // .subscribe(res => {
     //   this.items1=res[0];
     //   this.userName="Hello " + res[1].name;
