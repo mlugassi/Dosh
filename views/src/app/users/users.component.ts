@@ -10,6 +10,7 @@ import { AppService } from '../services/app.service';
 export class UsersComponent implements OnInit {
 
   users: User[];
+  currentUser:String;
   private appService: AppService;
 
   constructor(appService: AppService) {
@@ -26,4 +27,16 @@ export class UsersComponent implements OnInit {
       })
   }
 
+  openModal(userName: String) {
+  }
+
+  deleteUser(userName: String) {
+  }
+
+  editPassword(){
+
+  }
+  updateUser(){
+
+  }
 }

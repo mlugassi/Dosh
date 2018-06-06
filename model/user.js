@@ -19,7 +19,7 @@ module.exports = db => {
         uuid: String,
         gender: String,
         imgPath: String,
-        posts: Number,
+        blogs: Number,
         inbox: [{
             title: String,
             content: String,

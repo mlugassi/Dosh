@@ -11,7 +11,6 @@ import { AppService } from './services/app.service';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CardComponent } from './catalog/card/card.component';
 import { UsersComponent } from './users/users.component';
-import { UserComponent } from './users/user/user.component';
 import { DefaultComponent } from './default/default.component';
 
 @NgModule({
@@ -22,7 +21,6 @@ import { DefaultComponent } from './default/default.component';
     CatalogComponent,
     CardComponent,
     UsersComponent,
-    UserComponent,
     DefaultComponent
   ],
   imports: [
