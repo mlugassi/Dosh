@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../services/app.service';
 import User from '../../models/User';
 import NavHeader from '../../models/navHeader';
-import { $ } from 'protractor';
 
 
 @Component({

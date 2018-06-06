@@ -7,6 +7,7 @@ var LocalStrategy = require('passport-local').Strategy;
 // create todo and send back all todos after creation
 router.post('/', async (req, res, next) => {
   passport.authenticate('local', { successRedirect: '/' }, function (err, user, info) {
+    console.log("post to /login");
     if (err)
       return next(err);
     if (!user)
