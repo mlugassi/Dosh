@@ -444,6 +444,13 @@ a.btn.btn-primary.read-m {
     background: #01cd74;
     border: none;
 }
+button.btn.btn-primary.read-m {
+    border-radius: 0;
+    padding: 0.55em 2em;
+    letter-spacing: 1px;
+    background: #01cd74;
+    border: none;
+}
 a.btn.btn-primary.read-m:hover,a.btn.btn-primary.read-m:focus{
    background:#fff;
    color:#222;

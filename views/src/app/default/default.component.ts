@@ -8,8 +8,13 @@ import { Component, OnInit } from '@angular/core';
 export class DefaultComponent implements OnInit {
 
   constructor() { }
-
+  
+  hide=false;
   ngOnInit() {
   }
 
+  switch()
+  {
+    this.hide=!this.hide;
+  }
 }
