@@ -34,9 +34,12 @@ export class LoginComponent implements OnInit {
   login() {
     this.appService.login(new User(this.userName, this.password))
       .subscribe(res => {
-        if (res.status == "OK")
+        if (res.status == "OK") {
+          window.location.reload();
           this.login();
-        alert(res.message);
+        }
+        else
+          alert(res.message);
         // this.addItem.emit({
         //   navheader: res,
         // });
@@ -48,9 +51,9 @@ export class LoginComponent implements OnInit {
       this.appService.signup(new User(this.userName, this.password,
         this.firstName, this.lastName, this.email, this.gender, this.role))
         .subscribe(res => {
+          alert(res.message);
           if (res.status == "OK")
             this.login();
-          alert(res.message);
         })
     }
     else {
