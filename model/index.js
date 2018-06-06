@@ -9,5 +9,6 @@ let db = mongo.createConnection();
     }
 })();
 require("./user")(db);
-require("./branch")(db);
+require("./blog")(db);
+require("./chat")(db);
 module.exports = model => db.model(model);
