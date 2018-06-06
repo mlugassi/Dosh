@@ -6,9 +6,9 @@ const checksession = require('./checksession');
 
 
 router.get('/', function (req, res) {
-    // var name = req.session.passport.user;
+    var name = req.session.passport.user;
     User.findOne({
-        userName: 'refael' /*name*/ ,
+        userName: name ,
         active: true
     }, function (err, result) {
         if (err) throw err;
