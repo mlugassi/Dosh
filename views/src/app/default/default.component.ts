@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from '../services/app.service';
 import User from '../models/User';
 
@@ -8,30 +9,31 @@ import User from '../models/User';
   styleUrls: ['./default.component.css']
 })
 export class DefaultComponent implements OnInit {
-  userName = "";
-  password = "";
+   userName = "";
+   password = "";
   confirmPassword = "";
   firstName = "";
   lastName = "";
   email = "";
-  gender = "";
+   gender = "";
   role = "Manager";
   active = "";
   admin = "";
-  check = true;
-  hide=false;
+   check = true;
 
   // navHeader: NavHeader[] = [];
-  constructor(private appService: AppService) { }
-  
+  constructor(private router:Router, private appService: AppService) { }
+
   ngOnInit() {
   }
+  hide=false;
+
   login() {
     this.appService.login(new User(this.userName, this.password))
       .subscribe(res => {
+        alert
         if (res.status == "OK") {
-          window.location.reload();
-          this.login();
+          this.router.navigate(['/navbar']);
         }
         else
           alert(res.message);

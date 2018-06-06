@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../model')("User");
-const Branch = require('../model')("Branch");
 const checksession = require('./checksession');
 
 
