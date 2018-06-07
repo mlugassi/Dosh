@@ -20,11 +20,17 @@ export class AppService {
   ) { }
 
   login(user: User): Observable<any>{
+    alert("In service login");
+    alert(user.userName +"\t"+ user.password);
     return this.http.post(`${this.api_url}/login`, user)
       .pipe(map(res  => res as any || ""));
   }
   signup(user: User): Observable<any>{
     return this.http.post(`${this.api_url}/signup`, user)
+      .pipe(map(res  => res as any || ""));
+  }
+  getKey(user: User): Observable<any>{
+    return this.http.post(`${this.api_url}/getKey`, user)
       .pipe(map(res  => res as any || ""));
   }
   navbar(): Observable<any[]>{

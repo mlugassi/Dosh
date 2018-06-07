@@ -12,6 +12,7 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var md5 = require('md5');
 var path = require('path');
+var crypto = require("crypto-js/aes");
 
 const User = require('./model')("User");
 
@@ -73,7 +74,7 @@ let login = require('./routes/login');    // it will be our controller for loggi
         if (!user) {
           return done(null, false, { message: 'Incorrect userName.' });
         }
-        if (!(user.password == password)) {
+        if (!(user.password == crypto.decrypt(password, user.passwordKey))) {
           return done(null, false, { message: 'Incorrect password.' });
         }
         return done(null, user);

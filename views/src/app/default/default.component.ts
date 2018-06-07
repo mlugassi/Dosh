@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '../services/app.service';
 import User from '../models/User';
+import * as crypto from '../../../../node_modules/crypto-js';
+
 
 @Component({
   selector: 'app-default',
@@ -25,10 +27,14 @@ export class DefaultComponent implements OnInit {
   day;
   hide = false;
   rememME = false;
+  MyKey;
   // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService) { }
 
   ngOnInit() {
+    //var enc = crypto.AES.encrypt("refael", "Key");
+    //alert(enc.toString());
+    //alert(crypto.AES.decrypt(enc, "Key").toString());//crypto.enc.Utf8));
     // if (sessionStorage.getItem('DoshUserName')) {
     //   this.loginUserName = sessionStorage.getItem('DoshUserName');
     //   if (sessionStorage.getItem('DoshPassword'))
@@ -37,24 +43,34 @@ export class DefaultComponent implements OnInit {
   }
 
   login(AfterSignup) {
-    if(AfterSignup)
-    {
+    if (AfterSignup) {
       alert("This is login after signup");
-      this.loginUserName=this.userName;
-      this.loginPassword=this.password;
+      this.loginUserName = this.userName;
+      this.loginPassword = this.password;
     }
-    alert(this.loginUserName+"\t" + this.loginPassword);
-    this.appService.login(new User(this.loginUserName, this.loginPassword))
-      .subscribe(res => {
-        if (res.status == "OK") {
-          alert(res.status);
-          if (this.rememME)
-            this.rememberMe();
-          this.router.navigate(['/navbar']);
+    this.appService.getKey(new User(this.loginUserName, ""))
+      .subscribe(resKey => {
+        alert("resKey.key: " + resKey.key); this.MyKey = resKey.key
+
+        alert("this.myKey: " + this.MyKey);
+        if (this.MyKey) {
+          var encryptedPassword = crypto.AES.encrypt(this.loginPassword, this.MyKey).toString();
+          alert("encrypted password: " + encryptedPassword);
+          this.appService.login(new User(this.loginUserName, encryptedPassword))
+            .subscribe(res => {
+              if (res.status == "OK") {
+                alert(res.status);
+                if (this.rememME)
+                  this.rememberMe();
+                this.router.navigate(['/navbar']);
+              }
+              else
+                alert("Error message: " + res.message);
+            })
         }
         else
-          alert("Error message: " + res.message);
-      })
+          alert("Have a problem with the key.");
+      });
   }
 
   signup() {

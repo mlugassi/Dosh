@@ -27,10 +27,20 @@ router.get('/logout', async (req, res) => {
   });
 });
 
+router.post('/getKey', async (req, res) => {
+  console.log("I'm in post /getKey");
+  var key = "stam key";
+  //user.userName = req.body.userName;
+  User.findOneAndUpdate({ userName: req.body.userName }, { passwordKey: key }, function (err, user) {
+    if (!err)
+      return res.json({ key: key });
+  });
+});
+
 router.post('/signup', async (req, res, next) => {
   console.log("In singup post");
   console.log(req.body.userName);
-  User.findOne({ userName: req.body.username }, function (err, user) {
+  User.findOne({ userName: req.body.userName }, function (err, user) {
     if (err) throw err;
     if (user != null)
       res.status(200).json({ status: "Fail", message: "User Name Alredy Exist" });
@@ -48,7 +58,7 @@ router.post('/signup', async (req, res, next) => {
       user.isActive = req.body.isActive || true;
       user.isBlogger = req.body.isBlogger || false;
       user.isResetReq = req.body.isResetReq || false;
-      user.imgPath = req.body.imgPath || user.gender+".jpg" || "";
+      user.imgPath = req.body.imgPath || user.gender + ".jpg" || "";
       user.blogs = req.body.blogs || 0;
       user.inbox = req.body.inbox || [];
       user.uuid = "";
