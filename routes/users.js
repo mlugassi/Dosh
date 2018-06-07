@@ -6,6 +6,7 @@ const checksession = require('./checksession');
 
 router.get('/', function (req, res) {
     var name = 'michael'; //req.session.passport.user;
+    if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
         userName: name,
         isActive: true
@@ -22,8 +23,31 @@ router.get('/', function (req, res) {
     });
 });
 
-
-
+router.post('/user', function (req, res) {
+    var name = req.body.userName; //req.session.passport.user;
+    if (name == undefined || name == "") throw err; // maybe check session do it
+    User.findOne({
+        userName: name,
+        isActive: true
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null || result == undefined) return res.status(404);
+        var user = {};
+        user.firstName = result.firstName;
+        user.lastName = result.lastName;
+        user.userName = result.userName;
+        // user.birthDay = result.birthDay
+        user.email = result.email;
+        // user.imgPath = result.imgPath;
+        user.gender = result.gender;
+        // user.bloges = result.bloges; // not relevant currently
+        // user.inbox = result.inbox;
+        user.isAdmin = result.isAdmin;
+        user.isBlogger = result.isBlogger;
+        user.isActive = result.isActive;
+        res.json(user);
+    });
+});
 // router.get('/Details', function (req, res) {
 //     var name = req.session.passport.user;
 //     User.findOne({ userName: name, active: true }, function (err, result) {
@@ -47,28 +71,7 @@ router.get('/', function (req, res) {
 //     });
 // });
 
-// router.post('/Details', function (req, res) {
-//     var name = req.body.uname;
-//     User.findOne({ userName: name, active: true }, function (err, result) {
-//         if (err) throw err;
-//         if (result != null)
-//             (async () => {
-//                 var branch = await Branch.findOne({ id: result.branch });
-//                 var user = {};
-//                 user.firstName = result.firstName;
-//                 user.lastName = result.lastName;
-//                 user.userName = result.userName;
-//                 user.password = result.password;
-//                 user.email = result.email;
-//                 user.role = result.role;
-//                 if (user.role == "employee")
-//                     user.branch = result.branch + " " + branch.name + ", " + branch.address;
-//                 user.gender = result.gender;
-//                 user.active = result.active;
-//                 res.status(200).json(JSON.stringify(user));
-//             })();
-//     });
-// });
+
 
 // router.post('/update',checksession, function (req, res) {
 //     uname = req.session.passport.user;
