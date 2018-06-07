@@ -16,10 +16,10 @@ module.exports = db => {
             required: true
         },
         email: String,
-        uuid: String,
+        uuid: { type: String, unique: true },
         gender: String,
         imgPath: String,
-        birthDay: Date,
+        birthday: Date,
         blogs: Number,
         inbox: [{
             title: String,
@@ -31,11 +31,12 @@ module.exports = db => {
         isBlogger: Boolean,
         isActive: Boolean,
         isResetReq: Boolean,
+        passwordKey: { type: String, unique: true },
         created_at: Date,
         updated_at: Date
     }, {
-        autoIndex: false
-    });
+            autoIndex: false
+        });
 
     // set user not active
     schema.methods.setNotActive = function () {

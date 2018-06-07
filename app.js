@@ -63,15 +63,15 @@ let login = require('./routes/login');    // it will be our controller for loggi
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-    usernameField: 'username',
+    usernameField: 'userName',
     passwordField: 'password',
     passReqToCallback: true
   },
-    function (req, username, password, done) {
-      User.findOne({ userName: username }, function (err, user) {
+    function (req, userName, password, done) {
+      User.findOne({ userName: userName }, function (err, user) {
         if (err) { return done(err); }
         if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
+          return done(null, false, { message: 'Incorrect userName.' });
         }
         if (!(user.password == password)) {
           return done(null, false, { message: 'Incorrect password.' });
@@ -86,7 +86,12 @@ let login = require('./routes/login');    // it will be our controller for loggi
 
   passport.deserializeUser(function (uname, done) {
     User.findOne({ userName: uname }, function (err, user) {
-      done(err, user);
+      if (err)
+        done("The user isn't exist", user);
+      else
+        done(err, user);
+
+
     });
   });
   app.use(favicon(path.join(__dirname, 'public', 'images', 'flower.ico')));

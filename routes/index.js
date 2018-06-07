@@ -19,26 +19,40 @@ router.get('/navbar', checksession, function (req, res, next) {
   //  res.redirect('/login');
 });
 
+router.get('/logout', async (req, res) => {
+  console.log(req.session.passport.user + ' is logging out');
+  req.session.regenerate(err => {
+    console.log('logged out');
+    res.redirect('/');
+  });
+});
+
 router.post('/signup', async (req, res, next) => {
   console.log("In singup post");
+  console.log(req.body.userName);
   User.findOne({ userName: req.body.username }, function (err, user) {
     if (err) throw err;
     if (user != null)
       res.status(200).json({ status: "Fail", message: "User Name Alredy Exist" });
     else {
+      console.log(req.body);
       var user = {};
       user.firstName = req.body.firstName || "";
       user.lastName = req.body.lastName || "";
       user.userName = req.body.userName;
       user.password = req.body.password;
       user.email = req.body.email || "";
-      user.role = req.body.role || "";
-      if (user.role == "employee")
-        user.branch = req.body.branch.split(" ")[0];
-      user.gender = req.body.gender || "";
-      user.active = req.body.active;
-      user.reset = false;
+      user.birthday = new Date(req.body.birthday || "");
+      user.gender = req.body.gender || "Other";
+      user.isAdmin = req.body.isAdmin || false;
+      user.isActive = req.body.isActive || true;
+      user.isBlogger = req.body.isBlogger || false;
+      user.isResetReq = req.body.isResetReq || false;
+      user.imgPath = req.body.imgPath || user.gender+".jpg" || "";
+      user.blogs = req.body.blogs || 0;
+      user.inbox = req.body.inbox || [];
       user.uuid = "";
+      user.passwordKey = "";
       User.create(user, function (err, user) {
         if (err) throw err;
         console.log('user created:' + user);
