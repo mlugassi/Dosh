@@ -19,15 +19,13 @@ export class AppService {
     private http: HttpClient
   ) { }
 
-  login(user: User): Observable<any>{
-    alert("In service login");
-    alert(user.userName +"\t"+ user.password);
+  login(user: User): Observable<any> {
     return this.http.post(`${this.api_url}/login`, user)
-      .pipe(map(res  => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
-  signup(user: User): Observable<any>{
+  signup(user: User): Observable<any> {
     return this.http.post(`${this.api_url}/signup`, user)
-      .pipe(map(res  => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
   getKey(user: User): Observable<any>{
     return this.http.post(`${this.api_url}/getKey`, user)
@@ -35,21 +33,28 @@ export class AppService {
   }
   navbar(): Observable<any[]>{
     return this.http.get(`${this.api_url}/navbar`)
-      .pipe(map(res  => res as any[] || []));
+      .pipe(map(res => res as any[] || []));
   }
 
-  get_catalog(){
+  get_catalog() {
     return this.http.get(`${this.api_url}/catalog`)
-    .pipe(map(res  => res as Card[] || []));
+      .pipe(map(res => res as Card[] || []));
   }
 
-  get_users(){
+  get_users() {
     return this.http.get(`${this.api_url}/users`)
-    .pipe(map(res  => res as User[] || []));
+      .pipe(map(res => res as User[] || []));
   }
 
-  get_user(userName:String){
-    return this.http.post(`${this.api_url}/users/user`, {userName: userName})
-    .pipe(map(res  => res as User || null));
+  get_user(userName: String) {
+    return this.http.post(`${this.api_url}/users/user`, { userName: userName })
+      .pipe(map(res => res as User || null));
+  }
+
+  delete_user(userName: String) {
+    return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
+  }
+  update_user(user: User) {
+    return this.http.post<string>(`${this.api_url}/users/update`, user);
   }
 }

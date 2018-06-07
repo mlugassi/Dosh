@@ -4,8 +4,8 @@ const User = require('../model')("User");
 const checksession = require('./checksession');
 
 
-router.get('/', function (req, res) {
-    var name = 'michael'; //req.session.passport.user;
+router.get('/', function (req, res) { // TODO: add check session
+    let name = 'michael'; //req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
         userName: name,
@@ -23,8 +23,8 @@ router.get('/', function (req, res) {
     });
 });
 
-router.post('/user', function (req, res) {
-    var name = req.body.userName; //req.session.passport.user;
+router.post('/user', function (req, res) { // TODO: add check session
+    let name = req.body.userName; //req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
         userName: name,
@@ -48,6 +48,64 @@ router.post('/user', function (req, res) {
         res.json(user);
     });
 });
+
+router.post('/delete', function (req, res) { // TODO: add check session
+    let name = req.body.userName;
+    if (name == undefined || name == "") throw err; // maybe check session do it
+    User.findOneAndUpdate({
+        userName: name
+    }, {
+        isActive: false
+    }, function (err, result) {
+        if (err) throw err;
+        console.log(result);
+        res.status(200).json('{"status":"OK" }');
+    })
+});
+
+router.post('/update', function (req, res) { // TODO: add check session
+    //  uname = req.session.passport.user;
+    console.log("in update");
+
+    let user = {};
+    if (req.body == undefined || !checkUserValues(req.body)) return res.status(200).json('{"status":"Fail" }');
+    console.log("in updating");
+
+    user.userName = req.body.userName;
+    if (req.body.password != "") user.password = req.body.password;
+    user.firstName = req.body.firstName;
+    user.lastName = req.body.lastName;
+    user.userName = req.body.userName;
+    user.email = req.body.email;
+    user.gender = req.body.gender;
+    user.isActive = req.body.isActive;
+    user.isBlogger = req.body.isBlogger;
+    console.log("in updating finsh");
+    console.log(user.userName);
+
+    User.findOneAndUpdate({
+        userName: user.userName,
+        isActive: true
+    }, user, function (err, result) {
+        console.log("in find & update");
+
+        if (err) throw err;
+        console.log("in not error");
+
+        // if (!result) return res.status(200).json('{"status":"Fail" }');
+        res.status(200).json('{"status":"OK" }');
+
+    });
+    console.log("in EOF");
+
+});
+
+function checkUserValues(user) {
+    if (user.userName == "" || user.firstName == "" || user.lastName == "" || user.gender == "" || user.email == "") // TODO: update the validation and check better the mail
+        return false;
+    console.log("in checkUserValues");
+    return true;
+}
 // router.get('/Details', function (req, res) {
 //     var name = req.session.passport.user;
 //     User.findOne({ userName: name, active: true }, function (err, result) {

@@ -14,7 +14,6 @@ export class UsersComponent implements OnInit {
   editPass: Boolean;
   isBlogger: Boolean;
   isAdmin: Boolean;
-  currentUser: String;
   private appService: AppService;
 
   constructor(appService: AppService) {
@@ -33,7 +32,6 @@ export class UsersComponent implements OnInit {
   }
 
   openModal(userName: String) {
-    this.currentUser = userName;
     this.appService.get_user(userName)
       .subscribe(res => {
         if (res == undefined || res == null)
@@ -52,11 +50,23 @@ export class UsersComponent implements OnInit {
   }
 
   deleteUser(userName: String) {
+    this.appService.delete_user(userName)
+      .subscribe(res => {
+        if (JSON.parse(res).status != "OK") {
+          alert(res);
+          return;
+        }
+        let tempUsers: User[];
+        this.users.forEach(user => {
+          if (user.userName != userName)
+            tempUsers.push(user);
+        });
+        this.users = tempUsers;
+      });
   }
 
   editPassword() {
     this.editPass = !this.editPass;
-    alert(this.editPass);
     if (this.editPass) {
       $("#lpass").show();
       $("#pass").show();
@@ -74,39 +84,27 @@ export class UsersComponent implements OnInit {
     }
   }
   updateUser() {
-    // $("status-" + userName).val("Pendding");
-    // var status = !$("#status-cb").is(':checked');
-    // $.post("users/update",
-    //   {
-    //     uname: userName,
-    //     firstName: $("#fname").val(),
-    //     lastName: $("#lname").val(),
-    //     userName: $("#uname").val(),
-    //     branch: $("#branch").val(),
-    //     role: $("#role").val(),
-    //     gender: $("#gender").val(),
-    //     active: status
-    //   },
-    //   function (data, status) {
-    //     document.getElementById("status-" + userName).innerHTML = "Pedding";
-    //     var json = jQuery.parseJSON(data);
-    //     if (json.status = "OK")
-    //       document.getElementById("status-" + userName).innerHTML = "Updated";
-    //     else
-    //       document.getElementById("status-" + userName).innerHTML = "Error";
-    //   });
+    let user = new User($("#uname").val(), "");
+    user.firstName = $("#fname").val();
+    user.lastName = $("#lname").val();
+    user.email = $("#email").val();
+    user.gender = $("#gender").val();
+    user.isAdmin = this.isAdmin;
+    user.isBlogger = this.isBlogger;
+    if (this.editPass && $("#pass").val() == $("#vpass").val())
+      user.password = $("#pass").val();
+    else if (this.editPass) {
+      alert("Password and Confirm Paswword don't match!");
+      return;
+    }
 
-    // if ($("#status-cb").is(':checked')) {
-    //   deleteUser(userName);
-    // }
-    // else {
-    //   document.getElementById("img-" + userName).innerHTML = "img/" + $("#gender").val() + ".jpg";
-    //   document.getElementById("name-" + userName).innerHTML = $("#fname").val() + " " + $("#lname").val();
-    //   document.getElementById("role-" + userName).innerHTML = $("#role").val();
-    //   if ($("#role").val() == "employee" && $("#branch").val() != "")
-    //     document.getElementById("branch-" + userName).innerHTML = $("#branch").val().substring(0, $("#branch").val().indexOf(' '));
-
-    // }
+    this.appService.update_user(user)
+      .subscribe(res => {
+        if (JSON.parse(res).status != "OK") {
+          alert(res);
+          return;
+        }
+      });
   }
 
   changeAdmin() {
