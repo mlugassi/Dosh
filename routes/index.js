@@ -21,7 +21,6 @@ router.get('/navbar', checksession, function (req, res, next) {
 
 router.post('/signup', async (req, res, next) => {
   console.log("In singup post");
-  console.log(req.body.username);
   User.findOne({ userName: req.body.username }, function (err, user) {
     if (err) throw err;
     if (user != null)

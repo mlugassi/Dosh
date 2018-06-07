@@ -41,4 +41,9 @@ export class AppService {
     return this.http.get(`${this.api_url}/users`)
     .pipe(map(res  => res as User[] || []));
   }
+
+  get_user(userName:String){
+    return this.http.post(`${this.api_url}/users/user`, {userName: userName})
+    .pipe(map(res  => res as User || null));
+  }
 }
