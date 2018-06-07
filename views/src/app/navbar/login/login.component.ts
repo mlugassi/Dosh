@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
   signup() {
     if (this.password == this.confirmPassword) {
       this.appService.signup(new User(this.userName, this.password,
-        this.firstName, this.lastName, this.email, this.gender, this.role))
+        this.firstName, this.lastName, this.email, this.gender))
         .subscribe(res => {
           alert(res.message);
           if (res.status == "OK")

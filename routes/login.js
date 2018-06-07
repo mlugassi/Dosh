@@ -41,12 +41,4 @@ router.get('/', async (req, res) => {
   //   res.redirect('/');
 });
 
-router.get('/logout', async (req, res) => {
-  console.log(req.session.passport.user + ' is logging out');
-  req.session.regenerate(err => {
-    console.log('logged out');
-    res.redirect('/');
-  });
-});
-
 module.exports = router;

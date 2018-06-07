@@ -9,48 +9,63 @@ import User from '../models/User';
   styleUrls: ['./default.component.css']
 })
 export class DefaultComponent implements OnInit {
-   userName = "";
-   password = "";
-  confirmPassword = "";
-  firstName = "";
-  lastName = "";
-  email = "";
-   gender = "";
-  role = "Manager";
-  active = "";
-  admin = "";
-   check = true;
-
+  loginUserName;
+  loginPassword;
+  userName;
+  password;
+  confirmPassword;
+  firstName;
+  lastName;
+  email;
+  gender;
+  bitrhday;
+  check = true;
+  year;
+  month;
+  day;
+  hide = false;
+  rememME = false;
   // navHeader: NavHeader[] = [];
-  constructor(private router:Router, private appService: AppService) { }
+  constructor(private router: Router, private appService: AppService) { }
 
   ngOnInit() {
+    // if (sessionStorage.getItem('DoshUserName')) {
+    //   this.loginUserName = sessionStorage.getItem('DoshUserName');
+    //   if (sessionStorage.getItem('DoshPassword'))
+    //     this.loginPassword = sessionStorage.getItem('DoshPassword');
+    // }
   }
-  hide=false;
 
-  login() {
-    this.appService.login(new User(this.userName, this.password))
+  login(AfterSignup) {
+    if(AfterSignup)
+    {
+      alert("This is login after signup");
+      this.loginUserName=this.userName;
+      this.loginPassword=this.password;
+    }
+    alert(this.loginUserName+"\t" + this.loginPassword);
+    this.appService.login(new User(this.loginUserName, this.loginPassword))
       .subscribe(res => {
-        alert
         if (res.status == "OK") {
+          alert(res.status);
+          if (this.rememME)
+            this.rememberMe();
           this.router.navigate(['/navbar']);
         }
         else
-          alert(res.message);
-        // this.addItem.emit({
-        //   navheader: res,
-        // });
+          alert("Error message: " + res.message);
       })
   }
 
   signup() {
     if (this.password == this.confirmPassword) {
+      this.bitrhday = this.year + "-" + this.month + "-" + this.day;
       this.appService.signup(new User(this.userName, this.password,
-        this.firstName, this.lastName, this.email, this.gender, this.role))
+        this.firstName, this.lastName, this.email, this.gender, this.bitrhday))
         .subscribe(res => {
           alert(res.message);
           if (res.status == "OK")
-            this.login();
+            this.login(true);
         })
     }
     else {
@@ -67,8 +82,11 @@ export class DefaultComponent implements OnInit {
     else
       this.gender = "Male";
   }
-  switch()
-  {
-    this.hide=!this.hide;
+  switch() {
+    this.hide = !this.hide;
+  }
+  rememberMe() {
+    sessionStorage.setItem('DoshuserName', this.loginUserName);
+    sessionStorage.setItem('Doshpassword', this.loginPassword);
   }
 }

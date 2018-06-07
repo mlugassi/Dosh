@@ -22,65 +22,49 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
   <!----------------------------       signup       ---------------------------------->
 
-  <section class="main-content-w3layouts-agileits" id="signup-section" [hidden]="!hide">
+  <section class="main-content-w3layouts-agileits" [hidden]="!hide">
     <div class="container">
       <h3 class="tittle">Sign Up</h3>
       <div class="row inner-sec">
         <div class="login p-5 bg-dark mx-auto mw-100" style="opacity:0.8;">
-          <div action="#" method="post">
+          <form (ngSubmit)="signup()" #signupForm="ngForm">
             <div class="row">
               <div class="col-xs-6 col-md-6">
-                <input type="text" id="firstname" name="firstname" class="form-control" [(ngModel)]="firsname" placeholder="First Name" /> </div>
+                  <small style="color:white">Your first name:</small>
+                <input type="text" name="firstname" class="form-control" [(ngModel)]="firstName" placeholder="First Name" required/> </div>
               <div class="col-xs-6 col-md-6">
-                <input type="text" name="lastname" class="form-control" [(ngModel)]="lastname" placeholder="Last Name" /> </div>
+                  <small style="color:white">Your last name:</small>
+                <input type="text" name="lastname" required class="form-control" [(ngModel)]="lastName" placeholder="Last Name" /> </div>
             </div>
-            <br>
             <div class="row">
               <div class="col-xs-6 col-md-6">
-                <input type="text" name="username" class="form-control" [(ngModel)]="userName" placeholder="User name" /> </div>
+                  <small style="color:white">User name:</small>
+                <input type="text" name="userName" required class="form-control" [(ngModel)]="userName" placeholder="User name" /> </div>
               <div class="col-xs-6 col-md-6">
 
-                <div>
-                  <select name="month" class="form-control" [(ngModel)]="role">
-                    <option value="Employee">Employee</option>
-                    <option value="Vendor">Vendor</option>
-                    <option value="Manager">Manager</option>
-                    <option value="Customer">Customer</option>
+                  <small style="color:white">Gender:</small>
+                  <select name="gender" required class="form-control" [(ngModel)]="gender">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
                   </select>
-                </div>
               </div>
             </div>
-            <br>
-            <input type="text" name="email" class="form-control" [(ngModel)]="email" placeholder="Your Email" />
-            <br>
+            <small style="color:white">Email:</small>
+            <input type="text" name="email" required class="form-control" [(ngModel)]="email" placeholder="Your Email" />
             <div class="row">
               <div class="col-xs-6 col-md-6">
-                <input type="password" name="password" class="form-control" [(ngModel)]="password" placeholder="Password" />
+                  <small style="color:white">Password:</small>
+                <input type="password" name="Password" required class="form-control" [(ngModel)]="password" placeholder="Password" />
               </div>
               <div class="col-xs-6 col-md-6">
-                <input type="password" name="confirm_password" class="form-control" [(ngModel)]="confirmPassword" placeholder="Confirm Password"
+                  <small style="color:white">Confirm password:</small>
+                <input type="password" name="confirm_password" required class="form-control" [(ngModel)]="confirmPassword" placeholder="Confirm Password"
                 /> </div>
             </div>
-            <label style="color:white">Birth Date</label>
+            <small style="color:white">Birth Date:</small>
             <div class="row">
               <div class="col-xs-4 col-md-4">
-                <select name="month" class="form-control">
-                  <option value="01">Jan</option>
-                  <option value="02">Feb</option>
-                  <option value="03">Mar</option>
-                  <option value="04">Apr</option>
-                  <option value="05">May</option>
-                  <option value="06">Jun</option>
-                  <option value="07">Jul</option>
-                  <option value="08">Aug</option>
-                  <option value="09">Sep</option>
-                  <option value="10">Oct</option>
-                  <option value="11">Nov</option>
-                  <option value="12">Dec</option>
-                </select>
-              </div>
-              <div class="col-xs-4 col-md-4">
-                <select name="day" class="form-control">
+                <select name="day" [(ngModel)]="day" required class="form-control">
                   <option value="1">1</option>
                   <option value="2">2</option>
                   <option value="3">3</option>
@@ -115,7 +99,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
                 </select>
               </div>
               <div class="col-xs-4 col-md-4">
-                <select name="year" class="form-control">
+                <select name="month" [(ngModel)]="month" required class="form-control">
+                  <option value="01">Jan</option>
+                  <option value="02">Feb</option>
+                  <option value="03">Mar</option>
+                  <option value="04">Apr</option>
+                  <option value="05">May</option>
+                  <option value="06">Jun</option>
+                  <option value="07">Jul</option>
+                  <option value="08">Aug</option>
+                  <option value="09">Sep</option>
+                  <option value="10">Oct</option>
+                  <option value="11">Nov</option>
+                  <option value="12">Dec</option>
+                </select>
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <select name="year" [(ngModel)]="year" required class="form-control">
                   <option value="1935">1935</option>
                   <option value="1936">1936</option>
                   <option value="1937">1937</option>
@@ -199,29 +199,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
               </div>
             </div>
             <br>
-            <label style="color:white">Gender : </label>
-            <label class="radio-inline">
-              <input type="radio" name="gender" [checked]="check" (change)="onSelectionChange()">
-              <span style="color:white">  Male </span>
-            </label>
-            <label class="radio-inline">
-              <input type="radio" name="gender" [checked]="!check" (change)="onSelectionChange()">
-              <span style="color:white">  Female </span>
-            </label>
-            <br/>
             <div class="modal-footer">
-              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" (click)="signup()">
-                Create my account</button>
+              <input class="btn btn-lg btn-primary btn-block signup-btn read-m" type="submit" value="Create my account" [disabled]="!signupForm.form.valid">
             </div>
             <div class="form-group">
               <div class="pull-right">
                 <span style="color:white"> Already have an account?</span>
-                <a href="#login-modal" data-toggle="modal" data-dismiss="modal" (click)="switch()">
+                <a href="#" data-toggle="modal" data-dismiss="modal" (click)="switch()">
                   <span style="color:#01cd74"> Sign In Here</span>
                 </a>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -229,30 +218,22 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 
 
-  <section class="main-content-w3layouts-agileits" id="signin-section" [hidden]="hide">
+  <section class="main-content-w3layouts-agileits" [hidden]="hide">
     <div class="container">
       <h3 class="tittle">Sign In Now</h3>
       <div class="row inner-sec">
         <div class="login p-5 bg-dark mx-auto mw-100" style="opacity:0.8;">
-          <div action="#" method="post">
-            <div class="form-group">
-              <div class="input-group">
-                <input type="text" class="form-control" [(ngModel)]="userName" id="uLogin" placeholder="Login">
-                <label for="uLogin" class="input-group-addon glyphicon glyphicon-user"></label>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="input-group">
-                <input type="password" class="form-control" [(ngModel)]="password" id="uPassword" placeholder="Password">
-                <label for="uPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
-              </div>
-            </div>
-            <div class="checkbox">
+          <form (ngSubmit)="login()" #loginForm="ngForm">
+                <small style="color:white">User name:</small>
+                <input type="text" name="loginUserName" class="form-control" [(ngModel)]="loginUserName" placeholder="Login" required>
+                <small style="color:white">Password</small>
+                <input type="password" name="loginPassword" class="form-control" [(ngModel)]="loginPassword" placeholder="Password" required>
+                <br>
               <label>
-                <input type="checkbox">
+                <input type="checkbox" [checked]=rememME>
                 <span style="color:white"> Remember me</span>
               </label>
-            </div>
+              <br>
             <!-- /.checkbox -->
             <span class="psw">
               <span style="color:white"> Forgot </span>
@@ -260,18 +241,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             </span>
 
             <div class="modal-footer">
-              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" (click)="login()">
-                Log In</button>
+                <input class="btn btn-lg btn-primary btn-block signup-btn read-m" type="submit" value="Log In" [disabled]="!loginForm.form.valid">
             </div>
             <div class="form-group">
               <div class="pull-right">
                 <span style="color:white"> Don't have an account?</span>
-                <a href="#signup-modal" (click)="switch()">
+                <a href="#" (click)="switch()">
                   <span style="color:#01cd74"> Sign Up Here</span>
                 </a>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -289,7 +269,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
           <h3>About US</h3>
           <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. lacinia eget consectetur sed, convallis at tellus..</p>
           <div class="read">
-            <a href="single.html" class="btn btn-primary read-m">Read More</a>
+            <a href="" class="btn btn-primary read-m">Read More</a>
           </div>
         </div>
         <!-- subscribe -->
