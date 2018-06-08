@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AppService } from '../services/app.service';
 import User from '../models/User';
 import * as crypto from '../../../../node_modules/crypto-js';
+import * as md5 from '../../../../node_modules/md5';
 
 
 @Component({
@@ -32,6 +33,8 @@ export class DefaultComponent implements OnInit {
   constructor(private router: Router, private appService: AppService) { }
 
   ngOnInit() {
+    var a = md5("Stam" + "User");
+    alert(a);
     //var enc = crypto.AES.encrypt("refael", "Key");
     //alert(enc.toString());
     //alert(crypto.AES.decrypt(enc, "Key").toString());//crypto.enc.Utf8));
@@ -50,12 +53,8 @@ export class DefaultComponent implements OnInit {
     }
     this.appService.getKey(new User(this.loginUserName, ""))
       .subscribe(resKey => {
-        alert("resKey.key: " + resKey.key); this.MyKey = resKey.key
-
-        alert("this.myKey: " + this.MyKey);
-        if (this.MyKey) {
-          var encryptedPassword = crypto.AES.encrypt(this.loginPassword, this.MyKey).toString();
-          alert("encrypted password: " + encryptedPassword);
+        if (resKey.keythis.MyKey) {
+          var encryptedPassword = crypto.AES.encrypt(this.loginPassword, resKey.key).toString();
           this.appService.login(new User(this.loginUserName, encryptedPassword))
             .subscribe(res => {
               if (res.status == "OK") {
@@ -75,13 +74,17 @@ export class DefaultComponent implements OnInit {
 
   signup() {
     if (this.password == this.confirmPassword) {
-      this.bitrhday = this.year + "-" + this.month + "-" + this.day;
-      this.appService.signup(new User(this.userName, this.password,
-        this.firstName, this.lastName, this.email, this.gender, this.bitrhday))
-        .subscribe(res => {
-          alert(res.message);
-          if (res.status == "OK")
-            this.login(true);
+      this.appService.getKey(new User(this.userName, ""))
+        .subscribe(resKey => {
+          var encryptedPassword = crypto.AES.encrypt(this.password, resKey.key).toString();
+          this.bitrhday = this.year + "-" + this.month + "-" + this.day;
+          this.appService.signup(new User(this.userName, encryptedPassword,
+            this.firstName, this.lastName, this.email, this.gender, this.bitrhday))
+            .subscribe(res => {
+              alert(res.message);
+              if (res.status == "OK")
+                this.login(true);
+            })
         })
     }
     else {

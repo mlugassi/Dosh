@@ -3,6 +3,7 @@ var router = express.Router();
 var debug = require('debug')('Dosh:index');
 const User = require('../model')("User");
 const checksession = require('./checksession');
+var crypto = require("crypto-js/aes");
 
 
 /* GET home page. */
@@ -27,33 +28,51 @@ router.get('/logout', async (req, res) => {
   });
 });
 
+function generateKey() {
+  return "Stam Key";
+};
+
 router.post('/getKey', async (req, res) => {
   console.log("I'm in post /getKey");
-  var key = "stam key";
+  var key = generateKey();
   //user.userName = req.body.userName;
-  User.findOneAndUpdate({ userName: req.body.userName }, { passwordKey: key }, function (err, user) {
-    if (!err)
+  await User.findOneAndUpdate({ userName: req.body.userName }, { passwordKey: key }, function (err, user) {
+    if (!user) {//The user not exist-->before signup.
+      var user1 = {};
+      user1.userName = req.body.userName;
+      user1.password = " ";
+      user1.passwordKey = key;
+      console.log("user1: " + user1);
+      User.create(user1, function (err, user2) {
+        console.log("user2: " + user2);
+        if (err)
+          return res.json({ status: "Fail", message: "User Name Alredy Exist!\nPlease choose other.", err:err });
+        else
+          return res.json({ status: "OK", key: user2.passwordKey });
+      });
+    }
+    else {
+      console.log("user: "+user);
       return res.json({ key: key });
+    }
   });
 });
 
 router.post('/signup', async (req, res, next) => {
   console.log("In singup post");
-  console.log(req.body.userName);
-  User.findOne({ userName: req.body.userName }, function (err, user) {
+  User.findOne({ userName: req.body.userName }, function (err, myUser) {
     if (err) throw err;
-    if (user != null)
-      res.status(200).json({ status: "Fail", message: "User Name Alredy Exist" });
+    if (myUser == null)
+      res.status(200).json({ status: "Fail", message: "You must get a key before." });
     else {
-      console.log(req.body);
       var user = {};
       user.firstName = req.body.firstName || "";
       user.lastName = req.body.lastName || "";
       user.userName = req.body.userName;
-      user.password = req.body.password;
+      user.password = crypto.decrypt(req.body.password, myUser.passwordKey);
       user.email = req.body.email || "";
       user.birthday = new Date(req.body.birthday || "");
-      user.gender = req.body.gender || "Other";
+      user.gender = req.body.gender || "Other"; 
       user.isAdmin = req.body.isAdmin || false;
       user.isActive = req.body.isActive || true;
       user.isBlogger = req.body.isBlogger || false;
@@ -63,10 +82,10 @@ router.post('/signup', async (req, res, next) => {
       user.inbox = req.body.inbox || [];
       user.uuid = "";
       user.passwordKey = "";
-      User.create(user, function (err, user) {
+      User.findOneAndUpdate({ userName: user.userName }, user, function (err, user) {
         if (err) throw err;
         console.log('user created:' + user);
-        res.status(200).json({ status: "OK", message: "The user " + user.userName + " sucess to signup" });
+        res.status(200).json({ status: "OK", message: "The user " + user.userName + " sucesseed to signup" });
       });
     }
   });
