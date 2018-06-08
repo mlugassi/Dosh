@@ -32,6 +32,7 @@ export class AppService {
       .pipe(map(res  => res as any || ""));
   }
   navbar(): Observable<any[]>{
+    alert("I'm in navbar service");
     return this.http.get(`${this.api_url}/navbar`)
       .pipe(map(res => res as any[] || []));
   }

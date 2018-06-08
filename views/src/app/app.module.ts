@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 
+
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { LoginComponent } from './navbar/login/login.component';
+import { HomeComponent } from './home/home.component';
+import { LoginComponent } from './login/login.component';
 import { AppService } from './services/app.service';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CardComponent } from './catalog/card/card.component';
@@ -16,7 +17,7 @@ import { DefaultComponent } from './default/default.component';
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
+    HomeComponent,
     LoginComponent,
     CatalogComponent,
     CardComponent,

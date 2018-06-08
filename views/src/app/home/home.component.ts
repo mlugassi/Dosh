@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../services/app.service';
-import User from '../models/User';
-import NavHeader from '../models/navHeader';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class HomeComponent implements OnInit {
   items1 = [
     { link: "index.html", name: 'Home' },
     { link: "about.html", name: 'About' },
@@ -32,13 +30,13 @@ export class NavbarComponent implements OnInit {
       .subscribe(res => {
         //this.todosList.push(res.data)
         //assign the todolist property to the proper http response
-        this.items1=res[0];
-        this.userName="Hello " + res[1][0].name;
-        this.logoutShow=true;
-        this.items2 = [
-          { link: "#", name:  ' Edit',    class: "glyphicon glyphicon-cog", modal: '#edit-modal'},
-          { link: "/login/logout", name:' Logout',  class: "glyphicon glyphicon-log-out", modal: ''},
-        ];
+        //this.items1=res[0];
+        //this.userName="Hello " + res[1][0].name;
+        //this.logoutShow=true;
+        //this.items2 = [
+         // { link: "#", name:  ' Edit',    class: "glyphicon glyphicon-cog", modal: '#edit-modal'},
+         // { link: "/login/logout", name:' Logout',  class: "glyphicon glyphicon-log-out", modal: ''},
+        //];
         /*.forEach(element => {
 
         res.forEach(element => {
