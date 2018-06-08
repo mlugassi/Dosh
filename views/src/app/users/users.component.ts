@@ -21,7 +21,6 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    $("#modal").hide();
     this.appService.get_users()
       .subscribe(res => {
         this.users = [];
@@ -41,12 +40,13 @@ export class UsersComponent implements OnInit {
         $("#uname").val(res.userName);
         $("#email").val(res.email);
         $("#gender").val(res.gender);
+        $("#img").attr("src","../../assets/images/" + res.imgPath);
+
         this.isAdmin = res.isAdmin;
         this.isBlogger = res.isBlogger;
         this.editPass = true;
         this.editPassword();
-        $("#modal").show();
-      })
+      });
   }
 
   deleteUser(userName: String) {
@@ -68,16 +68,12 @@ export class UsersComponent implements OnInit {
   editPassword() {
     this.editPass = !this.editPass;
     if (this.editPass) {
-      $("#lpass").show();
       $("#pass").show();
-      $("#lvpass").show();
       $("#vpass").show();
       $("#pass").prop('required', true);
       $("#vpass").prop('required', true);
     } else {
-      $("#lpass").hide();
       $("#pass").hide();
-      $("#lvpass").hide();
       $("#vpass").hide();
       $("#pass").prop('required', false);
       $("#vpass").prop('required', false);
