@@ -48,7 +48,7 @@ router.post('/getKey', async (req, res) => {
         if (err)
           return res.json({ status: "Fail", message: "User Name Alredy Exist!\nPlease choose other.", err:err });
         else
-          return res.json({ status: "OK", key: user2.passwordKey });
+          return res.json({ status: "OK", key: key });
       });
     }
     else {

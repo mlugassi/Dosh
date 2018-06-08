@@ -33,16 +33,11 @@ export class DefaultComponent implements OnInit {
   constructor(private router: Router, private appService: AppService) { }
 
   ngOnInit() {
-    var a = md5("Stam" + "User");
-    alert(a);
-    //var enc = crypto.AES.encrypt("refael", "Key");
-    //alert(enc.toString());
-    //alert(crypto.AES.decrypt(enc, "Key").toString());//crypto.enc.Utf8));
-    // if (sessionStorage.getItem('DoshUserName')) {
-    //   this.loginUserName = sessionStorage.getItem('DoshUserName');
-    //   if (sessionStorage.getItem('DoshPassword'))
-    //     this.loginPassword = sessionStorage.getItem('DoshPassword');
-    // }
+    if (sessionStorage.getItem('DoshUserName')) {
+      this.loginUserName = sessionStorage.getItem('DoshUserName');
+      if (sessionStorage.getItem('DoshPassword'))
+        this.loginPassword = sessionStorage.getItem('DoshPassword');
+    }
   }
 
   login(AfterSignup) {
@@ -53,8 +48,8 @@ export class DefaultComponent implements OnInit {
     }
     this.appService.getKey(new User(this.loginUserName, ""))
       .subscribe(resKey => {
-        if (resKey.keythis.MyKey) {
-          var encryptedPassword = crypto.AES.encrypt(this.loginPassword, resKey.key).toString();
+        if (resKey.key) {
+          var encryptedPassword = crypto.AES.encrypt(md5(this.loginPassword), resKey.key).toString();
           this.appService.login(new User(this.loginUserName, encryptedPassword))
             .subscribe(res => {
               if (res.status == "OK") {
@@ -76,7 +71,7 @@ export class DefaultComponent implements OnInit {
     if (this.password == this.confirmPassword) {
       this.appService.getKey(new User(this.userName, ""))
         .subscribe(resKey => {
-          var encryptedPassword = crypto.AES.encrypt(this.password, resKey.key).toString();
+          var encryptedPassword = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
           this.bitrhday = this.year + "-" + this.month + "-" + this.day;
           this.appService.signup(new User(this.userName, encryptedPassword,
             this.firstName, this.lastName, this.email, this.gender, this.bitrhday))
