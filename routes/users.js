@@ -17,7 +17,6 @@ router.get('/', function (req, res) { // TODO: add check session
                 var users = await User.find({
                     isActive: true
                 }).exec();
-
                 res.json(users);
             })();
     });
