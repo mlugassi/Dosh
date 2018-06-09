@@ -37,12 +37,13 @@ router.post('/user', function (req, res) {
         user.firstName = result.firstName;
         user.lastName = result.lastName;
         user.userName = result.userName;
-        // user.birthDay = result.birthDay
+        user.birthDay = result.birthDay;
+        console.log(user.birthDay);
         user.email = result.email;
         user.imgPath = result.imgPath;
         user.gender = result.gender;
-        // user.bloges = result.bloges; // not relevant currently
-        // user.inbox = result.inbox;
+        user.bloges = result.bloges;
+        user.inbox = result.inbox;
         user.isAdmin = result.isAdmin;
         user.isBlogger = result.isBlogger;
         user.isActive = result.isActive;
@@ -60,14 +61,13 @@ router.post('/delete', function (req, res) {
         isActive: false
     }, function (err, result) {
         if (err) throw err;
-        console.log(result);
         res.status(200).json('{"status":"OK" }');
     })
 });
 
 router.post('/update', function (req, res) {
     // router.post('/update', checksession, function (req, res) {
-    let name = req.session.passport.user;
+    let name = "mlugassi"; // req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
         userName: name,
@@ -86,7 +86,8 @@ router.post('/update', function (req, res) {
         user.gender = req.body.gender;
         user.isActive = req.body.isActive;
         user.isBlogger = req.body.isBlogger;
-
+        user.birthDay = new Date(req.body.birthDay || "");
+        user.inbox = req.body.inbox || [];
         User.findOneAndUpdate({
             userName: user.userName,
             isActive: true

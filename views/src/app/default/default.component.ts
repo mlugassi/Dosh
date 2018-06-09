@@ -21,7 +21,7 @@ export class DefaultComponent implements OnInit {
   lastName;
   email;
   gender;
-  bitrhday;
+  birthDay;
   check = true;
   year;
   month;
@@ -72,9 +72,9 @@ export class DefaultComponent implements OnInit {
       this.appService.getKey(new User(this.userName, ""))
         .subscribe(resKey => {
           var encryptedPassword = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
-          this.bitrhday = this.year + "-" + this.month + "-" + this.day;
+          this.birthDay = this.year + "-" + this.month + "-" + this.day;
           this.appService.signup(new User(this.userName, encryptedPassword,
-            this.firstName, this.lastName, this.email, this.gender, this.bitrhday))
+            this.firstName, this.lastName, this.email, this.gender, this.birthDay))
             .subscribe(res => {
               alert(res.message);
               if (res.status == "OK")

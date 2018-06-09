@@ -19,7 +19,7 @@ module.exports = db => {
         uuid: { type: String, unique: true },
         gender: String,
         imgPath: String,
-        birthday: Date,
+        birthDay: Date,
         blogs: Number,
         inbox: [{
             title: String,

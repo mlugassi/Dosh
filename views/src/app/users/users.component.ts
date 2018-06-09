@@ -40,8 +40,10 @@ export class UsersComponent implements OnInit {
         $("#uname").val(res.userName);
         $("#email").val(res.email);
         $("#gender").val(res.gender);
-        $("#img").attr("src","../../assets/images/" + res.imgPath);
-
+        $("#img").attr("src", res.imgPath);
+        $("#day").val(res.birthDay.substr(8, 2));
+        $("#month").val(res.birthDay.substr(5, 2));
+        $("#year").val(res.birthDay.substr(0, 4));
         this.isAdmin = res.isAdmin;
         this.isBlogger = res.isBlogger;
         this.editPass = true;
@@ -68,6 +70,8 @@ export class UsersComponent implements OnInit {
   editPassword() {
     this.editPass = !this.editPass;
     if (this.editPass) {
+      $("#pass").val("");
+      $("#vpass").val("");
       $("#pass").show();
       $("#vpass").show();
       $("#pass").prop('required', true);
@@ -85,6 +89,7 @@ export class UsersComponent implements OnInit {
     user.lastName = $("#lname").val();
     user.email = $("#email").val();
     user.gender = $("#gender").val();
+    user.birthDay = $("#year").val() + "-" + $("#month").val() + "-" + $("#day").val();
     user.isAdmin = this.isAdmin;
     user.isBlogger = this.isBlogger;
     if (this.editPass && $("#pass").val() == $("#vpass").val())
