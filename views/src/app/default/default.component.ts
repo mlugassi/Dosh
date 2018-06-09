@@ -56,7 +56,7 @@ export class DefaultComponent implements OnInit {
                 alert(res.status);
                 if (this.rememME)
                   this.rememberMe();
-                this.router.navigate(['/navbar']);
+                this.router.navigate(['/home']);
               }
               else
                 alert("Error message: " + res.message);
