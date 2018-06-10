@@ -13,6 +13,8 @@ import { CatalogComponent } from './catalog/catalog.component';
 import { CardComponent } from './catalog/card/card.component';
 import { UsersComponent } from './users/users.component';
 import { DefaultComponent } from './default/default.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { DefaultComponent } from './default/default.component';
     CatalogComponent,
     CardComponent,
     UsersComponent,
-    DefaultComponent
+    DefaultComponent,
+    ResetPasswordComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
