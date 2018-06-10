@@ -22,16 +22,17 @@ var mailOptions = {
 
 /* GET home page. */
 router.get('/home', checksession, function (req, res, next) {
-  console.log("I'm in the home GET");
-  return res.json([[
-    { link: "index.html", name: "Home" },
-    { link: "shop.html", name: "Catalog" },
-    { link: "sale.html", name: "Manage users" },
-    { link: "about.html", name: "Manage items" },
-    { link: "about.html", name: "About" },
-    { link: "contact.html", name: "Contact" }
-  ], [{ name: req.session.passport.user }]]);
-  //  res.redirect('/login');
+res.sendfile('./views/dist/views/index.html');
+  // console.log("I'm in the home GET");
+  // return res.json([[
+  //   { link: "index.html", name: "Home" },
+  //   { link: "shop.html", name: "Catalog" },
+  //   { link: "sale.html", name: "Manage users" },
+  //   { link: "about.html", name: "Manage items" },
+  //   { link: "about.html", name: "About" },
+  //   { link: "contact.html", name: "Contact" }
+  // ], [{ name: req.session.passport.user }]]);
+  // //  res.redirect('/login');
 });
 
 router.get('/logout', async (req, res) => {
