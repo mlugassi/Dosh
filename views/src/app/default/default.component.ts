@@ -28,6 +28,7 @@ export class DefaultComponent implements OnInit {
   day;
   hide = false;
   rememME = false;
+  emailToReset;
   MyKey;
   // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService) { }
@@ -102,5 +103,15 @@ export class DefaultComponent implements OnInit {
   rememberMe() {
     sessionStorage.setItem('DoshuserName', this.loginUserName);
     sessionStorage.setItem('Doshpassword', this.loginPassword);
+  }
+  resetPassword() {
+    alert("In first reset password");
+    this.appService.askToResetPassword(this.emailToReset)
+      .subscribe(res => {
+        if (res.status)
+          alert(res.message);
+        else
+          alert("Somthing went wrong..");
+      })
   }
 }

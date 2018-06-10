@@ -31,8 +31,19 @@ export class AppService {
     return this.http.post(`${this.api_url}/getKey`, user)
       .pipe(map(res  => res as any || ""));
   }
+  askToResetPassword(email: string): Observable<any>{
+    return this.http.post(`${this.api_url}/askToResetPassword`, {email:email})
+      .pipe(map(res  => res as any || ""));
+  }
+  resetPassword(uuid: string, password: string): Observable<any>{
+    return this.http.post(`${this.api_url}/resetPassword`, {uuid: uuid, password: password})
+      .pipe(map(res  => res as any || ""));
+  }
+  checkUuid(uuid: string): Observable<any>{
+    return this.http.get(`${this.api_url}/resetPassword/${uuid}`)
+      .pipe(map(res  => res as any || ""));
+  }
   navbar(): Observable<any[]>{
-    alert("I'm in navbar service");
     return this.http.get(`${this.api_url}/navbar`)
       .pipe(map(res => res as any[] || []));
   }
