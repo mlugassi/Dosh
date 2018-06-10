@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ElementRef } from '@angular/core';
 import User from '../models/User'
 import { AppService } from '../services/app.service';
 import * as $ from 'jquery';
@@ -14,9 +14,11 @@ export class UsersComponent implements OnInit {
   editPass: Boolean;
   isBlogger: Boolean;
   isAdmin: Boolean;
+  avatar: File;
+  
   private appService: AppService;
 
-  constructor(appService: AppService) {
+  constructor(appService: AppService, private elem: ElementRef) {
     this.appService = appService;
   }
 
@@ -40,8 +42,10 @@ export class UsersComponent implements OnInit {
         $("#uname").val(res.userName);
         $("#email").val(res.email);
         $("#gender").val(res.gender);
-        $("#img").attr("src","../../assets/images/" + res.imgPath);
-
+        $("#img").attr("src", res.imgPath);
+        $("#day").val(res.birthDay.substr(8, 2));
+        $("#month").val(res.birthDay.substr(5, 2));
+        $("#year").val(res.birthDay.substr(0, 4));
         this.isAdmin = res.isAdmin;
         this.isBlogger = res.isBlogger;
         this.editPass = true;
@@ -68,6 +72,8 @@ export class UsersComponent implements OnInit {
   editPassword() {
     this.editPass = !this.editPass;
     if (this.editPass) {
+      $("#pass").val("");
+      $("#vpass").val("");
       $("#pass").show();
       $("#vpass").show();
       $("#pass").prop('required', true);
@@ -85,6 +91,7 @@ export class UsersComponent implements OnInit {
     user.lastName = $("#lname").val();
     user.email = $("#email").val();
     user.gender = $("#gender").val();
+    user.birthDay = $("#year").val() + "-" + $("#month").val() + "-" + $("#day").val();
     user.isAdmin = this.isAdmin;
     user.isBlogger = this.isBlogger;
     if (this.editPass && $("#pass").val() == $("#vpass").val())
@@ -110,4 +117,12 @@ export class UsersComponent implements OnInit {
   changeBlogger() {
     this.isBlogger = !this.isBlogger;
   }
+  uploadImage() {
+    let files = this.elem.nativeElement.querySelector("#selectFile").files;
+    let formData = new FormData();
+    let file = files[0];
+    formData.append('selectedFile' , file , file.name);
+    this.appService.upload_Image(formData);
+  }
+
 }
