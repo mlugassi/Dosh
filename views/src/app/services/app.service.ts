@@ -27,11 +27,11 @@ export class AppService {
     return this.http.post(`${this.api_url}/signup`, user)
       .pipe(map(res => res as any || ""));
   }
-  getKey(user: User): Observable<any>{
+  getKey(user: User): Observable<any> {
     return this.http.post(`${this.api_url}/getKey`, user)
-      .pipe(map(res  => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
-  navbar(): Observable<any[]>{
+  navbar(): Observable<any[]> {
     alert("I'm in navbar service");
     return this.http.get(`${this.api_url}/navbar`)
       .pipe(map(res => res as any[] || []));
@@ -50,6 +50,10 @@ export class AppService {
   get_user(userName: String) {
     return this.http.post(`${this.api_url}/users/user`, { userName: userName })
       .pipe(map(res => res as User || null));
+  }
+
+  upload_Image(image: FormData) {
+    return this.http.post(`${this.api_url}/users/upload`, image);
   }
 
   delete_user(userName: String) {

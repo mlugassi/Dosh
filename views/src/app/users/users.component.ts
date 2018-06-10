@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ElementRef } from '@angular/core';
 import User from '../models/User'
 import { AppService } from '../services/app.service';
 import * as $ from 'jquery';
@@ -14,9 +14,11 @@ export class UsersComponent implements OnInit {
   editPass: Boolean;
   isBlogger: Boolean;
   isAdmin: Boolean;
+  avatar: File;
+  
   private appService: AppService;
 
-  constructor(appService: AppService) {
+  constructor(appService: AppService, private elem: ElementRef) {
     this.appService = appService;
   }
 
@@ -115,4 +117,12 @@ export class UsersComponent implements OnInit {
   changeBlogger() {
     this.isBlogger = !this.isBlogger;
   }
+  uploadImage() {
+    let files = this.elem.nativeElement.querySelector("#selectFile").files;
+    let formData = new FormData();
+    let file = files[0];
+    formData.append('selectedFile' , file , file.name);
+    this.appService.upload_Image(formData);
+  }
+
 }
