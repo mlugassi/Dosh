@@ -7,29 +7,24 @@ const path = require('path');
 
 // Set The Storage Engine
 const storage = multer.diskStorage({
-    destination: './public/images/avatars',
+    destination: './public/images/users_profiles',
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+        cb(null, file.originalname);
     }
 });
 // Init Upload
 const upload = multer({
     storage: storage,
-    limits: {
-        fileSize: 1000000
-    },
     fileFilter: function (req, file, cb) {
         checkFileType(file, cb);
     }
-}).single('selectedFile');
+}).single('uploadedImg');
 
 // Check File Type
 function checkFileType(file, cb) {
     // Allowed ext
     const filetypes = /jpeg|jpg|png|gif/;
     // Check ext
-    console.log(typeof file.originalname);
-    console.log(file.originalname);
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
     // Check mime
     const mimetype = filetypes.test(file.mimetype);
@@ -49,7 +44,18 @@ router.post('/upload', (req, res) => {
             if (req.file == undefined) {
                 console.log("Error: No File Selected!");
             } else {
-                console.log("File Uploaded!");
+                console.log("File Uploded");
+                let uname = req.file.filename.substr(0, req.file.filename.length - 4);
+                console.log(uname);
+
+                User.findOneAndUpdate({
+                    userName: uname
+                }, {
+                    imgPath: "/images/users_profiles/" + req.file.filename
+                }, function (err, result) {
+                    if (err) throw err;
+                    res.status(200).json('{"status":"OK" }');
+                })
             }
         }
     });

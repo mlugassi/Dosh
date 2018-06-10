@@ -12,13 +12,14 @@
   <tbody class="text-center">
     <tr *ngFor="let user of users">
       <th colspan="1" scope="row">
-        <img src="{{user.imgPath}}" class="img-circle" width="40px" height="40px">
+        <img src="{{user.imgPath}}" class="img-circle center" width="40px" height="40px">
       </th>
       <td colspan="4" class="align-middle">{{user.firstName}} {{user.lastName}}</td>
       <td colspan="3" class="align-middle">{{user.userName}}</td>
       <td colspan="1" class="align-middle">{{user.blogs}}</td>
       <td colspan="1" class="align-middle" *ngIf="user.isAdmin"> Admin</td>
-      <td colspan="1" class="align-middle" *ngIf="user.isBlogger && !user.isAdmin"> Blogger</td>
+      <td colspan="1" class="align-middle" *ngIf="user.isBlogger && !user.isAdmin">
+        Blogger</td>
       <td colspan="1" class="align-middle" *ngIf="!user.isBlogger && !user.isAdmin"></td>
       <td colspan="1">
         <a href="#" class="btn btn-primary fa fa-edit pull-right" style="margin: 2px" (click)="openModal(user.userName)" data-toggle="modal"
@@ -32,22 +33,19 @@
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-      <form class="modal-content" (submit)="updateUser()" action="javascript:void(0);" style="width: 100%;">
+      <form ngNativeValidate class="modal-content" (submit)="updateUser()" action="javascript:void(0);" style="width: 100%;">
         <div class="modal-header">
           <div class="row">
             <div class="col-xs-6 col-md-6">
               <img id="img" class="img-circle" alt="Tap To Change Image" width="200" height="200">
-              <input type="file" id="selectFile" name="selectFile" class="btn btn-success" />
-              <input type="button" class="btn btn-primary" (click)="uploadImage()" value="Upload File"/>
+              <br>
+              <input type="file" id="uploadedImg" class="form-control" accept="image/*" />
             </div>
             <div class="col-xs-6 col-md-6">
-              <button type="button" class="close" style="height: 5px; width: 5px; margin: 3px" data-dismiss="modal">&times;</button>
               <br>
               <input type="text" id="uname" class="form-control" placeholder="User name" readonly />
               <br>
-              <div class="form-group">
-                <input type="text" id="fname" class="form-control" placeholder="First Name" required/>
-              </div>
+              <input type="text" id="fname" class="form-control" placeholder="First Name" required/>
               <br>
               <input type="text" id="lname" class="form-control" placeholder="Last Name" required/>
             </div>
@@ -247,11 +245,10 @@
         </div>
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="submit" class="btn btn-danger">Update</button>
+          <button type="submit" class="btn btn-success" style="width: 100%">Update</button>
         </div>
 
       </form>
     </div>
   </div>
 </div>
-
