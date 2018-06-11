@@ -22,17 +22,10 @@ var mailOptions = {
 
 /* GET home page. */
 router.get('/home', checksession, function (req, res, next) {
-res.sendfile('./views/dist/views/index.html');
-  // console.log("I'm in the home GET");
-  // return res.json([[
-  //   { link: "index.html", name: "Home" },
-  //   { link: "shop.html", name: "Catalog" },
-  //   { link: "sale.html", name: "Manage users" },
-  //   { link: "about.html", name: "Manage items" },
-  //   { link: "about.html", name: "About" },
-  //   { link: "contact.html", name: "Contact" }
-  // ], [{ name: req.session.passport.user }]]);
-  // //  res.redirect('/login');
+  res.sendfile('./views/dist/views/index.html');
+});
+router.get('/', function (req, res, next) {
+  res.sendfile('./views/dist/views/index.html');
 });
 
 router.get('/logout', async (req, res) => {
@@ -51,7 +44,7 @@ router.post('/getKey', async (req, res) => {
   console.log("I'm in post /getKey");
   var key = generateKey();
   //user.userName = req.body.userName;
-  await User.findOneAndUpdate({ userName: req.body.userName }, { passwordKey: key }, function (err, user) {
+  User.findOneAndUpdate({ userName: req.body.userName }, { passwordKey: key }, function (err, user) {
     if (!user) {//The user not exist-->before signup.
       var user1 = {};
       user1.userName = req.body.userName;
@@ -66,6 +59,19 @@ router.post('/getKey', async (req, res) => {
           return res.json({ status: "OK", key: key });
       });
     }
+    else {
+      console.log("user: " + user);
+      return res.json({ key: key });
+    }
+  });
+});
+router.get('/getKey/:UUID', async (req, res) => {
+  console.log("I'm in get /getKey");
+  var key = generateKey();
+  //user.userName = req.body.userName;
+  await User.findOneAndUpdate({ uuid: req.params.UUID }, { passwordKey: key }, function (err, user) {
+    if (!user)//The user not exist.
+      return res.json({ key: key, message:"The UUID isn't exist!" });
     else {
       console.log("user: " + user);
       return res.json({ key: key });
@@ -87,7 +93,7 @@ router.post('/signup', async (req, res, next) => {
       user.password = crypto.decrypt(req.body.password, myUser.passwordKey);
       user.email = req.body.email || "";
       user.birthDay = new Date(req.body.birthDay || "");
-      user.gender = req.body.gender || "Other"; 
+      user.gender = req.body.gender || "Other";
       user.isAdmin = req.body.isAdmin || false;
       user.isActive = req.body.isActive || true;
       user.isBlogger = req.body.isBlogger || false;
@@ -125,12 +131,13 @@ router.post('/askToResetPassword', function (req, res) {
     if (result != null) {
       (async () => {
         result.uuid = create_UUID();
+        //result.key=create_UUID();
         result.isResetReq = true;
         User.findOneAndUpdate({ userName: result.userName }, result, function (err, result) {
           if (err) throw err;
         })
         mailOptions.to = req.body.email;
-        mailOptions.html = "<p>Hello" + result.userName + ",</p><a href = \"http://localhost:4200/resetPassword/" + result.uuid + "\"> Click here for reset your password</a>";
+        mailOptions.html = "<p>Hello" + result.userName + ",</p><a href = \"http://localhost/resetPassword/" + result.uuid + "\"> Click here for reset your password</a>";
         transporter.sendMail(mailOptions, function (error, info) {
           if (error) {
             console.log(error);
@@ -154,30 +161,30 @@ router.get('/resetPassword/:UUID', function (req, res) {
     if (err)
       condole.log(err);
     if (result != null) {
-      console.log(1);
-      res.status(200).json({ status:"OK"});
-      //res.render('reset_password', { uuid: result.uuid });
+      res.sendfile('./views/dist/views/index.html');
     }
-    else
-    {
-      console.log(22);
+    else {
       res.redirect('/pageNotFound');//.json({status:"Fail"});
     }
   });
 });
 router.post('/doReset', function (req, res) {
-  user = {};
-  user.uuid = "";
-  user.isResetReq = false;
-  user.password = req.body.password;// crypto.decrypt(req.body.password, myUser.passwordKey);
-  User.findOneAndUpdate({ isResetReq: true, uuid: req.body.uuid, isActive: true }, user, function (err, result) {
-    if (err) console.log(err);
-    if (result != null)
-      res.status(200).json({status:"OK", message: "Your password chnged.\n please try to log in."});
-    else
-    res.status(200).json({status:"OK", message: "Something went wrong..\nYour password isn,t changed."});
+  User.findOne({ isResetReq: true, uuid: req.body.uuid }, function (err, result) {
+    user = {};
+    user.uuid = "";
+    user.isResetReq = false;
+    user.password = crypto.decrypt(req.body.password, result.passwordKey);
+    user.passwordKey="";
+    User.findOneAndUpdate({ isResetReq: true, uuid: req.body.uuid, isActive: true }, user, function (err, newUser) {
+      if (err) console.log(err);
+      if (newUser != null)
+        res.status(200).json({ status: "OK", message: "Your password chnged.\n please try to log in." });
+      else
+        res.status(200).json({ status: "OK", message: "Something went wrong..\nYour password isn,t changed." });
+    });
   });
 });
+
 function create_UUID() {
   var dt = new Date().getTime();
   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

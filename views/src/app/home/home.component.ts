@@ -67,15 +67,8 @@ export class HomeComponent implements OnInit {
   }
   logout(){
     alert("logout ");
-    // this.appService.logout()
-    // .subscribe(res => {
-    //   this.items1=res[0];
-    //   this.userName="Hello " + res[1].name;
-    //   this.items2 = [
-    //     { link: "#", name: ' Edit', class: "glyphicon glyphicon-cog", modal: '#edit-modal' , click:"logout()"},
-    //     { link: "#", name: ' Logout', class: "glyphicon glyphicon-log-out", modal: '', click:"logout()"},
-    //   ];
-    // })
+    localStorage.removeItem('DoshUserName');
+    localStorage.removeItem('DoshPassword');
   }
 
 }
