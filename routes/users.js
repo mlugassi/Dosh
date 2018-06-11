@@ -35,7 +35,7 @@ function checkFileType(file, cb) {
         cb('Error: Images Only!');
     }
 }
-router.post('/upload', (req, res) => {
+router.post('/upload', checksession, (req, res) => {
     upload(req, res, (err) => {
         if (err) {
             console.log(err);
@@ -61,9 +61,8 @@ router.post('/upload', (req, res) => {
     });
 });
 
-router.get('/', function (req, res) {
-    // router.get('/', checksession, function (req, res) {
-    let name = 'mlugassi'; //req.session.passport.user;
+router.get('/', checksession, function (req, res) {
+    let name = req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
         userName: name,
@@ -80,8 +79,7 @@ router.get('/', function (req, res) {
     });
 });
 
-router.post('/user', function (req, res) {
-    // router.post('/user', checksession, function (req, res) {
+router.post('/user', checksession, function (req, res) {
     let name = req.body.userName; //req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
@@ -108,8 +106,7 @@ router.post('/user', function (req, res) {
     });
 });
 
-router.post('/delete', function (req, res) {
-    // router.post('/delete', checksession, function (req, res) {
+router.post('/delete', checksession, function (req, res) {
     let name = req.body.userName;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOneAndUpdate({
@@ -122,9 +119,8 @@ router.post('/delete', function (req, res) {
     })
 });
 
-router.post('/update', function (req, res) {
-    // router.post('/update', checksession, function (req, res) {
-    let name = "mlugassi"; // req.session.passport.user;
+router.post('/update', checksession, function (req, res) {
+    let name = req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
         userName: name,
