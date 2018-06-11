@@ -14,7 +14,7 @@ export default class User {
   birthDay: String;
 
   constructor(userName, password, firstName = "", lastName = "",
-    email = "", gender = "", birthDay = "", imgPath = "../../assets/images/" + gender + "default.jpg", blogs = 0, inbox = [],
+    email = "", gender = "", birthDay = "", imgPath = "/images/users_profiles/" + gender + "default.jpg", blogs = 0, inbox = [],
     isBlogger = false, isActive = true, isAdmin = false) {
     this.userName = userName;
     this.password = password;

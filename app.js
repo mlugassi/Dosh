@@ -96,7 +96,7 @@ let login = require('./routes/login');    // it will be our controller for loggi
 
     });
   });
-  app.use(favicon(path.join(__dirname, 'public', 'images', 'flower.ico')));
+  app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
   app.use('/users', users);
   app.use('/login', login); // register login controller
   app.use('/', index);
