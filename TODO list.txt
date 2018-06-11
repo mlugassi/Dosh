@@ -14,4 +14,7 @@ Micahel:
 2. check update user
 3. check why image save oppositly
 4. make the disgn lookd better
-5. 
+5.  check what is cb
+6. check if it possible to make only one post req when upload image
+7. add get function for routing
+8. make the check vales beeter

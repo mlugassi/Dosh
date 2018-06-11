@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import User from '../models/User'
 import { AppService } from '../services/app.service';
 import * as $ from 'jquery';
@@ -14,21 +14,14 @@ export class UsersComponent implements OnInit {
   editPass: Boolean;
   isBlogger: Boolean;
   isAdmin: Boolean;
-  avatar: File;
-
-  private appService: AppService;
-
-  constructor(appService: AppService, private elem: ElementRef) {
-    this.appService = appService;
+  
+  constructor(private appService: AppService) {
   }
 
   ngOnInit() {
     this.appService.get_users()
       .subscribe(res => {
-        this.users = [];
-        res.forEach(element => {
-          this.users.push(element);
-        });
+        this.users = res;
       })
   }
 

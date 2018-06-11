@@ -93,7 +93,6 @@ router.post('/user', checksession, function (req, res) {
         user.lastName = result.lastName;
         user.userName = result.userName;
         user.birthDay = result.birthDay;
-        console.log(user.birthDay);
         user.email = result.email;
         user.imgPath = result.imgPath;
         user.gender = result.gender;
