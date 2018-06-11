@@ -8,7 +8,7 @@
       <div class="col-md-4 top-forms text-center mt-lg-3 mt-md-1 mt-0">
         <span>Welcome Back!</span>
         <span class="mx-lg-4 mx-md-2  mx-1">
-          <a href="/logout">
+          <a href="/logout" (click)="logout()">
             <i class="fas fa-sign-out-alt"></i> Log out</a>
         </span>
         <span>
@@ -94,37 +94,31 @@
 
 
 
-      </div>
-    </nav>
-
-  </div>
-
-  <app-login></app-login>
-  <nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand">{{userName}}</a>
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-          aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">Dosh</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-          <li *ngFor="let item of items1">
-            <a href={{item.link}}>{{item.name}}</a>
-          </li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <li *ngFor="let item of items2">
-            <a href={{item.link}} data-toggle="modal" attr.data-target={{item.modal}}>
-              <span class={{item.class}}></span>{{item.name}}</a>
-          </li>
-          <!-- <li *ngIf="logoutShow">
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand">{{userName}}</a>
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+        aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Dosh</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li *ngFor="let item of items1">
+          <a href={{item.link}}>{{item.name}}</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li *ngFor="let item of items2">
+          <a href={{item.link}} data-toggle="modal" attr.data-target={{item.modal}} >
+            <span class={{item.class}}></span>{{item.name}}</a>
+        </li>
+        <!-- <li *ngIf="logoutShow">
             <a href="/login/logout">
               <span class="glyphicon glyphicon-log-out"></span>Logout</a>
           </li> -->

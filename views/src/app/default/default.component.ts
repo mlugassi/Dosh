@@ -30,15 +30,19 @@ export class DefaultComponent implements OnInit {
   rememME = false;
   emailToReset;
   MyKey;
+  showPage = false;
   // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService) { }
 
   ngOnInit() {
-    if (sessionStorage.getItem('DoshUserName')) {
-      this.loginUserName = sessionStorage.getItem('DoshUserName');
-      if (sessionStorage.getItem('DoshPassword'))
-        this.loginPassword = sessionStorage.getItem('DoshPassword');
+    if (localStorage.getItem('DoshUserName') && localStorage.getItem('DoshPassword')) {
+      this.router.navigate(['/home']);
+      this.loginUserName = localStorage.getItem('DoshUserName');
+      this.loginPassword = localStorage.getItem('DoshPassword');
+      this.login(false);
     }
+    else
+      this.showPage = true;
   }
 
   login(AfterSignup) {
@@ -54,7 +58,7 @@ export class DefaultComponent implements OnInit {
           this.appService.login(new User(this.loginUserName, encryptedPassword))
             .subscribe(res => {
               if (res.status == "OK") {
-                alert(res.status);
+                //alert(res.status);
                 if (this.rememME)
                   this.rememberMe();
                 this.router.navigate(['/home']);
@@ -97,12 +101,12 @@ export class DefaultComponent implements OnInit {
     else
       this.gender = "Male";
   }
-  switch() {
-    this.hide = !this.hide;
-  }
+  switch() { this.hide = !this.hide; }
+  switchRememberMe() { this.rememME = !this.rememME; }
+
   rememberMe() {
-    sessionStorage.setItem('DoshuserName', this.loginUserName);
-    sessionStorage.setItem('Doshpassword', this.loginPassword);
+    localStorage.setItem('DoshUserName', this.loginUserName);
+    localStorage.setItem('DoshPassword', this.loginPassword);
   }
   resetPassword() {
     alert("In first reset password");

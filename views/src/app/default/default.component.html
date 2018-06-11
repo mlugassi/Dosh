@@ -1,7 +1,7 @@
 <body>
   <!----------------------------       signup       ---------------------------------->
 
-  <section class="main-content-w3layouts-agileits" [hidden]="!hide">
+  <section class="main-content-w3layouts-agileits" [hidden]="!hide || !showPage">
     <div class="container">
       <h3 class="tittle">Sign Up</h3>
       <div class="row inner-sec">
@@ -197,7 +197,7 @@
 
 
 
-  <section class="main-content-w3layouts-agileits" [hidden]="hide">
+  <section class="main-content-w3layouts-agileits" [hidden]="hide||!showPage">
     <div class="container">
       <h3 class="tittle">Sign In Now</h3>
       <div class="row inner-sec">
@@ -209,7 +209,7 @@
             <input type="password" name="loginPassword" class="form-control" [(ngModel)]="loginPassword" placeholder="Password" required>
             <br>
             <label>
-              <input type="checkbox" [checked]=rememME>
+              <input type="checkbox" [checked]=rememME (click)="switchRememberMe()">
               <span style="color:white"> Remember me</span>
             </label>
             <br>
@@ -235,31 +235,6 @@
       </div>
     </div>
   </section>
-
-
-
-
-  <!--//main-->
-  <!--footer-->
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12 footer-grid-agileits-w3ls text-left" data-aos="fade-down">
-          <h3>About US</h3>
-          <p>Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. lacinia eget consectetur sed, convallis at tellus..</p>
-          <div class="read">
-            <a href="" class="btn btn-primary read-m">Read More</a>
-          </div>
-        </div>
-        <!-- subscribe -->
-
-      </div>
-
-      <!-- //footer -->
-    </div>
-  </footer>
-  <!---->
-
 </body>
 
 
