@@ -69,8 +69,8 @@ export class AppService {
       .pipe(map(res => res as User || null));
   }
 
-  upload_Image(image: FormData) {
-    return this.http.post(`${this.api_url}/users/upload`, image);
+  upload_Image(formdata: any) {
+    return this.http.post<string>(`${this.api_url}/users/upload`, formdata);
   }
 
   delete_user(userName: String) {

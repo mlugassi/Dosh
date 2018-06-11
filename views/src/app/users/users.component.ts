@@ -1,4 +1,4 @@
-import { Component, OnInit , ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import User from '../models/User'
 import { AppService } from '../services/app.service';
 import * as $ from 'jquery';
@@ -15,7 +15,7 @@ export class UsersComponent implements OnInit {
   isBlogger: Boolean;
   isAdmin: Boolean;
   avatar: File;
-  
+
   private appService: AppService;
 
   constructor(appService: AppService, private elem: ElementRef) {
@@ -94,6 +94,7 @@ export class UsersComponent implements OnInit {
     user.birthDay = $("#year").val() + "-" + $("#month").val() + "-" + $("#day").val();
     user.isAdmin = this.isAdmin;
     user.isBlogger = this.isBlogger;
+    this.uploadImage();
     if (this.editPass && $("#pass").val() == $("#vpass").val())
       user.password = $("#pass").val();
     else if (this.editPass) {
@@ -107,6 +108,7 @@ export class UsersComponent implements OnInit {
           alert(res);
           return;
         }
+        $("#myModal").hide();
       });
   }
 
@@ -117,12 +119,18 @@ export class UsersComponent implements OnInit {
   changeBlogger() {
     this.isBlogger = !this.isBlogger;
   }
+
   uploadImage() {
-    let files = this.elem.nativeElement.querySelector("#selectFile").files;
+    let file = $('#uploadedImg').prop('files')[0];
+    if (file == undefined || file == null) return;
     let formData = new FormData();
-    let file = files[0];
-    formData.append('selectedFile' , file , file.name);
-    this.appService.upload_Image(formData);
+    formData.append('uploadedImg', file, $("#uname").val() + ".jpg");
+    this.appService.upload_Image(formData).subscribe(res => {
+      if (JSON.parse(res).status != "OK") {
+        alert(res);
+        return;
+      }
+    });
   }
 
 }
