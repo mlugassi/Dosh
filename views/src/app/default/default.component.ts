@@ -36,7 +36,6 @@ export class DefaultComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('DoshUserName') && localStorage.getItem('DoshPassword')) {
-      this.router.navigate(['/home']);
       this.loginUserName = localStorage.getItem('DoshUserName');
       this.loginPassword = localStorage.getItem('DoshPassword');
       this.login(false);
@@ -109,7 +108,6 @@ export class DefaultComponent implements OnInit {
     localStorage.setItem('DoshPassword', this.loginPassword);
   }
   resetPassword() {
-    alert("In first reset password");
     this.appService.askToResetPassword(this.emailToReset)
       .subscribe(res => {
         if (res.status)
