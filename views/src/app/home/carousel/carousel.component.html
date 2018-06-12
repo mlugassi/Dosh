@@ -1,1 +1,19 @@
-
+<div class="banner">
+  <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner" role="listbox">
+      <ngb-carousel *ngIf="blogs">
+        <ng-template *ngFor="let blog of blogs" ngbSlide>
+          <img [src]="blog.imgPath">
+          <div class="carousel-caption">
+            <h3>Create the lifestyle
+              <span>you desire</span>
+            </h3>
+            <div class="read">
+              <a href="single.html" class="btn btn-primary read-m">Read More</a>
+            </div>
+          </div>
+        </ng-template>
+      </ngb-carousel>
+    </div>
+  </div>
+</div>
