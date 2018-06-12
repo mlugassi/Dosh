@@ -17,6 +17,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
 import { CarouselComponent } from './home/carousel/carousel.component';
+import { RecentPostsComponent } from './home/recent-posts/recent-posts.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { CarouselComponent } from './home/carousel/carousel.component';
     ResetPasswordComponent,
     PageNotFoundComponent,
     FooterComponent,
-    CarouselComponent
+    CarouselComponent,
+    RecentPostsComponent
     ],
   imports: [
     BrowserModule,
