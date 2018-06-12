@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../services/app.service';
-import Blog from '../models/Blog';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +17,6 @@ export class HomeComponent implements OnInit {
     { link: "#", name: ' Login', class: "glyphicon glyphicon-log-in", modal: '#login-modal' },
     //{ link: "#", name:  ' Logout',  class: "glyphicon glyphicon-log-out", toggle:"collapse",modal: ''},
   ];
-  blogs: Blog[];
   logoutShow = false;
   userName = "";
   password = "";
@@ -28,10 +26,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appService.get_blogs().subscribe(res => {
-      this.blogs = res;
-    }
-    )
     this.appService.navbar()
       .subscribe(res => {
         //this.todosList.push(res.data)

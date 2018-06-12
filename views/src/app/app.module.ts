@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -16,6 +16,8 @@ import { DefaultComponent } from './default/default.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
+import { CarouselComponent } from './home/carousel/carousel.component';
+import { BlogComponent } from './home/carousel/blog/blog.component';
 
 @NgModule({
   declarations: [
@@ -28,13 +30,16 @@ import { FooterComponent } from './footer/footer.component';
     DefaultComponent,
     ResetPasswordComponent,
     PageNotFoundComponent,
-    FooterComponent
+    FooterComponent,
+    CarouselComponent,
+    BlogComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
