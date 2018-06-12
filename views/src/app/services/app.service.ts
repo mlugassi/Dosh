@@ -2,6 +2,7 @@ import NavHeader from '../models/NavHeader';
 import Card from '../models/Card';
 // import CardComponent from '../catalog/card/card.component';
 import User from '../models/User';
+import Blog from '../models/Blog';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -60,7 +61,7 @@ export class AppService {
   }
 
   get_users() {
-    return this.http.get(`${this.api_url}/users`)
+    return this.http.get(`${this.api_url}/users/users`)
       .pipe(map(res => res as User[] || []));
   }
 
@@ -72,7 +73,10 @@ export class AppService {
   upload_Image(formdata: any) {
     return this.http.post<string>(`${this.api_url}/users/upload`, formdata);
   }
-
+  get_blogs() {
+    return this.http.get(`${this.api_url}/blogs/blogs`)
+      .pipe(map(res => res as Blog[] || []));
+  }
   delete_user(userName: String) {
     return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
   }
