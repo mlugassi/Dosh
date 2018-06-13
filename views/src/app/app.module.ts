@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './main-page/home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AppService } from './services/app.service';
-import { UsersComponent } from './users/users.component';
+import { UsersComponent } from './main-page/users/users.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { AppService } from '../services/app.service';
+import { AppService } from '../../services/app.service';
 import * as $ from 'jquery';
-import User from '../models/User'
+import User from '../../models/User'
 
 @Component({
   selector: 'app-users',

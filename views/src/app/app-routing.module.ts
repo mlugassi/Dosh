@@ -6,7 +6,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './login/login.component';
-import { UsersComponent } from './users/users.component';
+import { UsersComponent } from './main-page/users/users.component';
 
 const appRoutes: Routes = [
   {
