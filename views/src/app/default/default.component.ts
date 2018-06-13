@@ -5,7 +5,6 @@ import User from '../models/User';
 import * as crypto from '../../../../node_modules/crypto-js';
 import * as md5 from '../../../../node_modules/md5';
 
-
 @Component({
   selector: 'app-default',
   templateUrl: './default.component.html',
@@ -106,6 +105,10 @@ export class DefaultComponent implements OnInit {
   rememberMe() {
     localStorage.setItem('DoshUserName', this.loginUserName);
     localStorage.setItem('DoshPassword', this.loginPassword);
+  }
+  openResetModal() {
+    alert(1235);
+
   }
   resetPassword() {
     this.appService.askToResetPassword(this.emailToReset)

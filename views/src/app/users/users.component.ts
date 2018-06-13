@@ -14,6 +14,7 @@ export class UsersComponent implements OnInit {
   editPass: Boolean;
   isBlogger: Boolean;
   isAdmin: Boolean;
+  modal;
 
   constructor(private appService: AppService, private modalService: NgbModal) {
   }
@@ -31,7 +32,7 @@ export class UsersComponent implements OnInit {
         if (res == undefined || res == null)
           return;
 
-        this.modalService.open(myModal);
+        this.modal=this.modalService.open(myModal);
         $("#fname").val(res.firstName);
         $("#lname").val(res.lastName);
         $("#uname").val(res.userName);
@@ -104,6 +105,7 @@ export class UsersComponent implements OnInit {
           alert(res);
           return;
         }
+        this.modal.close();
       });
   }
 

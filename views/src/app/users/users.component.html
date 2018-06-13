@@ -29,8 +29,8 @@
 </table>
 <div class="container">
   <!-- Modal -->
-  <ng-template #myModal let-c="close" let-d="dismiss">
-      <form ngNativeValidate class="modal-content" (submit)="updateUser()" action="javascript:void(0);" style="width: 100%;">
+  <ng-template #myModal let-c="close" let-d="dismiss" id="MyModal">
+      <form ngNativeValidate class="modal-content" (submit)="updateUser()" style="width: 100%;">
         <div class="modal-header">
           <h4 class="modal-title">Profile update</h4>
           <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">

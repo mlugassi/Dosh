@@ -5,6 +5,7 @@ import { HomeComponent } from './home/home.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
   {path: '', canActivate: [AuthGuard],component: HomeComponent },
