@@ -7,33 +7,31 @@ import { AuthGuard } from './auth.guard';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './main-page/home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AppService } from './services/app.service';
-import { CatalogComponent } from './catalog/catalog.component';
-import { CardComponent } from './catalog/card/card.component';
-import { UsersComponent } from './users/users.component';
+import { UsersComponent } from './main-page/users/users.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
-import { CarouselComponent } from './home/carousel/carousel.component';
-import { RecentPostsComponent } from './home/recent-posts/recent-posts.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { CarouselComponent } from './main-page/home/carousel/carousel.component';
+import { RecentPostsComponent } from './main-page/home/recent-posts/recent-posts.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    CatalogComponent,
-    CardComponent,
+    NavbarComponent,
     UsersComponent,
     ResetPasswordComponent,
     PageNotFoundComponent,
     FooterComponent,
     CarouselComponent,
     RecentPostsComponent,
-    NavbarComponent
+    MainPageComponent
     ],
   imports: [
     BrowserModule,

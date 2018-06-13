@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '../../services/app.service';
-import Blog from '../../models/Blog';
+import { AppService } from '../../../services/app.service';
+import Blog from '../../../models/Blog';
 
 @Component({
   selector: 'app-carousel',
