@@ -5,7 +5,7 @@ var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 let logger = require('morgan');
-let mongoose = require('mongoose'); // add mongoose for MongoDB access
+let mongoose = require('mongoose');       // add mongoose for MongoDB access
 let session = require('express-session'); // add session management module
 let connectMongo = require('connect-mongo'); // add session store implementation for MongoDB
 var passport = require('passport');
@@ -19,8 +19,7 @@ const User = require('./model')("User");
 var app = express();
 let index = require('./routes/index');
 let users = require('./routes/users');
-let blogs = require('./routes/blogs');
-let login = require('./routes/login'); // it will be our controller for logging in/out
+let login = require('./routes/login');    // it will be our controller for logging in/out
 //let flowers = require('./routes/flowers');
 
 (async () => {
@@ -44,54 +43,38 @@ let login = require('./routes/login'); // it will be our controller for logging 
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.static(path.join(__dirname, 'views', 'dist', 'views')));
   app.use(bodyParser.json()); // support json encoded bodies
-  app.use(bodyParser.urlencoded({
-    extended: false
-  })); // support encoded bodies
+  app.use(bodyParser.urlencoded({ extended: false })); // support encoded bodies
   //app.use(cookieParser());
 
   let secret = 'Dosh secret'; // must be the same one for cookie parser and for session
   app.use(cookieParser(secret));
 
   app.use(session({
-    name: 'users.sid', // the name of session ID cookie
-    secret: secret, // the secret for signing the session ID cookie
-    resave: false, // do we need to resave unchanged session? (only if touch does not work)
-    saveUninitialized: false, // do we need to save an 'empty' session object?
-    rolling: true, // do we send the session ID cookie with each response?
-    store: new MongoStore({
-      mongooseConnection: sessionConnect
-    }), // session storage backend
-    cookie: {
-      maxAge: 900000,
-      httpOnly: true,
-      sameSite: true
-    } // cookie parameters
+    name: 'users.sid',         // the name of session ID cookie
+    secret: secret,            // the secret for signing the session ID cookie
+    resave: false,             // do we need to resave unchanged session? (only if touch does not work)
+    saveUninitialized: false,  // do we need to save an 'empty' session object?
+    rolling: true,             // do we send the session ID cookie with each response?
+    store: new MongoStore({ mongooseConnection: sessionConnect }), // session storage backend
+    cookie: { maxAge: 900000, httpOnly: true, sameSite: true }  // cookie parameters
     // NB: maxAge is used for session object expiry setting in the storage backend as well
   }));
 
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-      usernameField: 'userName',
-      passwordField: 'password',
-      passReqToCallback: true
-    },
+    usernameField: 'userName',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
     function (req, userName, password, done) {
-      User.findOne({
-        userName: userName
-      }, function (err, user) {
-        if (err) {
-          return done(err);
-        }
+      User.findOne({ userName: userName }, function (err, user) {
+        if (err) { return done(err); }
         if (!user) {
-          return done(null, false, {
-            message: 'Incorrect userName.'
-          });
+          return done(null, false, { message: 'Incorrect userName.' });
         }
         if (!(user.password == crypto.decrypt(password, user.passwordKey))) {
-          return done(null, false, {
-            message: 'Incorrect password.'
-          });
+          return done(null, false, { message: 'Incorrect password.' });
         }
         return done(null, user);
       });
@@ -102,9 +85,7 @@ let login = require('./routes/login'); // it will be our controller for logging 
   });
 
   passport.deserializeUser(function (uname, done) {
-    User.findOne({
-      userName: uname
-    }, function (err, user) {
+    User.findOne({ userName: uname }, function (err, user) {
       if (err)
         done("The user isn't exist", user);
       else
@@ -115,7 +96,6 @@ let login = require('./routes/login'); // it will be our controller for logging 
   });
   app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
   app.use('/users', users);
-  app.use('/blogs', blogs);
   app.use('/login', login); // register login controller
   app.use('/', index);
   // catch 404 and forward to error handler
@@ -144,9 +124,6 @@ let login = require('./routes/login'); // it will be our controller for logging 
   app.listen(80);
   console.log('80 is the magic port');
 })()
-.catch(err => {
-  console.log("Failure: " + err);
-  process.exit(0);
-});
+  .catch(err => { console.log("Failure: " + err); process.exit(0); });
 
 module.exports = app;

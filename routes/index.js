@@ -21,7 +21,7 @@ var mailOptions = {
 };
 
 /* GET home page. */
-router.get('/', checksession, function (req, res, next) {
+router.get('/',checksession, function (req, res) {
   console.log("Get in root");
   res.sendfile('./views/dist/views/index.html');
 });

@@ -26,28 +26,6 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appService.navbar()
-      .subscribe(res => {
-        //this.todosList.push(res.data)
-        //assign the todolist property to the proper http response
-        //this.items1=res[0];
-        //this.userName="Hello " + res[1][0].name;
-        //this.logoutShow=true;
-        //this.items2 = [
-        // { link: "#", name:  ' Edit',    class: "glyphicon glyphicon-cog", modal: '#edit-modal'},
-        // { link: "/login/logout", name:' Logout',  class: "glyphicon glyphicon-log-out", modal: ''},
-        //];
-        /*.forEach(element => {
-
-        res.forEach(element => {
-          this.items1.push({
-            name: element.name,
-            link: element.link
-          })
-        });*/
-      })
-
-
   }
 
   // onAddItem(data: { navheader: NavHeader[] }) {
