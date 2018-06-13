@@ -11,9 +11,6 @@ router.get('/', checksession, function (req, res) {
 router.get('/blogs', checksession, function (req, res) {
     Blog.find({
         isActive: true
-    }, )
-    Blog.find({
-        isActive: true
     }, function (err, result) {
         if (err) throw err;
         if (result == null) return res.json();
