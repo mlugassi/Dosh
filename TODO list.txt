@@ -8,6 +8,7 @@ Refael:
 6. make the password enqryption beeter by using public and private key
 7. check what worng with the reset password (dosn't send an email)
 8. in the reset password page  - change the password input to password type
+9.move the configuration button to the end of the navbar.
 
 Micahel:
 1. dismmis modal 
