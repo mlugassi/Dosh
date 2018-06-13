@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../services/app.service';
+import Inbox from '../../models/Blog';
 
 @Component({
   selector: 'app-inbox',
@@ -9,16 +10,20 @@ import { AppService } from '../../services/app.service';
 export class InboxComponent implements OnInit {
 
   constructor(private appService: AppService) { }
-inbox;
+  inbox:Inbox[];
   ngOnInit() {
-    alert("here");
     this.appService.get_inbox()
       .subscribe(res => {
+        alert(res.inbox[0]);
+        alert("before");
         this.inbox = res;
-      })
-      this.inbox.forEach(element => {
-        alert(element.title);
+        alert("after");
+        alert(res[0].sender);
       });
+
+    (this.inbox).forEach(element => {
+      alert(element.title);
+    });
   }
 
 }

@@ -7,6 +7,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import Inbox from '../models/Blog';
 
 
 @Injectable({
@@ -88,8 +89,8 @@ export class AppService {
   update_user(user: User) {
     return this.http.post<string>(`${this.api_url}/users/update`, user);
   }
-  get_inbox() {
+  get_inbox(){
     return this.http.get(`${this.api_url}/inbox/inbox`)
-      .pipe(map(res => res as any[] || []));
+      .pipe(map(res => res.inbox as Inbox[] || []));
   }
 }

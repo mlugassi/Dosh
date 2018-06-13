@@ -28,7 +28,13 @@ router.get('/check_session', function (req, res) {
     status: status
   });
 });
-
+// User.findOneAndUpdate({userName:"refaelz1"},{inbox:[
+//   {title:"Ask blogger",content:"dfsdfsdf",sender:"sapirz1",date: Date(),isRead:false},
+//   {title:"Ask admin",content:"dfsdfsdf",sender:"shilatz1",date: Date(),isRead:false}]},
+//   function(err,user){
+//   console.log(err);
+//   console.log(user);
+// });
 /* GET home page. */
 router.get('/', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');
@@ -41,7 +47,9 @@ router.get('/inbox', checksession, function (req, res) {
 router.get('/inbox/inbox', checksession, function (req, res) {
   console.log("i'm in inbox/inbox")
   User.findOne({userName:req.session.passport.user}, function(err,user){
-    console.log(user.inbox);
+    (user.inbox).forEach(element => {
+      console.log(element);
+    });
     return res.json({inbox: user.inbox});
   })
 });
