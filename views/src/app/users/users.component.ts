@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import User from '../models/User'
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from '../services/app.service';
 import * as $ from 'jquery';
+import User from '../models/User'
+declare var $: any;
 
 @Component({
   selector: 'app-users',
@@ -9,13 +11,12 @@ import * as $ from 'jquery';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-
   users: User[];
   editPass: Boolean;
   isBlogger: Boolean;
   isAdmin: Boolean;
-  
-  constructor(private appService: AppService) {
+
+  constructor(private appService: AppService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
@@ -25,11 +26,13 @@ export class UsersComponent implements OnInit {
       })
   }
 
-  openModal(userName: String) {
+  openModal(userName: String, myModal) {
     this.appService.get_user(userName)
       .subscribe(res => {
         if (res == undefined || res == null)
           return;
+
+        this.modalService.open(myModal);
         $("#fname").val(res.firstName);
         $("#lname").val(res.lastName);
         $("#uname").val(res.userName);
@@ -43,6 +46,7 @@ export class UsersComponent implements OnInit {
         this.isBlogger = res.isBlogger;
         this.editPass = true;
         this.editPassword();
+
       });
   }
 
@@ -101,7 +105,6 @@ export class UsersComponent implements OnInit {
           alert(res);
           return;
         }
-        $("#myModal").hide();
       });
   }
 
