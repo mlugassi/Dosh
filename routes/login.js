@@ -20,8 +20,7 @@ router.post('/', async (req, res, next) => {
       if (err) { return next(err); }
       console.log("login to: " + user);
       User.findOneAndUpdate({ userName: user.userName }, { passwordKey: "" }, function (err, user) {
-        if (!err)
-          {console.log("The passwordKey isn't reset")}
+        if (!err) { console.log("The passwordKey isn't reset") }
       });
       res.status(200).json({ status: "OK", message: "You loged in successfully." });
       //////////return res.status(200).json({ "status": "success" });
@@ -31,22 +30,11 @@ router.post('/', async (req, res, next) => {
 
 
 router.get('/', async (req, res) => {
-  console.log("Get to /login");
-  return res.json([{ link: "index.html", name: 'Home' },
-  { link: "shop.html", name: 'Catalog' },
-  { link: "sale.html", name: 'Manage users' },
-  { link: "about.html", name: 'Manage items' },
-  { link: "about.html", name: 'About' },
-  { link: "contact.html", name: 'Contact' }]);
-
-  // if (req.session === undefined) {
-  //   req.session.referer = req.get('Referer');
-  //   if (req.session.referer === undefined)
-  //     req.session.referer = '/';
-  //   res.render("index", { "uname": "", "role": "", "flowers": "" });
-  // }
-  // else
-  //   res.redirect('/');
+  console.log("In get /login");
+  if (req.session === undefined || req.session.passport === undefined || req.session.passport.user === undefined)
+    res.sendFile('./views/dist/views/index.html');
+  else
+    res.redirect('/');
 });
 
 module.exports = router;

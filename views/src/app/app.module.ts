@@ -3,7 +3,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
-
+import { AuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -36,7 +37,7 @@ import { FooterComponent } from './footer/footer.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [AppService, AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

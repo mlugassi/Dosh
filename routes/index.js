@@ -21,10 +21,8 @@ var mailOptions = {
 };
 
 /* GET home page. */
-router.get('/home', checksession, function (req, res, next) {
-  res.sendfile('./views/dist/views/index.html');
-});
-router.get('/', function (req, res, next) {
+router.get('/', checksession, function (req, res, next) {
+  console.log("Get in root");
   res.sendfile('./views/dist/views/index.html');
 });
 
@@ -32,7 +30,7 @@ router.get('/logout', async (req, res) => {
   console.log(req.session.passport.user + ' is logging out');
   req.session.regenerate(err => {
     console.log('logged out');
-    res.redirect('/');
+    res.redirect('/login');
   });
 });
 

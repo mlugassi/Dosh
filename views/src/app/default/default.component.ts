@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from  '../auth.service';
 import { AppService } from '../services/app.service';
 import User from '../models/User';
 import * as crypto from '../../../../node_modules/crypto-js';
 import * as md5 from '../../../../node_modules/md5';
+import { AuthGuard } from '../auth.guard';
 
 
 @Component({
@@ -32,7 +34,7 @@ export class DefaultComponent implements OnInit {
   MyKey;
   showPage = false;
   // navHeader: NavHeader[] = [];
-  constructor(private router: Router, private appService: AppService) { }
+  constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard,) { }
 
   ngOnInit() {
     if (localStorage.getItem('DoshUserName') && localStorage.getItem('DoshPassword')) {
@@ -57,10 +59,12 @@ export class DefaultComponent implements OnInit {
           this.appService.login(new User(this.loginUserName, encryptedPassword))
             .subscribe(res => {
               if (res.status == "OK") {
+                
+                alert(this.authGuard.login());
                 //alert(res.status);
                 if (this.rememME)
                   this.rememberMe();
-                this.router.navigate(['/home']);
+                this.router.navigate(['/']);
               }
               else
                 alert("Error message: " + res.message);
