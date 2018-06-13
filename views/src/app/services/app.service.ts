@@ -20,6 +20,10 @@ export class AppService {
     private http: HttpClient
   ) { }
 
+  checkSession(): Observable<boolean> {
+    return this.http.get<any>(`${this.api_url}/check_session`)
+      .pipe(map(res => res.status as boolean));
+  }
   login(user: User): Observable<any> {
     return this.http.post(`${this.api_url}/login`, user)
       .pipe(map(res => res as any || ""));
@@ -35,22 +39,22 @@ export class AppService {
   getKeyWithUuid(uuid: String) {
     var key = this.http.get(`${this.api_url}/getKey/${uuid}`, )
       .pipe(map(res => res as any || ""));
-      alert("After get key");
-      return key;
+    alert("After get key");
+    return key;
   }
-  askToResetPassword(email: string): Observable<any>{
-    return this.http.post(`${this.api_url}/askToResetPassword`, {email:email})
-      .pipe(map(res  => res as any || ""));
+  askToResetPassword(email: string): Observable<any> {
+    return this.http.post(`${this.api_url}/askToResetPassword`, { email: email })
+      .pipe(map(res => res as any || ""));
   }
-  doReset(uuid: string, password: string): Observable<any>{
-    return this.http.post(`${this.api_url}/doReset`, {uuid: uuid, password: password})
-      .pipe(map(res  => res as any || ""));
+  doReset(uuid: string, password: string): Observable<any> {
+    return this.http.post(`${this.api_url}/doReset`, { uuid: uuid, password: password })
+      .pipe(map(res => res as any || ""));
   }
   // checkUuid(uuid: string): Observable<any>{
   //   return this.http.get(`${this.api_url}/resetPassword/${uuid}`)
   //     .pipe(map(res  => res as any || ""));
   // }
-  navbar(): any{
+  navbar(): any {
     // return this.http.get(`${this.api_url}/navbar`)
     //   .pipe(map(res => res as any[] || []));
     return "";

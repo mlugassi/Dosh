@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from './auth.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -43,7 +42,7 @@ import { RecentPostsComponent } from './home/recent-posts/recent-posts.component
     AppRoutingModule,
     NgbModule.forRoot()
   ],
-  providers: [AppService, AuthService, AuthGuard],
+  providers: [AppService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

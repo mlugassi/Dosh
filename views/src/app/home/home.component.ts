@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Injectable  } from '@angular/core';
 import { AppService } from '../services/app.service';
 
 @Component({
@@ -6,6 +6,7 @@ import { AppService } from '../services/app.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+@Injectable()
 export class HomeComponent implements OnInit {
   items1 = [
     { link: "index.html", name: 'Home' },
@@ -41,12 +42,7 @@ export class HomeComponent implements OnInit {
   //   ];
   // }
 
-  test() {
-    alert("test ");
-
-  }
   logout() {
-    alert("logout ");
     localStorage.removeItem('DoshUserName');
     localStorage.removeItem('DoshPassword');
   }

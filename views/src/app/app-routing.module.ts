@@ -7,7 +7,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './auth.guard';
 
 const appRoutes: Routes = [
-  {path: '', component: HomeComponent },
+  {path: '', canActivate: [AuthGuard],component: HomeComponent },
    {path: 'login', component: DefaultComponent },
    {path: 'resetPassword/:id', component: ResetPasswordComponent},
 //   {path: 'cars', component: CarsComponent},
