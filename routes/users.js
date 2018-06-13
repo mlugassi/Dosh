@@ -61,6 +61,10 @@ router.post('/upload', checksession, (req, res) => {
     });
 });
 
+router.get('/', checksession, function (req, res) {
+    res.sendfile("./views/dist/views/index.html");
+});
+
 router.get('/users', checksession, function (req, res) {
     let name = req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it

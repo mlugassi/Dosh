@@ -45,10 +45,6 @@ export class HomeComponent implements OnInit {
     alert("test ");
 
   }
-  logout() {
-    alert("logout ");
-    localStorage.removeItem('DoshUserName');
-    localStorage.removeItem('DoshPassword');
-  }
+
 
 }

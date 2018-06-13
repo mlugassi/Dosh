@@ -20,6 +20,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { FooterComponent } from './footer/footer.component';
 import { CarouselComponent } from './home/carousel/carousel.component';
 import { RecentPostsComponent } from './home/recent-posts/recent-posts.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RecentPostsComponent } from './home/recent-posts/recent-posts.component
     PageNotFoundComponent,
     FooterComponent,
     CarouselComponent,
-    RecentPostsComponent
+    RecentPostsComponent,
+    NavbarComponent
     ],
   imports: [
     BrowserModule,
