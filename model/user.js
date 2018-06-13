@@ -25,7 +25,8 @@ module.exports = db => {
             title: String,
             content: String,
             sender: String,
-            date: Date
+            date: Date,
+            isRead: Boolean,
         }],
         isAdmin: Boolean,
         isBlogger: Boolean,

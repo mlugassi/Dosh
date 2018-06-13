@@ -7,12 +7,14 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './main-page/users/users.component';
+import { InboxComponent } from './main-page/inbox/inbox.component';
 
 const appRoutes: Routes = [
   {
     path: '', component: MainPageComponent , canActivate: [AuthGuard], children: [
       { path: "", component: HomeComponent },
       { path: "users", component: UsersComponent },
+      { path: "inbox", component: InboxComponent },
     ]
   },
   { path: 'login', component: LoginComponent },

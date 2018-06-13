@@ -18,6 +18,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CarouselComponent } from './main-page/home/carousel/carousel.component';
 import { RecentPostsComponent } from './main-page/home/recent-posts/recent-posts.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { InboxComponent } from './main-page/inbox/inbox.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MainPageComponent } from './main-page/main-page.component';
     FooterComponent,
     CarouselComponent,
     RecentPostsComponent,
-    MainPageComponent
+    MainPageComponent,
+    InboxComponent
     ],
   imports: [
     BrowserModule,

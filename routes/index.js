@@ -31,9 +31,21 @@ router.get('/check_session', function (req, res) {
 
 /* GET home page. */
 router.get('/', checksession, function (req, res) {
-  console.log("Get in root");
   res.sendfile('./views/dist/views/index.html');
 });
+
+router.get('/inbox', checksession, function (req, res) {
+  res.sendfile('./views/dist/views/index.html');
+});
+
+router.get('/inbox/inbox', checksession, function (req, res) {
+  console.log("i'm in inbox/inbox")
+  User.findOne({userName:req.session.passport.user}, function(err,user){
+    console.log(user.inbox);
+    return res.json({inbox: user.inbox});
+  })
+});
+
 router.get('/logout', async (req, res) => {
   console.log(req.session.passport.user + ' is logging out');
   req.session.regenerate(err => {
