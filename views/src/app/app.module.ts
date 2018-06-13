@@ -10,12 +10,11 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './main-page/home/home.component';
 import { LoginComponent } from './login/login.component';
 import { AppService } from './services/app.service';
-import { CatalogComponent } from './catalog/catalog.component';
-import { CardComponent } from './catalog/card/card.component';
 import { UsersComponent } from './users/users.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { CarouselComponent } from './main-page/home/carousel/carousel.component';
 import { RecentPostsComponent } from './main-page/home/recent-posts/recent-posts.component';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -25,8 +24,7 @@ import { MainPageComponent } from './main-page/main-page.component';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    CatalogComponent,
-    CardComponent,
+    NavbarComponent,
     UsersComponent,
     ResetPasswordComponent,
     PageNotFoundComponent,
