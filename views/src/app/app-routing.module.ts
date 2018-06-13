@@ -4,15 +4,11 @@ import { DefaultComponent } from './default/default.component';
 import { HomeComponent } from './home/home.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
-// import { HomeComponent } from './home/home.component';
-// import { CarsComponent } from './cars/cars.component';
-// import { CarComponent } from './cars/car/car.component';
-// import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { AuthGuard } from './auth.guard';
 
 const appRoutes: Routes = [
-   {path: '', component: DefaultComponent },
-   {path: 'home', component: HomeComponent },
+  {path: '', component: HomeComponent },
+   {path: 'login', component: DefaultComponent },
    {path: 'resetPassword/:id', component: ResetPasswordComponent},
 //   {path: 'cars', component: CarsComponent},
 //   {path: 'not-found', component: PageNotFoundComponent},

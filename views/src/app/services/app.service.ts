@@ -50,9 +50,10 @@ export class AppService {
   //   return this.http.get(`${this.api_url}/resetPassword/${uuid}`)
   //     .pipe(map(res  => res as any || ""));
   // }
-  navbar(): Observable<any[]>{
-    return this.http.get(`${this.api_url}/navbar`)
-      .pipe(map(res => res as any[] || []));
+  navbar(): any{
+    // return this.http.get(`${this.api_url}/navbar`)
+    //   .pipe(map(res => res as any[] || []));
+    return "";
   }
 
   get_catalog() {
