@@ -5,10 +5,11 @@ import { HomeComponent } from './home/home.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { AuthGuard } from './auth.guard';
+import { LoginComponent } from './login/login.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent },
-   {path: 'login', component: DefaultComponent },
+   {path: 'login', component: LoginComponent },
    {path: 'resetPassword/:id', component: ResetPasswordComponent},
 //   {path: 'cars', component: CarsComponent},
 //   {path: 'not-found', component: PageNotFoundComponent},

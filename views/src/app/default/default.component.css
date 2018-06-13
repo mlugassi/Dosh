@@ -1,17 +1,15 @@
 body {
-    background: url(/images/background_login1.jpg) no-repeat center;
-    background-size: cover;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    -ms-background-size: cover;
-    background-attachment: fixed;
-    font-family: 'Mukta Mahee', sans-serif;
+  background: url(/images/background_login1.jpg) no-repeat center;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -ms-background-size: cover;
+  background-attachment: fixed;
+  font-family: 'Mukta Mahee', sans-serif;
 }
 
-
-input:focus ~ .floating-label,
-input:not(:focus):valid ~ .floating-label{
+input:focus~.floating-label, input:not(:focus):valid~.floating-label {
   top: 8px;
   bottom: 10px;
   left: 20px;
@@ -31,4 +29,8 @@ input:not(:focus):valid ~ .floating-label{
   left: 20px;
   top: 18px;
   transition: 0.2s ease all;
+}
+
+a.kinda-link:hover {
+  cursor: pointer;
 }

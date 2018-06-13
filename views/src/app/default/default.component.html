@@ -29,7 +29,7 @@
               </div>
             </div>
             <small style="color:white">Email:</small>
-            <input type="text" name="email" required class="form-control" [(ngModel)]="email" placeholder="Your Email" />
+            <input type="email" name="email" required class="form-control" [(ngModel)]="email" placeholder="Your Email" />
             <div class="row">
               <div class="col-xs-6 col-md-6">
                 <small style="color:white">Password:</small>
@@ -184,7 +184,7 @@
             <div class="form-group">
               <div class="pull-right">
                 <span style="color:white"> Already have an account?</span>
-                <a href="#" data-toggle="modal" data-dismiss="modal" (click)="switch()">
+                <a class="kinda-link" (click)="switch()">
                   <span style="color:#01cd74"> Sign In Here</span>
                 </a>
               </div>
@@ -216,7 +216,7 @@
             <!-- /.checkbox -->
             <span class="psw">
               <span style="color:white"> Forgot </span>
-              <a href="#" data-toggle="modal" data-target="#resetPassword-modal" style="color:#01cd74">password?</a>>
+              <a class="kinda-link" data-toggle="modal" data-target="#resetPassword-modal" style="color:#01cd74">password?</a>>
             </span>
 
             <div class="modal-footer">
@@ -225,7 +225,7 @@
             <div class="form-group">
               <div class="pull-right">
                 <span style="color:white"> Don't have an account?</span>
-                <a href="#" (click)="switch()">
+                <a class="kinda-link" (click)="switch()">
                   <span style="color:#01cd74"> Sign Up Here</span>
                 </a>
               </div>

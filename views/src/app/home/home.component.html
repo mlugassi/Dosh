@@ -12,8 +12,7 @@
             <i class="fas fa-sign-out-alt"></i> Log out</a>
         </span>
         <span>
-          <a href="register.html">
-            <i class="far fa-user"></i> Register</a>
+          <a href="#" data-toggle="modal" data-target="#resetPassword-modal" style="color:#01cd74">password?</a>
         </span>
       </div>
       <div class="col-md-4 log-icons text-right">
@@ -46,6 +45,24 @@
       </div>
     </div>
   </div>
+</div>
+
+
+<div class="modal fade" id="resetPassword-modal" aria-hidden="true">
+  <div class="modal-dialog" style="background: white">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <div class="modal-body">
+      <form class="modal-content animate" (ngSubmit)="logout()" #resetForm="ngForm">
+        <div class="container">
+          <label for="mail">Enter Email for reset password</label>
+          <input type="email" name="emailToReset" class="form-control" placeholder="Email" required>
+        </div>
+        <br>
+        <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
+      </form>
+    </div>
+  </div>
+  <!-- /.modal-dialog -->
 </div>
 
 <div class="header_top" id="home">
@@ -95,5 +112,6 @@
     </div>
   </nav>
 </div>
+<app-users></app-users>
 <app-carousel></app-carousel>
 <app-recent-posts></app-recent-posts>
