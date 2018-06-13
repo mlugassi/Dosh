@@ -61,7 +61,7 @@ router.post('/upload', checksession, (req, res) => {
     });
 });
 
-router.get('/', checksession, function (req, res) {
+router.get('/users', checksession, function (req, res) {
     let name = req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
@@ -93,7 +93,6 @@ router.post('/user', checksession, function (req, res) {
         user.lastName = result.lastName;
         user.userName = result.userName;
         user.birthDay = result.birthDay;
-        console.log(user.birthDay);
         user.email = result.email;
         user.imgPath = result.imgPath;
         user.gender = result.gender;

@@ -17,10 +17,10 @@ export class HomeComponent implements OnInit {
     { link: "#", name: ' Login', class: "glyphicon glyphicon-log-in", modal: '#login-modal' },
     //{ link: "#", name:  ' Logout',  class: "glyphicon glyphicon-log-out", toggle:"collapse",modal: ''},
   ];
-  logoutShow=false;
+  logoutShow = false;
   userName = "";
   password = "";
- // @Input() nav: { link: string, name: string };
+  // @Input() nav: { link: string, name: string };
 
   constructor(private appService: AppService) {
   }
@@ -34,8 +34,8 @@ export class HomeComponent implements OnInit {
         //this.userName="Hello " + res[1][0].name;
         //this.logoutShow=true;
         //this.items2 = [
-         // { link: "#", name:  ' Edit',    class: "glyphicon glyphicon-cog", modal: '#edit-modal'},
-         // { link: "/login/logout", name:' Logout',  class: "glyphicon glyphicon-log-out", modal: ''},
+        // { link: "#", name:  ' Edit',    class: "glyphicon glyphicon-cog", modal: '#edit-modal'},
+        // { link: "/login/logout", name:' Logout',  class: "glyphicon glyphicon-log-out", modal: ''},
         //];
         /*.forEach(element => {
 
@@ -46,6 +46,8 @@ export class HomeComponent implements OnInit {
           })
         });*/
       })
+
+
   }
 
   // onAddItem(data: { navheader: NavHeader[] }) {
@@ -61,11 +63,11 @@ export class HomeComponent implements OnInit {
   //   ];
   // }
 
-  test(){
+  test() {
     alert("test ");
 
   }
-  logout(){
+  logout() {
     alert("logout ");
     localStorage.removeItem('DoshUserName');
     localStorage.removeItem('DoshPassword');
