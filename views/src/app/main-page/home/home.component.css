@@ -1,11 +1,12 @@
 body{
-    padding: 50px;
+    padding-top: 60px;
 }
 .modal-dialog {
     width: 300px;
 }
 .modal-footer {
-    height: 70px;
+    height: 70
+    px;
     margin: 0;
 }
 .modal-footer .btn {

@@ -1,0 +1,60 @@
+<div class="header_top" id="home">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light" style="position: fixed;top:0pt;width: 100%;z-index: 10000;">
+    <button class="navbar-toggler navbar-toggler-right mx-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <a class="navbar-brand logo" href="/">
+        <i class="fab fa-linode"></i> Blogular</a>
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Features
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="z-index: 9999">
+            <a class="dropdown-item" href="#"></a>
+            <a class="dropdown-item" href="blog1.html" style="z-index: 9999">Standard Blog</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="blog2.html" style="z-index: 9999">2 Column Blog</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="blog3.html" style="z-index: 9999">3 Column Blog</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/users">Users</a>
+        </li>
+      </ul>
+      <form action="#" method="post" class="form-inline my-2 my-lg-0 header-search">
+        <input class="form-control mr-sm-1" type="search" placeholder="Search here..." name="Search" required="">
+        <button class="btn btn1 my-2 my-sm-0" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown">
+          <a class="fas fa-users-cog" href="#" id="Dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          User</a>
+          <div class="dropdown-menu" aria-labelledby="Dropdown">
+            <a class="dropdown-item" href="#"></a>
+            <a class="dropdown-item" href="blog1.html">
+              <i class="fas fa-users-cog"></i>Properties</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/logout" (click)="logout()">
+              <i class="fas fa-sign-out-alt"></i> Log out</a>
+              <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="">
+              <i class="fas fa-sign-out-alt"></i> Inbox</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

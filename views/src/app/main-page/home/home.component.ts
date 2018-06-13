@@ -41,10 +41,4 @@ export class HomeComponent implements OnInit {
   //     { link: "#", name: ' Logout', class: "glyphicon glyphicon-log-out", modal: '#login-modal' ,click:"logout()"},
   //   ];
   // }
-
-  logout() {
-    localStorage.removeItem('DoshUserName');
-    localStorage.removeItem('DoshPassword');
-  }
-
 }
