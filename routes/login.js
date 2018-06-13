@@ -20,7 +20,7 @@ router.post('/', (req, res, next) => {
       if (err) { return next(err); }
       console.log("login to: " + user);
       User.findOneAndUpdate({ userName: user.userName }, { passwordKey: "" }, function (err, user) {
-        if (!err) { console.log("The passwordKey isn't reset") }
+        if (err || !user) { console.log("The passwordKey isn't reset") }
       });
       res.status(200).json({ status: "OK", message: "You loged in successfully." });
       //////////return res.status(200).json({ "status": "success" });
