@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , Injectable  } from '@angular/core';
 import { AppService } from '../services/app.service';
 
 @Component({
@@ -6,6 +6,7 @@ import { AppService } from '../services/app.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+@Injectable()
 export class HomeComponent implements OnInit {
   items1 = [
     { link: "index.html", name: 'Home' },
@@ -40,11 +41,4 @@ export class HomeComponent implements OnInit {
   //     { link: "#", name: ' Logout', class: "glyphicon glyphicon-log-out", modal: '#login-modal' ,click:"logout()"},
   //   ];
   // }
-
-  test() {
-    alert("test ");
-
-  }
-
-
 }

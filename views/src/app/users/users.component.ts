@@ -3,7 +3,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AppService } from '../services/app.service';
 import * as $ from 'jquery';
 import User from '../models/User'
-declare var $: any;
 
 @Component({
   selector: 'app-users',

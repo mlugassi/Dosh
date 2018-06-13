@@ -20,12 +20,20 @@ var mailOptions = {
   subject: 'Reset Password',
 };
 
+router.get('/check_session', function (req, res) {
+  let status = false;
+  if (req.session != undefined && req.session.passport != undefined && req.session.passport.user != undefined)
+    status = true;
+  res.status(200).json({
+    status: status
+  });
+});
+
 /* GET home page. */
-router.get('/',checksession, function (req, res) {
+router.get('/', checksession, function (req, res) {
   console.log("Get in root");
   res.sendfile('./views/dist/views/index.html');
 });
-
 router.get('/logout', async (req, res) => {
   console.log(req.session.passport.user + ' is logging out');
   req.session.regenerate(err => {
@@ -42,8 +50,12 @@ router.post('/getKey', async (req, res) => {
   console.log("I'm in post /getKey");
   var key = generateKey();
   //user.userName = req.body.userName;
-  User.findOneAndUpdate({ userName: req.body.userName }, { passwordKey: key }, function (err, user) {
-    if (!user) {//The user not exist-->before signup.
+  User.findOneAndUpdate({
+    userName: req.body.userName
+  }, {
+    passwordKey: key
+  }, function (err, user) {
+    if (!user) { //The user not exist-->before signup.
       var user1 = {};
       user1.userName = req.body.userName;
       user1.password = " ";
@@ -52,14 +64,22 @@ router.post('/getKey', async (req, res) => {
       User.create(user1, function (err, user2) {
         console.log("user2: " + user2);
         if (err)
-          return res.json({ status: "Fail", message: "User Name Alredy Exist!\nPlease choose other.", err: err });
+          return res.json({
+            status: "Fail",
+            message: "User Name Alredy Exist!\nPlease choose other.",
+            err: err
+          });
         else
-          return res.json({ status: "OK", key: key });
+          return res.json({
+            status: "OK",
+            key: key
+          });
       });
-    }
-    else {
+    } else {
       console.log("user: " + user);
-      return res.json({ key: key });
+      return res.json({
+        key: key
+      });
     }
   });
 });
@@ -67,22 +87,36 @@ router.get('/getKey/:UUID', async (req, res) => {
   console.log("I'm in get /getKey");
   var key = generateKey();
   //user.userName = req.body.userName;
-  await User.findOneAndUpdate({ uuid: req.params.UUID }, { passwordKey: key }, function (err, user) {
-    if (!user)//The user not exist.
-      return res.json({ key: key, message:"The UUID isn't exist!" });
+  await User.findOneAndUpdate({
+    uuid: req.params.UUID
+  }, {
+    passwordKey: key
+  }, function (err, user) {
+    if (!user) //The user not exist.
+      return res.json({
+        key: key,
+        message: "The UUID isn't exist!"
+      });
     else {
       console.log("user: " + user);
-      return res.json({ key: key });
+      return res.json({
+        key: key
+      });
     }
   });
 });
 
 router.post('/signup', async (req, res, next) => {
   console.log("In singup post");
-  User.findOne({ userName: req.body.userName }, function (err, myUser) {
+  User.findOne({
+    userName: req.body.userName
+  }, function (err, myUser) {
     if (err) throw err;
     if (myUser == null)
-      res.status(200).json({ status: "Fail", message: "You must get a key before." });
+      res.status(200).json({
+        status: "Fail",
+        message: "You must get a key before."
+      });
     else {
       var user = {};
       user.firstName = req.body.firstName || "";
@@ -101,10 +135,15 @@ router.post('/signup', async (req, res, next) => {
       user.inbox = req.body.inbox || [];
       user.uuid = "";
       user.passwordKey = "";
-      User.findOneAndUpdate({ userName: user.userName }, user, function (err, user) {
+      User.findOneAndUpdate({
+        userName: user.userName
+      }, user, function (err, user) {
         if (err) throw err;
         console.log('user created:' + user);
-        res.status(200).json({ status: "OK", message: "The user " + user.userName + " sucesseed to signup" });
+        res.status(200).json({
+          status: "OK",
+          message: "The user " + user.userName + " sucesseed to signup"
+        });
       });
     }
   });
@@ -112,11 +151,30 @@ router.post('/signup', async (req, res, next) => {
 
 router.get('/catalog', checksession, function (req, res, next) {
   console.log("Get to the catalog");
-  return res.json([
-    { imgPath: "http://placehold.it/500x325", title: "test title 1", subTitle: "test sub-title 1", btnContent: "test button content 1" },
-    { imgPath: "http://placehold.it/500x325", title: "test title 2", subTitle: "test sub-title 2", btnContent: "test button content 2" },
-    { imgPath: "http://placehold.it/500x325", title: "test title 3", subTitle: "test sub-title 3", btnContent: "test button content 3" },
-    { imgPath: "http://placehold.it/500x325", title: "test title 4", subTitle: "test sub-title 4", btnContent: "test button content 4" },
+  return res.json([{
+      imgPath: "http://placehold.it/500x325",
+      title: "test title 1",
+      subTitle: "test sub-title 1",
+      btnContent: "test button content 1"
+    },
+    {
+      imgPath: "http://placehold.it/500x325",
+      title: "test title 2",
+      subTitle: "test sub-title 2",
+      btnContent: "test button content 2"
+    },
+    {
+      imgPath: "http://placehold.it/500x325",
+      title: "test title 3",
+      subTitle: "test sub-title 3",
+      btnContent: "test button content 3"
+    },
+    {
+      imgPath: "http://placehold.it/500x325",
+      title: "test title 4",
+      subTitle: "test sub-title 4",
+      btnContent: "test button content 4"
+    },
   ]);
 
   //  res.redirect('/login');
@@ -124,14 +182,19 @@ router.get('/catalog', checksession, function (req, res, next) {
 
 router.post('/askToResetPassword', function (req, res) {
   console.log(req.body.email);
-  User.findOne({ email: req.body.email, isActive: true }, function (err, result) {
+  User.findOne({
+    email: req.body.email,
+    isActive: true
+  }, function (err, result) {
     if (err) throw err;
     if (result != null) {
       (async () => {
         result.uuid = create_UUID();
         //result.key=create_UUID();
         result.isResetReq = true;
-        User.findOneAndUpdate({ userName: result.userName }, result, function (err, result) {
+        User.findOneAndUpdate({
+          userName: result.userName
+        }, result, function (err, result) {
           if (err) throw err;
         })
         mailOptions.to = req.body.email;
@@ -141,13 +204,18 @@ router.post('/askToResetPassword', function (req, res) {
             console.log(error);
           } else {
             console.log('Email sent: ' + info.response);
-            res.status(200).json({ status: "OK", message: "An email will send you in few minutes." });
+            res.status(200).json({
+              status: "OK",
+              message: "An email will send you in few minutes."
+            });
           }
         });
       })();
-    }
-    else
-      res.status(200).json({ status: "Fail", message: "Email dosn\'t exist" });
+    } else
+      res.status(200).json({
+        status: "Fail",
+        message: "Email dosn\'t exist"
+      });
   });
 
 });
@@ -155,30 +223,45 @@ router.post('/askToResetPassword', function (req, res) {
 router.get('/resetPassword/:UUID', function (req, res) {
   console.log("in resetPassword with UUID");
   console.log(req.params.UUID);
-  User.findOne({ uuid: req.params.UUID, isActive: true }, function (err, result) {
+  User.findOne({
+    uuid: req.params.UUID,
+    isActive: true
+  }, function (err, result) {
     if (err)
       condole.log(err);
     if (result != null) {
       res.sendfile('./views/dist/views/index.html');
-    }
-    else {
-      res.redirect('/pageNotFound');//.json({status:"Fail"});
+    } else {
+      res.redirect('/pageNotFound'); //.json({status:"Fail"});
     }
   });
 });
 router.post('/doReset', function (req, res) {
-  User.findOne({ isResetReq: true, uuid: req.body.uuid }, function (err, result) {
+  User.findOne({
+    isResetReq: true,
+    uuid: req.body.uuid
+  }, function (err, result) {
     user = {};
     user.uuid = "";
     user.isResetReq = false;
     user.password = crypto.decrypt(req.body.password, result.passwordKey);
-    user.passwordKey="";
-    User.findOneAndUpdate({ isResetReq: true, uuid: req.body.uuid, isActive: true }, user, function (err, newUser) {
+    user.passwordKey = "";
+    User.findOneAndUpdate({
+      isResetReq: true,
+      uuid: req.body.uuid,
+      isActive: true
+    }, user, function (err, newUser) {
       if (err) console.log(err);
       if (newUser != null)
-        res.status(200).json({ status: "OK", message: "Your password chnged.\n please try to log in." });
+        res.status(200).json({
+          status: "OK",
+          message: "Your password chnged.\n please try to log in."
+        });
       else
-        res.status(200).json({ status: "OK", message: "Something went wrong..\nYour password isn,t changed." });
+        res.status(200).json({
+          status: "OK",
+          message: "Something went wrong..\nYour password isn,t changed."
+        });
     });
   });
 });

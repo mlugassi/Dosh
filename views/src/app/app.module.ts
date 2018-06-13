@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './auth.guard';
-import { AuthService } from './auth.service';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
@@ -14,7 +13,6 @@ import { AppService } from './services/app.service';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CardComponent } from './catalog/card/card.component';
 import { UsersComponent } from './users/users.component';
-import { DefaultComponent } from './default/default.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
@@ -30,7 +28,6 @@ import { NavbarComponent } from './navbar/navbar.component';
     CatalogComponent,
     CardComponent,
     UsersComponent,
-    DefaultComponent,
     ResetPasswordComponent,
     PageNotFoundComponent,
     FooterComponent,
@@ -45,7 +42,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     AppRoutingModule,
     NgbModule.forRoot()
   ],
-  providers: [AppService, AuthService, AuthGuard],
+  providers: [AppService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

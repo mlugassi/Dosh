@@ -1,6 +1,5 @@
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DefaultComponent } from './default/default.component';
 import { HomeComponent } from './home/home.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
@@ -12,7 +11,7 @@ import { RecentPostsComponent } from './home/recent-posts/recent-posts.component
 
 const appRoutes: Routes = [
   {
-    path: '', component: HomeComponent, children: [
+    path: '', component: HomeComponent, canActivate: [AuthGuard], children: [
       { path: "", component: CarouselComponent },
       { path: "users", component: UsersComponent },
     ]

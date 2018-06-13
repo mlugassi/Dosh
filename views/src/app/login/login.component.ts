@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
 import { AppService } from '../services/app.service';
+
 import User from '../models/User';
 import * as crypto from '../../../../node_modules/crypto-js';
 import * as md5 from '../../../../node_modules/md5';
@@ -59,9 +59,6 @@ export class LoginComponent implements OnInit {
           this.appService.login(new User(this.loginUserName, encryptedPassword))
             .subscribe(res => {
               if (res.status == "OK") {
-
-                alert(this.authGuard.login());
-                //alert(res.status);
                 if (this.rememME)
                   this.rememberMe();
                 this.router.navigate(['/']);
