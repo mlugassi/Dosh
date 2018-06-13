@@ -126,6 +126,7 @@ router.post('/update', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
+
         if (result == null && !result.isAdmin) return status(200).json('{"status":"Fail" }');
         let user = {};
         if (req.body == undefined || !checkUserValues(req.body)) return res.status(200).json('{"status":"Fail" }');
@@ -137,9 +138,11 @@ router.post('/update', checksession, function (req, res) {
         user.email = req.body.email;
         user.gender = req.body.gender;
         user.isActive = req.body.isActive;
+        user.isAdmin = req.body.isAdmin;
         user.isBlogger = req.body.isBlogger;
         user.birthDay = new Date(req.body.birthDay || "");
         user.inbox = req.body.inbox || [];
+
         User.findOneAndUpdate({
             userName: user.userName,
             isActive: true

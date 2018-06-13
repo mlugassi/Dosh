@@ -21,18 +21,22 @@
       <td colspan="1" class="align-middle" *ngIf="user.isBlogger && !user.isAdmin"> Blogger</td>
       <td colspan="1" class="align-middle" *ngIf="!user.isBlogger && !user.isAdmin"></td>
       <td colspan="1">
-        <a href="#" class="btn btn-primary fa fa-edit pull-right" style="margin: 2px" (click)="openModal(user.userName)" data-toggle="modal"
-          data-target="#myModal"></a>
-        <a href="#" class="btn btn-danger fa fa-trash pull-right" style="margin: 2px" (click)="deleteUser(user.userName)"></a>
+        <button class="btn btn-primary fa fa-edit pull-right" style="margin: 2px" (click)="openModal(user.userName, myModal)"></button>
+        <button class="btn btn-danger fa fa-trash pull-right" style="margin: 2px" (click)="deleteUser(user.userName)"></button>
       </td>
       <tr>
   </tbody>
 </table>
 <div class="container">
   <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+  <ng-template #myModal let-c="close" let-d="dismiss">
       <form ngNativeValidate class="modal-content" (submit)="updateUser()" action="javascript:void(0);" style="width: 100%;">
+        <div class="modal-header">
+          <h4 class="modal-title">Profile update</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <div class="modal-header">
           <div class="row">
             <div class="col-xs-6 col-md-6">
@@ -246,8 +250,7 @@
         <div class="modal-footer">
           <button type="submit" class="btn btn-success" style="width: 100%">Update</button>
         </div>
-
       </form>
-    </div>
-  </div>
+  </ng-template>
+
 </div>
