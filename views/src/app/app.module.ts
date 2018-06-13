@@ -13,7 +13,6 @@ import { AppService } from './services/app.service';
 import { CatalogComponent } from './catalog/catalog.component';
 import { CardComponent } from './catalog/card/card.component';
 import { UsersComponent } from './users/users.component';
-import { DefaultComponent } from './default/default.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
@@ -28,7 +27,6 @@ import { RecentPostsComponent } from './home/recent-posts/recent-posts.component
     CatalogComponent,
     CardComponent,
     UsersComponent,
-    DefaultComponent,
     ResetPasswordComponent,
     PageNotFoundComponent,
     FooterComponent,
