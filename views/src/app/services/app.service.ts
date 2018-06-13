@@ -79,10 +79,30 @@ export class AppService {
   upload_Image(formdata: any) {
     return this.http.post<string>(`${this.api_url}/users/upload`, formdata);
   }
-  get_blogs() {
-    return this.http.get(`${this.api_url}/blogs/blogs`)
+
+  /* BLOGS REST */
+  get_all_blogs() {
+    return this.http.get(`${this.api_url}/blogs/all_blogs`)
       .pipe(map(res => res as Blog[] || []));
   }
+  get_my_blogs() {
+    return this.http.get(`${this.api_url}/blogs/my_blogs`)
+      .pipe(map(res => res as Blog[] || []));
+  }
+  get_favorite_blogs() {
+    return this.http.get(`${this.api_url}/blogs/favorite_blogs`)
+      .pipe(map(res => res as Blog[] || []));
+  }
+  get_recent_posts() {
+    return this.http.get(`${this.api_url}/blogs/recent_posts`)
+      .pipe(map(res => res as Blog[] || []));
+  }
+  get_all_blogs_but_mine() {
+    return this.http.get(`${this.api_url}/blogs/all_blogs_but_mine`)
+      .pipe(map(res => res as Blog[] || []));
+  }
+
+/*END BLOGS REST */
   delete_user(userName: String) {
     return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
   }
