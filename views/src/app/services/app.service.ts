@@ -88,4 +88,8 @@ export class AppService {
   update_user(user: User) {
     return this.http.post<string>(`${this.api_url}/users/update`, user);
   }
+  get_inbox() {
+    return this.http.get(`${this.api_url}/inbox/inbox`)
+      .pipe(map(res => res as any[] || []));
+  }
 }
