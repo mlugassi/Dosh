@@ -6,23 +6,23 @@
         <div class="blog-grid-top">
           <div class="b-grid-top">
             <div class="blog_info_left_grid">
-              <a href="single.html">
-                <img *ngIf="recentBlogs && recentBlogs[0]" src="{{recentBlogs[0].imgPath}}" class="img-fluid" alt="">
+              <a href="blog/{{mostRecetBlog.id}}">
+                <img *ngIf="mostRecetBlog" src="{{mostRecetBlog.imgPath}}" class="img-fluid" alt="">
               </a>
             </div>
             <div class="blog-info-middle">
               <ul>
                 <li>
                   <a href="#">
-                    <i class="far fa-calendar-alt"></i> FEB 15,2018</a>
+                    <i class="far fa-calendar-alt"></i> {{mostRecetBlog.dateString}}</a>
                 </li>
                 <li class="mx-2">
                   <a href="#">
-                    <i class="far fa-thumbs-up"></i> 201 Likes</a>
+                    <i class="far fa-thumbs-up"></i> {{mostRecetBlog.likes}} Likes</a>
                 </li>
                 <li>
                   <a href="#">
-                    <i class="far fa-comment"></i> 15 Comments</a>
+                    <i class="far fa-comment"></i> {{mostRecetBlog.comments}} Comments</a>
                 </li>
 
               </ul>
@@ -30,12 +30,10 @@
           </div>
 
           <h3>
-            <a href="single.html">Amet consectetur adipisicing </a>
+            <a href="blog/{{mostRecetBlog.id}}">{{mostRecetBlog.title}} </a>
           </h3>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit sedc dnmo eiusmod tempor incididunt ut labore et dolore
-            magna aliqua uta enim ad minim ven iam quis nostrud exercitation ullamco labor nisi ut aliquip exea commodo consequat
-            duis aute irudre dolor in elit sed uta labore dolore reprehender</p>
-          <a href="single.html" class="btn btn-primary read-m">Read More</a>
+          <p>{{mostRecetBlog.subTitle}}</p>
+          <a href="blog/{{mostRecetBlog.id}}" class="btn btn-primary read-m">Read More</a>
         </div>
         <!--//silder-->
 
@@ -49,18 +47,18 @@
           <div *ngFor="let blog of recentBlogs; let first = first;">
             <div *ngIf="!first" class="blog-grids row mb-3">
               <div class="col-md-5 blog-grid-left">
-                <a href="single.html">
+                <a href="blogs/{{blog.id}}">
                   <img src="{{blog.imgPath}}" class="img-fluid" alt="">
                 </a>
               </div>
               <div class="col-md-7 blog-grid-right">
 
                 <h5>
-                  <a href="single.html">Pellentesque dui, non felis. Maecenas male non felis </a>
+                  <a href="blogs/{{blog.id}}">{{blog.title}} </a>
                 </h5>
                 <div class="sub-meta">
                   <span>
-                    <i class="far fa-clock"></i> 20 Jan, 2018</span>
+                    <i class="far fa-clock"></i> {{blog.created_at}}</span>
                 </div>
               </div>
 

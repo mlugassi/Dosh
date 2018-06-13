@@ -9,13 +9,13 @@ import Blog from '../../../models/Blog';
 })
 export class CarouselComponent implements OnInit {
 
-  blogs: Blog[];
+  favoriteBlogs: Blog[];
 
   constructor(private appService: AppService) { }
 
   ngOnInit() {
-    this.appService.get_blogs().subscribe(res => {
-      this.blogs = res;
+    this.appService.get_favorite_blogs().subscribe(res => {
+      this.favoriteBlogs = res;
     }
     )
   }
