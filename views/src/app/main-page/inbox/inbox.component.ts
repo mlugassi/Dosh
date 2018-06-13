@@ -16,14 +16,11 @@ export class InboxComponent implements OnInit {
       .subscribe(res => {
         alert(res.inbox[0].title);
         this.inbox = res.inbox;
+
+
+        for (let index = 0; index < 2; index++) {
+          this.inbox[index].date = this.inbox[index].date.substring(11, 16);
+        };
       });
-    (this.inbox).forEach(element => {
-      if (element.date.getDay() == new Date().getDay())
-        element.toStringDate = element.date.getHours() + ":" + element.date.getMinutes();
-      else
-        element.toStringDate = element.date.getDay().toString();
-
-    });
   }
-
 }
