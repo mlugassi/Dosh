@@ -4,19 +4,19 @@
       <div class="inbox-body">
         <table class="table table-inbox table-hover">
           <tbody>
-            <tr class="unread">
+            <tr class="unread" *ngFor="let in of inbox">
               <td class="inbox-small-cells">
                 <input type="checkbox" class="mail-checkbox">
               </td>
               <td class="inbox-small-cells">
                 <i class="fa fa-star"></i>
               </td>
-              <td class="view-message  dont-show">PHPClass</td>
-              <td class="view-message ">Added a new class: Login Class Fast Site</td>
+              <td class="view-message  dont-show">{{in.title}}</td>
+              <td class="view-message ">{{in.content}}</td>
               <td class="view-message  inbox-small-cells">
                 <i class="fa fa-paperclip"></i>
               </td>
-              <td class="view-message  text-right">9:27 AM</td>
+              <td class="view-message  text-right">{{in.toStringDate}}</td>
             </tr>
             <tr class="unread">
               <td class="inbox-small-cells">

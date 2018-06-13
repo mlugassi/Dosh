@@ -1,3 +1,5 @@
+import Inbox from "./Inbox";
+
 export default class User {
   firstName: String;
   lastName: String;
@@ -7,7 +9,7 @@ export default class User {
   gender: String;
   imgPath: String;
   blogs: Number;
-  inbox: any;
+  inbox: Inbox[];
   isAdmin: Boolean;
   isBlogger: Boolean;
   isActive: Boolean;

@@ -1,5 +1,4 @@
 import NavHeader from '../models/NavHeader';
-import Card from '../models/Card';
 // import CardComponent from '../catalog/card/card.component';
 import User from '../models/User';
 import Blog from '../models/Blog';
@@ -7,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import Inbox from '../models/Blog';
+import Inbox from '../models/Inbox';
 
 
 @Injectable({
@@ -61,11 +60,6 @@ export class AppService {
     return "";
   }
 
-  get_catalog() {
-    return this.http.get(`${this.api_url}/catalog`)
-      .pipe(map(res => res as Card[] || []));
-  }
-
   get_users() {
     return this.http.get(`${this.api_url}/users/users`)
       .pipe(map(res => res as User[] || []));
@@ -109,8 +103,8 @@ export class AppService {
   update_user(user: User) {
     return this.http.post<string>(`${this.api_url}/users/update`, user);
   }
-  get_inbox(){
+  get_inbox() {
     return this.http.get(`${this.api_url}/inbox/inbox`)
-      .pipe(map(res => res.inbox as Inbox[] || []));
+      .pipe(map(res => res as User|| new User("s","")));
   }
 }

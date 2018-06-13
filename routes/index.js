@@ -50,7 +50,7 @@ router.get('/inbox/inbox', checksession, function (req, res) {
     (user.inbox).forEach(element => {
       console.log(element);
     });
-    return res.json({inbox: user.inbox});
+    return res.json({user: user});
   })
 });
 
