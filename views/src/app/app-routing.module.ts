@@ -8,6 +8,7 @@ import { AuthGuard } from './auth.guard';
 import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './main-page/users/users.component';
 import { InboxComponent } from './main-page/inbox/inbox.component';
+import { BlogsComponent } from './main-page/blogs/blogs.component';
 
 const appRoutes: Routes = [
   {
@@ -18,6 +19,7 @@ const appRoutes: Routes = [
     ]
   },
   { path: 'login', component: LoginComponent },
+  { path: 'blogs', component: BlogsComponent },
   { path: 'users', component: UsersComponent },
   { path: 'resetPassword/:id', component: ResetPasswordComponent },
   //   {path: 'cars', component: CarsComponent},

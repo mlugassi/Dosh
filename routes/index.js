@@ -28,9 +28,9 @@ router.get('/check_session', function (req, res) {
     status: status
   });
 });
-// User.findOneAndUpdate({userName:"refaelz1"},{inbox:[
-//   {title:"Ask blogger",content:"dfsdfsdf",sender:"sapirz1",date: Date(),isRead:false},
-//   {title:"Ask admin",content:"dfsdfsdf",sender:"shilatz1",date: Date(),isRead:false}]},
+// User.findOneAndUpdate({userName:"orian"},{inbox:[
+//   {title:"Ask blogger",content:"dfsdfsdf",sender:"mlugassi",date: Date(),isRead:false},
+//   {title:"Ask admin",content:"dfsdfsdf",sender:"mlugassi",date: Date(),isRead:false}]},
 //   function(err,user){
 //   console.log(err);
 //   console.log(user);
@@ -47,10 +47,7 @@ router.get('/inbox', checksession, function (req, res) {
 router.get('/inbox/inbox', checksession, function (req, res) {
   console.log("i'm in inbox/inbox")
   User.findOne({userName:req.session.passport.user}, function(err,user){
-    (user.inbox).forEach(element => {
-      console.log(element);
-    });
-    return res.json({user: user});
+    return res.json(user.inbox);
   })
 });
 
