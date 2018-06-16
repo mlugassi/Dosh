@@ -1,22 +1,68 @@
-<div class="row">
-  <div class="col-xs-2 col-md-2">
-    <div class="sidenav">
-        <button class="accordion">Section 1</button>
-        <div class="panel">
-          <p>Lorem ipsum...</p>
+<div class="sidenav bg-light">
+  <button type="button" class="accordion" data-toggle="collapse" data-target="#myBlogsAcc">My Blogs</button>
+  <div id="myBlogsAcc" class="collapse">
+    <div *ngFor="let blog of myBlogs">
+      <div class="card">
+        <div class="row">
+          <div class="col-md-3 blog-grid-left">
+            <a href="blogs/{{blog.id}}">
+              <img src="{{blog.imgPath}}" class="img-fluid" alt="">
+            </a>
+          </div>
+          <div class="col-md-9">
+            <div class="card-block">
+              <h4 class="card-title">{{blog.title}}</h4>
+              <p class="card-text">
+                <div class="sub-meta">
+                  <span>
+                    <i class="far fa-clock"></i> {{blog.created_at}}</span>
+                </div>
+            </div>
+          </div>
         </div>
-    
-        <button class="accordion">Section 2</button>
-        <div class="panel">
-          <p>Lorem ipsum...</p>
-        </div>
-    
-        <button class="accordion">Section 3</button>
-        <div class="panel">
-          <p>Lorem ipsum...</p>
-        </div>
+      </div>
     </div>
+
   </div>
-  <div class="col-xs-10 col-md-10">
-  </div>
+  <button type="button" class="accordion" data-toggle="collapse" data-target="#blogsAcc">Blogs</button>
+  <div id="blogsAcc" class="collapse">
+      <div *ngFor="let blog of allBlogs">
+          <div class="card">
+            <div class="row">
+              <div class="col-md-3 blog-grid-left">
+                <a href="blogs/{{blog.id}}">
+                  <img src="{{blog.imgPath}}" class="img-fluid" alt="">
+                </a>
+              </div>
+              <div class="col-md-9">
+                <div class="card-block">
+                  <h4 class="card-title">{{blog.title}}</h4>
+                  <p class="card-text">
+                    <div class="sub-meta">
+                      <span>
+                        <i class="far fa-clock"></i> {{blog.created_at}}</span>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>  </div>
+</div>
+
+<div class="main">
+  <h2>Sidebar</h2>
+  <p>This sidebar is of full height (100%) and always shown.</p>
+  <p>Scroll down the page to see the result.</p>
+  <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum,
+    altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et.
+    Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+  <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum,
+    altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et.
+    Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+  <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum,
+    altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et.
+    Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
+  <p>Some text to enable scrolling.. Lorem ipsum dolor sit amet, illum definitiones no quo, maluisset concludaturque et eum,
+    altera fabulas ut quo. Atqui causae gloriatur ius te, id agam omnis evertitur eum. Affert laboramus repudiandae nec et.
+    Inciderint efficiantur his ad. Eum no molestiae voluptatibus.</p>
 </div>
