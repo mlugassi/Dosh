@@ -14,13 +14,20 @@ export class InboxComponent implements OnInit {
   ngOnInit() {
     this.appService.get_inbox()
       .subscribe(res => {
-        alert(res.inbox[0].title);
-        this.inbox = res.inbox;
+        this.inbox = res;
 
 
         for (let index = 0; index < 2; index++) {
           this.inbox[index].date = this.inbox[index].date.substring(11, 16);
+          this.inbox[index].id = "Stam" + index.toString();
+          this.inbox[index].id2 = "#" + this.inbox[index].id
         };
       });
+  }
+  confirm(id) {
+    alert("confirm" + id);
+  }
+  reject(id) {
+    alert("reject" + id);
   }
 }

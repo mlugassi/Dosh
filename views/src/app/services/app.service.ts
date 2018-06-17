@@ -105,6 +105,6 @@ export class AppService {
   }
   get_inbox() {
     return this.http.get(`${this.api_url}/inbox/inbox`)
-      .pipe(map(res => res as User|| new User("s","")));
+      .pipe(map(res => res as Inbox[] || []));
   }
 }

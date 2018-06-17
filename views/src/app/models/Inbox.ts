@@ -4,6 +4,8 @@ export default class Inbox {
   sender: String;
   date: String;
   isRead: boolean;
+  id: String;
+  id2: String;
 
   constructor() { }
 }

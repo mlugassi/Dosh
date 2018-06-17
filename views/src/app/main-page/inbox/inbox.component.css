@@ -363,4 +363,11 @@ ul {
     padding: 0px;
     margin: 0px;
 }
- 
+.table tr {
+    cursor: pointer;
+}
+.hiddenRow {
+    padding: 0 4px !important;
+    background-color: #eeeeee;
+    font-size: 13px;
+}
