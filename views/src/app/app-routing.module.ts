@@ -9,12 +9,13 @@ import { LoginComponent } from './login/login.component';
 import { UsersComponent } from './main-page/users/users.component';
 import { InboxComponent } from './main-page/inbox/inbox.component';
 import { BlogsComponent } from './main-page/blogs/blogs.component';
+import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
 
 const appRoutes: Routes = [
   {
-    path: '', component: MainPageComponent , canActivate: [AuthGuard], children: [
+    path: '', component: MainPageComponent, canActivate: [AuthGuard], children: [
       { path: "", component: HomeComponent },
-      { path: 'blogs', component: BlogsComponent },
+      { path: 'blogs', component: BlogPageComponent },
       { path: "users", component: UsersComponent },
       { path: "inbox", component: InboxComponent },
     ]
