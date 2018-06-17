@@ -19,6 +19,7 @@ import { CarouselComponent } from './main-page/home/carousel/carousel.component'
 import { RecentPostsComponent } from './main-page/home/recent-posts/recent-posts.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { InboxComponent } from './main-page/inbox/inbox.component';
+import { BlogsComponent } from './main-page/blogs/blogs.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { InboxComponent } from './main-page/inbox/inbox.component';
     CarouselComponent,
     RecentPostsComponent,
     MainPageComponent,
-    InboxComponent
+    InboxComponent,
+    BlogsComponent
     ],
   imports: [
     BrowserModule,

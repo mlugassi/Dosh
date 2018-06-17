@@ -18,6 +18,30 @@ router.get('/all_blogs', checksession, function (req, res) {
     });
 });
 
+router.get('/my_blogs', checksession, function (req, res) {
+    Blog.find({
+        author: req.session.passport.user,
+        isActive: true
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null) return res.json();
+        res.json(result);
+    });
+});
+
+router.get('/all_blogs_but_mine', checksession, function (req, res) {
+    Blog.find({
+        author: {
+            $ne: req.session.passport.user
+        },
+        isActive: true
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null) return res.json();
+        res.json(result);
+    });
+});
+
 router.get('/favorite_blogs', checksession, function (req, res) {
     (async () => {
         Blog.find({
@@ -38,7 +62,7 @@ router.get('/recent_posts', checksession, function (req, res) {
         Blog.find({
             isActive: true
         }).sort({
-            created_at : -1
+            created_at: -1
         }).limit(7).exec(
             function (err, result) {
                 if (err) throw err;
