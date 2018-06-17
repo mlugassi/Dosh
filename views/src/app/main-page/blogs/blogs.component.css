@@ -1,4 +1,4 @@
-.sidenav {
+/* .sidenav {
   height: 100%;
   width: 20%;
   position: fixed;
@@ -11,19 +11,20 @@
 }
 
 .main {
-  margin-left: 20%; /* Same as the width of the sidenav */
+  margin-left: 20%; 
   padding: 0px 10px;
 }
 
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
-}
+} */
 
 .accordion {
-	background: #01cd74;
-	color: #fff;
+  background-color: #ccc;
+  color: #fff;
   cursor: pointer;
   padding: 18px;
+  margin-bottom: 10px;
   width: 100%;
   border: none;
   text-align: left;
@@ -32,7 +33,12 @@
   transition: 0.4s;
 }
 
-.active, .accordion:hover {
-  background-color: #ccc;
-  color: #444;
+.active {
+  background-color: #01cd74;
+  color: #fff;
+}
+
+.accordion:hover {
+  background-color: #01cd74;
+  color: #fff;
 }
