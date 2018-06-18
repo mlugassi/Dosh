@@ -104,7 +104,23 @@ export class AppService {
     return this.http.post<string>(`${this.api_url}/users/update`, user);
   }
   get_inbox() {
-    return this.http.get(`${this.api_url}/inbox/inbox`)
+    return this.http.get(`${this.api_url}/inbox/gatAll`)
       .pipe(map(res => res as Inbox[] || []));
+  }
+  readInbox(inbox: String){
+    return this.http.post(`${this.api_url}/inbox/readInbox`, { inboxId: inbox })
+    .pipe(map(res => res as any || ""));
+  }
+  unreadInbox(inbox: String){
+    return this.http.post(`${this.api_url}/inbox/unreadInbox`, { inboxId: inbox })
+    .pipe(map(res => res as any || ""));
+  }
+  confirmInbox(inbox: String){
+    return this.http.post(`${this.api_url}/inbox/confirmInbox`, { inboxId: inbox })
+    .pipe(map(res => res as any || ""));
+  }
+  rejectInbox(inbox: String){
+    return this.http.post(`${this.api_url}/inbox/rejectInbox`, { inboxId: inbox })
+    .pipe(map(res => res as any || ""));
   }
 }

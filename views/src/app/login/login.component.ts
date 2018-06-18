@@ -33,6 +33,9 @@ export class LoginComponent implements OnInit {
   emailToReset;
   MyKey;
   showPage = false;
+  isBlogger=false;
+  isAdmin=false;
+
   // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard) { }
 
@@ -79,7 +82,7 @@ export class LoginComponent implements OnInit {
           var encryptedPassword = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
           this.birthDay = this.year + "-" + this.month + "-" + this.day;
           this.appService.signup(new User(this.userName, encryptedPassword,
-            this.firstName, this.lastName, this.email, this.gender, this.birthDay))
+            this.firstName, this.lastName, this.email, this.gender, this.birthDay,this.isBlogger,this.isAdmin))
             .subscribe(res => {
               alert(res.message);
               if (res.status == "OK")
@@ -103,6 +106,9 @@ export class LoginComponent implements OnInit {
   }
   switch() { this.hide = !this.hide; }
   switchRememberMe() { this.rememME = !this.rememME; }
+  switchBlogger() { this.isBlogger = !this.isBlogger; }
+  switchAdmin() { this.isAdmin = !this.isAdmin; }
+
 
   rememberMe() {
     localStorage.setItem('DoshUserName', this.loginUserName);

@@ -20,6 +20,7 @@ var app = express();
 let index = require('./routes/index');
 let users = require('./routes/users');
 let blogs = require('./routes/blogs');
+let inbox = require('./routes/inbox');
 let login = require('./routes/login'); // it will be our controller for logging in/out
 //let flowers = require('./routes/flowers');
 
@@ -118,6 +119,7 @@ let login = require('./routes/login'); // it will be our controller for logging 
   app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
   app.use('/users', users);
   app.use('/blogs', blogs);
+  app.use('/inbox', inbox);
   app.use('/login', login); // register login controller
   app.use('/', index);
   // catch 404 and forward to error handler
