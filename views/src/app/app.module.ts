@@ -21,6 +21,7 @@ import { MainPageComponent } from './main-page/main-page.component';
 import { InboxComponent } from './main-page/inbox/inbox.component';
 import { BlogsComponent } from './main-page/blogs/blogs.component';
 import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
+import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-content.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
     MainPageComponent,
     InboxComponent,
     BlogsComponent,
-    BlogPageComponent
+    BlogPageComponent,
+    BlogContentComponent
     ],
   imports: [
     BrowserModule,

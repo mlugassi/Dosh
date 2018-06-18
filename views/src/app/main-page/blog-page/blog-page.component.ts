@@ -9,25 +9,28 @@ import Blog from '../../models/Blog';
 })
 export class BlogPageComponent implements OnInit {
 
-  blogs: { blog: Blog, comments: number }[];
+  myBlogs: Blog[];
+  allBlogs: Blog[];
 
   constructor(private appService: AppService) { }
 
   ngOnInit() {
-    this.appService.get_all_blogs().subscribe(res => {
-      this.blogs = [];
+    this.appService.get_my_blogs().subscribe(res => {
+      this.myBlogs = [];
       res.forEach(blog => {
-        let item: { blog: Blog, comments: number };
-        item.blog.created_at = this.setDateString(blog.created_at);
-        item.comments = 0;
-        blog.comments.forEach(blog => {
-          item.comments = item.comments + 1;
-        })
-        this.blogs.push(item);
+        blog.created_at = this.setDateString(blog.created_at);
+        this.myBlogs.push(blog);
+      })
+    });
+
+    this.appService.get_all_blogs_but_mine().subscribe(res => {
+      this.allBlogs = [];
+      res.forEach(blog => {
+        blog.created_at = this.setDateString(blog.created_at);
+        this.allBlogs.push(blog);
       });
     });
   }
-
 
   setDateString(date) {
     let day = date.substr(8, 2);

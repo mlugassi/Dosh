@@ -15,7 +15,11 @@ const appRoutes: Routes = [
   {
     path: '', component: MainPageComponent, canActivate: [AuthGuard], children: [
       { path: "", component: HomeComponent },
-      { path: 'blogs', component: BlogPageComponent },
+      {
+        path: 'blogs', component: BlogsComponent, children: [
+          { path: ":id", component: BlogPageComponent }
+        ]
+      },
       { path: "users", component: UsersComponent },
       { path: "inbox", component: InboxComponent },
     ]

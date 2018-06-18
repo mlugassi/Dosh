@@ -95,6 +95,10 @@ export class AppService {
     return this.http.get(`${this.api_url}/blogs/all_blogs_but_mine`)
       .pipe(map(res => res as Blog[] || []));
   }
+  get_blog(blogId){
+    return this.http.post(`${this.api_url}/blogs/blog`,blogId)
+    .pipe(map(res => res as Blog));
+  }
 
 /*END BLOGS REST */
   delete_user(userName: String) {

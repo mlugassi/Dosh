@@ -1,39 +1,36 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from '../../services/app.service';
-import Blog from '../../models/Blog';
+import { ActivatedRoute } from '@angular/router';
+import { AppService } from '../../../services/app.service';
+import Blog from '../../../models/Blog';
 
 @Component({
-  selector: 'app-blogs',
-  templateUrl: './blogs.component.html',
-  styleUrls: ['./blogs.component.css']
+  selector: 'app-blog-content',
+  templateUrl: './blog-content.component.html',
+  styleUrls: ['./blog-content.component.css']
 })
-export class BlogsComponent implements OnInit {
+export class BlogContentComponent implements OnInit {
 
-  blogs: { blog: Blog, comments: number }[];
+  currentBlog: Blog;
 
-  constructor(private appService: AppService) { }
-  
+  constructor(private activatedRoute: ActivatedRoute, private appService: AppService) { }
+
   ngOnInit() {
-    this.appService.get_all_blogs().subscribe(res => {
-      this.blogs = [];
-      res.forEach(blog => {
-        let item: { blog: Blog, comments: number };
-        item.blog.created_at = this.setDateString(blog.created_at);
-        item.comments = 0;
-        blog.comments.forEach(blog => {
-          item.comments = item.comments + 1;
-        })
-        this.blogs.push(item);
+    this.activatedRoute
+      .params
+      .subscribe(params => {
+        let blogId = params['id'] || '';
+        this.appService.get_blog(blogId).subscribe(res => {
+          this.currentBlog = res;
+          this.currentBlog.created_at = this.setDateString(this.currentBlog.created_at);
+
+        });
       });
-    });
   }
-  
-  
   setDateString(date) {
     let day = date.substr(8, 2);
     let month = date.substr(5, 2);
     let year = date.substr(0, 4);
-  
+
     switch (month) {
       case "01": {
         month = "JAN";
@@ -86,4 +83,5 @@ export class BlogsComponent implements OnInit {
     }
     return day + " " + month + ", " + year;
   }
+
 }
