@@ -20,6 +20,7 @@ import { RecentPostsComponent } from './main-page/home/recent-posts/recent-posts
 import { MainPageComponent } from './main-page/main-page.component';
 import { InboxComponent } from './main-page/inbox/inbox.component';
 import { BlogsComponent } from './main-page/blogs/blogs.component';
+import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { BlogsComponent } from './main-page/blogs/blogs.component';
     RecentPostsComponent,
     MainPageComponent,
     InboxComponent,
-    BlogsComponent
+    BlogsComponent,
+    BlogPageComponent
     ],
   imports: [
     BrowserModule,
