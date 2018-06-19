@@ -1,11 +1,15 @@
 export default class Inbox {
-  title: String;
-  content: String;
-  sender: String;
-  date: String;
+  _id: string;
+  title: string;
+  content: string;
+  sender: string;
+  date: string;
   isRead: boolean;
-  id: String;
-  id2: String;
+  isConfirm: boolean;
+  id: string;
+  class: string;
+  isChecked: boolean;
+  index:number;
 
   constructor() { }
 }

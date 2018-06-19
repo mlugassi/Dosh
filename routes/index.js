@@ -28,27 +28,18 @@ router.get('/check_session', function (req, res) {
     status: status
   });
 });
-// User.findOneAndUpdate({userName:"orian"},{inbox:[
-//   {title:"Ask blogger",content:"dfsdfsdf",sender:"mlugassi",date: Date(),isRead:false},
-//   {title:"Ask admin",content:"dfsdfsdf",sender:"mlugassi",date: Date(),isRead:false}]},
+// User.findOneAndUpdate({userName:"refaelz1"},{inbox:[
+//   {title:"Ask blogger",content:"stam1",sender:"sapirz1",date: Date(),isRead:false},
+//   {title:"Ask admin",content:"stam1",sender:"shilatz1",date: Date(),isRead:false},
+//   {title:"Ask admin2",content:"stam2",sender:"shilatz1",date: Date(),isRead:false},
+//   {title:"Ask blogger2",content:"stam2",sender:"sapirz1",date: Date(),isRead:false},
+//   {title:"Ask blogger3",content:"stam3",sender:"sapirz1",date: Date(),isRead:false},
+//   {title:"Ask admin3",content:"stam3",sender:"shilatz1",date: Date(),isRead:false}]},
 //   function(err,user){
-//   console.log(err);
-//   console.log(user);
 // });
 /* GET home page. */
 router.get('/', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');
-});
-
-router.get('/inbox', checksession, function (req, res) {
-  res.sendfile('./views/dist/views/index.html');
-});
-
-router.get('/inbox/inbox', checksession, function (req, res) {
-  console.log("i'm in inbox/inbox")
-  User.findOne({userName:req.session.passport.user}, function(err,user){
-    return res.json(user.inbox);
-  })
 });
 
 router.get('/logout', async (req, res) => {
@@ -70,35 +61,35 @@ router.post('/getKey', async (req, res) => {
   User.findOneAndUpdate({
     userName: req.body.userName
   }, {
-    passwordKey: key
-  }, function (err, user) {
-    if (!user) { //The user not exist-->before signup.
-      var user1 = {};
-      user1.userName = req.body.userName;
-      user1.password = " ";
-      user1.passwordKey = key;
-      console.log("user1: " + user1);
-      User.create(user1, function (err, user2) {
-        console.log("user2: " + user2);
-        if (err)
-          return res.json({
-            status: "Fail",
-            message: "User Name Alredy Exist!\nPlease choose other.",
-            err: err
-          });
-        else
-          return res.json({
-            status: "OK",
-            key: key
-          });
-      });
-    } else {
-      console.log("user: " + user);
-      return res.json({
-        key: key
-      });
-    }
-  });
+      passwordKey: key
+    }, function (err, user) {
+      if (!user) { //The user not exist-->before signup.
+        var user1 = {};
+        user1.userName = req.body.userName;
+        user1.password = " ";
+        user1.passwordKey = key;
+        console.log("user1: " + user1);
+        User.create(user1, function (err, user2) {
+          console.log("user2: " + user2);
+          if (err)
+            return res.json({
+              status: "Fail",
+              message: "User Name Alredy Exist!\nPlease choose other.",
+              err: err
+            });
+          else
+            return res.json({
+              status: "OK",
+              key: key
+            });
+        });
+      } else {
+        console.log("user: " + user);
+        return res.json({
+          key: key
+        });
+      }
+    });
 });
 router.get('/getKey/:UUID', async (req, res) => {
   console.log("I'm in get /getKey");
@@ -107,20 +98,20 @@ router.get('/getKey/:UUID', async (req, res) => {
   await User.findOneAndUpdate({
     uuid: req.params.UUID
   }, {
-    passwordKey: key
-  }, function (err, user) {
-    if (!user) //The user not exist.
-      return res.json({
-        key: key,
-        message: "The UUID isn't exist!"
-      });
-    else {
-      console.log("user: " + user);
-      return res.json({
-        key: key
-      });
-    }
-  });
+      passwordKey: key
+    }, function (err, user) {
+      if (!user) //The user not exist.
+        return res.json({
+          key: key,
+          message: "The UUID isn't exist!"
+        });
+      else {
+        console.log("user: " + user);
+        return res.json({
+          key: key
+        });
+      }
+    });
 });
 
 router.post('/signup', async (req, res, next) => {
@@ -143,10 +134,10 @@ router.post('/signup', async (req, res, next) => {
       user.email = req.body.email || "";
       user.birthDay = new Date(req.body.birthDay || "");
       user.gender = req.body.gender || "Other";
-      user.isAdmin = req.body.isAdmin || false;
-      user.isActive = req.body.isActive || true;
-      user.isBlogger = req.body.isBlogger || false;
-      user.isResetReq = req.body.isResetReq || false;
+      user.isAdmin = false;
+      user.isActive = true;
+      user.isBlogger = false;
+      user.isResetReq = false;
       user.imgPath = req.body.imgPath || "/images/users_profiles" + user.gender + ".default.jpg" || "";
       user.blogs = req.body.blogs || 0;
       user.inbox = req.body.inbox || [];
@@ -157,10 +148,30 @@ router.post('/signup', async (req, res, next) => {
       }, user, function (err, user) {
         if (err) throw err;
         console.log('user created:' + user);
-        res.status(200).json({
-          status: "OK",
-          message: "The user " + user.userName + " sucesseed to signup"
-        });
+        var message = [];
+        if (req.body.isBlogger)
+          message.push({ title: "Request for blogger", content: "I want to be a blogger", sender: user.userName, date: Date.now(), isRead: false, isConfirm: false });
+        if (req.body.isAdmin)
+          message.push({ title: "Request for admin", content: "I want to be an admin", sender: user.userName, date: Date.now(), isRead: false, isConfirm: false });
+
+        if (req.body.isBlogger || req.body.isAdmin) {
+          User.update({ isAdmin: true, isActive: true }, { $push: { inbox: message } },
+            function (err, user) {
+              if (!err && user) {
+                res.status(200).json({
+                  status: "OK",
+                  message: "The user " + user.userName + " sucesseed to signup",
+                  requestMessage: "Your request was sent."
+                });
+              }
+            });
+        }
+        else {
+          res.status(200).json({
+            status: "OK",
+            message: "The user " + user.userName + " sucesseed to signup"
+          });
+        }
       });
     }
   });
@@ -169,29 +180,29 @@ router.post('/signup', async (req, res, next) => {
 router.get('/catalog', checksession, function (req, res, next) {
   console.log("Get to the catalog");
   return res.json([{
-      imgPath: "http://placehold.it/500x325",
-      title: "test title 1",
-      subTitle: "test sub-title 1",
-      btnContent: "test button content 1"
-    },
-    {
-      imgPath: "http://placehold.it/500x325",
-      title: "test title 2",
-      subTitle: "test sub-title 2",
-      btnContent: "test button content 2"
-    },
-    {
-      imgPath: "http://placehold.it/500x325",
-      title: "test title 3",
-      subTitle: "test sub-title 3",
-      btnContent: "test button content 3"
-    },
-    {
-      imgPath: "http://placehold.it/500x325",
-      title: "test title 4",
-      subTitle: "test sub-title 4",
-      btnContent: "test button content 4"
-    },
+    imgPath: "http://placehold.it/500x325",
+    title: "test title 1",
+    subTitle: "test sub-title 1",
+    btnContent: "test button content 1"
+  },
+  {
+    imgPath: "http://placehold.it/500x325",
+    title: "test title 2",
+    subTitle: "test sub-title 2",
+    btnContent: "test button content 2"
+  },
+  {
+    imgPath: "http://placehold.it/500x325",
+    title: "test title 3",
+    subTitle: "test sub-title 3",
+    btnContent: "test button content 3"
+  },
+  {
+    imgPath: "http://placehold.it/500x325",
+    title: "test title 4",
+    subTitle: "test sub-title 4",
+    btnContent: "test button content 4"
+  },
   ]);
 
   //  res.redirect('/login');

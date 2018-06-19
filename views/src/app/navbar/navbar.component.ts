@@ -13,7 +13,6 @@ export class NavbarComponent implements OnInit {
   }
 
   logout() {
-    alert("logout ");
     localStorage.removeItem('DoshUserName');
     localStorage.removeItem('DoshPassword');
   }

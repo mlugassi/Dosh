@@ -15,9 +15,9 @@ export default class User {
   isActive: Boolean;
   birthDay: String;
 
-  constructor(userName, password, firstName = "", lastName = "",
-    email = "", gender = "", birthDay = "", imgPath = "/images/users_profiles/" + gender + "default.jpg", blogs = 0, inbox = [],
-    isBlogger = false, isActive = true, isAdmin = false) {
+  constructor(userName, password, firstName = "", lastName = "", email = "",
+    gender = "", birthDay = "", isBlogger = false, isAdmin = false, blogs = 0, inbox = [],
+    imgPath = "/images/users_profiles/" + gender + "default.jpg", isActive = true) {
     this.userName = userName;
     this.password = password;
     this.firstName = firstName;
@@ -31,6 +31,5 @@ export default class User {
     this.imgPath = imgPath;
     this.blogs = blogs;
     this.inbox = inbox;
-
   }
 }

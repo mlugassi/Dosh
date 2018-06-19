@@ -9,6 +9,7 @@ Refael:
 7. check what worng with the reset password (dosn't send an email)
 8. in the reset password page  - change the password input to password type
 9.move the configuration button to the end of the navbar.
+10. If not have any inbox to print a matching message
 
 Micahel:
 1. dismmis modal 

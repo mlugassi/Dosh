@@ -2,75 +2,49 @@
   <div class="mail-box">
     <aside class="lg-side">
       <div class="inbox-body">
+        <div class="mail-option">
+          <div class="chk-all">
+            <input type="checkbox" class="mail-checkbox mail-group-checkbox" [checked]="CheckAll" (click) ="checkAll()">
+            <a data-toggle="dropdown" class="btn mini all" (click)="checkAll()">
+              All
+            </a>
+          </div>
+          <div class="chk-all">
+            <a data-toggle="dropdown" class="btn mini all" (click)="read()">
+              Read
+            </a>
+          </div>
+          <div class="chk-all">
+            <a data-toggle="dropdown" class="btn mini all" (click)="unread()">
+              Unread
+            </a>
+          </div>
+        </div>
         <table class="table table-inbox table-hover">
           <tbody>
-            <tr *ngFor="let in of inbox" data-toggle="collapse" attr.data-target={{in.id2}}>
-              <table class="table table-inbox table-hover">
-                <tr>
-                  <td class="inbox-small-cells">
-                    <input type="checkbox" class="mail-checkbox">
-                  </td>
-                  <td class="view-message  dont-show">{{in.sender}}</td>
-                  <td class="view-message ">{{in.title}}</td>
-                  <td class="view-message  text-right">{{in.date}}</td>
+            <tr *ngFor="let in of inbox; let i = index" class={{in.class}}>
+              <td class="inbox-small-cells table-inbox">
+                <input type="checkbox" class="mail-checkbox" [checked]="inbox[i].isChecked" (click)="onSelectionChange(in.index)">
+              </td>
+              <table class="table table-inbox table-hover"> 
+                <tr data-toggle="collapse" attr.data-target={{in.id}} (click)="read(in.index)">
+                  <td class="view-message  dont-show" width="40%">{{in.sender}}</td>
+                  <td class="view-message dont-show" width="40%">{{in.title}}</td>
+                  <td class="view-message  text-right" width="20%">{{in.date}}</td>
                 </tr>
-                <tr id={{in.id}} class="collapse">
+                <tr id={{in._id}} class="collapse">
                   <td colspan="4">
                     <div>
                       {{in.content}}
                     </div>
-                    <button (click)="confirm(in.id)">confirm</button>
-                    <button (click)="reject(in.id)">reject</button>
+                    <button (click)="confirm(in.index)" [disabled]="inbox[i].isConfirm">confirm</button>
+                    <button (click)="reject(in.index)" [disabled]="inbox[i].isConfirm">reject</button>
                   </td>
                 </tr>
               </table>
             </tr>
-            <tr class="unread">
-              <table class="table table-inbox table-hover">
-                <tr>
-                  <td class="inbox-small-cells">
-                    <input type="checkbox" class="mail-checkbox">
-                  </td>
-                  <td class="view-message dont-show">Google Webmaster </td>
-                  <td class="view-message">Improve the search presence of WebSite</td>
-                  <td class="view-message text-right">March 15</td>
-                </tr>
-                <tr id="demo" class="collapse">
-                  <td colspan="4">
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </div>
-                    <button>confirm</button>
-                    <button>reject</button>
-                  </td>
-                </tr>
-              </table>
-            </tr>
+  
 
-            <tr class="unread" data-toggle="collapse" data-target="#demo1">
-              <table class="table table-inbox table-hover">
-                <tr>
-                  <td class="inbox-small-cells">
-                    <input type="checkbox" class="mail-checkbox">
-                  </td>
-                  <td class="view-message dont-show">Google Webmaster </td>
-                  <td class="view-message">Improve the search presence of WebSite</td>
-                  <td class="view-message text-right">March 15</td>
-                </tr>
-                <tr id="demo1" class="collapse">
-                  <td colspan="4">
-                    <div>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </div>
-                    <button>confirm</button>
-                    <button>reject</button>
-                  </td>
-                </tr>
-              </table>
-
-            </tr>
             <!-- <tr class="">
               <td class="inbox-small-cells">
                 <input type="checkbox" class="mail-checkbox">
@@ -325,11 +299,3 @@
     </aside>
   </div>
 </div>
-<script>
-  $(function () {
-    $('.showinfo').click(function (e) {
-      e.preventDefault();
-      $(this).closest('tr').find(".test").toggle();
-    });
-  });
-</script>
