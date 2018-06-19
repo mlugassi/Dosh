@@ -10,7 +10,7 @@ import Blog from '../../../models/Blog';
 })
 export class BlogContentComponent implements OnInit {
 
-  currentBlog: Blog;
+  blog: Blog;
 
   constructor(private activatedRoute: ActivatedRoute, private appService: AppService) { }
 
@@ -19,12 +19,10 @@ export class BlogContentComponent implements OnInit {
       .params
       .subscribe(params => {
         let blogId = params['id'] || '';
-        alert(blogId);
 
         this.appService.get_blog(blogId).subscribe(res => {
-          this.currentBlog = res;
-          this.currentBlog.created_at = this.setDateString(this.currentBlog.created_at);
-
+          this.blog = res;
+          this.blog.created_at = this.setDateString(this.blog.created_at);
         });
       });
   }

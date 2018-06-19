@@ -12,7 +12,7 @@
           <!-- <h4>My Posts</h4> -->
           <button type="button" class="accordion" data-toggle="collapse" data-target="#myBlogsAcc">My Blogs</button>
           <div id="myBlogsAcc" class="collapse">
-            <div *ngFor="let blog of allBlogs">
+            <div *ngFor="let blog of myBlogs">
               <div class="blog-grids row mb-3">
                 <div class="col-md-5 blog-grid-left">
                   <a href="blogs/{{blog.id}}">
@@ -37,7 +37,7 @@
         </div>
         <div class="tech-btm">
           <!-- <h4>All Posts</h4> -->
-          <button type="button" class="accordion" data-toggle="collapse" data-target="#allBlogsAcc">My Blogs</button>
+          <button type="button" class="accordion" data-toggle="collapse" data-target="#allBlogsAcc">All Blogs</button>
           <div id="allBlogsAcc" class="collapse">
             <div *ngFor="let blog of allBlogs">
               <div class="blog-grids row mb-3">

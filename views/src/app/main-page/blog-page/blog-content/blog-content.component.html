@@ -2,54 +2,61 @@
   <div class="blog-grid-top">
     <div class="b-grid-top">
       <div class="blog_info_left_grid">
-        <img *ngIf="currentBlog" src="{{currentBlog.imgPath}}" class="img-fluid" alt="">
+        <img *ngIf="blog" src="{{blog.imgPath}}" class="img-fluid" alt="">
       </div>
       <div class="blog-info-middle">
         <ul>
-          <li *ngIf="currentBlog">
-            <i class="far fa-calendar-alt"></i>{{currentBlog.created_at}}
+          <li *ngIf="blog">
+            <a *ngIf="blog" href="#">
+              <i class="far fa-calendar-alt"></i>{{blog.created_at}}
+            </a>
           </li>
-          <li *ngIf="currentBlog" class="mx-2">
-            <i class="far fa-thumbs-up"></i> {{currentBlog.likes.count}} Likes
+          <li *ngIf="blog" class="mx-2">
+            <a *ngIf="blog" href="#">
+              <i class="far fa-thumbs-up"></i> {{blog.likes.count}} Likes
+            </a>
           </li>
           <li>
-            <a href="#">
-              <i class="far fa-comment"></i> 15 Comments</a>
+            <a *ngIf="blog" href="#">
+              <i class="far fa-comment"></i> {{blog.comments.count}} Comments
+            </a>
           </li>
 
         </ul>
       </div>
     </div>
 
-    <h2 *ngIf="currentBlog">
-      {{currentBlog.title}}
-      </h2>
-      <h4 *ngIf="currentBlog">
-        {{currentBlog.subTitle}}
-      </h4>
-      <p *ngIf="currentBlog">
-        {{currentBlog.content}}
-      </p>
+    <h2 *ngIf="blog">
+      {{blog.title}}
+    </h2>
+    <h4 *ngIf="blog">
+      {{blog.subTitle}}
+    </h4>
+    <p *ngIf="blog">
+      {{blog.content}}
+    </p>
   </div>
 
-  <div class="comment-top">
+  <div *ngIf="blog" class="comment-top">
     <h4>Comments</h4>
-    <div *ngFor="let comment of currentBlog.comments" class="media">
-      <img src="{{comment.imgPath}}" alt="" class="img-fluid" />
-      <div class="media-body">
-        <h5 class="mt-0">Joseph Goh</h5>
-        <p>Lorem Ipsum convallis diam consequat magna vulputate malesuada. id dignissim sapien velit id felis ac cursus eros.
-          Cras a ornare elit.</p>
-
-        <div class="media mt-3">
-          <a class="d-flex pr-3" href="#">
-            <img src="images/t2.jpg" alt="" class="img-fluid" />
-          </a>
-          <div class="media-body">
-            <h5 class="mt-0">Richard Spark</h5>
-            <p>Lorem Ipsum convallis diam consequat magna vulputate malesuada. id dignissim sapien velit id felis ac cursus
-              eros. Cras a ornare elit.</p>
+    <div *ngIf="blog.comments && blog.comments.comment">
+      <div *ngFor="let comment of blog.comments.comment" class="media">
+        <img src="{{comment.imgPath}}" height="40px" width="40px" alt="" class="img-fluid" />
+        <div class="media-body">
+          <h5 class="mt-0">{{comment.writer}}</h5>
+          <p>{{comment.content}}</p>
+          <div *ngIf="comment.replies">
+            <div *ngFor="let reply of comment.replies" class="media mt-3">
+              <a class="d-flex pr-3" href="#">
+                <img src="{{reply.imgPath}}" alt="" height="40px" width="40px" class="img-fluid" />
+              </a>
+              <div class="media-body">
+                <h5 class="mt-0">{{reply.writer}}</h5>
+                <p>{{reply.content}}</p>
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </div>
