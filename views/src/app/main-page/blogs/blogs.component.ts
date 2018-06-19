@@ -12,28 +12,27 @@ export class BlogsComponent implements OnInit {
   blogs: { blog: Blog, comments: number }[];
 
   constructor(private appService: AppService) { }
-  
+
   ngOnInit() {
     this.appService.get_all_blogs().subscribe(res => {
       this.blogs = [];
       res.forEach(blog => {
-        let item: { blog: Blog, comments: number };
+        let item = { blog: blog, comments: 0 };
         item.blog.created_at = this.setDateString(blog.created_at);
-        item.comments = 0;
         blog.comments.forEach(blog => {
           item.comments = item.comments + 1;
-        })
+        });
         this.blogs.push(item);
       });
     });
   }
-  
-  
+
+
   setDateString(date) {
     let day = date.substr(8, 2);
     let month = date.substr(5, 2);
     let year = date.substr(0, 4);
-  
+
     switch (month) {
       case "01": {
         month = "JAN";
