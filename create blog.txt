@@ -1,46 +1,53 @@
 Blog.create({
-  id: 8,
-  title: "title no 8",
-  subTitle: "sub title no 8",
-  author: "mlugassi",
-  content: "content no 8",
-  imgPath: "\\images\\blogs\\8.jpg",
-  category: "category no 8",
-  likes: {
-    count: 2,
-    users: ["mlugassi", "orian"]
-  },
-  unlikes: {
-    count: 0,
-    users: []
-  },
-  comments: [{
-    content: "comments.content no 8",
+    id: 10,
+    title: "title no 10",
+    subTitle: "sub title no 10",
+    author: "mlugassi",
+    content: "content no 10",
+    imgPath: "\\images\\blogs\\10.jpg",
+    category: "category no 10",
     likes: {
-      count: 1,
-      users: ["mlugassi"]
+        count: 2,
+        users: ["mlugassi", "orian"]
     },
     unlikes: {
-      count: 1,
-      users: ["orian"]
+        count: 0,
+        users: []
     },
-    comments: [{
-      content: "comments.comments.content no 8",
-      likes: {
-        count: 1,
-        users: ["orian"]
-      },
-      unlikes: {
-        count: 1,
-        users: ["mlugassi"]
-      },
-      created_at: "2018-06-08 13:38:23.013",
-    }],
-    created_at: "2018-06-02 13:38:23.013",
-  }],
-  isActive: true
+    comments: {
+        count: 2,
+        comment: [{
+            owner:"mlugassi",
+            imgPath:"/images/users_profiles/Male.default.jpg",
+            content: "comments.content no 10",
+            likes: {
+                count: 1,
+                users: ["mlugassi"]
+            },
+            unlikes: {
+                count: 1,
+                users: ["orian"]
+            },
+            replies: [{
+                owner:"orian",
+                imgPath:"/images/users_profiles/orian.jpg",
+                content: "comments.comments.content no 10",
+                likes: {
+                    count: 1,
+                    users: ["orian"]
+                },
+                unlikes: {
+                    count: 1,
+                    users: ["mlugassi"]
+                },
+                created_at: "2010-06-10 13:31:23.13",
+            }],
+            created_at: "2010-06-02 13:31:23.13",
+        }]
+    },
+    isActive: true
 
 }, function (err, blog) {
-  if (err) throw err;
-  console.log('blog created:' + blog);
+    if (err) throw err;
+    console.log('blog created:' + blog);
 });

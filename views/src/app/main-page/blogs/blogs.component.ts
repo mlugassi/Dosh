@@ -9,20 +9,45 @@ import Blog from '../../models/Blog';
 })
 export class BlogsComponent implements OnInit {
 
+  allBlogs: Blog[][];
   blogs: Blog[];
+  pages: number;
+  currentPage: number;
 
   constructor(private appService: AppService) { }
 
   ngOnInit() {
     this.appService.get_all_blogs().subscribe(res => {
       this.blogs = [];
+      this.allBlogs = [];
+      let counter = 0;
+      let page = 0;
       res.forEach(blog => {
+        if (!(counter++ % 9)) {
+          page = Math.floor((counter / 10));
+          this.allBlogs[page] = [];
+        }
         blog.created_at = this.setDateString(blog.created_at);
-        this.blogs.push(blog);
+        this.allBlogs[page].push(blog);
       });
+      this.pages = (page % 9) + 1;
+      this.currentPage = 1;
+      this.blogs = this.allBlogs[this.currentPage - 1];
     });
   }
+  nextPage() {
+    if (this.currentPage < this.pages)
+      this.blogs = this.allBlogs[this.currentPage++];
+  }
+  prevPage() {
 
+    if (this.currentPage > 1)
+      this.blogs = this.allBlogs[--this.currentPage - 1];
+  }
+  moveToPage(num) {
+    if (num >= 0 && num < this.pages)
+      this.blogs = this.allBlogs[num];
+  }
 
   setDateString(date) {
     let day = date.substr(8, 2);

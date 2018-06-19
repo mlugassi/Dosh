@@ -5,92 +5,86 @@
       <div class="left-blog-info-w3layouts-agileits text-left">
         <div *ngFor="let blog of blogs; let i = index;">
           <div *ngIf="!(i%3)" class="row">
-              <div  class="row">
-                  <div *ngIf="i < blogs.length" class="col-lg-4 card">
-                    <a href="blogs/{{blogs[i].id}}">
-                      <img src="{{blogs[i].imgPath}}" class="card-img-top img-fluid" alt="">
-                    </a>
-                    <div class="card-body">
-                      <ul class="blog-icons my-4">
-                        <li>
-                          <a href="#">
-                            <i class="far fa-calendar-alt"></i> {{blogs[i].created_at}}</a>
-                        </li>
-                        <li class="mx-2">
-                          <a href="#">
-                            <i class="far fa-comment"></i> {{blogs[i].comments.count}}</a>
-                        </li>
-                      </ul>
-                      <h5 class="card-title">
-                        <a href="blogs/{{blogs[i].id}}">{{blogs[i].title}}</a>
-                      </h5>
-                      <p class="card-text mb-3">{{blogs[i].subTitle}} </p>
-                      <a href="blogs/{{blogs[i].id}}" class="btn btn-primary read-m">Read More</a>
-                    </div>
-                  </div>
-                  <div *ngIf="i + 1 < blogs.length" class="col-lg-4 card">
-                      <a href="blogs/{{blogs[i+1].id}}">
-                        <img src="{{blogs[i+1].imgPath}}" class="card-img-top img-fluid" alt="">
-                      </a>
-                      <div class="card-body">
-                        <ul class="blog-icons my-4">
-                          <li>
-                            <a href="#">
-                              <i class="far fa-calendar-alt"></i> {{blogs[i+1].created_at}}</a>
-                          </li>
-                          <li class="mx-2">
-                            <a href="#">
-                              <i class="far fa-comment"></i> {{blogs[i+1].comments.count}}</a>
-                          </li>
-                        </ul>
-                        <h5 class="card-title">
-                          <a href="blogs/{{blogs[i+1].id}}">{{blogs[i+1].title}}</a>
-                        </h5>
-                        <p class="card-text mb-3">{{blogs[i+1].subTitle}} </p>
-                        <a href="blogs/{{blogs[i+1].id}}" class="btn btn-primary read-m">Read More</a>
-                      </div>
-                    </div>
-                    <div *ngIf="i + 2  < blogs.length" class="col-lg-4 card">
-                        <a href="blogs/{{blogs[i+2].id}}">
-                          <img src="{{blogs[i+2].imgPath}}" class="card-img-top img-fluid" alt="">
-                        </a>
-                        <div class="card-body">
-                          <ul class="blog-icons my-4">
-                            <li>
-                              <a href="#">
-                                <i class="far fa-calendar-alt"></i> {{blogs[i+2].created_at}}</a>
-                            </li>
-                            <li class="mx-2">
-                              <a href="#">
-                                <i class="far fa-comment"></i> {{blogs[i+2].comments.count}}</a>
-                            </li>
-                          </ul>
-                          <h5 class="card-title">
-                            <a href="blogs/{{blogs[i+2].id}}">{{blogs[i+2].title}}</a>
-                          </h5>
-                          <p class="card-text mb-3">{{blogs[i+2].subTitle}} </p>
-                          <a href="blogs/{{blogs[i+2].id}}" class="btn btn-primary read-m">Read More</a>
-                        </div>
-                      </div>
+            <div class="row">
+              <div *ngIf="i < blogs.length" class="col-lg-4 card">
+                <a href="blogs/{{blogs[i].id}}">
+                  <img src="{{blogs[i].imgPath}}" class="card-img-top img-fluid" alt="">
+                </a>
+                <div class="card-body">
+                  <ul class="blog-icons my-4">
+                    <li>
+                      <a href="#">
+                        <i class="far fa-calendar-alt"></i> {{blogs[i].created_at}}</a>
+                    </li>
+                    <li class="mx-2">
+                      <a href="#">
+                        <i class="far fa-comment"></i> {{blogs[i].comments.count}}</a>
+                    </li>
+                  </ul>
+                  <h5 class="card-title">
+                    <a href="blogs/{{blogs[i].id}}">{{blogs[i].title}}</a>
+                  </h5>
+                  <p class="card-text mb-3">{{blogs[i].subTitle}} </p>
+                  <a href="blogs/{{blogs[i].id}}" class="btn btn-primary read-m">Read More</a>
                 </div>
+              </div>
+              <div *ngIf="i + 1 < blogs.length" class="col-lg-4 card">
+                <a href="blogs/{{blogs[i+1].id}}">
+                  <img src="{{blogs[i+1].imgPath}}" class="card-img-top img-fluid" alt="">
+                </a>
+                <div class="card-body">
+                  <ul class="blog-icons my-4">
+                    <li>
+                      <a href="#">
+                        <i class="far fa-calendar-alt"></i> {{blogs[i+1].created_at}}</a>
+                    </li>
+                    <li class="mx-2">
+                      <a href="#">
+                        <i class="far fa-comment"></i> {{blogs[i+1].comments.count}}</a>
+                    </li>
+                  </ul>
+                  <h5 class="card-title">
+                    <a href="blogs/{{blogs[i+1].id}}">{{blogs[i+1].title}}</a>
+                  </h5>
+                  <p class="card-text mb-3">{{blogs[i+1].subTitle}} </p>
+                  <a href="blogs/{{blogs[i+1].id}}" class="btn btn-primary read-m">Read More</a>
+                </div>
+              </div>
+              <div *ngIf="i + 2  < blogs.length" class="col-lg-4 card">
+                <a href="blogs/{{blogs[i+2].id}}">
+                  <img src="{{blogs[i+2].imgPath}}" class="card-img-top img-fluid" alt="">
+                </a>
+                <div class="card-body">
+                  <ul class="blog-icons my-4">
+                    <li>
+                      <a href="#">
+                        <i class="far fa-calendar-alt"></i> {{blogs[i+2].created_at}}</a>
+                    </li>
+                    <li class="mx-2">
+                      <a href="#">
+                        <i class="far fa-comment"></i> {{blogs[i+2].comments.count}}</a>
+                    </li>
+                  </ul>
+                  <h5 class="card-title">
+                    <a href="blogs/{{blogs[i+2].id}}">{{blogs[i+2].title}}</a>
+                  </h5>
+                  <p class="card-text mb-3">{{blogs[i+2].subTitle}} </p>
+                  <a href="blogs/{{blogs[i+2].id}}" class="btn btn-primary read-m">Read More</a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-left mt-4">
-            <li class="page-item disabled">
-              <a class="page-link" href="#" tabindex="-1">Previous</a>
+            <li class="page-item">
+              <a class="page-link" tabindex="-1" (click)="prevPage()">Previous</a>
+            </li>
+            <li *ngFor="let page of allBlogs; let i = index" class="page-item">
+              <a class="page-link" (click)="moveToPage(i)">{{i + 1}}</a>
             </li>
             <li class="page-item">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">2</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">3</a>
-            </li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
+              <a class="page-link" (click)="nextPage()">Next</a>
             </li>
           </ul>
         </nav>
