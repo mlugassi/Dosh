@@ -43,14 +43,8 @@ export class RecentPostsComponent implements OnInit {
       likes: blog.likes.count.valueOf(),
       title: blog.title,
       subTitle: blog.subTitle,
-      comments: 0
+      comments: blog.comments.count.valueOf()
     };
-    blog.comments.forEach(comment => {
-      this.mostRecetBlog.comments = this.mostRecetBlog.comments.valueOf() + 1;
-      comment.comments.forEach(reply => {
-        this.mostRecetBlog.comments = this.mostRecetBlog.comments.valueOf() + 1;
-      });
-    });
   }
 
   setDateString(date) {

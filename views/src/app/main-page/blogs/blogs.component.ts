@@ -9,7 +9,7 @@ import Blog from '../../models/Blog';
 })
 export class BlogsComponent implements OnInit {
 
-  blogs: { blog: Blog, comments: number }[];
+  blogs: Blog[];
 
   constructor(private appService: AppService) { }
 
@@ -17,12 +17,8 @@ export class BlogsComponent implements OnInit {
     this.appService.get_all_blogs().subscribe(res => {
       this.blogs = [];
       res.forEach(blog => {
-        let item = { blog: blog, comments: 0 };
-        item.blog.created_at = this.setDateString(blog.created_at);
-        blog.comments.forEach(blog => {
-          item.comments = item.comments + 1;
-        });
-        this.blogs.push(item);
+        blog.created_at = this.setDateString(blog.created_at);
+        this.blogs.push(blog);
       });
     });
   }

@@ -96,7 +96,7 @@ export class AppService {
       .pipe(map(res => res as Blog[] || []));
   }
   get_blog(blogId){
-    return this.http.post(`${this.api_url}/blogs/blog`,blogId)
+    return this.http.post(`${this.api_url}/blogs/blog`,{id: blogId})
     .pipe(map(res => res as Blog));
   }
 

@@ -3,73 +3,73 @@
     <h3 class="tittle">Blog Posts</h3>
     <div class="inner-sec">
       <div class="left-blog-info-w3layouts-agileits text-left">
-        <div *ngFor="let item of blogs; let i = index;">
+        <div *ngFor="let blog of blogs; let i = index;">
           <div *ngIf="!(i%3)" class="row">
               <div  class="row">
-                  <div class="col-lg-4 card">
-                    <a href="blogs/{{blogs[i].blog.id}}">
-                      <img src="{{blogs[i].blog.imgPath}}" class="card-img-top img-fluid" alt="">
+                  <div *ngIf="i < blogs.length" class="col-lg-4 card">
+                    <a href="blogs/{{blogs[i].id}}">
+                      <img src="{{blogs[i].imgPath}}" class="card-img-top img-fluid" alt="">
                     </a>
                     <div class="card-body">
                       <ul class="blog-icons my-4">
                         <li>
                           <a href="#">
-                            <i class="far fa-calendar-alt"></i> {{blogs[i].blog.created_at}}</a>
+                            <i class="far fa-calendar-alt"></i> {{blogs[i].created_at}}</a>
                         </li>
                         <li class="mx-2">
                           <a href="#">
-                            <i class="far fa-comment"></i> {{blogs[i].commets}}</a>
+                            <i class="far fa-comment"></i> {{blogs[i].comments.count}}</a>
                         </li>
                       </ul>
                       <h5 class="card-title">
-                        <a href="blogs/{{blogs[i].blog.id}}">{{blogs[i].blog.title}}</a>
+                        <a href="blogs/{{blogs[i].id}}">{{blogs[i].title}}</a>
                       </h5>
-                      <p class="card-text mb-3">{{blogs[i].blog.subTitle}} </p>
-                      <a href="blogs/{{blogs[i].blog.id}}" class="btn btn-primary read-m">Read More</a>
+                      <p class="card-text mb-3">{{blogs[i].subTitle}} </p>
+                      <a href="blogs/{{blogs[i].id}}" class="btn btn-primary read-m">Read More</a>
                     </div>
                   </div>
-                  <div class="col-lg-4 card">
-                      <a href="blogs/{{blogs[i+1].blog.id}}">
-                        <img src="{{blogs[i+1].blog.imgPath}}" class="card-img-top img-fluid" alt="">
+                  <div *ngIf="i + 1 < blogs.length" class="col-lg-4 card">
+                      <a href="blogs/{{blogs[i+1].id}}">
+                        <img src="{{blogs[i+1].imgPath}}" class="card-img-top img-fluid" alt="">
                       </a>
                       <div class="card-body">
                         <ul class="blog-icons my-4">
                           <li>
                             <a href="#">
-                              <i class="far fa-calendar-alt"></i> {{blogs[i+1].blog.created_at}}</a>
+                              <i class="far fa-calendar-alt"></i> {{blogs[i+1].created_at}}</a>
                           </li>
                           <li class="mx-2">
                             <a href="#">
-                              <i class="far fa-comment"></i> {{blogs[i+1].commets}}</a>
+                              <i class="far fa-comment"></i> {{blogs[i+1].comments.count}}</a>
                           </li>
                         </ul>
                         <h5 class="card-title">
-                          <a href="blogs/{{blogs[i+1].blog.id}}">{{blogs[i+1].blog.title}}</a>
+                          <a href="blogs/{{blogs[i+1].id}}">{{blogs[i+1].title}}</a>
                         </h5>
-                        <p class="card-text mb-3">{{blogs[i+1].blog.subTitle}} </p>
-                        <a href="blogs/{{blogs[i+1].blog.id}}" class="btn btn-primary read-m">Read More</a>
+                        <p class="card-text mb-3">{{blogs[i+1].subTitle}} </p>
+                        <a href="blogs/{{blogs[i+1].id}}" class="btn btn-primary read-m">Read More</a>
                       </div>
                     </div>
-                    <div class="col-lg-4 card">
-                        <a href="blogs/{{blogs[i+2].blog.id}}">
-                          <img src="{{blogs[i+2].blog.imgPath}}" class="card-img-top img-fluid" alt="">
+                    <div *ngIf="i + 2  < blogs.length" class="col-lg-4 card">
+                        <a href="blogs/{{blogs[i+2].id}}">
+                          <img src="{{blogs[i+2].imgPath}}" class="card-img-top img-fluid" alt="">
                         </a>
                         <div class="card-body">
                           <ul class="blog-icons my-4">
                             <li>
                               <a href="#">
-                                <i class="far fa-calendar-alt"></i> {{blogs[i+2].blog.created_at}}</a>
+                                <i class="far fa-calendar-alt"></i> {{blogs[i+2].created_at}}</a>
                             </li>
                             <li class="mx-2">
                               <a href="#">
-                                <i class="far fa-comment"></i> {{blogs[i+2].commets}}</a>
+                                <i class="far fa-comment"></i> {{blogs[i+2].comments.count}}</a>
                             </li>
                           </ul>
                           <h5 class="card-title">
-                            <a href="blogs/{{blogs[i+2].blog.id}}">{{blogs[i+2].blog.title}}</a>
+                            <a href="blogs/{{blogs[i+2].id}}">{{blogs[i+2].title}}</a>
                           </h5>
-                          <p class="card-text mb-3">{{blogs[i+2].blog.subTitle}} </p>
-                          <a href="blogs/{{blogs[i+2].blog.id}}" class="btn btn-primary read-m">Read More</a>
+                          <p class="card-text mb-3">{{blogs[i+2].subTitle}} </p>
+                          <a href="blogs/{{blogs[i+2].id}}" class="btn btn-primary read-m">Read More</a>
                         </div>
                       </div>
                 </div>

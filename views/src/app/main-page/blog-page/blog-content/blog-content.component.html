@@ -2,19 +2,15 @@
   <div class="blog-grid-top">
     <div class="b-grid-top">
       <div class="blog_info_left_grid">
-        <a href="blogs/{{blog.id}}">
-          <img src="{{blog.imgPath}}" class="img-fluid" alt="">
-        </a>
+        <img *ngIf="currentBlog" src="{{currentBlog.imgPath}}" class="img-fluid" alt="">
       </div>
       <div class="blog-info-middle">
         <ul>
-          <li>
-            <a href="#">
-              <i class="far fa-calendar-alt"></i>{{blog.created_at}}</a>
+          <li *ngIf="currentBlog">
+            <i class="far fa-calendar-alt"></i>{{currentBlog.created_at}}
           </li>
-          <li class="mx-2">
-            <a href="#">
-              <i class="far fa-thumbs-up"></i> {{blog.likes.count}} Likes</a>
+          <li *ngIf="currentBlog" class="mx-2">
+            <i class="far fa-thumbs-up"></i> {{currentBlog.likes.count}} Likes
           </li>
           <li>
             <a href="#">
@@ -25,21 +21,21 @@
       </div>
     </div>
 
-    <h3>
-      <a href="single.html">{{blog.title}} </a>
-    </h3>
-    <h3>
-      <a href="single.html">{{blog.subTitle}} </a>
-    </h3>
-    <p>
-      {{blog.content}}
-    </p>
+    <h2 *ngIf="currentBlog">
+      {{currentBlog.title}}
+      </h2>
+      <h4 *ngIf="currentBlog">
+        {{currentBlog.subTitle}}
+      </h4>
+      <p *ngIf="currentBlog">
+        {{currentBlog.content}}
+      </p>
   </div>
 
   <div class="comment-top">
     <h4>Comments</h4>
-    <div class="media">
-      <img src="images/t1.jpg" alt="" class="img-fluid" />
+    <div *ngFor="let comment of currentBlog.comments" class="media">
+      <img src="{{comment.imgPath}}" alt="" class="img-fluid" />
       <div class="media-body">
         <h5 class="mt-0">Joseph Goh</h5>
         <p>Lorem Ipsum convallis diam consequat magna vulputate malesuada. id dignissim sapien velit id felis ac cursus eros.

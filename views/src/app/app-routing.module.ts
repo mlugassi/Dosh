@@ -10,14 +10,16 @@ import { UsersComponent } from './main-page/users/users.component';
 import { InboxComponent } from './main-page/inbox/inbox.component';
 import { BlogsComponent } from './main-page/blogs/blogs.component';
 import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
+import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-content.component';
 
 const appRoutes: Routes = [
   {
     path: '', component: MainPageComponent, canActivate: [AuthGuard], children: [
       { path: "", component: HomeComponent },
+      { path: 'blogs', component: BlogsComponent },
       {
-        path: 'blogs', component: BlogsComponent, children: [
-          { path: ":id", component: BlogPageComponent }
+        path: 'blogs', component: BlogPageComponent, children: [
+          { path: ':id', component: BlogContentComponent }
         ]
       },
       { path: "users", component: UsersComponent },

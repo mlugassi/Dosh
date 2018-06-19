@@ -22,17 +22,11 @@ module.exports = db => {
             count: Number,
             users: [String]
         },
-        comments: [{
-            content: String,
-            likes: {
-                count: Number,
-                users: [String]
-            },
-            unlikes: {
-                count: Number,
-                users: [String]
-            },
-            comments: [{
+        comments: {
+            count: Number,
+            comment: [{
+                writer: String,
+                imgPath: String,
                 content: String,
                 likes: {
                     count: Number,
@@ -42,10 +36,23 @@ module.exports = db => {
                     count: Number,
                     users: [String]
                 },
+                replies: [{
+                    writer: String,
+                    imgPath: String,
+                    content: String,
+                    likes: {
+                        count: Number,
+                        users: [String]
+                    },
+                    unlikes: {
+                        count: Number,
+                        users: [String]
+                    },
+                    created_at: Date
+                }],
                 created_at: Date
-            }],
-            created_at: Date
-        }],
+            }]
+        },
         isActive: Boolean,
         created_at: Date,
         updated_at: Date
