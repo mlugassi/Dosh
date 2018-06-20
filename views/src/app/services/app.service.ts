@@ -99,12 +99,12 @@ export class AppService {
     return this.http.post(`${this.api_url}/blogs/blog`, { id: blogId })
       .pipe(map(res => res as Blog));
   }
-  add_comment(blogId, content) {
-    return this.http.post(`${this.api_url}/blogs/add_comment`, { blogId: blogId, content: content });
+  add_comment(blogId, content, imgPath, date) {
+    return this.http.post<any>(`${this.api_url}/blogs/add_comment`, { blogId: blogId, content: content, imgPath: imgPath, date: date });
   }
 
-  add_reply(blogId, commentId, content) {
-    return this.http.post(`${this.api_url}/blogs/add_reply`, { blogId: blogId, commentId: commentId, content: content });
+  add_reply(blogId, commentId, content, imgPath, date) {
+    return this.http.post<any>(`${this.api_url}/blogs/add_reply`, { blogId: blogId, commentId: commentId, content: content, imgPath: imgPath, date: date });
   }
 
   do_like(blogId, commentId = undefined, replyId = undefined) {

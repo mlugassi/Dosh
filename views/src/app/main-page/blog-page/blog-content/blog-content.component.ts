@@ -216,15 +216,26 @@ export class BlogContentComponent implements OnInit {
   addComment() {
     let content = $('textarea#cmt').val() as String;
     if (content.replace(/\s/g, '') == "") return;
-    let comment = new Comment("newCmt" + this.cmtIdx++, this.watcher, this.imgPath, content, Date.now().toString());
-    this.blog.comments.comment.push(comment);
-    $('textarea#cmt').val('');
+    let date = Date.now();
+    this.appService.add_comment(this.blog.id, content, this.imgPath, date).subscribe(res => {
+      if (res.status) {
+        this.blog.comments.comment.push(new Comment(res._id, this.watcher, this.imgPath, content, date.toString()));
+        this.blog.comments.count = this.blog.comments.count.valueOf() + 1;
+      }
+      $('textarea#cmt').val('');
+    });
   }
   addReply(commentId) {
     let content = $("textarea#rply_" + commentId).val() as String;
-    let reply = new Reply("newCmt" + this.cmtIdx++, this.watcher, this.imgPath, content, Date.now().toString());
-    this.blog.comments.comment.find(c => c._id == commentId).replies.push(reply);
-    $("textarea#rply_" + commentId).val('');
+    if (content.replace(/\s/g, '') == "") return;
+    let date = Date.now();
+    this.appService.add_reply(this.blog.id, commentId, content, this.imgPath, date).subscribe(res => {
+      if (res.status) {
+        this.blog.comments.comment.find(c => c._id == commentId).replies.push(new Reply(res._id, this.watcher, this.imgPath, content, Date.now().toString()));
+        this.blog.comments.count = this.blog.comments.count.valueOf() + 1;
+      }
+      $("textarea#rply_" + commentId).val('');
+    });
   }
   setDateString(date) {
     let day = date.substr(8, 2);

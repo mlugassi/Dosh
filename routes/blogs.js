@@ -8,57 +8,6 @@ router.get('/', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
 });
 
-router.post('/do_like', checksession, function (req, res) {
-    if (req.body.commentId && req.body.replyId && req.body.blogId)
-        result = do_like_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
-    else if (req.body.commentId && req.body.blogId)
-        result = do_like_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
-    else if (req.body.blogId)
-        result = do_like_to_blog(req.body.blogId, req.session.passport.user);
-    else result = {
-        status: "Fail"
-    };
-    res.status(200).json(result);
-});
-
-router.post('/do_unlike', checksession, function (req, res) {
-    if (req.body.commentId && req.body.replyId && req.body.blogId)
-        result = do_unlike_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
-    else if (req.body.commentId && req.body.blogId)
-        result = do_unlike_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
-    else if (req.body.blogId)
-        result = do_unlike_to_blog(req.body.blogId, req.session.passport.user);
-    else result = {
-        status: "Fail"
-    };
-    res.status(200).json(result);
-});
-router.post('/undo_like', checksession, function (req, res) {
-    if (req.body.commentId && req.body.replyId && req.body.blogId)
-        result = undo_like_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
-    else if (req.body.commentId && req.body.blogId)
-        result = undo_like_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
-    else if (req.body.blogId)
-        result = undo_like_to_blog(req.body.blogId, req.session.passport.user);
-    else result = {
-        status: "Fail"
-    };
-    res.status(200).json(result);
-});
-
-router.post('/undo_unlike', checksession, function (req, res) {
-    if (req.body.commentId && req.body.replyId && req.body.blogId)
-        result = undo_unlike_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
-    else if (req.body.commentId && req.body.blogId)
-        result = undo_unlike_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
-    else if (req.body.blogId)
-        result = undo_unlike_to_blog(req.body.blogId, req.session.passport.user);
-    else result = {
-        status: "Fail"
-    };
-    res.status(200).json(result);
-});
-
 router.get('/who_am_I', checksession, function (req, res) {
     User.findOne({
         userName: req.session.passport.user,
@@ -146,6 +95,147 @@ router.post('/blog', checksession, function (req, res) {
         if (result == null) return res.json();
         res.json(result);
     });
+});
+
+router.post('/add_comment', checksession, function (req, res) {
+    let _id = "";
+    Blog.findOne({
+        id: req.body.blogId
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null) return res.json({
+            status: false
+        });
+        result.comments.count++;
+        result.comments.comment.push({
+            writer: req.session.passport.user,
+            imgPath: req.body.imgPath,
+            content: req.body.content,
+            created_at: req.body.date,
+            likes: {
+                count: 0,
+                users: []
+            },
+            unlikes: {
+                count: 0,
+                users: []
+            },
+            replies: []
+        });
+        _id = result.comments.comment[result.comments.comment.length - 1]._id;
+        Blog.findOneAndUpdate({
+            id: req.body.blogId
+        }, result, function (err, result) {
+            if (err) throw err;
+            if (result == null) return res.json({
+                status: false
+            });
+            res.json({
+                status: true,
+                _id: _id
+            });
+        });
+    });
+
+});
+router.post('/add_reply', checksession, function (req, res) {
+    let _id = "";
+    Blog.findOne({
+        id: req.body.blogId
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null) return res.json({
+            status: false
+        });
+        result.comments.comment.forEach(comment => {
+                if (comment._id == req.body.commentId) {
+                    result.comments.count++;
+                    comment.replies.push({
+                        writer: req.session.passport.user,
+                        imgPath: req.body.imgPath,
+                        content: req.body.content,
+                        created_at: req.body.date,
+                        likes: {
+                            count: 0,
+                            users: []
+                        },
+                        unlikes: {
+                            count: 0,
+                            users: []
+                        },
+                    });
+                    _id = comment.replies[comment.replies.length - 1]._id;
+                }
+            }
+
+        );
+        Blog.findOneAndUpdate({
+            id: req.body.blogId
+        }, result, function (err, result) {
+            if (err) throw err;
+            if (result == null) return res.json({
+                status: false
+            });
+            res.json({
+                status: true,
+                _id: _id
+            });
+        });
+    });
+
+});
+
+
+router.post('/do_like', checksession, function (req, res) {
+    if (req.body.commentId && req.body.replyId && req.body.blogId)
+        result = do_like_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
+    else if (req.body.commentId && req.body.blogId)
+        result = do_like_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
+    else if (req.body.blogId)
+        result = do_like_to_blog(req.body.blogId, req.session.passport.user);
+    else result = {
+        status: "Fail"
+    };
+    res.status(200).json(result);
+});
+
+router.post('/do_unlike', checksession, function (req, res) {
+    if (req.body.commentId && req.body.replyId && req.body.blogId)
+        result = do_unlike_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
+    else if (req.body.commentId && req.body.blogId)
+        result = do_unlike_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
+    else if (req.body.blogId)
+        result = do_unlike_to_blog(req.body.blogId, req.session.passport.user);
+    else result = {
+        status: "Fail"
+    };
+    res.status(200).json(result);
+});
+
+router.post('/undo_like', checksession, function (req, res) {
+    if (req.body.commentId && req.body.replyId && req.body.blogId)
+        result = undo_like_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
+    else if (req.body.commentId && req.body.blogId)
+        result = undo_like_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
+    else if (req.body.blogId)
+        result = undo_like_to_blog(req.body.blogId, req.session.passport.user);
+    else result = {
+        status: "Fail"
+    };
+    res.status(200).json(result);
+});
+
+router.post('/undo_unlike', checksession, function (req, res) {
+    if (req.body.commentId && req.body.replyId && req.body.blogId)
+        result = undo_unlike_to_reply(req.body.blogId, req.body.commentId, req.body.replyId, req.session.passport.user);
+    else if (req.body.commentId && req.body.blogId)
+        result = undo_unlike_to_comment(req.body.blogId, req.body.commentId, req.session.passport.user);
+    else if (req.body.blogId)
+        result = undo_unlike_to_blog(req.body.blogId, req.session.passport.user);
+    else result = {
+        status: "Fail"
+    };
+    res.status(200).json(result);
 });
 
 router.get('/:id', checksession, function (req, res) {
