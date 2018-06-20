@@ -116,7 +116,7 @@
               <label class="align-middle text-center">BirthDay:</label>
             </div>
             <div class="col-xs-3 col-md-3">
-              <select [(ngModel)]="monthBirthday" class="form-control" required>
+              <select [(ngModel)]="month" name="month" class="form-control" required>
                 <option value="01">Jan</option>
                 <option value="02">Feb</option>
                 <option value="03">Mar</option>
@@ -132,12 +132,12 @@
               </select>
             </div>
             <div class="col-xs-3 col-md-3">
-              <select [(ngModel)]="dayBirthday" class="form-control" required>
+              <select [(ngModel)]="day" name="day" class="form-control" required>
                 <option *ngFor="let day of days" value={{day}}>{{day}}</option>
               </select>
             </div>
             <div class="col-xs-4 col-md-4">
-              <select [(ngModel)]="yearBirthday" class="form-control" required>
+              <select [(ngModel)]="year" name="year" class="form-control" required>
                 <option *ngFor="let year of years" value={{year}}>{{year}}</option>
               </select>
             </div>
