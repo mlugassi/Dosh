@@ -5,20 +5,25 @@
         <div class="mail-option">
           <div class="chk-all">
             <input type="checkbox" class="mail-checkbox mail-group-checkbox" [checked]="CheckAll" (click) ="checkAll()">
-            <a data-toggle="dropdown" class="btn mini all" (click)="checkAll()">
+            <a class="btn mini all" (click)="checkAll()">
               All
             </a>
           </div>
           <div class="chk-all">
-            <a data-toggle="dropdown" class="btn mini all" (click)="read()">
+            <a class="btn mini all" (click)="read()">
               Read
             </a>
           </div>
           <div class="chk-all">
-            <a data-toggle="dropdown" class="btn mini all" (click)="unread()">
+            <a class="btn mini all" (click)="unread()">
               Unread
             </a>
           </div>
+          <div class="chk-all">
+              <a class="btn mini all" (click)="delete()">
+                Delete
+              </a>
+            </div>
         </div>
         <table class="table table-inbox table-hover">
           <tbody>

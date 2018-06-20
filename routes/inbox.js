@@ -72,7 +72,16 @@ router.post('/confirmInbox', checksession, function (req, res) {
     //return res.json({status:"OK"});
   });
 });
-
+router.post('/delete', checksession, function (req, res) {
+  console.log("i'm in inbox/deleteInbox")
+  console.log(req.body.inboxId);
+  User.update({ userName: req.session.passport.user },
+  { $pull: { inbox:{_id: req.body.inboxId } }}, function (err, user) {
+    console.log(err);
+    console.log(user);
+    return res.json({ status: "OK" });
+  });
+});
 router.post('/rejectInbox', checksession, function (req, res) {
   try {
     console.log("i'm in inbox/rejectInbox")
