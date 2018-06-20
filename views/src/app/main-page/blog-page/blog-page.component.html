@@ -1,56 +1,71 @@
 <section class="main-content-w3layouts-agileits">
   <div class="container">
-    <h3 class="tittle">Blog Posts</h3>
-    <div class="inner-sec">
+    <div class="row">
+      <!--right-->
+      <div class="col-lg-8">
+        <router-outlet></router-outlet>
+      </div>
+      <!--//right-->
       <!--left-->
-      <div class="left-blog-info-w3layouts-agileits text-left">
-        <div class="row">
-          <div *ngFor="let item of blogs">
-            <div class="col-lg-4 card">
-              <a href="blogs/{{item.blog.id}}">
-                <img src="{{item.blog.imgPath}}" class="card-img-top img-fluid" alt="">
-              </a>
-              <div class="card-body">
-                <ul class="blog-icons my-4">
-                  <li>
-                    <a href="#">
-                      <i class="far fa-calendar-alt"></i> {{item.blog.created_at}}</a>
-                  </li>
-                  <li class="mx-2">
-                    <a href="#">
-                      <i class="far fa-comment"></i> {{item.commets}}</a>
-                  </li>
-                </ul>
-                <h5 class="card-title">
-                  <a href="single.html">{{item.blog.title}}</a>
-                </h5>
-                <p class="card-text mb-3">{{item.blog.subTitle}} </p>
-                <a href="blogs/{{blog.id}}" class="btn btn-primary read-m">Read More</a>
+      <aside class="col-lg-4 agileits-w3ls-right-blog-con text-left" style="left: 0;">
+        <div class="tech-btm">
+          <!-- <h4>My Posts</h4> -->
+          <button type="button" class="accordion" data-toggle="collapse" data-target="#myBlogsAcc">My Blogs</button>
+          <div id="myBlogsAcc" class="collapse">
+            <div *ngFor="let blog of myBlogs">
+              <div class="blog-grids row mb-3">
+                <div class="col-md-5 blog-grid-left">
+                  <a href="blogs/{{blog.id}}">
+                    <img src="{{blog.imgPath}}" class="img-fluid" alt="">
+                  </a>
+                </div>
+                <div class="col-md-7 blog-grid-right">
+
+                  <h5>
+                    <a href="blogs/{{blog.id}}">{{blog.title}} </a>
+                  </h5>
+                  <div class="sub-meta">
+                    <span>
+                      <i class="far fa-clock"></i> {{blog.created_at}}</span>
+                  </div>
+                </div>
+
               </div>
+
             </div>
           </div>
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-left mt-4">
-              <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">Previous</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#">1</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#">2</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#">3</a>
-              </li>
-              <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-              </li>
-            </ul>
-          </nav>
         </div>
-        <!--//left-->
-      </div>
+        <div class="tech-btm">
+          <!-- <h4>All Posts</h4> -->
+          <button type="button" class="accordion" data-toggle="collapse" data-target="#allBlogsAcc">All Blogs</button>
+          <div id="allBlogsAcc" class="collapse">
+            <div *ngFor="let blog of allBlogs">
+              <div class="blog-grids row mb-3">
+                <div class="col-md-5 blog-grid-left">
+                  <a href="blogs/{{blog.id}}">
+                    <img src="{{blog.imgPath}}" class="img-fluid" alt="">
+                  </a>
+                </div>
+                <div class="col-md-7 blog-grid-right">
+
+                  <h5>
+                    <a href="blogs/{{blog.id}}">{{blog.title}} </a>
+                  </h5>
+                  <div class="sub-meta">
+                    <span>
+                      <i class="far fa-clock"></i> {{blog.created_at}}</span>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </aside>
+      <!--//left-->
+
     </div>
   </div>
 </section>

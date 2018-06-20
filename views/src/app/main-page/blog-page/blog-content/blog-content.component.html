@@ -1,0 +1,78 @@
+<div class="col-lg-8 left-blog-info-w3layouts-agileits text-left">
+  <div class="blog-grid-top">
+    <div class="b-grid-top">
+      <div class="blog_info_left_grid">
+        <img *ngIf="blog" src="{{blog.imgPath}}" class="img-fluid" alt="">
+      </div>
+      <div class="blog-info-middle">
+        <ul>
+          <li *ngIf="blog">
+            <a *ngIf="blog" href="#">
+              <i class="far fa-calendar-alt"></i>{{blog.created_at}}
+            </a>
+          </li>
+          <li *ngIf="blog" class="mx-2">
+            <a *ngIf="blog" href="#">
+              <i class="far fa-thumbs-up"></i> {{blog.likes.count}} Likes
+            </a>
+          </li>
+          <li>
+            <a *ngIf="blog" href="#">
+              <i class="far fa-comment"></i> {{blog.comments.count}} Comments
+            </a>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+
+    <h2 *ngIf="blog">
+      {{blog.title}}
+    </h2>
+    <h4 *ngIf="blog">
+      {{blog.subTitle}}
+    </h4>
+    <p *ngIf="blog">
+      {{blog.content}}
+    </p>
+  </div>
+
+  <div *ngIf="blog" class="comment-top">
+    <h4>Comments</h4>
+    <div *ngIf="blog.comments && blog.comments.comment">
+      <div *ngFor="let comment of blog.comments.comment" class="media">
+        <img src="{{comment.imgPath}}" height="40px" width="40px" alt="" class="img-fluid" />
+        <div class="media-body">
+          <h5 class="mt-0">{{comment.writer}}</h5>
+          <p>{{comment.content}}</p>
+          <div *ngIf="comment.replies">
+            <div *ngFor="let reply of comment.replies" class="media mt-3">
+              <a class="d-flex pr-3" href="#">
+                <img src="{{reply.imgPath}}" alt="" height="40px" width="40px" class="img-fluid" />
+              </a>
+              <div class="media-body">
+                <h5 class="mt-0">{{reply.writer}}</h5>
+                <p>{{reply.content}}</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="comment-top">
+    <h4>Leave a Comment</h4>
+    <div class="comment-bottom">
+      <form action="#" method="post">
+        <input class="form-control" type="text" name="Name" placeholder="Name" required="">
+        <input class="form-control" type="email" name="Email" placeholder="Email" required="">
+
+        <input class="form-control" type="text" name="Subject" placeholder="Subject" required="">
+
+        <textarea class="form-control" name="Message" placeholder="Message..." required=""></textarea>
+        <button type="submit" class="btn btn-primary submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>

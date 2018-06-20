@@ -3,7 +3,6 @@ const router = express.Router();
 const Blog = require('../model')("Blog");
 const checksession = require('./checksession');
 
-
 router.get('/', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
 });
@@ -71,5 +70,20 @@ router.get('/recent_posts', checksession, function (req, res) {
             }
         );
     })()
+});
+
+router.post('/blog', checksession, function (req, res) {
+    Blog.findOne({
+        id: req.body.id,
+        isActive: true
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null) return res.json();
+        res.json(result);
+    });
+});
+
+router.get('/:id', checksession, function (req, res) {
+    res.sendfile('./views/dist/views/index.html');
 });
 module.exports = router;

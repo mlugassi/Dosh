@@ -14,30 +14,37 @@ export default class Blog {
     count: Number,
     users: String[]
   };
-  comments: [{
-    content: String,
-    likes: {
-      count: Number,
-      users: String[]
-    },
-    unlikes: {
-      count: Number,
-      users: String[]
-    },
-    comments: [{
+  comments: {
+    count: Number,
+    comment: [{
+      writer: String,
+      imgPath: String,
       content: String,
       likes: {
         count: Number,
-        users: String[]
+        users: [String]
       },
       unlikes: {
         count: Number,
-        users: String[]
+        users: [String]
       },
-      created_at: string;
-    }],
-    created_at: string;
-  }];
+      replies: [{
+        writer: String,
+        imgPath: String,
+        content: String,
+        likes: {
+          count: Number,
+          users: [String]
+        },
+        unlikes: {
+          count: Number,
+          users: [String]
+        },
+        created_at: Date
+      }],
+      created_at: Date
+    }]
+  };
   created_at: string;
   updated_at: string;
   isActive: Boolean;
