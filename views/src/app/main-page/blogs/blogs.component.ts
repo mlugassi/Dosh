@@ -36,17 +36,24 @@ export class BlogsComponent implements OnInit {
     });
   }
   nextPage() {
+
     if (this.currentPage < this.pages)
       this.blogs = this.allBlogs[this.currentPage++];
+      alert(this.currentPage);
   }
   prevPage() {
-
     if (this.currentPage > 1)
       this.blogs = this.allBlogs[--this.currentPage - 1];
+      alert(this.currentPage);
+
   }
   moveToPage(num) {
-    if (num >= 0 && num < this.pages)
-      this.blogs = this.allBlogs[num];
+
+    if (num < 0 || num >= this.pages) return;
+    this.blogs = this.allBlogs[num];
+    this.currentPage = num + 1;
+    alert(this.currentPage);
+
   }
 
   setDateString(date) {

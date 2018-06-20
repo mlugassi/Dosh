@@ -11,6 +11,7 @@ export class BlogPageComponent implements OnInit {
 
   myBlogs: Blog[];
   allBlogs: Blog[];
+  isClickecd = false;
 
   constructor(private appService: AppService) { }
 
