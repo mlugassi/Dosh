@@ -4,15 +4,15 @@ var debug = require('debug')('Dosh:inbox');
 const User = require('../model')("User");
 const checksession = require('./checksession');
 
-// User.findOneAndUpdate({userName:"refaelz1"},{inbox:[
-//   {title:"Ask blogger",content:"stam1",sender:"sapirz1",date: Date(),isRead:false},
-//   {title:"Ask admin",content:"stam1",sender:"shilatz1",date: Date(),isRead:false},
-//   {title:"Ask admin2",content:"stam2",sender:"shilatz1",date: Date(),isRead:false},
-//   {title:"Ask blogger2",content:"stam2",sender:"sapirz1",date: Date(),isRead:false},
-//   {title:"Ask blogger3",content:"stam3",sender:"sapirz1",date: Date(),isRead:false},
-//   {title:"Ask admin3",content:"stam3",sender:"shilatz1",date: Date(),isRead:false}]},
-//   function(err,user){
-// });
+User.findOneAndUpdate({userName:"refaelz1"},{inbox:[
+  {title:"Ask blogger",content:"stam1",sender:"sapirz1",date: Date(),isRead:false},
+  {title:"Ask admin",content:"stam1",sender:"shilatz1",date: Date(),isRead:false},
+  {title:"Ask admin2",content:"stam2",sender:"shilatz1",date: Date(),isRead:false},
+  {title:"Ask blogger2",content:"stam2",sender:"sapirz1",date: Date(),isRead:false},
+  {title:"Ask blogger3",content:"stam3",sender:"sapirz1",date: Date(),isRead:false},
+  {title:"Ask admin3",content:"stam3",sender:"shilatz1",date: Date(),isRead:false}]},
+  function(err,user){
+});
 
 router.get('/', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');

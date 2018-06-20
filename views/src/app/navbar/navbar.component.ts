@@ -15,9 +15,9 @@ export class NavbarComponent implements OnInit {
   oldPassword;
   password;
   confirmPassword;
-  yearBirthday;
-  monthBirthday;
-  dayBirthday;
+  year;
+  month;
+  day;
   constructor(private appService: AppService) { }
 
   ngOnInit() {
@@ -28,9 +28,9 @@ export class NavbarComponent implements OnInit {
       this.appService.get_user()
       .subscribe(res => {
         this.user = res;
-        this.dayBirthday = this.user.birthDay.substring(8, 10);
-        this.monthBirthday = this.user.birthDay.substring(5, 7);
-        this.yearBirthday = this.user.birthDay.substring(0, 4);
+        this.day = this.user.birthDay.substring(8, 10);
+        this.month = this.user.birthDay.substring(5, 7);
+        this.year = this.user.birthDay.substring(0, 4);
       })
   }
 

@@ -82,14 +82,16 @@ export class InboxComponent implements OnInit {
     this.CheckAll = false;
   }
   delete() {
-    alert("delete");
     for (let index = 0; index < this.inbox.length; index++) {
       if (this.inbox[index].isChecked == true) {
-        alert("inside");
         //delete from the list
         this.appService.delete_inbox(this.inbox[index]._id)
           .subscribe(res => {
-            alert(res.status)
+            if (res.status == "OK") {
+              this.inbox.splice(index, 1);
+            }
+            else
+              alert(res.status)
           });
       }
     }
