@@ -6,7 +6,11 @@ const checksession = require('./checksession');
 router.get('/', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
 });
-
+router.get('/who_am_I', checksession, function (req, res) {
+    res.status(200).json({
+        watcher: req.session.passport.user
+    });
+});
 router.get('/all_blogs', checksession, function (req, res) {
     Blog.find({
         isActive: true

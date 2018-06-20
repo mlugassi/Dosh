@@ -95,12 +95,15 @@ export class AppService {
     return this.http.get(`${this.api_url}/blogs/all_blogs_but_mine`)
       .pipe(map(res => res as Blog[] || []));
   }
-  get_blog(blogId){
-    return this.http.post(`${this.api_url}/blogs/blog`,{id: blogId})
-    .pipe(map(res => res as Blog));
+  get_blog(blogId) {
+    return this.http.post(`${this.api_url}/blogs/blog`, { id: blogId })
+      .pipe(map(res => res as Blog));
+  }
+  get_who_am_I() {
+    return this.http.get<any>(`${this.api_url}/blogs/who_am_I`);
   }
 
-/*END BLOGS REST */
+  /*END BLOGS REST */
   delete_user(userName: String) {
     return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
   }
@@ -113,22 +116,22 @@ export class AppService {
   }
   delete_inbox(inbox: string) {
     return this.http.post(`${this.api_url}/inbox/delete`, { inboxId: inbox })
-    .pipe(map(res => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
-  readInbox(inbox: String){
+  readInbox(inbox: String) {
     return this.http.post(`${this.api_url}/inbox/readInbox`, { inboxId: inbox })
-    .pipe(map(res => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
-  unreadInbox(inbox: String){
+  unreadInbox(inbox: String) {
     return this.http.post(`${this.api_url}/inbox/unreadInbox`, { inboxId: inbox })
-    .pipe(map(res => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
-  confirmInbox(inbox: String){
+  confirmInbox(inbox: String) {
     return this.http.post(`${this.api_url}/inbox/confirmInbox`, { inboxId: inbox })
-    .pipe(map(res => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
-  rejectInbox(inbox: String){
+  rejectInbox(inbox: String) {
     return this.http.post(`${this.api_url}/inbox/rejectInbox`, { inboxId: inbox })
-    .pipe(map(res => res as any || ""));
+      .pipe(map(res => res as any || ""));
   }
 }

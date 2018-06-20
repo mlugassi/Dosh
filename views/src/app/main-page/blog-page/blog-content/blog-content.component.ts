@@ -11,15 +11,18 @@ import Blog from '../../../models/Blog';
 export class BlogContentComponent implements OnInit {
 
   blog: Blog;
+  watcher: String;
 
   constructor(private activatedRoute: ActivatedRoute, private appService: AppService) { }
 
   ngOnInit() {
+    this.appService.get_who_am_I().subscribe(res => {
+      this.watcher = res.watcher;
+    })
     this.activatedRoute
       .params
       .subscribe(params => {
         let blogId = params['id'] || '';
-
         this.appService.get_blog(blogId).subscribe(res => {
           this.blog = res;
           this.blog.created_at = this.setDateString(this.blog.created_at);
