@@ -99,6 +99,26 @@ export class AppService {
     return this.http.post(`${this.api_url}/blogs/blog`, { id: blogId })
       .pipe(map(res => res as Blog));
   }
+  add_comment(blogId, content) {
+    return this.http.post(`${this.api_url}/blogs/add_comment`, { blogId: blogId, content: content });
+  }
+
+  add_reply(blogId, commentId, content) {
+    return this.http.post(`${this.api_url}/blogs/add_reply`, { blogId: blogId, commentId: commentId, content: content });
+  }
+
+  do_like(blogId, commentId = undefined, replyId = undefined) {
+    return this.http.post<any>(`${this.api_url}/blogs/do_like`, { blogId: blogId, commentId: commentId, replyId: replyId });
+  }
+  do_unlike(blogId, commentId = undefined, replyId = undefined) {
+    return this.http.post<any>(`${this.api_url}/blogs/do_unlike`, { blogId: blogId, commentId: commentId, replyId: replyId });
+  }
+  undo_like(blogId, commentId = undefined, replyId = undefined) {
+    return this.http.post<any>(`${this.api_url}/blogs/undo_like`, { blogId: blogId, commentId: commentId, replyId: replyId });
+  }
+  undo_unlike(blogId, commentId = undefined, replyId = undefined) {
+    return this.http.post<any>(`${this.api_url}/blogs/undo_unlike`, { blogId: blogId, commentId: commentId, replyId: replyId });
+  }
   get_who_am_I() {
     return this.http.get<any>(`${this.api_url}/blogs/who_am_I`);
   }

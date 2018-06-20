@@ -661,6 +661,16 @@ button.btn.btn-primary.play{
 	color:#01cd74;
 	opacity:0.9;
 }
+.blog-info-middle ul li i {
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    color: #fff;
+}
+.blog-info-middle ul li i:hover{
+	color:#01cd74;
+	opacity:0.9;
+	cursor: pointer;
+}
 .blog-info-middle {
     width: 100%;
     background: rgba(14, 15, 16, 0.65);
@@ -1413,7 +1423,7 @@ a.facebook:hover {
 	li.nav-item {
 		margin: 2px 0px;
 	}
-	.blog-info-middle ul li a {
+	.blog-info-middle ul li i {
 		font-size: 0.8em;
 		letter-spacing: 1px;
 	}

@@ -1,3 +1,5 @@
+import Comment from './Comment';
+
 export default class Blog {
   id: Number;
   title: String;
@@ -16,38 +18,10 @@ export default class Blog {
   };
   comments: {
     count: Number,
-    comment: [{
-      _id: string;
-      writer: String,
-      imgPath: String,
-      content: String,
-      likes: {
-        count: Number,
-        users: [String]
-      },
-      unlikes: {
-        count: Number,
-        users: [String]
-      },
-      replies: [{
-        writer: String,
-        imgPath: String,
-        content: String,
-        likes: {
-          count: Number,
-          users: [String]
-        },
-        unlikes: {
-          count: Number,
-          users: [String]
-        },
-        created_at: Date
-      }],
-      created_at: Date
-    }]
+    comment: [Comment]
   };
-  created_at: string;
-  updated_at: string;
+  created_at: String;
+  updated_at: String;
   isActive: Boolean;
 
   constructor() { }
