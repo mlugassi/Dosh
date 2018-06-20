@@ -132,7 +132,7 @@ ul.list-group.single .badge-primary {
 h5.mt-0 {
     color: #343a40;
     font-size: 1em;
-    margin-bottom: 15px;
+    margin-bottom: 8px;
     letter-spacing: 1px;
     font-weight: 600;
 }
@@ -238,7 +238,7 @@ h5.mt-0 {
     color: #777;
     font-size: 0.875em;
     line-height: 1.9em;
-    margin-bottom: 3em;
+    margin-bottom: 8px;
 }
 
 .comment h3,

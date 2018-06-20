@@ -17,6 +17,7 @@ export default class Blog {
   comments: {
     count: Number,
     comment: [{
+      _id: string;
       writer: String,
       imgPath: String,
       content: String,

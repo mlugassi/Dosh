@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <title>Views</title>
@@ -11,41 +12,46 @@
     addEventListener("load", function () {
       setTimeout(hideURLbar, 0);
     }, false);
-  
+
     function hideURLbar() {
       window.scrollTo(0, 1);
     }
   </script>
   <link href="/css/bootstrap.css" rel='stylesheet' type='text/css' />
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+    crossorigin="anonymous">
   <link rel="stylesheet" href="/css/jquery.desoslide.css">
   <link href="/css/style.css" rel='stylesheet' type='text/css' />
+  <link href="/css/single.css" rel='stylesheet' type='text/css' />   <!-- FIXME: maybe need to put in in the page content css component -->
   <link href="/css/fontawesome-all.css" rel="stylesheet">
-  <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800" rel="stylesheet">
+  <link href="//fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800"
+    rel="stylesheet">
 
 </head>
+
 <body>
   <app-root></app-root>
   <script src="/js/jquery-2.2.3.min.js"></script>
   <script src="/js/bootstrap.js"></script>
 
-	<!-- //js -->
-	<!-- desoslide-JavaScript -->
-	<script src="/js/jquery.desoslide.js"></script>
+  <!-- //js -->
+  <!-- desoslide-JavaScript -->
+  <script src="/js/jquery.desoslide.js"></script>
 
-	<!--/ start-smoth-scrolling -->
-	<script src="/js/easing.js"></script>
-	<script>
-		jQuery(document).ready(function ($) {
-			$(".scroll").click(function (event) {
-				event.preventDefault();
-				$('html,body').animate({
-					scrollTop: $(this.hash).offset().top
-				}, 900);
-			});
-		});
-	</script>
-	<!-- //Custom-JavaScript-File-Links -->
+  <!--/ start-smoth-scrolling -->
+  <script src="/js/easing.js"></script>
+  <script>
+    jQuery(document).ready(function ($) {
+      $(".scroll").click(function (event) {
+        event.preventDefault();
+        $('html,body').animate({
+          scrollTop: $(this.hash).offset().top
+        }, 900);
+      });
+    });
+  </script>
+  <!-- //Custom-JavaScript-File-Links -->
 
 </body>
+
 </html>

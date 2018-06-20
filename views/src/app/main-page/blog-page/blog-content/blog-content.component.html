@@ -1,4 +1,4 @@
-<div class="col-lg-8 left-blog-info-w3layouts-agileits text-left">
+<div class="col-lg-12 left-blog-info-w3layouts-agileits text-left">
   <div class="blog-grid-top">
     <div class="b-grid-top">
       <div class="blog_info_left_grid">
@@ -7,17 +7,22 @@
       <div class="blog-info-middle">
         <ul>
           <li *ngIf="blog">
-            <a *ngIf="blog" href="#">
+            <a *ngIf="blog" href="blogs/{{blog.id}}">
               <i class="far fa-calendar-alt"></i>{{blog.created_at}}
             </a>
           </li>
           <li *ngIf="blog" class="mx-2">
-            <a *ngIf="blog" href="#">
+            <a *ngIf="blog" href="blogs/{{blog.id}}" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''">
               <i class="far fa-thumbs-up"></i> {{blog.likes.count}} Likes
             </a>
           </li>
+          <li *ngIf="blog" class="mx-2">
+            <a *ngIf="blog" href="blogs/{{blog.id}}" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
+              <i class="far fa-thumbs-down"></i> {{blog.unlikes.count}} Unlikes
+            </a>
+          </li>
           <li>
-            <a *ngIf="blog" href="#">
+            <a *ngIf="blog" href="blogs/{{blog.id}}">
               <i class="far fa-comment"></i> {{blog.comments.count}} Comments
             </a>
           </li>
@@ -29,32 +34,46 @@
     <h2 *ngIf="blog">
       {{blog.title}}
     </h2>
-    <h4 *ngIf="blog">
-      {{blog.subTitle}}
-    </h4>
     <p *ngIf="blog">
       {{blog.content}}
     </p>
   </div>
-
   <div *ngIf="blog" class="comment-top">
     <h4>Comments</h4>
     <div *ngIf="blog.comments && blog.comments.comment">
-      <div *ngFor="let comment of blog.comments.comment" class="media">
-        <img src="{{comment.imgPath}}" height="40px" width="40px" alt="" class="img-fluid" />
+      <div *ngFor="let comment of blog.comments.comment; let i = index" class="media">
+        <div>
+          <img src="{{comment.imgPath}}" height="70px" width="70px" alt="" class="img-fluid" />
+        </div>
         <div class="media-body">
           <h5 class="mt-0">{{comment.writer}}</h5>
-          <p>{{comment.content}}</p>
+          <div>
+            <p>{{comment.content}}</p>
+            <div class="comment">
+              <i class="far fa-thumbs-up" [ngClass]="blog.comments.comment[i].likes.users.includes(watcher) ? 'clicked' : ''"> {{comment.likes.count}}</i>
+              <i class="far fa-thumbs-down" [ngClass]="blog.comments.comment[i].unlikes.users.includes(watcher) ? 'clicked' : ''"> {{comment.unlikes.count}}</i>
+              <i class="far fa-comment collapse" data-toggle="collapse" [attr.data-target]="'#'+comment._id"> {{comment.replies.count}}</i>
+              <i class="far fa-clock"> {{comment.created_at}}</i>
+            </div>
+          </div>
+
+
           <div *ngIf="comment.replies">
-            <div *ngFor="let reply of comment.replies" class="media mt-3">
-              <a class="d-flex pr-3" href="#">
-                <img src="{{reply.imgPath}}" alt="" height="40px" width="40px" class="img-fluid" />
+            <div *ngFor="let reply of comment.replies; let i = index" class="media mt-3">
+              <a class="d-flex pr-3">
+                <img src="{{reply.imgPath}}" alt="" height="70px" width="70px" class="img-fluid" />
               </a>
               <div class="media-body">
                 <h5 class="mt-0">{{reply.writer}}</h5>
                 <p>{{reply.content}}</p>
+                <div class="comment">
+                  <i class="far fa-thumbs-up" [ngClass]="reply.likes.users.includes(watcher) ? 'clicked' : ''"> {{reply.likes.count}}</i>
+                  <i class="far fa-thumbs-down" [ngClass]="reply.unlikes.users.includes(watcher) ? 'clicked' : ''"> {{reply.unlikes.count}}</i>
+                  <i class="far fa-clock"> {{reply.created_at}}</i>
+                </div>
               </div>
             </div>
+            <textarea id="{{comment._id}}" class="form-control collapse" name="Message" placeholder="Message..." required=""></textarea>
           </div>
 
         </div>
@@ -65,11 +84,6 @@
     <h4>Leave a Comment</h4>
     <div class="comment-bottom">
       <form action="#" method="post">
-        <input class="form-control" type="text" name="Name" placeholder="Name" required="">
-        <input class="form-control" type="email" name="Email" placeholder="Email" required="">
-
-        <input class="form-control" type="text" name="Subject" placeholder="Subject" required="">
-
         <textarea class="form-control" name="Message" placeholder="Message..." required=""></textarea>
         <button type="submit" class="btn btn-primary submit">Submit</button>
       </form>
