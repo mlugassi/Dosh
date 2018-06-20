@@ -77,13 +77,13 @@
         </div>
         <nav aria-label="Page navigation example">
           <ul class="pagination justify-content-left mt-4">
-            <li class="page-item">
-              <a class="page-link" tabindex="-1" (click)="prevPage()">Previous</a>
+            <li class="page-item" [ngClass]="currentPage == 1 ? 'disabled' : ''" >
+              <a class="page-link" (click)="prevPage()">Previous</a>
             </li>
-            <li *ngFor="let page of allBlogs; let i = index" class="page-item">
+            <li *ngFor="let page of allBlogs; let i = index" class="page-item" [ngClass]="(currentPage - 1) == i ? 'active' : ''">
               <a class="page-link" (click)="moveToPage(i)">{{i + 1}}</a>
             </li>
-            <li class="page-item">
+            <li class="page-item" [ngClass]="currentPage == pages ? 'disabled' : ''">
               <a class="page-link" (click)="nextPage()">Next</a>
             </li>
           </ul>
