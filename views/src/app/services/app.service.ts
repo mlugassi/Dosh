@@ -107,6 +107,10 @@ export class AppService {
     return this.http.get(`${this.api_url}/inbox/gatAll`)
       .pipe(map(res => res as Inbox[] || []));
   }
+  delete_inbox(inbox: string) {
+    return this.http.post(`${this.api_url}/inbox/delete`, { inboxId: inbox })
+    .pipe(map(res => res as any || ""));
+  }
   readInbox(inbox: String){
     return this.http.post(`${this.api_url}/inbox/readInbox`, { inboxId: inbox })
     .pipe(map(res => res as any || ""));

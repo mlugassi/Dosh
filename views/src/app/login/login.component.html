@@ -188,10 +188,6 @@
                 <input type="checkbox" [checked]=isBlogger (click)="switchBlogger()">
                 <span style="color:white"> I want to be a blogger</span>
               </label>
-              <label class="col-xs-6 col-md-6">
-                <input type="checkbox" [checked]=isAdmin (click)="switchAdmin()">
-                <span style="color:white"> I want to be an admin</span>
-              </label>
             </div>
             <div class="modal-footer">
               <input class="btn btn-lg btn-primary btn-block signup-btn read-m" type="submit" value="Create my account" [disabled]="!signupForm.form.valid">
