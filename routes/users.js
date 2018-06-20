@@ -84,7 +84,7 @@ router.get('/users', checksession, function (req, res) {
 });
 
 router.post('/user', checksession, function (req, res) {
-    let name = req.body.userName; //req.session.passport.user;
+    let name = req.body.userName || req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
         userName: name,
@@ -92,6 +92,7 @@ router.post('/user', checksession, function (req, res) {
     }, function (err, result) {
         if (err) throw err;
         if (result == null || result == undefined) return res.status(404);
+        //delete result[password]
         var user = {};
         user.firstName = result.firstName;
         user.lastName = result.lastName;
