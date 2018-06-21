@@ -99,6 +99,20 @@ export class AppService {
     return this.http.post(`${this.api_url}/blogs/blog`, { id: blogId })
       .pipe(map(res => res as Blog));
   }
+
+  update_blog(blogId, title, content) {
+    return this.http.post<any>(`${this.api_url}/blogs/update`, { id: blogId, title: title, content: content });
+  }
+
+  upload_blog_Image(formdata: any) {
+    return this.http.post<any>(`${this.api_url}/blogs/upload`, formdata);
+  }
+
+
+  delete_blog(blogId) {
+    return this.http.post<any>(`${this.api_url}/blogs/delete`, { id: blogId });
+  }
+
   add_comment(blogId, content, imgPath, date) {
     return this.http.post<any>(`${this.api_url}/blogs/add_comment`, { blogId: blogId, content: content, imgPath: imgPath, date: date });
   }

@@ -2,7 +2,15 @@
   <div class="blog-grid-top">
     <div class="b-grid-top">
       <div class="blog_info_left_grid">
-        <img *ngIf="blog" src="{{blog.imgPath}}" class="img-fluid" alt="">
+        <div *ngIf="inEdit" class="edit">
+          <button class="btn btn-secondary imgBtn" (click)="file.click()">
+            <i class="fas fa-camera"> </i>
+          </button>
+          <input type="file" (change)="getFile($event)" class="form-control" accept="image/*" #file/>
+        </div>
+        <div [ngClass]="inEdit? 'transbox':''">
+          <img style="z-index: 0;" *ngIf="blog" src="{{blog.imgPath}}" class="img-fluid" alt="">
+        </div>
       </div>
       <div class="blog-info-middle">
         <ul>
@@ -19,17 +27,59 @@
           <li>
             <i class="far fa-comment"> {{blog.comments.count}} Comments</i>
           </li>
-
         </ul>
       </div>
     </div>
 
-    <h2 *ngIf="blog">
-      {{blog.title}}
-    </h2>
-    <p *ngIf="blog">
-      {{blog.content}}
-    </p>
+    <div *ngIf="blog && !inEdit">
+      <h2>
+        {{blog.title}}
+      </h2>
+      <p>
+        {{blog.content}}
+      </p>
+    </div>
+
+    <div *ngIf="blog && inEdit" class="edit">
+      <input type="text" class="form-control" [(ngModel)]="editedTitle" placeholder="Write a title..." />
+      <textarea class="form-control" [(ngModel)]="editedContent" placeholder="Write something..."></textarea>
+    </div>
+    <div style="font-size: 20px;">
+      <div class="comment" style="position: absolute; left: 10px;">
+        <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''">
+          {{blog.likes.count}}
+        </i>
+        <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
+          {{blog.unlikes.count}}
+        </i>
+        <i class="far fa-comment">
+          {{blog.comments.count}}
+        </i>
+      </div>
+
+
+      <div *ngIf="blog && !inEdit" class="action" style="position: absolute; right: 10px;">
+        <button class="btn btn-warning" (click)="edit()">
+          <i class="fa fa-edit">
+          </i>
+        </button>
+        <button class="btn btn-danger" (click)="delete()">
+          <i class="fa fa-trash">
+          </i>
+        </button>
+      </div>
+
+      <div *ngIf="blog && inEdit" class="action" style="position: absolute; right: 10px;">
+        <button class="btn btn-success" (click)="save()">
+          <i class="fas fa-save">
+          </i>
+        </button>
+        <button class="btn btn-danger" (click)="cancel()">
+          <i class="fas fa-times">
+          </i>
+        </button>
+      </div>
+    </div>
   </div>
   <div *ngIf="blog" class="comment-top">
     <h4>Comments</h4>

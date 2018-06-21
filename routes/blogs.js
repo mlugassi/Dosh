@@ -2,7 +2,40 @@ const express = require('express');
 const router = express.Router();
 const Blog = require('../model')("Blog");
 const User = require('../model')("User");
+var multer = require('multer');
+const path = require('path');
 const checksession = require('./checksession');
+
+// Set The Storage Engine
+const storage = multer.diskStorage({
+    destination: './public/images/blogs',
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    }
+});
+// Init Upload
+const upload = multer({
+    storage: storage,
+    fileFilter: function (req, file, cb) {
+        checkFileType(file, cb);
+    }
+}).single('uploadedImg');
+
+// Check File Type
+function checkFileType(file, cb) {
+    // Allowed ext
+    const filetypes = /jpeg|jpg|png|gif/;
+    // Check ext
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    // Check mime
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb('Error: Images Only!');
+    }
+}
 
 router.get('/', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
@@ -94,6 +127,67 @@ router.post('/blog', checksession, function (req, res) {
         if (err) throw err;
         if (result == null) return res.json();
         res.json(result);
+    });
+});
+
+router.post('/delete', checksession, function (req, res) {
+    Blog.findOneAndUpdate({
+        id: req.body.id,
+        isActive: true
+    }, {
+        isActive: false
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null) return res.json({
+            status: false
+        });
+        return res.json({
+            status: true
+        });
+    });
+});
+
+router.post('/upload', checksession, (req, res) => {
+    upload(req, res, (err) => {
+        if (err) {
+            console.log(err);
+
+        } else {
+            if (req.file == undefined) {
+                console.log("Error: No File Selected!");
+            } else {
+                console.log("File Uploded");
+                let id = req.file.filename.substr(0, req.file.filename.length - 4);
+                console.log(id);
+
+                Blog.findOneAndUpdate({
+                    id: id
+                }, {
+                    imgPath: "/images/blogs/" + req.file.filename
+                }, function (err, result) {
+                    if (err) throw err;
+                    res.status(200).json({
+                        status: true
+                    });
+                })
+            }
+        }
+    });
+});
+router.post('/update', checksession, function (req, res) {
+    Blog.findOneAndUpdate({
+        id: req.body.id
+    }, {
+        title: req.body.title,
+        content: req.body.content
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null) return res.json({
+            status: false
+        });
+        return res.json({
+            status: true
+        });
     });
 });
 

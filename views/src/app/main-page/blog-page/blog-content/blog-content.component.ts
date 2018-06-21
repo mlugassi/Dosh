@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '../../../services/app.service';
 import Blog from '../../../models/Blog';
 import Comment from '../../../models/Comment';
@@ -15,15 +15,20 @@ export class BlogContentComponent implements OnInit {
   watcher: String;
   imgPath: String;
   newCommentText: String;
+  editedContent: String;
+  editedTitle: String;
   date: Date;
+  inEdit: boolean;
+  file: File;
 
-  constructor(private activatedRoute: ActivatedRoute, private appService: AppService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private appService: AppService) { }
 
   ngOnInit() {
     this.appService.get_who_am_I().subscribe(res => {
       this.watcher = res.watcher;
       this.imgPath = res.imgPath;
     })
+    this.inEdit = false;
     this.activatedRoute
       .params
       .subscribe(params => {
@@ -33,6 +38,52 @@ export class BlogContentComponent implements OnInit {
         });
       });
     this.date = new Date();
+  }
+
+  delete() {
+    if (!confirm("Do you want delete this blog?\nAre you sure?")) return;
+    this.appService.delete_blog(this.blog.id).subscribe(res => {
+      if (res.status)
+        this.router.navigate(['/blogs']);
+      else alert("Somthing went worng...");
+    });
+  }
+
+  edit() {
+    this.inEdit = true;
+    this.editedTitle = this.blog.title;
+    this.editedContent = this.blog.content;
+  }
+
+  cancel() {
+    this.editedTitle = this.blog.title;
+    this.editedContent = this.blog.content;
+    this.inEdit = false;
+  }
+  getFile(event) {
+    this.file = event.target.files[0];
+  }
+  save() {
+    let formData = new FormData();
+    let d = this.file.name;
+    formData.append('uploadedImg', this.file, this.blog.id + ".jpg");
+    this.appService.upload_blog_Image(formData).subscribe(res => {
+      if (!res.status)
+        alert("Somthing went worng with the image...");
+    });
+    this.appService.update_blog(this.blog.id, this.editedTitle, this.editedContent).subscribe(res => {
+      if (res.status) {
+        this.blog.title = this.editedTitle;
+        this.blog.content = this.editedContent;
+        let a = this.blog.imgPath;
+        this.blog.imgPath = "";
+        alert(d);
+        this.blog.imgPath = d;
+      }
+      else
+        alert("Somthing went worng...");
+    });
+    this.inEdit = false;
   }
 
   doLike() {

@@ -24,6 +24,7 @@ import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
 import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-content.component';
 import { CommentComponent } from './main-page/blog-page/blog-content/comment/comment.component';
 import { ReplyComponent } from './main-page/blog-page/blog-content/comment/reply/reply.component';
+import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { ReplyComponent } from './main-page/blog-page/blog-content/comment/reply
     BlogPageComponent,
     BlogContentComponent,
     CommentComponent,
-    ReplyComponent
+    ReplyComponent,
+    NewBlogComponent
   ],
   imports: [
     BrowserModule,
