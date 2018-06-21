@@ -35,9 +35,9 @@ export class BlogContentComponent implements OnInit {
     this.date = new Date();
   }
 
-  doLikeBlog() {
+  doLike() {
     if (this.blog.likes.users.includes(this.watcher)) {
-      this.undoLikeBlog();
+      this.undoLike();
       return;
     }
     if (this.blog.unlikes.users.includes(this.watcher)) {
@@ -51,10 +51,10 @@ export class BlogContentComponent implements OnInit {
       alert(res.status);
     });
   }
-  doUnlikeBlog() {
+  doUnlike() {
     if (this.blog.unlikes.users.includes(this.watcher)) {
       alert("asda");
-      this.undoUnlikeBlog();
+      this.undoUnlike();
       return;
     }
     if (this.blog.likes.users.includes(this.watcher)) {
@@ -69,7 +69,7 @@ export class BlogContentComponent implements OnInit {
     });
   }
 
-  undoLikeBlog() {
+  undoLike() {
     if (!this.blog.likes.users.includes(this.watcher))
       return;
     let idx = this.blog.likes.users.indexOf(this.watcher);
@@ -79,7 +79,7 @@ export class BlogContentComponent implements OnInit {
       alert(res.status);
     });
   }
-  undoUnlikeBlog() {
+  undoUnlike() {
     if (!this.blog.unlikes.users.includes(this.watcher))
       return;
     let idx = this.blog.unlikes.users.indexOf(this.watcher);

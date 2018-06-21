@@ -10,10 +10,10 @@
             <i class="far fa-calendar-alt"> {{blog.created_at | date: 'LLL d, y HH:mm'}}</i>
           </li>
           <li *ngIf="blog" class="mx-2">
-            <i class="far fa-thumbs-up" (click)="doLikeBlog()" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''"> {{blog.likes.count}} Likes</i>
+            <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''"> {{blog.likes.count}} Likes</i>
           </li>
           <li *ngIf="blog" class="mx-2">
-            <i class="far fa-thumbs-down" (click)="doUnlikeBlog()" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
+            <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
               {{blog.unlikes.count}} Unlikes</i>
           </li>
           <li>
