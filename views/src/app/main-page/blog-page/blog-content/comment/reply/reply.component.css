@@ -1,0 +1,16 @@
+.comment i {
+    color: #777;
+    font-size: 0.875em;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    transition: 0.4s;
+  }
+  
+  .comment i:hover {
+    color: #01cd74;
+    cursor: pointer;
+  }
+  
+  .clicked {
+    color: #01cd74 !important;
+  }

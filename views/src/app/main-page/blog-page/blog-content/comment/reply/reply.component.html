@@ -1,0 +1,16 @@
+<div class="media mt-3">
+  <a class="d-flex pr-3">
+    <img src="{{reply.imgPath}}" alt="" height="70px" width="70px" class="img-fluid" />
+  </a>
+  <div class="media-body">
+    <h5 class="mt-0">{{reply.writer}}</h5>
+    <p>{{reply.content}}</p>
+    <div class="comment">
+      <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="reply.likes.users.includes(watcher) ? 'clicked' : ''">
+        {{reply.likes.count}}</i>
+      <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="reply.unlikes.users.includes(watcher) ? 'clicked' : ''">
+        {{reply.unlikes.count}}</i>
+      <i class="far fa-clock"> {{reply.created_at | date: 'LLL d, y HH:mm'}}</i>
+    </div>
+  </div>
+</div>

@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './auth.guard';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './main-page/home/home.component';
@@ -22,6 +22,8 @@ import { InboxComponent } from './main-page/inbox/inbox.component';
 import { BlogsComponent } from './main-page/blogs/blogs.component';
 import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
 import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-content.component';
+import { CommentComponent } from './main-page/blog-page/blog-content/comment/comment.component';
+import { ReplyComponent } from './main-page/blog-page/blog-content/comment/reply/reply.component';
 
 @NgModule({
   declarations: [
@@ -39,8 +41,10 @@ import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-co
     InboxComponent,
     BlogsComponent,
     BlogPageComponent,
-    BlogContentComponent
-    ],
+    BlogContentComponent,
+    CommentComponent,
+    ReplyComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,

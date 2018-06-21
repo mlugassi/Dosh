@@ -1,0 +1,37 @@
+<div class="media">
+  <div>
+    <img src="{{comment.imgPath}}" height="70px" width="70px" alt="" class="img-fluid" />
+  </div>
+  <div class="media-body">
+    <h5 class="mt-0">{{comment.writer}}</h5>
+    <div>
+      <p>{{comment.content}}</p>
+      <div class="comment">
+        <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="comment.likes.users.includes(watcher) ? 'clicked' : ''">
+          {{comment.likes.count}}</i>
+        <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="comment.unlikes.users.includes(watcher) ? 'clicked' : ''">
+          {{comment.unlikes.count}}</i>
+        <i class="far fa-comment collapse" data-toggle="collapse" [attr.data-target]="'#'+comment._id"> {{comment.replies.count}}</i>
+        <i class="far fa-clock"> {{ comment.created_at | date: 'LLL d, y HH:mm'}}</i>
+      </div>
+    </div>
+
+
+    <div *ngIf="comment.replies">
+      <app-reply *ngFor="let reply of comment.replies" [reply]="reply" [watcher]="watcher" [imgPath]="imgPath" [blogId]="blogId"
+        [commentId]="comment._id"></app-reply>
+      <div id="{{comment._id}}" class="comment-bottom collapse">
+        <div class="row">
+          <div class="col-lg-2">
+            <img src="{{imgPath}}" height="70px" width="70px" alt="" class="img-fluid" />
+          </div>
+          <div class="col-lg-10">
+            <textarea class="form-control" [(ngModel)]="newReplyText" placeholder="Write a reply..."></textarea>
+            <button type="submit" class="btn btn-primary submit" data-toggle="collapse" [attr.data-target]="'#'+comment._id" (click)="addReply()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

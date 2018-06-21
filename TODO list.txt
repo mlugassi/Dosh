@@ -20,3 +20,4 @@ Micahel:
 6. check if it possible to make only one post req when upload image
 7. add get function for routing
 8. make the check vales beeter
+9. maybe add ability to remove a comment (for admin and writer)
