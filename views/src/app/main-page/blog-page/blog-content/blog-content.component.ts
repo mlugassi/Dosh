@@ -64,26 +64,27 @@ export class BlogContentComponent implements OnInit {
     this.file = event.target.files[0];
   }
   save() {
-    let formData = new FormData();
-    let d = this.file.name;
-    formData.append('uploadedImg', this.file, this.blog.id + ".jpg");
-    this.appService.upload_blog_Image(formData).subscribe(res => {
-      if (!res.status)
-        alert("Somthing went worng with the image...");
-    });
     this.appService.update_blog(this.blog.id, this.editedTitle, this.editedContent).subscribe(res => {
       if (res.status) {
         this.blog.title = this.editedTitle;
         this.blog.content = this.editedContent;
-        let a = this.blog.imgPath;
-        this.blog.imgPath = "";
-        alert(d);
-        this.blog.imgPath = d;
+        if (this.file) {
+          let formData = new FormData();
+          formData.append('uploadedImg', this.file, this.blog.id + ".jpg");
+          this.appService.upload_blog_Image(formData).subscribe(res => {
+            if (!res.status)
+              alert("Somthing went worng with the image...");
+          });
+        }
       }
       else
         alert("Somthing went worng...");
     });
     this.inEdit = false;
+  }
+
+  newBlog() {
+    this.router.navigate(['/blogs/blog']);
   }
 
   doLike() {

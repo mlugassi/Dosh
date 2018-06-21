@@ -11,6 +11,7 @@ import { InboxComponent } from './main-page/inbox/inbox.component';
 import { BlogsComponent } from './main-page/blogs/blogs.component';
 import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
 import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-content.component';
+import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.component';
 
 const appRoutes: Routes = [
   {
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
       { path: 'blogs', component: BlogsComponent },
       {
         path: 'blogs', component: BlogPageComponent, children: [
+          { path: 'blog', component: NewBlogComponent },
           { path: ':id', component: BlogContentComponent }
         ]
       },

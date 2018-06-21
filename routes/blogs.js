@@ -146,7 +146,53 @@ router.post('/delete', checksession, function (req, res) {
         });
     });
 });
+router.post('/add', checksession, function (req, res) {
+    Blog.find({
+        isActive: true
+    }).sort({
+        "id": -1
+    }).limit(1).exec(
+        function (err, result) {
+            if (err) throw err;
+            if (result == null) return res.json({
+                status: false
+            });
+            let id = result[0].id + 1;
+            console.log(req.body.title);
+            console.log(req.body.content);
+            Blog.create({
+                id: id,
+                title: req.body.title,
+                author: req.session.passport.user,
+                content: req.body.content,
+                imgPath: "\\images\\blogs\\" + id + ".jpg",
+                category: "",
+                likes: {
+                    count: 0,
+                    users: []
+                },
+                unlikes: {
+                    count: 0,
+                    users: []
+                },
+                comments: {
+                    count: 0,
+                    comment: []
+                },
+                isActive: true
 
+            }, function (err, blog) {
+                if (err) throw err;
+                console.log('blog created:' + blog);
+                return res.json({
+                    status: true,
+                    id: id
+                });
+            });
+        }
+    );
+
+});
 router.post('/upload', checksession, (req, res) => {
     upload(req, res, (err) => {
         if (err) {
@@ -167,7 +213,7 @@ router.post('/upload', checksession, (req, res) => {
                 }, function (err, result) {
                     if (err) throw err;
                     res.status(200).json({
-                        status: true
+                        status: true,
                     });
                 })
             }

@@ -59,6 +59,10 @@
 
 
       <div *ngIf="blog && !inEdit" class="action" style="position: absolute; right: 10px;">
+          <button class="btn btn-success" (click)="newBlog()">
+              <i class="fas fa-plus">
+              </i>
+            </button>
         <button class="btn btn-warning" (click)="edit()">
           <i class="fa fa-edit">
           </i>
