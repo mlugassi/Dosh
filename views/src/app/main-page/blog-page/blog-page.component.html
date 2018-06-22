@@ -24,6 +24,9 @@
                   <h5>
                     <a href="blogs/{{blog.id}}">{{blog.title}} </a>
                   </h5>
+                  <p>
+                    {{blog.content | slice:0:20}}...
+                  </p>
                   <div class="sub-meta">
                     <span>
                       <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>
@@ -51,6 +54,9 @@
                   <h5>
                     <a href="blogs/{{blog.id}}">{{blog.title}} </a>
                   </h5>
+                  <p>
+                    {{blog.content | slice:0:30}}...
+                  </p>
                   <div class="sub-meta">
                     <span>
                       <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>

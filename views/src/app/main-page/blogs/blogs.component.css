@@ -1,0 +1,9 @@
+.btnOptions {
+  background: none repeat scroll 0 0 #fcfcfc;
+  border: 1px solid #afafaf;
+  border-radius: 3px !important;
+  color: #000000;
+  display: inline-block;
+  padding: 5px 10px;
+  margin-left: 10px;
+}

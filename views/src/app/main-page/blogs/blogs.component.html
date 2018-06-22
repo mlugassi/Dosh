@@ -1,19 +1,41 @@
 <section class="main-content-w3layouts-agileits">
   <div class="container">
-    <h3 class="tittle">Blog Posts</h3>
+    <button class="btnOptions" (click)="newBlog()">
+      <i class="fas fa-cog">
+      </i>
+      Manage
+    </button>
+    <button class="btnOptions" (click)="newBlog()">
+      <i class="fas fa-plus">
+      </i>
+      Add New Blog
+    </button>
+    <button *ngIf="allPosts" class="btnOptions" (click)="showOnlyMyPosts()">
+      Show Only My Posts
+    </button>
+    <button *ngIf="!allPosts" class="btnOptions" (click)="showAllPost()">
+      Show All Posts
+    </button>
+    <!-- <button class="btnOptions" (click)="sortByDate()">
+      Sort By Date
+    </button>
+    <button class="btnOptions" (click)="sortByTitle()">
+      Sort By Title
+    </button> -->
+    <!-- <h3 class="tittle">Blog Posts</h3> -->
     <div class="inner-sec">
       <div class="left-blog-info-w3layouts-agileits text-left">
         <div *ngFor="let blog of blogs; let i = index;">
           <div *ngIf="!(i%3)" class="row">
             <div class="row">
-              <div class="col-lg-4">
-                <app-blog-card *ngIf="i < blogs.length" [blog]="blogs[i]"></app-blog-card>
+              <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                <app-blog-card [blog]="blogs[i]"></app-blog-card>
               </div>
-              <div class="col-lg-4">
-                <app-blog-card *ngIf="i +1  < blogs.length" [blog]="blogs[i + 1]"></app-blog-card>
+              <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                <app-blog-card [blog]="blogs[i + 1]"></app-blog-card>
               </div>
-              <div class="col-lg-4">
-                <app-blog-card  [blog]="blogs[i + 2]"></app-blog-card>
+              <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+                <app-blog-card [blog]="blogs[i + 2]"></app-blog-card>
               </div>
             </div>
           </div>
