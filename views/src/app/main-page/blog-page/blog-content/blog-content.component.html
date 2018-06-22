@@ -1,109 +1,109 @@
-<div class="col-lg-12 left-blog-info-w3layouts-agileits text-left">
-  <div class="blog-grid-top">
-    <div class="b-grid-top">
-      <div class="blog_info_left_grid">
-        <div *ngIf="inEdit" class="edit">
-          <button class="btn btn-secondary imgBtn" (click)="file.click()">
-            <i class="fas fa-camera"> </i>
-          </button>
-          <input type="file" (change)="getFile($event)" class="form-control" accept="image/*" #file/>
-        </div>
-        <div [ngClass]="inEdit? 'transbox':''">
-          <img style="z-index: 0;" *ngIf="blog" src="{{blog.imgPath}}" class="img-fluid" alt="">
-        </div>
-      </div>
-      <div class="blog-info-middle">
-        <ul>
-          <li *ngIf="blog">
-            <i class="far fa-calendar-alt"> {{blog.created_at | date: 'LLL d, y HH:mm'}}</i>
-          </li>
-          <li *ngIf="blog" class="mx-2">
-            <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''"> {{blog.likes.count}} Likes</i>
-          </li>
-          <li *ngIf="blog" class="mx-2">
-            <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
-              {{blog.unlikes.count}} Unlikes</i>
-          </li>
-          <li>
-            <i class="far fa-comment"> {{blog.comments.count}} Comments</i>
-          </li>
-        </ul>
-      </div>
-    </div>
-
-    <div *ngIf="blog && !inEdit">
-      <h2 style=" font-size: 60px; margin: 30px 10px 20px 10px ; text-align: center">
-        {{blog.title}}
-      </h2>
-      <p style="margin: 0px 15px 30px 15px;text-align: justify">
-        {{blog.content}}
-      </p>
-    </div>
-
-    <div *ngIf="blog && inEdit" class="edit">
-      <input type="text" class="form-control" [(ngModel)]="editedTitle" placeholder="Write a title..." />
-      <textarea class="form-control" [(ngModel)]="editedContent" placeholder="Write something..."></textarea>
-    </div>
-    <div style="font-size: 20px;">
-      <div class="comment" style="position: absolute; left: 10px;">
-        <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''">
-          {{blog.likes.count}}
-        </i>
-        <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
-          {{blog.unlikes.count}}
-        </i>
-        <i class="far fa-comment">
-          {{blog.comments.count}}
-        </i>
-      </div>
-
-
-      <div *ngIf="blog && !inEdit" class="action" style="position: absolute; right: 10px;">
-          <button class="btn btn-success" (click)="newBlog()">
-              <i class="fas fa-plus">
-              </i>
+<div  *ngIf="blog" class="col-lg-12 left-blog-info-w3layouts-agileits text-left">
+    <div class="blog-grid-top">
+      <div class="b-grid-top">
+        <div class="blog_info_left_grid">
+          <div *ngIf="inEdit" class="edit">
+            <button class="btn btn-secondary imgBtn" (click)="file.click()">
+              <i class="fas fa-camera"> </i>
             </button>
-        <button class="btn btn-warning" (click)="edit()">
-          <i class="fa fa-edit">
-          </i>
-        </button>
-        <button class="btn btn-danger" (click)="delete()">
-          <i class="fa fa-trash">
-          </i>
-        </button>
-      </div>
-
-      <div *ngIf="blog && inEdit" class="edit" style="position: absolute; right: 10px;">
-        <button class="btn btn-success" (click)="save()">
-          <i class="fas fa-save">
-          </i>
-        </button>
-        <button class="btn btn-danger" (click)="cancel()">
-          <i class="fas fa-times">
-          </i>
-        </button>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="blog" class="comment-top">
-    <h4>Comments</h4>
-    <div *ngIf="blog.comments && blog.comments.comment">
-      <app-comment *ngFor="let comment of blog.comments.comment" [comment]="comment" [watcher]="watcher" [imgPath]="imgPath" [blogId]="blog.id"
-        (replyAddedSuccessfully)="onReplyAddedSuccessfully($event)"></app-comment>
-    </div>
-  </div>
-  <div class="comment-top">
-    <div class="comment-bottom">
-      <div class="row">
-        <div class="col-lg-2">
-          <img src="{{imgPath}}" height="70px" width="70px" alt="" class="img-fluid" />
+            <input type="file" (change)="getFile($event)" class="form-control" accept="image/*" #file/>
+          </div>
+          <div [ngClass]="inEdit? 'transbox':''">
+            <img style="z-index: 0;" src="{{blog.imgPath}}" class="img-fluid" alt="">
+          </div>
         </div>
-        <div class="col-lg-10">
-          <textarea class="form-control" [(ngModel)]="newCommentText" placeholder="Write a comment..."></textarea>
-          <button type="submit" class="btn btn-primary submit" (click)="addComment()">Submit</button>
+        <div class="blog-info-middle">
+          <ul>
+            <li>
+              <i class="far fa-calendar-alt"> {{blog.created_at | date: 'LLL d, y HH:mm'}}</i>
+            </li>
+            <li class="mx-2">
+              <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''"> {{blog.likes.count}} Likes</i>
+            </li>
+            <li class="mx-2">
+              <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
+                {{blog.unlikes.count}} Unlikes</i>
+            </li>
+            <li>
+              <i class="far fa-comment"> {{blog.comments.count}} Comments</i>
+            </li>
+          </ul>
         </div>
       </div>
+  
+      <div *ngIf="blog && !inEdit">
+        <h2 style=" font-size: 60px; margin: 30px 10px 20px 10px ; text-align: center">
+          {{blog.title}}
+        </h2>
+        <p style="margin: 0px 15px 30px 15px;text-align: justify">
+          {{blog.content}}
+        </p>
+      </div>
+  
+      <div *ngIf="blog && inEdit" class="edit">
+        <input type="text" class="form-control" [(ngModel)]="editedTitle" placeholder="Write a title..." />
+        <textarea class="form-control" [(ngModel)]="editedContent" placeholder="Write something..."></textarea>
+      </div>
+      <div style="font-size: 20px;">
+        <div class="comment" style="position: absolute; left: 10px;">
+          <i class="far fa-thumbs-up" (click)="doLike()" [ngClass]="blog.likes.users.includes(watcher) ? 'clicked' : ''">
+            {{blog.likes.count}}
+          </i>
+          <i class="far fa-thumbs-down" (click)="doUnlike()" [ngClass]="blog.unlikes.users.includes(watcher) ? 'clicked' : ''">
+            {{blog.unlikes.count}}
+          </i>
+          <i class="far fa-comment">
+            {{blog.comments.count}}
+          </i>
+        </div>
+  
+  
+        <div *ngIf="blog && !inEdit" class="action" style="position: absolute; right: 10px;">
+            <button class="btn btn-success" (click)="newBlog()">
+                <i class="fas fa-plus">
+                </i>
+              </button>
+          <button class="btn btn-warning" (click)="edit()">
+            <i class="fa fa-edit">
+            </i>
+          </button>
+          <button class="btn btn-danger" (click)="delete()">
+            <i class="fa fa-trash">
+            </i>
+          </button>
+        </div>
+  
+        <div *ngIf="blog && inEdit" class="edit" style="position: absolute; right: 10px;">
+          <button class="btn btn-success" (click)="save()">
+            <i class="fas fa-save">
+            </i>
+          </button>
+          <button class="btn btn-danger" (click)="cancel()">
+            <i class="fas fa-times">
+            </i>
+          </button>
+        </div>
+      </div>
     </div>
+    <div class="comment-top">
+      <h4>Comments</h4>
+      <div *ngIf="blog.comments && blog.comments.comment">
+        <app-comment *ngFor="let comment of blog.comments.comment" [comment]="comment" [watcher]="watcher" [imgPath]="imgPath" [blogId]="blog.id"
+          (replyAddedSuccessfully)="onReplyAddedSuccessfully($event)"></app-comment>
+      </div>
+    </div>
+    <div class="comment-top">
+      <div class="comment-bottom">
+        <div class="row">
+          <div class="col-lg-2">
+            <img src="{{imgPath}}" height="70px" width="70px" alt="" class="img-fluid" />
+          </div>
+          <div class="col-lg-10">
+            <textarea class="form-control" [(ngModel)]="newCommentText" placeholder="Write a comment..."></textarea>
+            <button type="submit" class="btn btn-primary submit" (click)="addComment()">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
   </div>
-
-</div>

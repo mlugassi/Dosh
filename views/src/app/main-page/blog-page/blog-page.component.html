@@ -13,7 +13,7 @@
           <button type="button" class="accordion" data-toggle="collapse" data-target="#myBlogsAcc">My Blogs</button>
           <div id="myBlogsAcc" class="collapse">
             <div *ngFor="let blog of myBlogs">
-              <div class="blog-grids row mb-3">
+              <div *ngIf="blog" class="blog-grids row mb-3">
                 <div class="col-md-5 blog-grid-left">
                   <a href="blogs/{{blog.id}}">
                     <img src="{{blog.imgPath}}" class="img-fluid" alt="">
@@ -26,7 +26,7 @@
                   </h5>
                   <div class="sub-meta">
                     <span>
-                      <i class="far fa-clock"></i> {{blog.created_at}}</span>
+                      <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>
                   </div>
                 </div>
 
@@ -40,7 +40,7 @@
           <button type="button" class="accordion" data-toggle="collapse" data-target="#allBlogsAcc">All Blogs</button>
           <div id="allBlogsAcc" class="collapse">
             <div *ngFor="let blog of allBlogs">
-              <div class="blog-grids row mb-3">
+              <div *ngIf="blog" class="blog-grids row mb-3">
                 <div class="col-md-5 blog-grid-left">
                   <a href="blogs/{{blog.id}}">
                     <img src="{{blog.imgPath}}" class="img-fluid" alt="">
@@ -53,7 +53,7 @@
                   </h5>
                   <div class="sub-meta">
                     <span>
-                      <i class="far fa-clock"></i> {{blog.created_at}}</span>
+                      <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>
                   </div>
                 </div>
 
