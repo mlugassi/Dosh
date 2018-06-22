@@ -7,22 +7,22 @@
           <div class="b-grid-top">
             <div class="blog_info_left_grid">
               <a href="blog/{{mostRecetBlog.id}}">
-                <img *ngIf="mostRecetBlog" src="{{mostRecetBlog.imgPath}}" class="img-fluid" alt="">
+                <img height="100%" width="100%" *ngIf="mostRecetBlog" src="{{mostRecetBlog.imgPath}}" class="img-fluid" alt="">
               </a>
             </div>
             <div class="blog-info-middle">
               <ul>
                 <li>
                   <a href="#">
-                    <i class="far fa-calendar-alt"></i> {{mostRecetBlog.dateString}}</a>
+                    <i class="far fa-calendar-alt"></i> {{mostRecetBlog.created_at | date: 'LLL d, y'}}</a>
                 </li>
                 <li class="mx-2">
                   <a href="#">
-                    <i class="far fa-thumbs-up"></i> {{mostRecetBlog.likes}} Likes</a>
+                    <i class="far fa-thumbs-up"></i> {{mostRecetBlog.likes.count}} Likes</a>
                 </li>
                 <li>
                   <a href="#">
-                    <i class="far fa-comment"></i> {{mostRecetBlog.comments}} Comments</a>
+                    <i class="far fa-comment"></i> {{mostRecetBlog.comments.count}} Comments</a>
                 </li>
 
               </ul>
@@ -58,7 +58,7 @@
                 </h5>
                 <div class="sub-meta">
                   <span>
-                    <i class="far fa-clock"></i> {{blog.created_at}}</span>
+                    <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>
                 </div>
               </div>
 
