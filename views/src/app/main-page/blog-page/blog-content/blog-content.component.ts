@@ -64,6 +64,7 @@ export class BlogContentComponent implements OnInit {
     this.file = event.target.files[0];
   }
   save() {
+    if (!this.checkValues()) return;
     this.appService.update_blog(this.blog.id, this.editedTitle, this.editedContent).subscribe(res => {
       if (res.status) {
         this.blog.title = this.editedTitle;
@@ -81,6 +82,21 @@ export class BlogContentComponent implements OnInit {
         alert("Somthing went worng...");
     });
     this.inEdit = false;
+  }
+  checkValues() {
+    if (this.editedTitle.length < 1 || this.editedTitle.replace(/\s/g, '') == "") {
+      alert("Title must contains content");
+      return false;
+    }
+    if (this.editedTitle.length > 60) {
+      alert("Title length is bigger then 60 letters");
+      return false;
+    }
+    if (this.editedContent.length < 100 || this.editedContent.replace(/\s/g, '') == "") {
+      alert("Content length mast be at least 100 letters");
+      return false;
+    }
+    return true;
   }
 
   newBlog() {

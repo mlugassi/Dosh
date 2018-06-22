@@ -221,20 +221,28 @@ router.post('/upload', checksession, (req, res) => {
     });
 });
 router.post('/update', checksession, function (req, res) {
-    Blog.findOneAndUpdate({
-        id: req.body.id
-    }, {
-        title: req.body.title,
-        content: req.body.content
-    }, function (err, result) {
-        if (err) throw err;
-        if (result == null) return res.json({
-            status: false
-        });
-        return res.json({
-            status: true
-        });
+
+    if (req.body.title.length < 1 || req.body.title.length > 60 || req.body.title.replace(/\s/g, '')) return res.json({
+        status: false
     });
+    if (req.body.content.content < 100 || req.body.content.replace(/\s/g, '')) return res.json({
+        status: false
+    });
+    else
+        Blog.findOneAndUpdate({
+            id: req.body.id
+        }, {
+            title: req.body.title,
+            content: req.body.content
+        }, function (err, result) {
+            if (err) throw err;
+            if (result == null) return res.json({
+                status: false
+            });
+            return res.json({
+                status: true
+            });
+        });
 });
 
 router.post('/add_comment', checksession, function (req, res) {
