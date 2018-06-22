@@ -96,6 +96,10 @@ export class BlogContentComponent implements OnInit {
       alert("Content length mast be at least 100 letters");
       return false;
     }
+    if (this.editedTitle == this.blog.title && this.editedContent == this.blog.content) {
+      this.inEdit = false;
+      return false;
+    }
     return true;
   }
 
