@@ -25,6 +25,7 @@ import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-co
 import { CommentComponent } from './main-page/blog-page/blog-content/comment/comment.component';
 import { ReplyComponent } from './main-page/blog-page/blog-content/comment/reply/reply.component';
 import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.component';
+import { BlogCardComponent } from './main-page/blogs/blog-card/blog-card.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.compon
     BlogContentComponent,
     CommentComponent,
     ReplyComponent,
-    NewBlogComponent
+    NewBlogComponent,
+    BlogCardComponent
   ],
   imports: [
     BrowserModule,

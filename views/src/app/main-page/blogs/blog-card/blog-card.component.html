@@ -1,0 +1,30 @@
+<div *ngIf="blog" class="card">
+  <a href="blogs/{{blog.id}}">
+    <img src="{{blog.imgPath}}"  class="card-img-top img-fluid" alt="">
+  </a>
+  <div class="card-body">
+    <ul class="blog-icons my-4">
+      <li>
+        <a href="blogs/{{blog.id}}">
+          <i class="far fa-calendar-alt"></i> {{blog.created_at | date: 'LLL d, y'}}</a>
+      </li>
+      <li class="mx-2">
+        <a href="blogs/{{blog.id}}">
+          <i class="far fa-thumbs-up"></i> {{blog.likes.count}}</a>
+      </li>
+      <li class="mx-2">
+        <a href="blogs/{{blog.id}}">
+          <i class="far fa-thumbs-down"></i> {{blog.unlikes.count}}</a>
+      </li>
+      <li class="mx-2">
+        <a href="blogs/{{blog.id}}">
+          <i class="far fa-comment"></i> {{blog.comments.count}}</a>
+      </li>
+    </ul>
+    <h5 class="card-title">
+      <a href="blogs/{{blog.id}}">{{blog.title}}</a>
+    </h5>
+    <p class="card-text mb-3">{{blog.content | slice:0:100}}... </p>
+    <a href="blogs/{{blog.id}}" class="btn btn-primary read-m">Read More</a>
+  </div>
+</div>
