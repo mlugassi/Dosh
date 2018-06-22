@@ -32,10 +32,10 @@
     </div>
 
     <div *ngIf="blog && !inEdit">
-      <h2>
+      <h2 style=" font-size: 60px; margin: 30px 10px 20px 10px ; text-align: center">
         {{blog.title}}
       </h2>
-      <p>
+      <p style="margin: 0px 15px 30px 15px;text-align: justify">
         {{blog.content}}
       </p>
     </div>
@@ -73,7 +73,7 @@
         </button>
       </div>
 
-      <div *ngIf="blog && inEdit" class="action" style="position: absolute; right: 10px;">
+      <div *ngIf="blog && inEdit" class="edit" style="position: absolute; right: 10px;">
         <button class="btn btn-success" (click)="save()">
           <i class="fas fa-save">
           </i>

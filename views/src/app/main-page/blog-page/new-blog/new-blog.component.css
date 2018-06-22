@@ -1,6 +1,7 @@
 .action button {
     color: #fff;
     width: 100%;
+    height: 60px;
   }
   
   .edit input[type="file"] {
@@ -20,9 +21,10 @@
   
   .edit textarea {
     color: #777;
-    font-size: 0.875em;
+    font-size: 1em;
     line-height: 1.9em;
-    margin-bottom: 10px;
+    min-height: 500px;
+    margin-bottom: 20px;
     margin-top: 10px;
   }
   
