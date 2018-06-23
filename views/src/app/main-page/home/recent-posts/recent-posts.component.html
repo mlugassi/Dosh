@@ -6,7 +6,7 @@
         <div class="blog-grid-top">
           <div class="b-grid-top">
             <div class="blog_info_left_grid">
-              <a href="blog/{{mostRecetBlog.id}}">
+              <a href="blogs/{{mostRecetBlog.id}}">
                 <img height="100%" width="100%" *ngIf="mostRecetBlog" src="{{mostRecetBlog.imgPath}}" class="img-fluid" alt="">
               </a>
             </div>
@@ -20,6 +20,10 @@
                   <a href="#">
                     <i class="far fa-thumbs-up"></i> {{mostRecetBlog.likes.count}} Likes</a>
                 </li>
+                <li class="mx-2">
+                  <a href="#">
+                    <i class="far fa-thumbs-down"></i> {{mostRecetBlog.unlikes.count}} Unlikes</a>
+                </li>
                 <li>
                   <a href="#">
                     <i class="far fa-comment"></i> {{mostRecetBlog.comments.count}} Comments</a>
@@ -30,10 +34,10 @@
           </div>
 
           <h3>
-            <a href="blog/{{mostRecetBlog.id}}">{{mostRecetBlog.title}} </a>
+            <a href="blogs/{{mostRecetBlog.id}}">{{mostRecetBlog.title}} </a>
           </h3>
-          <p>{{mostRecetBlog.subTitle}}</p>
-          <a href="blog/{{mostRecetBlog.id}}" class="btn btn-primary read-m">Read More</a>
+          <p>{{mostRecetBlog.content | slice: 0:250}}...</p>
+          <a href="blogs/{{mostRecetBlog.id}}" class="btn btn-primary read-m">Read More</a>
         </div>
         <!--//silder-->
 
@@ -56,6 +60,9 @@
                 <h5>
                   <a href="blogs/{{blog.id}}">{{blog.title}} </a>
                 </h5>
+                <p>
+                  {{blog.content | slice:0:20}}...
+                </p>
                 <div class="sub-meta">
                   <span>
                     <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>

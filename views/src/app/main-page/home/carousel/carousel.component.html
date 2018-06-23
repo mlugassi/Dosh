@@ -3,7 +3,7 @@
     <div class="carousel-inner" role="listbox">
       <ngb-carousel *ngIf="favoriteBlogs">
         <ng-template *ngFor="let blog of favoriteBlogs" ngbSlide>
-          <img [src]="blog.imgPath">
+          <img [src]="blog.imgPath" style="opacity: 0.5;">
           <div class="carousel-caption">
             <h3>{{blog.title}}
             </h3>
