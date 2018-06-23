@@ -1,4 +1,6 @@
 img {
-    height: 250px;
-    width: 350px;
+  min-height: 250px;
+  min-width: 350px;
+  height: 100%;
+  width: 100%;
 }

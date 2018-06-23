@@ -28,13 +28,13 @@
         <div *ngFor="let blog of blogs; let i = index;">
           <div *ngIf="!(i%3)" class="row">
             <div class="row">
-              <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+              <div class="col-lg-4">
                 <app-blog-card [blog]="blogs[i]"></app-blog-card>
               </div>
-              <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+              <div class="col-lg-4">
                 <app-blog-card [blog]="blogs[i + 1]"></app-blog-card>
               </div>
-              <div class="col-xs-4 col-sm-4 col-lg-4 col-md-4">
+              <div class="col-lg-4">
                 <app-blog-card [blog]="blogs[i + 2]"></app-blog-card>
               </div>
             </div>
