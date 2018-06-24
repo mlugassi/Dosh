@@ -31,8 +31,12 @@
 
         <h5 class="card-title">
           <a href="blogs/{{blog.id}}">{{blog.title}}</a>
+          <br>
+          <span style="font-size: 10px">
+            <i class="fas fa-user"></i> {{blog.author}}
+            <i class="fas fa-tags"></i> {{blog.category}}</span>
         </h5>
-        <p class="card-text mb-3">{{blog.content | slice:0:100}}... </p>
+        <p class="card-text mb-3">{{blog.content | slice:0:50}}... </p>
         <a href="blogs/{{blog.id}}" class="btn btn-primary read-m">Read More</a>
       </div>
     </div>

@@ -14,6 +14,7 @@ export class BlogContentComponent implements OnInit {
   blog: Blog;
   watcher: String;
   imgPath: String;
+  isBlogger: Boolean;
   newCommentText: String;
   editedContent: String;
   editedTitle: String;
@@ -27,6 +28,7 @@ export class BlogContentComponent implements OnInit {
     this.appService.get_who_am_I().subscribe(res => {
       this.watcher = res.watcher;
       this.imgPath = res.imgPath;
+      this.isBlogger = res.isBlogger;
     })
     this.inEdit = false;
     this.activatedRoute
@@ -41,6 +43,10 @@ export class BlogContentComponent implements OnInit {
   }
 
   delete() {
+    if (!this.isBlogger) {
+      alert("You have no permissions to delete this blog");
+      return;
+    }
     if (!confirm("Do you want delete this blog?\nAre you sure?")) return;
     this.appService.delete_blog(this.blog.id).subscribe(res => {
       if (res.status)
@@ -84,6 +90,10 @@ export class BlogContentComponent implements OnInit {
     this.inEdit = false;
   }
   checkValues() {
+    if (this.blog.author != this.watcher) {
+      alert("You have no permissions to change this blog");
+      return false;
+    }
     if (this.editedTitle.length < 1 || this.editedTitle.replace(/\s/g, '') == "") {
       alert("Title must contains content");
       return false;

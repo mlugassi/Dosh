@@ -50,7 +50,8 @@ router.get('/who_am_I', checksession, function (req, res) {
         if (result == null) return res.json();
         res.status(200).json({
             watcher: result.userName,
-            imgPath: result.imgPath
+            imgPath: result.imgPath,
+            isBlogger: result.isBlogger
         });
     });
 });
@@ -138,10 +139,10 @@ router.post('/delete', checksession, function (req, res) {
         isActive: false
     }, function (err, result) {
         if (err) throw err;
-        if (result == null) return res.json({
+        if (result == null || result.author != req.session.passport.user) return res.json({
             status: false
         });
-        return res.json({
+        else return res.json({
             status: true
         });
     });
@@ -154,7 +155,7 @@ router.post('/add', checksession, function (req, res) {
     }).limit(1).exec(
         function (err, result) {
             if (err) throw err;
-            if (result == null) return res.json({
+            if (result == null || !result.isBlogger) return res.json({
                 status: false
             });
             let id = result[0].id + 1;
@@ -212,7 +213,10 @@ router.post('/upload', checksession, (req, res) => {
                     imgPath: "/images/blogs/" + req.file.filename
                 }, function (err, result) {
                     if (err) throw err;
-                    res.status(200).json({
+                    if (result == null || result.author != req.session.passport.user) return res.status(200).json({
+                        status: false,
+                    });
+                    else return res.status(200).json({
                         status: true,
                     });
                 })
@@ -224,7 +228,7 @@ router.post('/update', checksession, function (req, res) {
     if (req.body.title.length < 1 || req.body.title.length > 60 || req.body.title.replace(/\s/g, '') == "") return res.json({
         status: false
     });
-    if (req.body.content.length < 100 || req.body.content.replace(/\s/g, '') == "") return res.json({
+    else if (req.body.content.length < 100 || req.body.content.replace(/\s/g, '') == "") return res.json({
         status: false
     })
     Blog.findOneAndUpdate({
@@ -234,7 +238,7 @@ router.post('/update', checksession, function (req, res) {
         content: req.body.content
     }, function (err, result) {
         if (err) throw err;
-        if (result == null) return res.json({
+        if (result == null || result.author != req.session.passport.user) return res.json({
             status: false
         });
         return res.json({

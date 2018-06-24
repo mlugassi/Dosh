@@ -8,14 +8,18 @@
     <button class="btnOptions" (click)="newBlog()">
       <i class="fas fa-plus">
       </i>
-      Add New Blog
+      Add New Post
     </button>
-    <button *ngIf="allPosts" class="btnOptions" (click)="showOnlyMyPosts()">
+    <button *ngIf="!myPosts || otherPosts" class="btnOptions" (click)="showOnlyMyPosts()">
       Show Only My Posts
     </button>
-    <button *ngIf="!allPosts" class="btnOptions" (click)="showAllPost()">
+    <button *ngIf="myPosts || !otherPosts" class="btnOptions" (click)="showOtherPost()">
+      Show Other Posts
+    </button>
+    <button *ngIf="!myPosts || !otherPosts" class="btnOptions" (click)="showAllPost()">
       Show All Posts
     </button>
+
     <!-- <button class="btnOptions" (click)="sortByDate()">
       Sort By Date
     </button>

@@ -1,0 +1,20 @@
+<div class="blog-grids row mb-3">
+  <div class="col-md-5 blog-grid-left">
+    <a href="blogs/{{blog.id}}">
+      <img src="{{blog.imgPath}}" class="img-fluid" alt="">
+    </a>
+  </div>
+  <div class="col-md-7 blog-grid-right">
+
+    <h5>
+      <a href="blogs/{{blog.id}}">{{blog.title}} </a>
+    </h5>
+    <p>
+      By {{blog.author}}
+    </p>
+    <div class="sub-meta">
+      <span>
+        <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>
+    </div>
+  </div>
+</div>

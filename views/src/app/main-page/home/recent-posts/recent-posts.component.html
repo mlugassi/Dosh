@@ -49,26 +49,8 @@
         <div class="tech-btm">
           <h4>Recent Posts</h4>
           <div *ngFor="let blog of recentBlogs; let first = first;">
-            <div *ngIf="!first" class="blog-grids row mb-3">
-              <div class="col-md-5 blog-grid-left">
-                <a href="blogs/{{blog.id}}">
-                  <img src="{{blog.imgPath}}" class="img-fluid" alt="">
-                </a>
-              </div>
-              <div class="col-md-7 blog-grid-right">
-
-                <h5>
-                  <a href="blogs/{{blog.id}}">{{blog.title}} </a>
-                </h5>
-                <p>
-                  {{blog.content | slice:0:20}}...
-                </p>
-                <div class="sub-meta">
-                  <span>
-                    <i class="far fa-clock"></i> {{blog.created_at | date: 'LLL d, y'}}</span>
-                </div>
-              </div>
-
+            <div *ngIf="!first">
+              <app-blog-small-card [blog]="blog"></app-blog-small-card>
             </div>
 
           </div>

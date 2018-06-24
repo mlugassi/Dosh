@@ -14,7 +14,8 @@ export class BlogsComponent implements OnInit {
   blogs: Blog[];
   pages: number;
   currentPage: number;
-  allPosts: Boolean;
+  myPosts: Boolean;
+  otherPosts: Boolean;
 
   constructor(private router: Router, private appService: AppService) { }
 
@@ -55,7 +56,8 @@ export class BlogsComponent implements OnInit {
       this.pages = (page % 9) + 1;
       this.currentPage = 1;
       this.blogs = this.allBlogs[this.currentPage - 1];
-      this.allPosts = false;
+      this.myPosts = true;
+      this.otherPosts = false;
     });
   }
   showAllPost() {
@@ -74,7 +76,28 @@ export class BlogsComponent implements OnInit {
       this.pages = (page % 9) + 1;
       this.currentPage = 1;
       this.blogs = this.allBlogs[this.currentPage - 1];
-      this.allPosts = true;
+      this.myPosts = true;
+      this.otherPosts = true;
+    });
+  }
+  showOtherPost() {
+    this.appService.get_all_blogs_but_mine().subscribe(res => {
+      this.blogs = [];
+      this.allBlogs = [];
+      let counter = 0;
+      let page = 0;
+      res.forEach(blog => {
+        if (!(counter++ % 9)) {
+          page = Math.floor((counter / 10));
+          this.allBlogs[page] = [];
+        }
+        this.allBlogs[page].push(blog);
+      });
+      this.pages = (page % 9) + 1;
+      this.currentPage = 1;
+      this.blogs = this.allBlogs[this.currentPage - 1];
+      this.myPosts = false;
+      this.otherPosts = true;
     });
   }
   sortByDate() {
