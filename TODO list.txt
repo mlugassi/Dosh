@@ -12,12 +12,13 @@ Refael:
 10. If not have any inbox to print a matching message
 
 Micahel:
-1. dismmis modal 
+1. dismmis modal - fixes
 2. check update user - fixed
-3. check why image save oppositly
+3. check why image save oppositly - depeds on browser
 4. make the disgn lookd better
-5.  check what is cb
+5. check what is cb 
 6. check if it possible to make only one post req when upload image
-7. add get function for routing
+7. add get function for routing - fixed
 8. make the check vales beeter
 9. maybe add ability to remove a comment (for admin and writer)
+10. fix the catgey ang make it with ng model

@@ -27,7 +27,13 @@
     margin-bottom: 20px;
     margin-top: 10px;
   }
-  
+
+  .edit select {
+    color: #777;
+    margin-bottom: 20px;
+    margin-top: 10px;
+  }
+
   .edit .imgBtn {
     width: 70px;
     height: 70px;

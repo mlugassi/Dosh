@@ -19,6 +19,16 @@
       <textarea class="form-control" [(ngModel)]="content" placeholder="Write something..."></textarea>
     </div>
 
+    <div class="edit">
+      <select class="form-control" placeholder="Write a title...">
+        <option value="null">Choose Category...</option>
+        <option value="volvo">Volvo</option>
+        <option value="saab">Saab</option>
+        <option value="mercedes">Mercedes</option>
+        <option value="audi">Audi</option>
+      </select>
+    </div>
+
     <div class="action">
       <button class="btn btn-success" (click)="save()">
         <i class="fas fa-save">
