@@ -4,6 +4,7 @@ const User = require('../model')("User");
 const checksession = require('./checksession');
 var multer = require('multer');
 const path = require('path');
+var crypto = require("crypto-js/aes");
 
 // Set The Storage Engine
 const storage = multer.diskStorage({
@@ -45,17 +46,17 @@ router.post('/upload', checksession, (req, res) => {
                 console.log("Error: No File Selected!");
             } else {
                 console.log("File Uploded");
-                let uname = req.file.filename.substr(0, req.file.filename.length - 4);
+                let uname = req.file.filename.substr(0, req.file.filename.length - 18);
                 console.log(uname);
 
                 User.findOneAndUpdate({
                     userName: uname
                 }, {
-                    imgPath: "/images/users_profiles/" + req.file.filename
-                }, function (err, result) {
-                    if (err) throw err;
-                    res.status(200).json('{"status":"OK" }');
-                })
+                        imgPath: "/images/users_profiles/" + req.file.filename
+                    }, function (err, result) {
+                        if (err) throw err;
+                        res.status(200).json('{"status":"OK" }');
+                    })
             }
         }
     });
@@ -102,7 +103,7 @@ router.post('/user', checksession, function (req, res) {
         user.imgPath = result.imgPath;
         user.gender = result.gender;
         user.bloges = result.bloges;
-        user.inbox = result.inbox;
+        //user.inbox = result.inbox;
         user.isAdmin = result.isAdmin;
         user.isBlogger = result.isBlogger;
         user.isActive = result.isActive;
@@ -116,48 +117,48 @@ router.post('/delete', checksession, function (req, res) {
     User.findOneAndUpdate({
         userName: name
     }, {
-        isActive: false
-    }, function (err, result) {
-        if (err) throw err;
-        res.status(200).json('{"status":"OK" }');
-    })
+            isActive: false
+        }, function (err, result) {
+            if (err) throw err;
+            res.status(200).json('{"status":"OK" }');
+        })
 });
 
-router.post('/update', checksession, function (req, res) {
-    let name = req.session.passport.user;
-    if (name == undefined || name == "") throw err; // maybe check session do it
-    User.findOne({
-        userName: name,
-        isActive: true
-    }, function (err, result) {
-        if (err) throw err;
-
-        if (result == null && !result.isAdmin) return status(200).json('{"status":"Fail" }');
-        let user = {};
-        if (req.body == undefined || !checkUserValues(req.body)) return res.status(200).json('{"status":"Fail" }');
-        user.userName = req.body.userName;
-        if (req.body.password != "") user.password = req.body.password;
-        user.firstName = req.body.firstName;
-        user.lastName = req.body.lastName;
-        user.userName = req.body.userName;
-        user.email = req.body.email;
-        user.gender = req.body.gender;
-        user.isActive = req.body.isActive;
-        user.isAdmin = req.body.isAdmin;
-        user.isBlogger = req.body.isBlogger;
-        user.birthDay = new Date(req.body.birthDay || "");
-        user.inbox = req.body.inbox || [];
-
-        User.findOneAndUpdate({
-            userName: user.userName,
-            isActive: true
-        }, user, function (err, result) {
-
-            if (err) throw err;
-            if (!result) return res.status(200).json('{"status":"Fail" }');
-            res.status(200).json('{"status":"OK" }');
-
+router.post('/update', checksession, async (req, res) => {
+    var userToFind = {};
+    if (req.session.passport.user == req.body.user.userName) /// edit user
+    {
+        if (req.body.user.password != undefined && req.body.user.password != ""
+            && req.body.oldPassword != undefined && req.body.oldPassword != "") {
+            let myUser = await User.findOne({ userName: req.body.user.userName, isActive: true }).exec();
+            userToFind.password = crypto.decrypt(req.body.oldPassword, myUser.passwordKey);
+            req.body.user.password = crypto.decrypt(req.body.user.password, myUser.passwordKey);
+        }
+        else
+            delete req.body.user.password;
+    }
+    else {//Is an admin
+        User.findOne({ userName: req.session.passport.uname, isActive: true, isAdmin: true }, function (err, user) {
+            if (err || !user)
+                return res.status(200).json({ status: false });
         });
+        if (req.body.user.password != undefined && req.body.user.password != "") {
+            let myUser = await User.findOne({ userName: req.body.user.userName, isActive: true }).exec();
+            req.body.user.password = crypto.decrypt(req.body.user.password, myUser.passwordKey);
+        }
+        else delete req.body.user.password;
+    }
+    if (!checkUserValues(req.body.user))
+        return res.status(200).json({ status: false });
+
+    userToFind.userName = req.body.user.userName;
+    userToFind.isActive = true;
+    req.body.user.passwordKey = "";
+
+    User.findOneAndUpdate(userToFind, req.body.user, function (err, user) {
+        if (err || !user)
+            return res.status(200).json({ status: false });
+        res.status(200).json({ status: true });
     });
 });
 

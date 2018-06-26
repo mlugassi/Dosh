@@ -150,8 +150,8 @@ export class AppService {
   delete_user(userName: String) {
     return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
   }
-  update_user(user: User) {
-    return this.http.post<string>(`${this.api_url}/users/update`, user);
+  update_user(user: User, oldPassword=undefined) {
+    return this.http.post<any>(`${this.api_url}/users/update`, {user,oldPassword:oldPassword});
   }
   get_inbox() {
     return this.http.get(`${this.api_url}/inbox/gatAll`)

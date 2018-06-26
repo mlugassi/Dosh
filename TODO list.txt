@@ -10,6 +10,7 @@ Refael:
 8. in the reset password page  - change the password input to password type
 9.move the configuration button to the end of the navbar.
 10. If not have any inbox to print a matching message
+11. To fix the user modal.
 
 Micahel:
 1. dismmis modal - fixes
