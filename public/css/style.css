@@ -304,17 +304,18 @@ form.header-search {
 /* Declare heights because of positioning of img element */
 
 .carousel-item {
-	height: 30em;
+	height: 44em;
 	background-color: #777;
 }
 
-.carousel-item>img {
+.carousel-item>div>img {
 	position: absolute;
 	top: 0;
 	left: 0;
 	min-width: 100%;
-	height: 30em;
+	height: 44em;
 }
+
 
 /* MARKETING CONTENT
 -------------------------------------------------- */
