@@ -834,7 +834,7 @@ ul.blog-icons i {
 /*-- //services --*/
 /*-- mid --*/
 .list-inline> li {
-    margin: 1.2em 0;
+    margin-bottom: 53px;
     display: block;
     padding: 0;
 }
@@ -844,6 +844,8 @@ ul.blog-icons i {
 .mid-text-info h4 {
     color: #01cd74;
 	font-size: 1.1em; 
+	overflow: hidden;
+	max-height: 90px;
 }
 .mid-text-info p {
 	margin-top: 0.3em;

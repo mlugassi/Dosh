@@ -17,7 +17,6 @@ export class RecentPostsComponent implements OnInit {
   ngOnInit() {
     this.appService.get_recent_posts().subscribe(res => {
       this.mostRecetBlog = res[0];
-      this.recentBlogs = [];
       res.splice(0, 1);
       this.recentBlogs = res;
     }

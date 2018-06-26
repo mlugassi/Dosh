@@ -120,7 +120,23 @@ router.get('/recent_posts', checksession, function (req, res) {
         );
     })()
 });
-
+router.get('/most_commented_blogs', checksession, function (req, res) {
+    (async () => {
+        Blog.find({
+            isActive: true
+        }).sort({
+            "comments.count": -1
+        }).limit(5).exec(
+            function (err, result) {
+                if (err) throw err;
+                if (result == null) return res.json({
+                    status: false
+                });
+                res.json(result);
+            }
+        );
+    })()
+});
 router.post('/blog', checksession, function (req, res) {
     Blog.findOne({
         id: req.body.id,
@@ -137,16 +153,16 @@ router.post('/delete', checksession, function (req, res) {
         id: req.body.id,
         isActive: true
     }, {
-            isActive: false
-        }, function (err, result) {
-            if (err) throw err;
-            if (result == null || result.author != req.session.passport.user) return res.json({
-                status: false
-            });
-            else return res.json({
-                status: true
-            });
+        isActive: false
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null || result.author != req.session.passport.user) return res.json({
+            status: false
         });
+        else return res.json({
+            status: true
+        });
+    });
 });
 router.post('/add', checksession, function (req, res) {
     Blog.find({
@@ -211,16 +227,16 @@ router.post('/upload', checksession, (req, res) => {
                 Blog.findOneAndUpdate({
                     id: id
                 }, {
-                        imgPath: "/images/blogs/" + req.file.filename
-                    }, function (err, result) {
-                        if (err) throw err;
-                        if (result == null || result.author != req.session.passport.user) return res.status(200).json({
-                            status: false,
-                        });
-                        else return res.status(200).json({
-                            status: true,
-                        });
-                    })
+                    imgPath: "/images/blogs/" + req.file.filename
+                }, function (err, result) {
+                    if (err) throw err;
+                    if (result == null || result.author != req.session.passport.user) return res.status(200).json({
+                        status: false,
+                    });
+                    else return res.status(200).json({
+                        status: true,
+                    });
+                })
             }
         }
     });
@@ -235,17 +251,17 @@ router.post('/update', checksession, function (req, res) {
     Blog.findOneAndUpdate({
         id: req.body.id
     }, {
-            title: req.body.title,
-            content: req.body.content
-        }, function (err, result) {
-            if (err) throw err;
-            if (result == null || result.author != req.session.passport.user) return res.json({
-                status: false
-            });
-            return res.json({
-                status: true
-            });
+        title: req.body.title,
+        content: req.body.content
+    }, function (err, result) {
+        if (err) throw err;
+        if (result == null || result.author != req.session.passport.user) return res.json({
+            status: false
         });
+        return res.json({
+            status: true
+        });
+    });
 });
 
 router.post('/add_comment', checksession, function (req, res) {
@@ -299,25 +315,25 @@ router.post('/add_reply', checksession, function (req, res) {
             status: false
         });
         result.comments.comment.forEach(comment => {
-            if (comment._id == req.body.commentId) {
-                result.comments.count++;
-                comment.replies.push({
-                    writer: req.session.passport.user,
-                    imgPath: req.body.imgPath,
-                    content: req.body.content,
-                    created_at: req.body.date,
-                    likes: {
-                        count: 0,
-                        users: []
-                    },
-                    unlikes: {
-                        count: 0,
-                        users: []
-                    },
-                });
-                _id = comment.replies[comment.replies.length - 1]._id;
+                if (comment._id == req.body.commentId) {
+                    result.comments.count++;
+                    comment.replies.push({
+                        writer: req.session.passport.user,
+                        imgPath: req.body.imgPath,
+                        content: req.body.content,
+                        created_at: req.body.date,
+                        likes: {
+                            count: 0,
+                            users: []
+                        },
+                        unlikes: {
+                            count: 0,
+                            users: []
+                        },
+                    });
+                    _id = comment.replies[comment.replies.length - 1]._id;
+                }
             }
-        }
 
         );
         Blog.findOneAndUpdate({

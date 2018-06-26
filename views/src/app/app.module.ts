@@ -26,7 +26,8 @@ import { CommentComponent } from './main-page/blog-page/blog-content/comment/com
 import { ReplyComponent } from './main-page/blog-page/blog-content/comment/reply/reply.component';
 import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.component';
 import { BlogCardComponent } from './main-page/blogs/blog-card/blog-card.component';
-import { BlogSmallCardComponent } from './main-page/blog-small-card/blog-small-card.component';
+import { BlogSmallCardComponent } from './main-page/home/recent-posts/blog-small-card/blog-small-card.component';
+import { MostCommentedComponent } from './main-page/home/most-commented/most-commented.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { BlogSmallCardComponent } from './main-page/blog-small-card/blog-small-c
     ReplyComponent,
     NewBlogComponent,
     BlogCardComponent,
-    BlogSmallCardComponent
+    BlogSmallCardComponent,
+    MostCommentedComponent
   ],
   imports: [
     BrowserModule,

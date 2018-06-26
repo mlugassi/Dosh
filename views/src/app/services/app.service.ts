@@ -87,6 +87,11 @@ export class AppService {
     return this.http.get(`${this.api_url}/blogs/favorite_blogs`)
       .pipe(map(res => res as Blog[] || []));
   }
+  most_commented_blogs() {
+    return this.http.get(`${this.api_url}/blogs/most_commented_blogs`)
+      .pipe(map(res => res as Blog[] || []));
+  }
+  
   get_recent_posts() {
     return this.http.get(`${this.api_url}/blogs/recent_posts`)
       .pipe(map(res => res as Blog[] || []));
