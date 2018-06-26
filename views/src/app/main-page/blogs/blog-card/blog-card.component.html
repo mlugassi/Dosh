@@ -6,7 +6,7 @@
         <a href="blogs/{{blog.id}}">
           <img src="{{blog.imgPath}}" class="card-img-top img-fluid" alt="">
         </a>
-        <input *ngIf="inManage && (isAdmin || isOwn)" type="checkbox">
+        <input *ngIf="inManage && (isAdmin || isOwn)" type="checkbox" (click)="onClick()">
       </div>
     </div>
     <div class="col-lg-12">

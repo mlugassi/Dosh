@@ -4,6 +4,7 @@ img {
   height: 100%;
   width: 100%;
 }
+
 .my-card-body {
   -webkit-box-flex: 1;
   -ms-flex: 1 1 auto;
@@ -11,14 +12,18 @@ img {
   padding: 5px;
   padding-bottom: 15px;
 }
+
 .my-card-title a {
-color: #333333;
-font-size: 1.2em;
-margin: 5px 0 3px 0;
-font-weight: 700;
+  color: #333333;
+  font-size: 1.2em;
+  margin: 5px 0 3px 0;
+  font-weight: 700;
 }
+
 input[type='checkbox'] {
   position: absolute;
   top: 20px;
   right: 35px;
+  height: 25px;
+  width: 25px;
 }

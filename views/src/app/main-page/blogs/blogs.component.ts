@@ -11,6 +11,7 @@ import Blog from '../../models/Blog';
 export class BlogsComponent implements OnInit {
 
   allBlogs: Blog[][];
+  selectedBlogs: Blog[];
   blogs: Blog[];
   pages: number;
   currentPage: number;
@@ -29,6 +30,7 @@ export class BlogsComponent implements OnInit {
       this.isAdmin = res.isAdmin;
     })
     this.inManage = false;
+    this.selectedBlogs = [];
     this.showAllPost();
   }
   nextPage() {
@@ -115,8 +117,28 @@ export class BlogsComponent implements OnInit {
   cancelManage() {
     this.inManage = false;
   }
-  delete() {
 
+  onCheckChange(data: { blog: Blog, isChecked: boolean }) {
+    if (data.isChecked) {
+      this.selectedBlogs.push(data.blog);
+    } else {
+      let idx = this.selectedBlogs.indexOf(data.blog);
+      this.selectedBlogs.splice(idx, 1);
+    }
+  }
+  delete() {
+    this.selectedBlogs.forEach(blog => {
+      this.appService.delete_blog(blog.id).subscribe(res => {
+        alert("bb");
+        alert("aa " + res.status);
+
+        if (res.status)
+          this.allBlogs.forEach(blogArray => {
+            let idx = blogArray.indexOf(blog);
+            blogArray.splice(idx, 1);
+          })
+      });
+    });
   }
   sortByTitle() {
 
