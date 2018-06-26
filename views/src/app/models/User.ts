@@ -7,7 +7,7 @@ export default class User {
   password: String;
   email: String;
   gender: String;
-  imgPath: String;
+  imgPath: String|any;
   blogs: Number;
   inbox: Inbox[];
   isAdmin: Boolean;

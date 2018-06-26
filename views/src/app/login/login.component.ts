@@ -39,10 +39,17 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard) { }
 
   ngOnInit() {
+     localStorage.removeItem('DoshUserName');
+     localStorage.removeItem('DoshPassword');
     if (localStorage.getItem('DoshUserName') && localStorage.getItem('DoshPassword')) {
       this.loginUserName = localStorage.getItem('DoshUserName');
       this.loginPassword = localStorage.getItem('DoshPassword');
-      this.login(false);
+      if(!this.login(false))
+      {
+        alert("remove local storage");
+        localStorage.removeItem('DoshUserName');
+        localStorage.removeItem('DoshPassword');
+      }
     }
     else
       this.showPage = true;
@@ -67,6 +74,7 @@ export class LoginComponent implements OnInit {
               }
               else
                 alert("Error message: " + res.message);
+                return false;
             })
         }
         else

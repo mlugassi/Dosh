@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
         if (res == undefined || res == null)
           return;
 
-        this.modal=this.modalService.open(myModal);
+        this.modal=this.modalService.open(myModal, {centered: true});
         $("#fname").val(res.firstName);
         $("#lname").val(res.lastName);
         $("#uname").val(res.userName);

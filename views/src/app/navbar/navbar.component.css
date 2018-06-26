@@ -1,3 +1,8 @@
-.modal {
+.template_class {
     top: 50px;
  }
+
+ .custom-class {
+    position: absolute;
+    top: 200px;
+  }
