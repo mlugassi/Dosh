@@ -22,3 +22,8 @@ Micahel:
 8. make the check vales beeter
 9. maybe add ability to remove a comment (for admin and writer)
 10. fix the catgey ang make it with ng model
+11. fix the home page
+12. ADD TOOTLIPS
+13. make the images circle
+14. make the mange and remove the spaces in the blog cards
+15 make shure that the check values happens in the sever side and the user side
