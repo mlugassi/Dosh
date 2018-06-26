@@ -16,10 +16,19 @@ export class BlogsComponent implements OnInit {
   currentPage: number;
   myPosts: Boolean;
   otherPosts: Boolean;
+  watcher: String;
+  isAdmin: Boolean;
+  inManage: Boolean;
+
 
   constructor(private router: Router, private appService: AppService) { }
 
   ngOnInit() {
+    this.appService.get_who_am_I().subscribe(res => {
+      this.watcher = res.watcher;
+      this.isAdmin = res.isAdmin;
+    })
+    this.inManage = false;
     this.showAllPost();
   }
   nextPage() {
@@ -100,7 +109,13 @@ export class BlogsComponent implements OnInit {
       this.otherPosts = true;
     });
   }
-  sortByDate() {
+  manage() {
+    this.inManage = true;
+  }
+  cancelManage() {
+    this.inManage = false;
+  }
+  delete() {
 
   }
   sortByTitle() {

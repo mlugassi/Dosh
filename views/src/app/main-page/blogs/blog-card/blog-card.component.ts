@@ -9,7 +9,10 @@ import Blog from '../../../models/Blog';
 export class BlogCardComponent implements OnInit {
 
   @Input() blog: Blog;
-
+  @Input() inManage: Boolean;
+  @Input() isAdmin: Boolean;
+  @Input() isOwn: Boolean;
+  
   constructor() { }
 
   ngOnInit() {

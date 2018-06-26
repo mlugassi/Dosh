@@ -1,10 +1,20 @@
 <section class="main-content-w3layouts-agileits">
   <div class="container">
-    <button class="btnOptions" (click)="newBlog()">
+    <button *ngIf="!inManage" class="btnOptions" (click)="manage()">
       <i class="fas fa-cog">
       </i>
       Manage
     </button>
+    <button *ngIf="inManage" class="btnOptions" (click)="cancelManage()">
+        <i class="fas fa-times">
+        </i>
+        Cancel
+      </button>
+      <button *ngIf="inManage" class="btnOptions" (click)="delete()">
+          <i class="fas fa-trash">
+          </i>
+          Delete
+        </button>
     <button class="btnOptions" (click)="newBlog()">
       <i class="fas fa-plus">
       </i>
@@ -33,13 +43,13 @@
           <div *ngIf="!(i%3)" class="row">
             <div class="row">
               <div class="col-lg-4">
-                <app-blog-card [blog]="blogs[i]"></app-blog-card>
+                <app-blog-card [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card [blog]="blogs[i + 1]"></app-blog-card>
+                <app-blog-card [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card [blog]="blogs[i + 2]"></app-blog-card>
+                <app-blog-card [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher"></app-blog-card>
               </div>
             </div>
           </div>
