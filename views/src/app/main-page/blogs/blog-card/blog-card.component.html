@@ -6,7 +6,7 @@
         <a href="blogs/{{blog.id}}">
           <img src="{{blog.imgPath}}" class="card-img-top img-fluid" alt="">
         </a>
-        <input *ngIf="inManage && (isAdmin || isOwn)" type="checkbox">
+        <input *ngIf="inManage && (isAdmin || isOwn)" type="checkbox" (click)="onClick()">
       </div>
     </div>
     <div class="col-lg-12">
@@ -27,7 +27,7 @@
           <a href="blogs/{{blog.id}}">
             <i class="far fa-comment"></i> {{blog.comments.count}} </a>
         </li>
-        <li>
+        <li style="float: right;"> 
           <a href="blogs/{{blog.id}}">
             <i class="fas fa-tags"></i> {{blog.category}}</a>
         </li>

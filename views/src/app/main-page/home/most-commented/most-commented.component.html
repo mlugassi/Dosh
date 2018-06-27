@@ -1,0 +1,36 @@
+<section class="middle-sec-agileinfo-w3ls">
+  <div class="container">
+    <div class="row inner-sec">
+      <div class="col-md-4 news-left">
+        <ul *ngIf="blogs" id="demo1_thumbs" class="list-inline">
+
+          <li *ngFor="let blog of blogs; let first = first">
+            <a href="blogs/{{blog.id}}">
+              <img src="{{blog.imgPath}}">
+              <div class="mid-text-info">
+                <h4>{{blog.title}}</h4>
+                <div class="sub-meta">
+                  <span style="color: white">
+                    <i class="far fa-comment"></i> {{blog.comments.count}} Comments</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div *ngIf="mostCommentedBlog" id="demo1_main_image" class="col-md-8  news-right" style="text-align: center;">
+        <div class="desoSlide-wrapper">
+          <a href="blogs/{{mostCommentedBlog.id}}">
+            <img class="img-responsive animated fadeInLeft" style="opacity: 0;" [src]="mostCommentedBlog.imgPath">
+          </a>
+          <div class="desoSlide-overlay" style="left: 0px; top: 355px; width: 710.8px; opacity: 0.7;">
+            <h3>
+              <i class="far fa-comment"></i> {{mostCommentedBlog.comments.count}} Comments</h3>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"> </div>
+    </div>
+  </div>
+
+</section>

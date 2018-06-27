@@ -29,7 +29,12 @@
     <button *ngIf="!myPosts || !otherPosts" class="btnOptions" (click)="showAllPost()">
       Show All Posts
     </button>
-
+    <select class="catOpts" [(ngModel)]="category" (change)="filterByCategory()">
+        <option [attr.value]="All">All Categories</option>
+        <option [attr.value]="Sport">Sport</option>
+        <option [attr.value]="Trips">Trips</option>
+        <option [attr.value]="Soccer">Soccer</option>
+      </select>
     <!-- <button class="btnOptions" (click)="sortByDate()">
       Sort By Date
     </button>
@@ -43,13 +48,13 @@
           <div *ngIf="!(i%3)" class="row">
             <div class="row">
               <div class="col-lg-4">
-                <app-blog-card [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher"></app-blog-card>
+                <app-blog-card [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher"></app-blog-card>
+                <app-blog-card [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher"></app-blog-card>
+                <app-blog-card [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
             </div>
           </div>
@@ -59,7 +64,7 @@
             <li class="page-item" [ngClass]="currentPage == 1 ? 'disabled' : ''">
               <a class="page-link" (click)="prevPage()">Previous</a>
             </li>
-            <li *ngFor="let page of allBlogs; let i = index" class="page-item" [ngClass]="(currentPage - 1) == i ? 'active' : ''">
+            <li *ngFor="let page of filteredBlogs; let i = index" class="page-item" [ngClass]="(currentPage - 1) == i ? 'active' : ''">
               <a class="page-link" (click)="moveToPage(i)">{{i + 1}}</a>
             </li>
             <li class="page-item" [ngClass]="currentPage == pages ? 'disabled' : ''">

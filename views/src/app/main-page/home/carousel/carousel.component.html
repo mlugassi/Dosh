@@ -1,18 +1,13 @@
-<div class="banner">
-  <div class="carousel slide" data-ride="carousel">
-    <div class="carousel-inner" role="listbox">
-      <ngb-carousel *ngIf="favoriteBlogs">
-        <ng-template *ngFor="let blog of favoriteBlogs" ngbSlide>
-          <img [src]="blog.imgPath" style="opacity: 0.3;">
-          <div class="carousel-caption">
-            <h3>{{blog.title}}
-            </h3>
-            <div class="read">
-              <a href="blogs/{{blog.id}}" class="btn btn-primary read-m">Read More</a>
-            </div>
-          </div>
-        </ng-template>
-      </ngb-carousel>
+<ngb-carousel *ngIf="favoriteBlogs">
+  <ng-template *ngFor="let blog of favoriteBlogs" ngbSlide>
+    <div style="z-index: 15; background-color: black; opacity: 0.5;">
+      <img [src]="blog.imgPath">
     </div>
-  </div>
-</div>
+    <div class="carousel-caption">
+      <h3>{{blog.title}}</h3>
+      <div class="read">
+        <a href="blogs/{{blog.id}}" class="btn btn-primary read-m">Read More</a>
+      </div>
+    </div>
+  </ng-template>
+</ngb-carousel>
