@@ -42,8 +42,8 @@
                     <div>
                       {{in.content}}
                     </div>
-                    <button (click)="confirm(in.index)" [disabled]="inbox[i].isConfirm">confirm</button>
-                    <button (click)="reject(in.index)" [disabled]="inbox[i].isConfirm">reject</button>
+                    <button (click)="confirm(in.index)" [hidden]="inbox[i].isConfirm">confirm</button>
+                    <button (click)="reject(in.index)" [hidden]="inbox[i].isConfirm">reject</button>
                   </td>
                 </tr>
               </table>
