@@ -161,9 +161,9 @@ export class AppService {
     return this.http.get(`${this.api_url}/inbox/gatAll`)
       .pipe(map(res => res as Inbox[] || []));
   }
-  changeNewInbox(){
+  changeInboxCount(){
     alert("change2");
-    return this.http.get<any>(`${this.api_url}/inbox/changeNewInbox`);
+    return this.http.get<any>(`${this.api_url}/inbox/changeInboxCount`);
   }
   delete_inbox(inbox: string) {
     return this.http.post(`${this.api_url}/inbox/delete`, { inboxId: inbox })

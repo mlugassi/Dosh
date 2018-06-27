@@ -1,13 +1,27 @@
 .template_class {
-    top: 50px;
- }
- .custom-class {
-    position: absolute;
-    top: 200px;
-  }
-  i[class="fas fa-plus-circle"] {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    color: green
-  }
+  top: 50px;
+}
+
+.custom-class {
+  position: absolute;
+  top: 200px;
+}
+
+i[class="fas fa-circle"] {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  color: #01cd74;
+  font-size: 7px;
+}
+
+button[class="numberForInbox"] {
+  position: absolute;
+  top: 53px;
+  right: 15px;
+  color: white;
+  font-size: 11px;
+  background: #01cd74;
+  border-radius: 50%;
+
+}

@@ -107,7 +107,7 @@ router.post('/user', checksession, function (req, res) {
         user.isAdmin = result.isAdmin;
         user.isBlogger = result.isBlogger;
         user.isActive = result.isActive;
-        user.newInbox = result.newInbox;
+        user.inboxCount = result.inboxCount;
         res.json(user);
     });
 });

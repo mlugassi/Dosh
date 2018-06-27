@@ -97,11 +97,11 @@ export class NavbarComponent implements OnInit {
   changeBlogger() {
     this.user.isBlogger = !this.user.isBlogger;
   }
-  changeNewInbox() {
-    if (this.user.newInbox)
-      this.appService.changeNewInbox()
+  changeInboxCount() {
+    if (this.user.inboxCount)
+      this.appService.changeInboxCount()
         .subscribe(res => {
-          this.user.newInbox = false;
+          this.user.inboxCount = 0;
         });
   }
   close_modal() {

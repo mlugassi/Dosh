@@ -155,7 +155,7 @@ router.post('/signup', async (req, res, next) => {
           message.push({ title: "Request for admin", content: "I want to be an admin", sender: user.userName, date: Date.now(), isRead: false, isConfirm: false });
 
         if (req.body.isBlogger || req.body.isAdmin) {
-          User.update({ isAdmin: true, isActive: true }, { $push: { inbox: message },$set:{newInbox:true} },
+          User.update({ isAdmin: true, isActive: true }, { $push: { inbox: message },$inc:{inboxCount:1} },
             function (err, user) {
               if (!err && user) {
                 res.status(200).json({

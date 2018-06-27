@@ -37,9 +37,9 @@ router.post('/readInbox', checksession, function (req, res) {
       return res.json({ status: "OK" });
     });
 });
-router.get('/changeNewInbox',checksession,function(req,res){
+router.get('/changeInboxCount',checksession,function(req,res){
   console.log("------------------------in change new Inbox---------------------------------------------");
-  User.findOneAndUpdate({userName:req.session.passport.user},{newInbox:false},function(err,user){
+  User.findOneAndUpdate({userName:req.session.passport.user},{inboxCount:0},function(err,user){
     console.log(err);
     console.log(user);
   });
@@ -69,7 +69,7 @@ router.post('/confirmInbox', checksession, function (req, res) {
         User.update({ userName: req.session.passport.user, "inbox._id": req.body.inboxId },
           { $set: { "inbox.$.isConfirm": true } },function(err,user){console.log(user)});
         var message = [{ title: "Your request was confirm", content: "Congregulation!! You are a blogger now!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }];
-        User.update({ userName: sender }, { $push: { inbox: message }, $set:{newInbox:true} },function(err,user){console.log(user)});
+        User.update({ userName: sender }, { $push: { inbox: message }, $inc:{inboxCount:1} },function(err,user){console.log(user)});
         return res.json({ status: true });
       }
     })
@@ -104,7 +104,7 @@ router.post('/rejectInbox', checksession, function (req, res) {
           });
       }
       var message = [{ title: "Your request was rejected", content: "", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }];
-      User.update({ userName: sender }, { $push: { inbox: message },$set:{newInbox:true} },
+      User.update({ userName: sender }, { $push: { inbox: message }, $inc:{inboxCount:1} },
         function (err, user) {
           if (!err && user) {
             User.update({ userName: req.session.passport.user, "inbox._id": req.body.inboxId },

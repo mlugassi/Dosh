@@ -21,7 +21,7 @@ module.exports = db => {
         imgPath: String,
         birthDay: Date,
         blogs: Number,
-        newInbox: Boolean,
+        inboxCount: Number,
         inbox: [{
             title: String,
             content: String,
