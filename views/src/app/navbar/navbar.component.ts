@@ -26,6 +26,7 @@ export class NavbarComponent implements OnInit {
   form: FormGroup;
   modal;
   file: File = null;
+  unread = false;
 
   constructor(private appService: AppService, private modalService: NgbModal) { }
 
@@ -73,8 +74,10 @@ export class NavbarComponent implements OnInit {
           this.appService.update_user(this.user, this.oldPassword)
             .subscribe(res => {
               if (res.status != true) {
-
-                alert("Your updating was failed.");
+                if (res.message)
+                  alert(res.message);
+                else
+                  alert("Your updating was failed.");
                 return;
               }
               alert("All Ok");
@@ -90,6 +93,16 @@ export class NavbarComponent implements OnInit {
   }
   removeAccount() {
     this.user.isActive = !this.user.isActive;
+  }
+  changeBlogger() {
+    this.user.isBlogger = !this.user.isBlogger;
+  }
+  changeNewInbox() {
+    if (this.user.newInbox)
+      this.appService.changeNewInbox()
+        .subscribe(res => {
+          this.user.newInbox = false;
+        });
   }
   close_modal() {
     this.modal.close();

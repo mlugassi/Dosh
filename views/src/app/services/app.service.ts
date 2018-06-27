@@ -152,6 +152,10 @@ export class AppService {
     return this.http.get(`${this.api_url}/inbox/gatAll`)
       .pipe(map(res => res as Inbox[] || []));
   }
+  changeNewInbox(){
+    alert("change2");
+    return this.http.get<any>(`${this.api_url}/inbox/changeNewInbox`);
+  }
   delete_inbox(inbox: string) {
     return this.http.post(`${this.api_url}/inbox/delete`, { inboxId: inbox })
       .pipe(map(res => res as any || ""));

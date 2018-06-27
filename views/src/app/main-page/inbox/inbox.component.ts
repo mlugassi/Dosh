@@ -47,7 +47,6 @@ export class InboxComponent implements OnInit {
   }
   read(index: number) {
     if (index != undefined && this.inbox[index].isRead == false) {
-      alert(this.inbox[index]._id);
       this.appService.readInbox(this.inbox[index]._id)
         .subscribe(res => {
           this.inbox[index].class = "";
