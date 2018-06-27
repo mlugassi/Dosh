@@ -25,7 +25,10 @@
               {{blog.unlikes.count}} Unlikes</i>
           </li>
           <li>
-            <i class="far fa-comment"> {{blog.comments.count}} Comments </i>
+            <i class="far fa-comment"> {{blog.comments.count}} Comments  </i>
+          </li>
+          <li style="float: right;">
+            <i class="fas fa-tags"> {{blog.category}}</i>
           </li>
         </ul>
       </div>
@@ -37,7 +40,6 @@
       </h2>
       <span style="font-size: 15px; margin-left: 15px;">
         <i class="fas fa-user"></i> {{blog.author}}
-        <i class="fas fa-tags"></i> {{blog.category}}
       </span>
       <p style="margin: 10px 15px 30px 15px;text-align: justify">
         {{blog.content}}

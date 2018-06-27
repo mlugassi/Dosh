@@ -10,7 +10,8 @@ import Blog from '../../models/Blog';
 })
 export class BlogsComponent implements OnInit {
 
-  allBlogs: Blog[][];
+  allBlogs: Blog[];
+  filteredBlogs: Blog[][];
   selectedBlogs: Blog[];
   blogs: Blog[];
   pages: number;
@@ -20,6 +21,7 @@ export class BlogsComponent implements OnInit {
   watcher: String;
   isAdmin: Boolean;
   inManage: Boolean;
+  category: String;
 
 
   constructor(private router: Router, private appService: AppService) { }
@@ -30,92 +32,99 @@ export class BlogsComponent implements OnInit {
       this.isAdmin = res.isAdmin;
     })
     this.inManage = false;
-    this.selectedBlogs = [];
-    this.showAllPost();
-  }
-  nextPage() {
-
-    if (this.currentPage < this.pages)
-      this.blogs = this.allBlogs[this.currentPage++];
-  }
-  prevPage() {
-    if (this.currentPage > 1)
-      this.blogs = this.allBlogs[--this.currentPage - 1];
-  }
-  moveToPage(num) {
-
-    if (num < 0 || num >= this.pages) return;
-    this.blogs = this.allBlogs[num];
-    this.currentPage = num + 1;
-  }
-  newBlog() {
-    this.router.navigate(['/blogs/blog']);
-  }
-  showOnlyMyPosts() {
-    this.appService.get_my_blogs().subscribe(res => {
-      this.blogs = [];
-      this.allBlogs = [];
-      let counter = 0;
-      let page = 0;
-      res.forEach(blog => {
-        if (!(counter++ % 9)) {
-          page = Math.floor((counter / 10));
-          this.allBlogs[page] = [];
-        }
-        this.allBlogs[page].push(blog);
-      });
-      this.pages = (page % 9) + 1;
-      this.currentPage = 1;
-      this.blogs = this.allBlogs[this.currentPage - 1];
-      this.myPosts = true;
-      this.otherPosts = false;
-    });
-  }
-  showAllPost() {
+    this.category = "All Categories";
     this.appService.get_all_blogs().subscribe(res => {
-      this.blogs = [];
-      this.allBlogs = [];
-      let counter = 0;
-      let page = 0;
-      res.forEach(blog => {
-        if (!(counter++ % 9)) {
-          page = Math.floor((counter / 10));
-          this.allBlogs[page] = [];
-        }
-        this.allBlogs[page].push(blog);
-      });
-      this.pages = (page % 9) + 1;
-      this.currentPage = 1;
-      this.blogs = this.allBlogs[this.currentPage - 1];
-      this.myPosts = true;
-      this.otherPosts = true;
+      this.allBlogs = res;
+      this.showAllPost();
     });
   }
+
+  showAllPost() {
+    alert("showAllPost - allBlogs length = " + this.allBlogs.length);
+
+    this.blogs = [];
+    this.filteredBlogs = [];
+    let counter = 0;
+    let page = 0;
+    this.allBlogs.filter(blog => { return (this.category == "All Categories" || blog.category == this.category); }).forEach(blog => {
+      if (!(counter++ % 9)) {
+        page = Math.floor((counter / 10));
+        this.filteredBlogs[page] = [];
+      }
+      this.filteredBlogs[page].push(blog);
+    });
+    this.pages = (page % 9) + 1;
+    this.currentPage = 1;
+    this.blogs = this.filteredBlogs[this.currentPage - 1];
+    this.selectedBlogs = [];
+    this.myPosts = true;
+    this.otherPosts = true;
+  }
+
+  showOnlyMyPosts() {
+    alert("showOnlyMyPosts - allBlogs length = " + this.allBlogs.length);
+    this.blogs = [];
+    this.filteredBlogs = [];
+    let counter = 0;
+    let page = 0;
+    this.allBlogs.filter(blog => { return ((this.category == "All Categories" || (blog.category == this.category)) && blog.author == this.watcher); })
+      .forEach(blog => {
+        if (!(counter++ % 9)) {
+          page = Math.floor((counter / 10));
+          this.filteredBlogs[page] = [];
+        }
+        this.filteredBlogs[page].push(blog);
+      });
+    this.pages = (page % 9) + 1;
+    this.currentPage = 1;
+    this.blogs = this.filteredBlogs[this.currentPage - 1];
+    this.selectedBlogs = [];
+    this.myPosts = true;
+    this.otherPosts = false;
+  }
+
   showOtherPost() {
-    this.appService.get_all_blogs_but_mine().subscribe(res => {
-      this.blogs = [];
-      this.allBlogs = [];
-      let counter = 0;
-      let page = 0;
-      res.forEach(blog => {
+    alert("showOtherPost - allBlogs length = " + this.allBlogs.length);
+
+    this.blogs = [];
+    this.filteredBlogs = [];
+    let counter = 0;
+    let page = 0;
+    this.allBlogs.filter(blog => { return ((this.category == "All Categories" || (blog.category == this.category)) && blog.author != this.watcher); })
+      .forEach(blog => {
         if (!(counter++ % 9)) {
           page = Math.floor((counter / 10));
-          this.allBlogs[page] = [];
+          this.filteredBlogs[page] = [];
         }
-        this.allBlogs[page].push(blog);
+        this.filteredBlogs[page].push(blog);
       });
-      this.pages = (page % 9) + 1;
-      this.currentPage = 1;
-      this.blogs = this.allBlogs[this.currentPage - 1];
-      this.myPosts = false;
-      this.otherPosts = true;
-    });
+    this.pages = (page % 9) + 1;
+    this.currentPage = 1;
+    this.blogs = this.filteredBlogs[this.currentPage - 1];
+    this.selectedBlogs = [];
+    this.myPosts = false;
+    this.otherPosts = true;
   }
-  manage() {
-    this.inManage = true;
-  }
-  cancelManage() {
-    this.inManage = false;
+
+  filterByCategory() {
+    this.blogs = [];
+    this.filteredBlogs = [];
+    let counter = 0;
+    let page = 0;
+    this.allBlogs.filter(blog => {
+      return ((!(this.myPosts && !this.otherPosts) || (blog.author == this.watcher)) && (!(!this.myPosts && this.otherPosts) || (blog.author != this.watcher)) && (this.category == "All Categories" || blog.category == this.category));
+    })
+      .forEach(blog => {
+        if (!(counter++ % 9)) {
+          page = Math.floor((counter / 10));
+          this.filteredBlogs[page] = [];
+        }
+        this.filteredBlogs[page].push(blog);
+      });
+    this.pages = (page % 9) + 1;
+    this.currentPage = 1;
+    this.blogs = this.filteredBlogs[this.currentPage - 1];
+    this.selectedBlogs = [];
   }
 
   onCheckChange(data: { blog: Blog, isChecked: boolean }) {
@@ -126,21 +135,46 @@ export class BlogsComponent implements OnInit {
       this.selectedBlogs.splice(idx, 1);
     }
   }
+  manage() {
+    this.inManage = true;
+  }
+  cancelManage() {
+    this.inManage = false;
+  }
   delete() {
     this.selectedBlogs.forEach(blog => {
       this.appService.delete_blog(blog.id).subscribe(res => {
-        alert("bb");
-        alert("aa " + res.status);
-
-        if (res.status)
-          this.allBlogs.forEach(blogArray => {
-            let idx = blogArray.indexOf(blog);
-            blogArray.splice(idx, 1);
-          })
-      });
+        if (res.status) {
+          let idx = this.allBlogs.indexOf(blog);
+          alert(idx);
+          this.allBlogs.splice(idx, 1);
+          if (this.myPosts && this.otherPosts)
+            this.showAllPost();
+          else if (this.myPosts)
+            this.showOnlyMyPosts();
+          else this.showOtherPost();
+        }
+      })
     });
   }
-  sortByTitle() {
+  newBlog() {
+    this.router.navigate(['/blogs/blog']);
+  }
+  nextPage() {
 
+    if (this.currentPage < this.pages)
+      this.blogs = this.filteredBlogs[this.currentPage++];
+    this.selectedBlogs = [];
+  }
+  prevPage() {
+    if (this.currentPage > 1)
+      this.blogs = this.filteredBlogs[--this.currentPage - 1];
+    this.selectedBlogs = [];
+  }
+  moveToPage(num) {
+    if (num < 0 || num >= this.pages) return;
+    this.blogs = this.filteredBlogs[num];
+    this.selectedBlogs = [];
+    this.currentPage = num + 1;
   }
 }

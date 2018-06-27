@@ -137,13 +137,37 @@ router.get('/most_commented_blogs', checksession, function (req, res) {
         );
     })()
 });
+
+router.get('/category/:catgory', checksession, function (req, res) {
+    if (req == undefined || req.params == undefined || req.params.catgory)
+        return res.json({
+            status: false
+        });
+    else
+        Blog.find({
+            author: {
+                category: req.params.catgory,
+                isActive: true
+            },
+            isActive: true
+        }, function (err, result) {
+            if (err) throw err;
+            if (result == null) return res.json({
+                status: false
+            });
+            res.json(result);
+        });
+});
+
 router.post('/blog', checksession, function (req, res) {
     Blog.findOne({
         id: req.body.id,
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (result == null) return res.json();
+        if (result == null) return res.json({
+            status: false
+        });
         res.json(result);
     });
 });
@@ -156,7 +180,7 @@ router.post('/delete', checksession, function (req, res) {
         isActive: false
     }, function (err, result) {
         if (err) throw err;
-        if (result == null || result.author != req.session.passport.user) return res.json({
+        if (result == null) return res.json({ //FIXME: add functiom that check if user is admin
             status: false
         });
         else return res.json({

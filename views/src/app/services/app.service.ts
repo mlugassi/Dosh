@@ -83,6 +83,10 @@ export class AppService {
     return this.http.get(`${this.api_url}/blogs/my_blogs`)
       .pipe(map(res => res as Blog[] || []));
   }
+  get_by_category(category: string) {
+    return this.http.get(`${this.api_url}/blogs/category` + category)
+      .pipe(map(res => res as Blog[] || []));
+  }
   get_favorite_blogs() {
     return this.http.get(`${this.api_url}/blogs/favorite_blogs`)
       .pipe(map(res => res as Blog[] || []));
@@ -91,7 +95,7 @@ export class AppService {
     return this.http.get(`${this.api_url}/blogs/most_commented_blogs`)
       .pipe(map(res => res as Blog[] || []));
   }
-  
+
   get_recent_posts() {
     return this.http.get(`${this.api_url}/blogs/recent_posts`)
       .pipe(map(res => res as Blog[] || []));
@@ -150,8 +154,8 @@ export class AppService {
   delete_user(userName: String) {
     return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
   }
-  update_user(user: User, oldPassword=undefined) {
-    return this.http.post<any>(`${this.api_url}/users/update`, {user,oldPassword:oldPassword});
+  update_user(user: User, oldPassword = undefined) {
+    return this.http.post<any>(`${this.api_url}/users/update`, { user, oldPassword: oldPassword });
   }
   get_inbox() {
     return this.http.get(`${this.api_url}/inbox/gatAll`)
