@@ -5,6 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as crypto from '../../../../node_modules/crypto-js';
 import * as md5 from '../../../../node_modules/md5';
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-navbar',
@@ -64,7 +65,7 @@ export class NavbarComponent implements OnInit {
     }
     this.appService.getKey(new User(this.user.userName, ""))
       .subscribe(resKey => {
-        if (resKey.key) {
+        if (resKey.status && resKey.key) {
           if (this.password != undefined && this.password != "" &&
             this.oldPassword != undefined && this.oldPassword != "") {
             this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
@@ -80,12 +81,13 @@ export class NavbarComponent implements OnInit {
                   alert("Your updating was failed.");
                 return;
               }
-              alert("All Ok");
               this.uploadImage();
               this.password = this.confirmPassword = this.oldPassword = undefined;
               this.close_modal();
             });
         }
+        else
+          alert(resKey.message);
       });
   }
   editPassword() {

@@ -28,7 +28,7 @@
         <li class="nav-item dropdown">
             <i class="fas fa-circle" *ngIf="user.inboxCount > 0"></i>
           <a class="nav-link dropdown-toggle" href="#" id="Dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-users-cog"></i> {{user.userName}}
+            <i class="fas fa-users-cog"></i> {{user.firstName}}
           </a>
           <div class="dropdown-menu" aria-labelledby="Dropdown">
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#update-modal" (click)="openModal(content)">

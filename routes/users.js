@@ -63,7 +63,12 @@ router.post('/upload', checksession, (req, res) => {
 });
 
 router.get('/', checksession, function (req, res) {
-    res.sendfile("./views/dist/views/index.html");
+    User.findOne({ userName: req.session.passport.user, isAdmin: true }, function (err, user) {
+        if (err || !user)
+            return res.redirect('/');
+        else
+            return res.sendfile("./views/dist/views/index.html");
+    })
 });
 
 router.get('/users', checksession, function (req, res) {

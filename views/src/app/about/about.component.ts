@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-contact',
-  templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.css']
+  selector: 'app-about',
+  templateUrl: './about.component.html',
+  styleUrls: ['./about.component.css']
 })
-export class ContactComponent implements OnInit {
+export class AboutComponent implements OnInit {
+
   href: string;
   footer;
   constructor(private router: Router) { }
@@ -16,10 +16,6 @@ export class ContactComponent implements OnInit {
     this.href = this.router.url;
     if (this.href.endsWith("US"))
       this.footer = true;
-  }
-  submit()
-  {
-    alert("Thank you for the message\nWe will back to you soon as possible");
   }
 
 }
