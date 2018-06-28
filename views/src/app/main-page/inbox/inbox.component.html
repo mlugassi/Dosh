@@ -38,12 +38,16 @@
                   <td class="view-message  text-right" width="20%">{{in.date}}</td>
                 </tr>
                 <tr id={{in._id}} class="collapse">
-                  <td colspan="4">
+                  <td colspan="2">
                     <div >
-                       Content: {{in.content}}
-                    </div>
-                    <button (click)="confirm(in.index)" [hidden]="inbox[i].isConfirm">confirm</button>
-                    <button (click)="reject(in.index)" [hidden]="inbox[i].isConfirm">reject</button>
+                       <b>Content:</b> 
+                    </div>                    <div >
+                        {{in.content}}
+                     </div>
+                    </td>
+                    <td>
+                    <button class="btn btn-primary btn-block signup-btn read-m" (click)="confirm(in.index)" [hidden]="inbox[i].isConfirm">confirm</button>
+                    <button class="btn btn-primary btn-block signup-btn read-m" style="background: tomato" (click)="reject(in.index)" [hidden]="inbox[i].isConfirm">reject</button>
                   </td>
                 </tr>
               </table>
