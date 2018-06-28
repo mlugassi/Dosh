@@ -25,7 +25,7 @@ export class InboxComponent implements OnInit {
           else
             this.inbox[index].date = this.inbox[index].date.substring(8, 10) +
               "/" + this.inbox[index].date.substring(5, 7);
-          this.inbox[index].id = "#" + this.inbox[index]._id
+          this.inbox[index].id = "#" + this.inbox[index]._id;
           this.inbox[index].isChecked = false;
           if (!(this.inbox[index].isRead))
             this.inbox[index].class = "unread";
@@ -46,12 +46,13 @@ export class InboxComponent implements OnInit {
       });
   }
   read(index: number) {
-    if (index != undefined && this.inbox[index].isRead == false) {
-      this.appService.readInbox(this.inbox[index]._id)
-        .subscribe(res => {
-          this.inbox[index].class = "";
-          this.inbox[index].isRead = true;
-        });
+    if (index != undefined) {
+      if (this.inbox[index].isRead == false)
+        this.appService.readInbox(this.inbox[index]._id)
+          .subscribe(res => {
+            this.inbox[index].class = "";
+            this.inbox[index].isRead = true;
+          });
     }
     else {
       for (let index = 0; index < this.inbox.length; index++) {
@@ -73,10 +74,10 @@ export class InboxComponent implements OnInit {
         this.inbox[index].class = "unread";
         this.appService.unreadInbox(this.inbox[index]._id)
           .subscribe(res => {
-            this.inbox[index].isChecked = false;
             this.inbox[index].isRead = false;
           });
       }
+      this.inbox[index].isChecked = false;
     }
     this.CheckAll = false;
   }
@@ -96,8 +97,8 @@ export class InboxComponent implements OnInit {
       }
     }
 
-    this.CheckAll=false;
-    this.inbox[this.inbox.length-1].isChecked=false;
+    this.CheckAll = false;
+    this.inbox[this.inbox.length - 1].isChecked = false;
   }
   checkAll() {
     this.CheckAll = !this.CheckAll;

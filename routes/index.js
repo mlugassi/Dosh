@@ -45,24 +45,15 @@ router.get('/aboutUS', function (req, res) {
   res.sendfile('./views/dist/views/index.html');
 });
 
-router.get('/logout', checksession, async (req, res) => {
-  console.log(req.session.passport.user + ' is logging out');
-  req.session.regenerate(err => {
-    console.log('logged out');
-    res.redirect('/login');
-  });
-});
-
 function generateKey() {
   return create_UUID();
 };
 
 router.post('/getKey', async (req, res) => {
-  if (req.body == undefined)
+  if (!req.body || !req.body.userName)
     return res.json({ status: false, message: "Somthing missed up" });
   console.log("I'm in post /getKey");
   var key = generateKey();
-  //user.userName = req.body.userName;
   User.findOneAndUpdate({
     userName: req.body.userName
   }, {
@@ -82,9 +73,10 @@ router.post('/getKey', async (req, res) => {
     });
 });
 router.get('/getKey/:UUID', async (req, res) => {
+  if (!req.params || !req.params.UUID)
+    return res.json({ status: false, message: "Somthing missed up" });
   console.log("I'm in get /getKey");
   var key = generateKey();
-  //user.userName = req.body.userName;
   await User.findOneAndUpdate({
     uuid: req.params.UUID
   }, {
@@ -98,64 +90,9 @@ router.get('/getKey/:UUID', async (req, res) => {
     });
 });
 
-router.post('/signup', async (req, res, next) => {
-  console.log("In singup");
-  User.findOne({
-    userName: req.body.userName
-  }, function (err, myUser) {
-    if (err || !myUser)
-      res.status(200).json({ status: false, message: "You must to get a key before." });
-    else {
-      var user = {};
-      user.firstName = req.body.firstName || "";
-      user.lastName = req.body.lastName || "";
-      user.userName = req.body.userName;
-      user.password = crypto.decrypt(req.body.password, myUser.passwordKey);
-      user.email = req.body.email || "";
-      user.birthDay = new Date(req.body.birthDay || "");
-      user.gender = req.body.gender || "Other";
-      user.isAdmin = false;
-      user.isActive = true;
-      user.isBlogger = false;
-      user.isResetReq = false;
-      user.imgPath = req.body.imgPath || "/images/users_profiles" + user.gender + ".default.jpg" || "";
-      user.blogs = req.body.blogs || 0;
-      user.inbox = [{ title: "Welcome to our blog site", content: "We exiting for your join", sender: "System", date: Date.now(), isRead: false, isConfirm: true}];
-      user.inboxCount = 1;
-      user.uuid = "";
-      user.passwordKey = "";
-      User.findOneAndUpdate({
-        userName: user.userName
-      }, user, function (err, user) {
-        if (err || !user)  return res.status(200).json({
-          status: true,
-          message: "Failed to signup",
-        });
-        console.log('user created:' + user);
-        if (req.body.isBlogger) {
-          User.update({ isAdmin: true, isActive: true }, { $push: { inbox: [{ title: "Request for blogger", content: "I want to be a blogger", sender: user.userName, date: Date.now(), isRead: false, isConfirm: false }] }, $inc: { inboxCount: 1 } },
-            function (err, admin) {
-              if (!err && admin) {
-                return res.status(200).json({
-                  status: true,
-                  message: "The user " + user.userName + " sucesseed to signup\nYour request for blogger was sent",
-                });
-              }
-            });
-        }
-        else {
-          return res.status(200).json({
-            status: true,
-            message: "The user " + user.userName + " sucesseed to signup"
-          });
-        }
-      });
-    }
-  });
-});
-
 router.post('/askToResetPassword', function (req, res) {
-  console.log(req.body.email);
+  if (!req.body || !req.body.email)
+    return res.json({ status: false, message: "Somthing missed up" });
   User.findOne({ email: req.body.email, isActive: true }, function (err, result) {
     if (err || !result)
       return res.status(200).json({
@@ -206,6 +143,9 @@ router.get('/resetPassword/:UUID', function (req, res) {
   });
 });
 router.post('/doReset', function (req, res) {
+  if (!req.body || !req.body.uuid || !req.body.password)
+    return res.json({ status: false, message: "Somthing missed up" });
+
   User.findOne({
     isResetReq: true,
     uuid: req.body.uuid
