@@ -108,8 +108,8 @@ export class AppService {
   add_blog(title, content, category) {
     return this.http.post<any>(`${this.api_url}/blogs/add`, { title: title, content: content, category: category });
   }
-  update_blog(blogId, title, content) {
-    return this.http.post<any>(`${this.api_url}/blogs/update`, { id: blogId, title: title, content: content });
+  update_blog(blogId, title, content, category) {
+    return this.http.post<any>(`${this.api_url}/blogs/update`, { id: blogId, title: title, content: content, category: category });
   }
   upload_blog_Image(formdata: any) {
     return this.http.post<any>(`${this.api_url}/blogs/upload`, formdata);

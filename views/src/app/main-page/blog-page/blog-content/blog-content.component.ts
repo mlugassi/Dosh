@@ -17,6 +17,7 @@ export class BlogContentComponent implements OnInit {
   isBlogger: Boolean;
   newCommentText: String;
   editedContent: String;
+  category: String;
   editedTitle: String;
   date: Date;
   inEdit: boolean;
@@ -40,7 +41,9 @@ export class BlogContentComponent implements OnInit {
       .subscribe(params => {
         let blogId = params['id'] || '';
         this.appService.get_blog(blogId).subscribe(res => {
+          if (!res) return;
           this.blog = res;
+          this.category = res.category;
         });
       });
     this.date = new Date();
@@ -76,10 +79,11 @@ export class BlogContentComponent implements OnInit {
   }
   save() {
     if (!this.checkValues()) return;
-    this.appService.update_blog(this.blog.id, this.editedTitle, this.editedContent).subscribe(res => {
+    this.appService.update_blog(this.blog.id, this.editedTitle, this.editedContent, this.category).subscribe(res => {
       if (res.status) {
         this.blog.title = this.editedTitle;
         this.blog.content = this.editedContent;
+        this.blog.category = this.category;
         if (this.file) {
           let formData = new FormData();
           formData.append('uploadedImg', this.file, this.blog.id + ".jpg");
@@ -95,26 +99,32 @@ export class BlogContentComponent implements OnInit {
     this.inEdit = false;
   }
   checkValues() {
+
     if (this.blog.author != this.watcher) {
       alert("You have no permissions to change this blog");
       return false;
     }
-    if (this.editedTitle.length < 1 || this.editedTitle.replace(/\s/g, '') == "") {
+    if (!this.editedTitle || this.editedTitle.length < 1 || this.editedTitle.replace(/\s/g, '') == "") {
       alert("Title must contains content");
       return false;
     }
-    if (this.editedTitle.length > 60) {
+    if (!this.editedTitle || this.editedTitle.length > 60) {
       alert("Title length is bigger then 60 letters");
       return false;
     }
-    if (this.editedContent.length < 100 || this.editedContent.replace(/\s/g, '') == "") {
+    if (!this.editedContent || this.editedContent.length < 100 || this.editedContent.replace(/\s/g, '') == "") {
       alert("Content length mast be at least 100 letters");
       return false;
     }
-    if (this.editedTitle == this.blog.title && this.editedContent == this.blog.content) {
+    if (!this.category || this.category == "Choose Category...") {
+      alert("You must choose a category");
+      return false;
+    }
+    if (this.editedTitle == this.blog.title && this.editedContent == this.blog.content && this.blog.category == this.category && !this.file) {
       this.inEdit = false;
       return false;
     }
+
     return true;
   }
 

@@ -49,6 +49,14 @@
     <div *ngIf="blog && inEdit" class="edit">
       <input type="text" class="form-control" [(ngModel)]="editedTitle" placeholder="Write a title..." />
       <textarea class="form-control" [(ngModel)]="editedContent" placeholder="Write something..."></textarea>
+      <div class="edit">
+          <select class="form-control" [(ngModel)]="category">
+            <option [attr.value]="All">Choose Category...</option>
+            <option [attr.value]="Sport">Sport</option>
+            <option [attr.value]="Trips">Trips</option>
+            <option [attr.value]="Soccer">Soccer</option>
+          </select>
+        </div>
     </div>
     <div style="font-size: 20px;">
       <div class="comment" style="position: absolute; left: 10px;">

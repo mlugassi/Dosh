@@ -26,6 +26,7 @@ export class NewBlogComponent implements OnInit {
     this.file = event.target.files[0];
   }
   save() {
+    alert("!this.sss()");
     if (!this.checkValues()) return;
     this.appService.add_blog(this.title, this.content, this.category).subscribe(res => {
       if (res.status && this.file) {
@@ -45,20 +46,24 @@ export class NewBlogComponent implements OnInit {
   }
 
   checkValues() {
-    if (this.title.length < 1 || this.title.replace(/\s/g, '') == "") {
+    if (!this.title || this.title.length < 1 || this.title.replace(/\s/g, '') == "") {
       alert("Title must contains content");
       return false;
     }
-    if (this.title.length > 60) {
+    if (!this.title || this.title.length > 60) {
       alert("Title length is bigger then 60 letters");
       return false;
     }
-    if (this.content.length < 100 || this.content.replace(/\s/g, '') == "") {
+    if (!this.content || this.content.length < 100 || this.content.replace(/\s/g, '') == "") {
       alert("Content length mast be at least 100 letters");
       return false;
     }
     if (!this.category || this.category == "Choose Category...") {
       alert("You must choose a category");
+      return false;
+    }
+    if (!this.file) {
+      alert("You must upload an image");
       return false;
     }
     return true;
