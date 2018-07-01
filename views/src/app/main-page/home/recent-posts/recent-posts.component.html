@@ -3,7 +3,7 @@
     <div class="row">
       <!--left-->
       <div class="col-lg-8 left-blog-info-w3layouts-agileits text-left">
-        <div class="blog-grid-top">
+        <div *ngIf="mostRecetBlog"  class="blog-grid-top">
           <div class="b-grid-top">
             <div class="blog_info_left_grid">
               <a href="blogs/{{mostRecetBlog.id}}">

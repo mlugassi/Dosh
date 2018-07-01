@@ -14,9 +14,11 @@ export class MostCommentedComponent implements OnInit {
   mostCommentedBlog: Blog;
   ngOnInit() {
     this.appService.most_commented_blogs().subscribe(res => {
-      this.mostCommentedBlog = res[0];
-      res.splice(0, 1);
-      this.blogs = res;
+      if (res.length > 0) {
+        this.mostCommentedBlog = res[0];
+        res.splice(0, 1);
+        this.blogs = res;
+      }
     });
   }
 

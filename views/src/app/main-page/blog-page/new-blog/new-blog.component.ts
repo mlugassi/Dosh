@@ -13,6 +13,7 @@ export class NewBlogComponent implements OnInit {
   imgPath: String;
   title: String;
   content: String;
+  category: String;
   file: File;
 
   constructor(private router: Router, private appService: AppService) { }
@@ -25,20 +26,41 @@ export class NewBlogComponent implements OnInit {
     this.file = event.target.files[0];
   }
   save() {
-    this.appService.add_blog(this.title, this.content).subscribe(res => {
+    if (!this.checkValues()) return;
+    this.appService.add_blog(this.title, this.content, this.category).subscribe(res => {
       if (res.status && this.file) {
         let formData = new FormData();
         let id = res.id;
         formData.append('uploadedImg', this.file, res.id + ".jpg");
         this.appService.upload_blog_Image(formData).subscribe(res => {
           if (!res.status)
-            alert("Somthing went worng with the image...");
+            alert(res.message);
           else
             this.router.navigate(['/blogs/' + id]);
         });
       }
       else
-        alert("Somthing went worng...");
+        alert(res.message);
     });
+  }
+
+  checkValues() {
+    if (this.title.length < 1 || this.title.replace(/\s/g, '') == "") {
+      alert("Title must contains content");
+      return false;
+    }
+    if (this.title.length > 60) {
+      alert("Title length is bigger then 60 letters");
+      return false;
+    }
+    if (this.content.length < 100 || this.content.replace(/\s/g, '') == "") {
+      alert("Content length mast be at least 100 letters");
+      return false;
+    }
+    if (!this.category || this.category == "Choose Category...") {
+      alert("You must choose a category");
+      return false;
+    }
+    return true;
   }
 }

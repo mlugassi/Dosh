@@ -28,8 +28,12 @@ export class BlogsComponent implements OnInit {
 
   ngOnInit() {
     this.appService.get_who_am_I().subscribe(res => {
-      this.watcher = res.watcher;
-      this.isAdmin = res.isAdmin;
+      if (res.status) {
+        this.watcher = res.watcher;
+        this.isAdmin = res.isAdmin;
+      }
+      else
+        alert(res.message);
     })
     this.inManage = false;
     this.category = "All Categories";
@@ -40,8 +44,6 @@ export class BlogsComponent implements OnInit {
   }
 
   showAllPost() {
-    alert("showAllPost - allBlogs length = " + this.allBlogs.length);
-
     this.blogs = [];
     this.filteredBlogs = [];
     let counter = 0;
@@ -62,7 +64,6 @@ export class BlogsComponent implements OnInit {
   }
 
   showOnlyMyPosts() {
-    alert("showOnlyMyPosts - allBlogs length = " + this.allBlogs.length);
     this.blogs = [];
     this.filteredBlogs = [];
     let counter = 0;
@@ -84,8 +85,6 @@ export class BlogsComponent implements OnInit {
   }
 
   showOtherPost() {
-    alert("showOtherPost - allBlogs length = " + this.allBlogs.length);
-
     this.blogs = [];
     this.filteredBlogs = [];
     let counter = 0;
@@ -146,7 +145,6 @@ export class BlogsComponent implements OnInit {
       this.appService.delete_blog(blog.id).subscribe(res => {
         if (res.status) {
           let idx = this.allBlogs.indexOf(blog);
-          alert(idx);
           this.allBlogs.splice(idx, 1);
           if (this.myPosts && this.otherPosts)
             this.showAllPost();
@@ -154,6 +152,8 @@ export class BlogsComponent implements OnInit {
             this.showOnlyMyPosts();
           else this.showOtherPost();
         }
+        else
+          alert(res.message);
       })
     });
   }

@@ -35,7 +35,8 @@ export class CommentComponent implements OnInit {
     this.comment.likes.count = this.comment.likes.count.valueOf() + 1;
     this.comment.likes.users.push(this.watcher);
     this.appService.do_like(this.blogId, this.comment._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
 
@@ -52,7 +53,8 @@ export class CommentComponent implements OnInit {
     this.comment.unlikes.count = this.comment.unlikes.count.valueOf() + 1;
     this.comment.unlikes.users.push(this.watcher);
     this.appService.do_unlike(this.blogId, this.comment._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
 
@@ -63,7 +65,8 @@ export class CommentComponent implements OnInit {
     this.comment.likes.users.splice(idx, 1);
     this.comment.likes.count = this.comment.likes.count.valueOf() - 1;
     this.appService.undo_like(this.blogId, this.comment._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
 
@@ -74,7 +77,8 @@ export class CommentComponent implements OnInit {
     this.comment.unlikes.users.splice(idx, 1);
     this.comment.unlikes.count = this.comment.unlikes.count.valueOf() - 1;
     this.appService.undo_unlike(this.blogId, this.comment._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
   addReply() {

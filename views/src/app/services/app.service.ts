@@ -109,8 +109,8 @@ export class AppService {
       .pipe(map(res => res as Blog));
   }
 
-  add_blog(title, content) {
-    return this.http.post<any>(`${this.api_url}/blogs/add`, { title: title, content: content });
+  add_blog(title, content, category) {
+    return this.http.post<any>(`${this.api_url}/blogs/add`, { title: title, content: content, category: category });
   }
 
   update_blog(blogId, title, content) {

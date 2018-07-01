@@ -20,11 +20,11 @@
     </div>
 
     <div class="edit">
-      <select class="form-control" placeholder="Write a title...">
-        <option value="null">Choose Category...</option>
-        <option value="Sport">Sport</option>
-        <option value="Trips">Trips</option>
-        <option value="Soccer">Soccer</option>
+      <select class="form-control" [(ngModel)]="category">
+        <option [attr.value]="All">Choose Category...</option>
+        <option [attr.value]="Sport">Sport</option>
+        <option [attr.value]="Trips">Trips</option>
+        <option [attr.value]="Soccer">Soccer</option>
       </select>
     </div>
 

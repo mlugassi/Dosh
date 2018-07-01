@@ -35,7 +35,8 @@ export class ReplyComponent implements OnInit {
     this.reply.likes.count = this.reply.likes.count.valueOf() + 1;
     this.reply.likes.users.push(this.watcher);
     this.appService.do_like(this.blogId, this.commentId, this.reply._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
   doUnlike() {
@@ -51,7 +52,8 @@ export class ReplyComponent implements OnInit {
     this.reply.unlikes.count = this.reply.unlikes.count.valueOf() + 1;
     this.reply.unlikes.users.push(this.watcher);
     this.appService.do_unlike(this.blogId, this.commentId, this.reply._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
   undoLike() {
@@ -61,7 +63,8 @@ export class ReplyComponent implements OnInit {
     this.reply.likes.users.splice(idx, 1);
     this.reply.likes.count = this.reply.likes.count.valueOf() - 1;
     this.appService.undo_like(this.blogId, this.commentId, this.reply._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
   undoUnlike() {
@@ -71,7 +74,8 @@ export class ReplyComponent implements OnInit {
     this.reply.unlikes.users.splice(idx, 1);
     this.reply.unlikes.count = this.reply.unlikes.count.valueOf() - 1;
     this.appService.undo_unlike(this.blogId, this.commentId, this.reply._id).subscribe(res => {
-      alert(res.status);
+      if (!res.status)
+        alert(res.message);
     });
   }
 
