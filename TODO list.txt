@@ -28,3 +28,9 @@ Micahel:
 13. make the images circle
 14. make the mange and remove the spaces in the blog cards
 15 make shure that the check values happens in the sever side and the user side
+16. check why cant reply affter adding new post and check if like to comment/blog/reply works
+17. check values of users
+18. add categories link to filter blolgs by category
+19. add to the right side amount of each category and the same link like above
+20. check that only the alloed users can do the delete or edit to post/s (server and cliet)
+21. check what heppens when the blogs are empty
