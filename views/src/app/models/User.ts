@@ -14,6 +14,7 @@ export default class User {
   isBlogger: Boolean;
   isActive: Boolean;
   birthDay: String;
+  inboxCount: Number;
 
   constructor(userName, password, firstName = "", lastName = "", email = "",
     gender = "", birthDay = "", isBlogger = false, isAdmin = false, blogs = 0, inbox = [],

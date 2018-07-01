@@ -9,39 +9,33 @@
         <i class="fab fa-linode"></i> Blogular</a>
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a class="nav-link" href="about.html">About</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
-            aria-expanded="false">
-            Features
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown" style="z-index: 9999">
-            <a class="dropdown-item" href="#"></a>
-            <a class="dropdown-item" href="blog1.html" style="z-index: 9999">Standard Blog</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="blog2.html" style="z-index: 9999">2 Column Blog</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="blog3.html" style="z-index: 9999">3 Column Blog</a>
-          </div>
+          <a class="nav-link" href="/">Home</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/blogs">Blogs</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="user.isAdmin">
           <a class="nav-link" href="/users">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about">About</a>
         </li>
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item dropdown">
+            <i class="fas fa-circle" *ngIf="user.inboxCount > 0"></i>
           <a class="nav-link dropdown-toggle" href="#" id="Dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-users-cog"></i>
+            <i class="fas fa-users-cog"></i> {{user.firstName}}
           </a>
           <div class="dropdown-menu" aria-labelledby="Dropdown">
             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#update-modal" (click)="openModal(content)">
               <i class="fas fa-user"></i> Properties</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/inbox">
+            <a class="dropdown-item" href="/inbox" (click)="changeInboxCount()">
+              <button class="numberForInbox" *ngIf="user.inboxCount > 0">{{user.inboxCount}}</button>
               <i class="fas fa-inbox"></i> Inbox</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/logout" (click)="logout()">

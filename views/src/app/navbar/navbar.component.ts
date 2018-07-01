@@ -5,6 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as crypto from '../../../../node_modules/crypto-js';
 import * as md5 from '../../../../node_modules/md5';
+import { ResourceLoader } from '@angular/compiler';
 
 @Component({
   selector: 'app-navbar',
@@ -26,6 +27,7 @@ export class NavbarComponent implements OnInit {
   form: FormGroup;
   modal;
   file: File = null;
+  unread = false;
 
   constructor(private appService: AppService, private modalService: NgbModal) { }
 
@@ -63,7 +65,7 @@ export class NavbarComponent implements OnInit {
     }
     this.appService.getKey(new User(this.user.userName, ""))
       .subscribe(resKey => {
-        if (resKey.key) {
+        if (resKey.status && resKey.key) {
           if (this.password != undefined && this.password != "" &&
             this.oldPassword != undefined && this.oldPassword != "") {
             this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
@@ -73,16 +75,19 @@ export class NavbarComponent implements OnInit {
           this.appService.update_user(this.user, this.oldPassword)
             .subscribe(res => {
               if (res.status != true) {
-
-                alert("Your updating was failed.");
+                if (res.message)
+                  alert(res.message);
+                else
+                  alert("Your updating was failed.");
                 return;
               }
-              alert("All Ok");
               this.uploadImage();
               this.password = this.confirmPassword = this.oldPassword = undefined;
               this.close_modal();
             });
         }
+        else
+          alert(resKey.message);
       });
   }
   editPassword() {
@@ -90,6 +95,16 @@ export class NavbarComponent implements OnInit {
   }
   removeAccount() {
     this.user.isActive = !this.user.isActive;
+  }
+  changeBlogger() {
+    this.user.isBlogger = !this.user.isBlogger;
+  }
+  changeInboxCount() {
+    if (this.user.inboxCount)
+      this.appService.changeInboxCount()
+        .subscribe(res => {
+          this.user.inboxCount = 0;
+        });
   }
   close_modal() {
     this.modal.close();

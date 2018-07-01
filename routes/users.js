@@ -63,7 +63,12 @@ router.post('/upload', checksession, (req, res) => {
 });
 
 router.get('/', checksession, function (req, res) {
-    res.sendfile("./views/dist/views/index.html");
+    User.findOne({ userName: req.session.passport.user, isAdmin: true }, function (err, user) {
+        if (err || !user)
+            return res.redirect('/');
+        else
+            return res.sendfile("./views/dist/views/index.html");
+    })
 });
 
 router.get('/users', checksession, function (req, res) {
@@ -107,6 +112,7 @@ router.post('/user', checksession, function (req, res) {
         user.isAdmin = result.isAdmin;
         user.isBlogger = result.isBlogger;
         user.isActive = result.isActive;
+        user.inboxCount = result.inboxCount;
         res.json(user);
     });
 });
@@ -128,19 +134,35 @@ router.post('/update', checksession, async (req, res) => {
     var userToFind = {};
     if (req.session.passport.user == req.body.user.userName) /// edit user
     {
+        let myUser = await User.findOne({ userName: req.body.user.userName, isActive: true }).exec();
+        if (myUser == undefined)
+            return res.status(200).json({ status: false, message: "Your user name is wrong!" });
+
         if (req.body.user.password != undefined && req.body.user.password != ""
             && req.body.oldPassword != undefined && req.body.oldPassword != "") {
-            let myUser = await User.findOne({ userName: req.body.user.userName, isActive: true }).exec();
             userToFind.password = crypto.decrypt(req.body.oldPassword, myUser.passwordKey);
             req.body.user.password = crypto.decrypt(req.body.user.password, myUser.passwordKey);
         }
         else
             delete req.body.user.password;
+        if (req.body.user.isBlogger && !myUser.isBlogger) {
+            let message = [{ title: "Request for blogger", content: "I want to be a blogger", sender: req.body.user.userName, date: Date.now(), isRead: false, isConfirm: false }];
+            User.update({ isAdmin: true, isActive: true }, { $push: { inbox: message } },
+                function (err, user) {
+                    if (err || !user) {
+                        res.status(200).json({
+                            status: true,
+                            message: "Your request for blogger wasn't sent."
+                        });
+                    }
+                });
+            delete req.body.user.isBlogger;
+        }
     }
     else {//Is an admin
         User.findOne({ userName: req.session.passport.uname, isActive: true, isAdmin: true }, function (err, user) {
             if (err || !user)
-                return res.status(200).json({ status: false });
+                return res.status(200).json({ status: false, message: "Your not an admin!\nYou can't change othe users properties" });
         });
         if (req.body.user.password != undefined && req.body.user.password != "") {
             let myUser = await User.findOne({ userName: req.body.user.userName, isActive: true }).exec();
@@ -149,7 +171,7 @@ router.post('/update', checksession, async (req, res) => {
         else delete req.body.user.password;
     }
     if (!checkUserValues(req.body.user))
-        return res.status(200).json({ status: false });
+        return res.status(200).json({ status: false, message: "Somthing missed in your properties" });
 
     userToFind.userName = req.body.user.userName;
     userToFind.isActive = true;
@@ -157,8 +179,8 @@ router.post('/update', checksession, async (req, res) => {
 
     User.findOneAndUpdate(userToFind, req.body.user, function (err, user) {
         if (err || !user)
-            return res.status(200).json({ status: false });
-        res.status(200).json({ status: true });
+            return res.status(200).json({ status: false, message: "Your old password isn't correct!\nPlease try again." });
+        res.status(200).json({ status: true, message: "Your changed was saved." });
     });
 });
 

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-footer',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FooterComponent implements OnInit {
 
-  constructor() { }
-
+  constructor(private router: Router) { }
+  href: string;
+  about = "about";
+  contact = "contact";
   ngOnInit() {
+    this.href = this.router.url;
+    if (this.href.endsWith("login") || this.href.endsWith("US") ) {
+      this.about += "US";
+      this.contact += "US";
+    }
   }
 
 }

@@ -35,19 +35,20 @@ export class ResetPasswordComponent implements OnInit {
 
   reset() {
     alert("RESET");
-    if (this.password == this.confirmPassword){
+    if (this.password == this.confirmPassword) {
       this.appService.getKeyWithUuid(this.uuid)
         .subscribe(resKey => {
-          alert(resKey);
-          alert(resKey.key);
-          this.appService.doReset(this.uuid, (crypto.AES.encrypt(md5(this.password), resKey.key).toString()))
-            .subscribe(res => {
-              if (res.status)
-                alert(res.message);
-              else
-                alert("Somthing went wrong..");
-            })
-        })}
+          if (resKey.status && resKey.key) {
+            this.appService.doReset(this.uuid, (crypto.AES.encrypt(md5(this.password), resKey.key).toString()))
+              .subscribe(res => {
+                if (res.message)
+                  alert(res.message);
+              })
+          }
+          else
+            alert(resKey.message);
+        })
+    }
     else
       alert("The passwords are differents");
   }

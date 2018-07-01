@@ -33,19 +33,16 @@ export class LoginComponent implements OnInit {
   emailToReset;
   MyKey;
   showPage = false;
-  isBlogger=false;
+  isBlogger = false;
 
   // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard) { }
 
   ngOnInit() {
-     localStorage.removeItem('DoshUserName');
-     localStorage.removeItem('DoshPassword');
     if (localStorage.getItem('DoshUserName') && localStorage.getItem('DoshPassword')) {
       this.loginUserName = localStorage.getItem('DoshUserName');
       this.loginPassword = localStorage.getItem('DoshPassword');
-      if(!this.login(false))
-      {
+      if (!this.login(false)) {
         alert("remove local storage");
         localStorage.removeItem('DoshUserName');
         localStorage.removeItem('DoshPassword');
@@ -63,18 +60,18 @@ export class LoginComponent implements OnInit {
     }
     this.appService.getKey(new User(this.loginUserName, ""))
       .subscribe(resKey => {
-        if (resKey.key) {
+        if (resKey.status && resKey.key) {
           var encryptedPassword = crypto.AES.encrypt(md5(this.loginPassword), resKey.key).toString();
           this.appService.login(new User(this.loginUserName, encryptedPassword))
             .subscribe(res => {
-              if (res.status == "OK") {
+              if (res.status) {
                 if (this.rememME)
                   this.rememberMe();
                 this.router.navigate(['/']);
               }
               else
                 alert("Error message: " + res.message);
-                return false;
+              return false;
             })
         }
         else
@@ -86,15 +83,17 @@ export class LoginComponent implements OnInit {
     if (this.password == this.confirmPassword) {
       this.appService.getKey(new User(this.userName, ""))
         .subscribe(resKey => {
-          var encryptedPassword = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
-          this.birthDay = this.year + "-" + this.month + "-" + this.day;
-          this.appService.signup(new User(this.userName, encryptedPassword,
-            this.firstName, this.lastName, this.email, this.gender, this.birthDay,this.isBlogger))
-            .subscribe(res => {
-              alert(res.message);
-              if (res.status == "OK")
-                this.login(true);
-            })
+          if (resKey.status && resKey.key) {
+            var encryptedPassword = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
+            this.birthDay = this.year + "-" + this.month + "-" + this.day;
+            this.appService.signup(new User(this.userName, encryptedPassword,
+              this.firstName, this.lastName, this.email, this.gender, this.birthDay, this.isBlogger))
+              .subscribe(res => {
+                alert(res.message);
+                if (res.status)
+                  this.login(true);
+              })
+          }
         })
     }
     else {
@@ -123,7 +122,7 @@ export class LoginComponent implements OnInit {
   resetPassword() {
     this.appService.askToResetPassword(this.emailToReset)
       .subscribe(res => {
-        if (res.status)
+        if (res.message)
           alert(res.message);
         else
           alert("Somthing went wrong..");

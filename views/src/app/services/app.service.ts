@@ -20,6 +20,7 @@ export class AppService {
     private http: HttpClient
   ) { }
 
+  //-------------------index.js------------------------
   checkSession(): Observable<boolean> {
     return this.http.get<any>(`${this.api_url}/check_session`)
       .pipe(map(res => res.status as boolean));
@@ -39,7 +40,6 @@ export class AppService {
   getKeyWithUuid(uuid: String) {
     var key = this.http.get(`${this.api_url}/getKey/${uuid}`, )
       .pipe(map(res => res as any || ""));
-    alert("After get key");
     return key;
   }
   askToResetPassword(email: string): Observable<any> {
@@ -50,30 +50,27 @@ export class AppService {
     return this.http.post(`${this.api_url}/doReset`, { uuid: uuid, password: password })
       .pipe(map(res => res as any || ""));
   }
-  // checkUuid(uuid: string): Observable<any>{
-  //   return this.http.get(`${this.api_url}/resetPassword/${uuid}`)
-  //     .pipe(map(res  => res as any || ""));
-  // }
-  navbar(): any {
-    // return this.http.get(`${this.api_url}/navbar`)
-    //   .pipe(map(res => res as any[] || []));
-    return "";
-  }
 
+  //-------------------users.js------------------------
   get_users() {
     return this.http.get(`${this.api_url}/users/users`)
       .pipe(map(res => res as User[] || []));
   }
-
   get_user(userName: String = undefined) {
     return this.http.post(`${this.api_url}/users/user`, { userName: userName })
       .pipe(map(res => res as User || null));
   }
-
   upload_Image(formdata: any) {
     return this.http.post<string>(`${this.api_url}/users/upload`, formdata);
   }
+  delete_user(userName: String) {
+    return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
+  }
+  update_user(user: User, oldPassword = undefined) {
+    return this.http.post<any>(`${this.api_url}/users/update`, { user, oldPassword: oldPassword });
+  }
 
+  //-------------------blogs.js------------------------
   /* BLOGS REST */
   get_all_blogs() {
     return this.http.get(`${this.api_url}/blogs/all_blogs`)
@@ -95,7 +92,6 @@ export class AppService {
     return this.http.get(`${this.api_url}/blogs/most_commented_blogs`)
       .pipe(map(res => res as Blog[] || []));
   }
-
   get_recent_posts() {
     return this.http.get(`${this.api_url}/blogs/recent_posts`)
       .pipe(map(res => res as Blog[] || []));
@@ -112,28 +108,21 @@ export class AppService {
   add_blog(title, content, category) {
     return this.http.post<any>(`${this.api_url}/blogs/add`, { title: title, content: content, category: category });
   }
-
   update_blog(blogId, title, content) {
     return this.http.post<any>(`${this.api_url}/blogs/update`, { id: blogId, title: title, content: content });
   }
-
   upload_blog_Image(formdata: any) {
     return this.http.post<any>(`${this.api_url}/blogs/upload`, formdata);
   }
-
-
   delete_blog(blogId) {
     return this.http.post<any>(`${this.api_url}/blogs/delete`, { id: blogId });
   }
-
   add_comment(blogId, content, imgPath, date) {
     return this.http.post<any>(`${this.api_url}/blogs/add_comment`, { blogId: blogId, content: content, imgPath: imgPath, date: date });
   }
-
   add_reply(blogId, commentId, content, imgPath, date) {
     return this.http.post<any>(`${this.api_url}/blogs/add_reply`, { blogId: blogId, commentId: commentId, content: content, imgPath: imgPath, date: date });
   }
-
   do_like(blogId, commentId = undefined, replyId = undefined) {
     return this.http.post<any>(`${this.api_url}/blogs/do_like`, { blogId: blogId, commentId: commentId, replyId: replyId });
   }
@@ -149,17 +138,15 @@ export class AppService {
   get_who_am_I() {
     return this.http.get<any>(`${this.api_url}/blogs/who_am_I`);
   }
-
   /*END BLOGS REST */
-  delete_user(userName: String) {
-    return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
-  }
-  update_user(user: User, oldPassword = undefined) {
-    return this.http.post<any>(`${this.api_url}/users/update`, { user, oldPassword: oldPassword });
-  }
+
+  //-------------------inbox.js------------------------
   get_inbox() {
     return this.http.get(`${this.api_url}/inbox/gatAll`)
       .pipe(map(res => res as Inbox[] || []));
+  }
+  changeInboxCount() {
+    return this.http.get<any>(`${this.api_url}/inbox/changeInboxCount`);
   }
   delete_inbox(inbox: string) {
     return this.http.post(`${this.api_url}/inbox/delete`, { inboxId: inbox })

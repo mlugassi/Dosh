@@ -14,6 +14,7 @@ import { UsersComponent } from './main-page/users/users.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { FooterComponent } from './footer/footer.component';
+import { ContactComponent } from './contact/contact.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { CarouselComponent } from './main-page/home/carousel/carousel.component';
 import { RecentPostsComponent } from './main-page/home/recent-posts/recent-posts.component';
@@ -28,6 +29,7 @@ import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.compon
 import { BlogCardComponent } from './main-page/blogs/blog-card/blog-card.component';
 import { BlogSmallCardComponent } from './main-page/home/recent-posts/blog-small-card/blog-small-card.component';
 import { MostCommentedComponent } from './main-page/home/most-commented/most-commented.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import { MostCommentedComponent } from './main-page/home/most-commented/most-com
     ResetPasswordComponent,
     PageNotFoundComponent,
     FooterComponent,
+    ContactComponent,
     CarouselComponent,
     RecentPostsComponent,
     MainPageComponent,
@@ -51,7 +54,8 @@ import { MostCommentedComponent } from './main-page/home/most-commented/most-com
     NewBlogComponent,
     BlogCardComponent,
     BlogSmallCardComponent,
-    MostCommentedComponent
+    MostCommentedComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,

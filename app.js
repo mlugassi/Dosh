@@ -120,7 +120,7 @@ let login = require('./routes/login'); // it will be our controller for logging 
   app.use('/users', users);
   app.use('/blogs', blogs);
   app.use('/inbox', inbox);
-  app.use('/login', login); // register login controller
+  app.use('/', login); // register login controller
   app.use('/', index);
   // catch 404 and forward to error handler
   app.use(function (req, res, next) {
