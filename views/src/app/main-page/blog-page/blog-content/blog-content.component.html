@@ -51,10 +51,16 @@
       <textarea class="form-control" [(ngModel)]="editedContent" placeholder="Write something..."></textarea>
       <div class="edit">
         <select class="form-control" [(ngModel)]="category">
-          <option [attr.value]="All">Choose Category...</option>
+          <option [attr.value]="Economics">Economics</option>
+          <option [attr.value]="Parenting">Parenting</option>
+          <option [attr.value]="Political">Political</option>
+          <option [attr.value]="Pet">Pet</option>
+          <option [attr.value]="Gaming">Gaming</option>
+          <option [attr.value]="Nature">Nature</option>
+          <option [attr.value]="Medical">Medical</option>
+          <option [attr.value]="Science">Science</option>
+          <option [attr.value]="Business">Business</option>
           <option [attr.value]="Sport">Sport</option>
-          <option [attr.value]="Trips">Trips</option>
-          <option [attr.value]="Soccer">Soccer</option>
         </select>
       </div>
     </div>

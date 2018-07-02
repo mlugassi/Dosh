@@ -31,9 +31,16 @@
     </button>
     <select class="catOpts" [(ngModel)]="category" (change)="filterByCategory()">
         <option [attr.value]="All">All Categories</option>
+        <option [attr.value]="Economics">Economics</option>
+        <option [attr.value]="Parenting">Parenting</option>
+        <option [attr.value]="Political">Political</option>
+        <option [attr.value]="Pet">Pet</option>
+        <option [attr.value]="Gaming">Gaming</option>
+        <option [attr.value]="Nature">Nature</option>
+        <option [attr.value]="Medical">Medical</option>
+        <option [attr.value]="Science">Science</option>
+        <option [attr.value]="Business">Business</option>
         <option [attr.value]="Sport">Sport</option>
-        <option [attr.value]="Trips">Trips</option>
-        <option [attr.value]="Soccer">Soccer</option>
       </select>
     <!-- <button class="btnOptions" (click)="sortByDate()">
       Sort By Date
