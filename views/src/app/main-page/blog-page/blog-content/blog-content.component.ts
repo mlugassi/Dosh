@@ -35,7 +35,7 @@ export class BlogContentComponent implements OnInit {
         this.imgPath = res.imgPath;
         this.isBlogger = res.isBlogger;
       }
-    })
+    });
     this.inEdit = false;
     this.activatedRoute
       .params

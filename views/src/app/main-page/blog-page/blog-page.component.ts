@@ -32,6 +32,7 @@ export class BlogPageComponent implements OnInit {
       this.myBlogs.forEach(blog => {
         this.categories[blog.category.valueOf()]++;
       });
+      alert(this.myBlogs.length);
     });
 
     this.appService.get_all_blogs_but_mine().subscribe(res => {
@@ -39,6 +40,8 @@ export class BlogPageComponent implements OnInit {
       this.allBlogs.forEach(blog => {
         this.categories[blog.category.valueOf()]++;
       });
+      alert(this.allBlogs.length);
+
     });
   }
 }

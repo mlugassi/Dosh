@@ -250,11 +250,21 @@ router.post('/delete', checksession, function (req, res) {
                         status: false,
                         message: "Post doesn't exists"
                     });
-                    else
+                    else {
+                        User.update({
+                            userName: blog.author,
+                            isBlogger: true,
+                            isActive: true
+                        }, {
+                            $inc: {
+                                blogs: -1
+                            }
+                        });
                         return res.json({
                             status: true,
                             message: "Post id: " + blog.id + " deleted successfully "
                         });
+                    }
                 });
         });
 });
@@ -268,7 +278,7 @@ router.post('/upload', checksession, (req, res) => {
                 message: "Not file selected"
             });
         else {
-            let id = req.file.filename.substr(0, req.file.filename.length - 4);
+            let id = req.file.filename.substr(0, req.file.filename.length - 18);
             Blog.findOneAndUpdate({
                 id: id,
                 author: req.session.passport.user
@@ -278,7 +288,7 @@ router.post('/upload', checksession, (req, res) => {
                 if (err) throw err;
                 if (result == null) return res.status(200).json({
                     status: false,
-                    message: "You do not have permission to delete this post"
+                    message: "You do not have permission to update this post"
                 });
                 else return res.status(200).json({
                     status: true,
@@ -308,9 +318,9 @@ router.post('/add', checksession, function (req, res) {
             userName: req.session.passport.user,
             isBlogger: true,
             isActive: true
-        }, function (err, result) {
+        }, function (err, user) {
             if (err) throw err;
-            if (result == null) return res.json({
+            if (user == null) return res.json({
                 status: false,
                 message: "You do not have permission to post"
             });
@@ -348,7 +358,14 @@ router.post('/add', checksession, function (req, res) {
                             isActive: true
 
                         }, function (err, blog) {
-                            if (err) throw err;
+                            if (err || !blog) throw err;
+                            User.findOneAndUpdate({
+                                userName: req.session.passport.user,
+                                isBlogger: true,
+                                isActive: true
+                            }, {
+                                blogs: user.blogs + 1
+                            });
                             console.log('blog created:' + blog);
                             return res.json({
                                 status: true,

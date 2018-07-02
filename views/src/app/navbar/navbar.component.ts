@@ -13,7 +13,7 @@ import { ResourceLoader } from '@angular/compiler';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  user: User;// = new User("a", "a", "a", "a", "a@walla.com", "Male", "a", true, true, 0, [], "/images/banner1.jpg");
+  user: User;
   editPass: Boolean = true;
   image;
   years = [];

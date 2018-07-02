@@ -61,10 +61,10 @@ export class AppService {
       .pipe(map(res => res as User || null));
   }
   upload_Image(formdata: any) {
-    return this.http.post<string>(`${this.api_url}/users/upload`, formdata);
+    return this.http.post<any>(`${this.api_url}/users/upload`, formdata);
   }
   delete_user(userName: String) {
-    return this.http.post<string>(`${this.api_url}/users/delete`, { userName: userName });
+    return this.http.post<any>(`${this.api_url}/users/delete`, { userName: userName });
   }
   update_user(user: User, oldPassword = undefined) {
     return this.http.post<any>(`${this.api_url}/users/update`, { user, oldPassword: oldPassword });

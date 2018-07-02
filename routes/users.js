@@ -38,32 +38,63 @@ function checkFileType(file, cb) {
 }
 router.post('/upload', checksession, (req, res) => {
     upload(req, res, (err) => {
-        if (err) {
-            console.log(err);
-
-        } else {
-            if (req.file == undefined) {
-                console.log("Error: No File Selected!");
-            } else {
-                console.log("File Uploded");
-                let uname = req.file.filename.substr(0, req.file.filename.length - 18);
-                console.log(uname);
-
-                User.findOneAndUpdate({
-                    userName: uname
-                }, {
-                        imgPath: "/images/users_profiles/" + req.file.filename
-                    }, function (err, result) {
-                        if (err) throw err;
-                        res.status(200).json('{"status":"OK" }');
-                    })
-            }
+        if (err) throw err;
+        if (!req.file)
+            return res.json({
+                status: false,
+                message: "Not file selected"
+            });
+        else {
+            let uname = req.file.filename.substr(0, req.file.filename.length - 18);
+            User.findOneAndUpdate({
+                userName: uname,
+                isActive: true
+            }, {
+                imgPath: "/images/users_profiles/" + req.file.filename
+            }, function (err, result) {
+                if (err) throw err;
+                if (result == null) return res.status(200).json({
+                    status: false,
+                    message: "User doesn't exits"
+                });
+                else return res.status(200).json({
+                    status: true,
+                    message: "File uploded successfully"
+                });
+            });
+            console.log("File uploded successfully");
         }
     });
+    // upload(req, res, (err) => {
+    //     if (err) {
+    //         console.log(err);
+
+    //     } else {
+    //         if (req.file == undefined) {
+    //             console.log("Error: No File Selected!");
+    //         } else {
+    //             console.log("File Uploded");
+    //             let uname = req.file.filename.substr(0, req.file.filename.length - 18);
+    //             console.log(uname);
+
+    //             User.findOneAndUpdate({
+    //                 userName: uname
+    //             }, {
+    //                     imgPath: "/images/users_profiles/" + req.file.filename
+    //                 }, function (err, result) {
+    //                     if (err) throw err;
+    //                     res.status(200).json({status: true , message: "Failed uploaded image" });
+    //                 })
+    //         }
+    //     }
+    // });
 });
 
 router.get('/', checksession, function (req, res) {
-    User.findOne({ userName: req.session.passport.user, isAdmin: true }, function (err, user) {
+    User.findOne({
+        userName: req.session.passport.user,
+        isAdmin: true
+    }, function (err, user) {
         if (err || !user)
             return res.redirect('/');
         else
@@ -72,10 +103,8 @@ router.get('/', checksession, function (req, res) {
 });
 
 router.get('/users', checksession, function (req, res) {
-    let name = req.session.passport.user;
-    if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
-        userName: name,
+        userName: req.session.passport.user,
         isActive: true
     }, function (err, result) {
         if (err) throw err;
@@ -86,10 +115,20 @@ router.get('/users', checksession, function (req, res) {
                 }).exec();
                 res.json(users);
             })();
+        else
+            return res.json({
+                status: false,
+                message: "You don't have access"
+            });
     });
 });
 
 router.post('/user', checksession, function (req, res) {
+    if (!req || !req.body)
+        return res.status(200).json({
+            status: false,
+            message: "Somthing went worng with your sent parameters"
+        });
     let name = req.body.userName || req.session.passport.user;
     if (name == undefined || name == "") throw err; // maybe check session do it
     User.findOne({
@@ -107,7 +146,7 @@ router.post('/user', checksession, function (req, res) {
         user.email = result.email;
         user.imgPath = result.imgPath;
         user.gender = result.gender;
-        user.bloges = result.bloges;
+        user.blogs = result.blogs;
         //user.inbox = result.inbox;
         user.isAdmin = result.isAdmin;
         user.isBlogger = result.isBlogger;
@@ -118,36 +157,71 @@ router.post('/user', checksession, function (req, res) {
 });
 
 router.post('/delete', checksession, function (req, res) {
-    let name = req.body.userName;
-    if (name == undefined || name == "") throw err; // maybe check session do it
+    if (!req || !req.body || req.body.userName || req.body.userName == "")
+        return res.status(200).json({
+            status: false,
+            message: "Somthing went worng with your sent parameters"
+        });
     User.findOneAndUpdate({
-        userName: name
+        userName: req.body.userName
     }, {
-            isActive: false
-        }, function (err, result) {
-            if (err) throw err;
-            res.status(200).json('{"status":"OK" }');
-        })
+        isActive: false
+    }, function (err, result) {
+        if (err) throw err;
+        if (!result) return res.status(200).json({
+            status: false,
+            message: "User doesn't exists"
+        });
+        else
+            return res.status(200).json({
+                status: true,
+                message: "User deleted successfully"
+            });
+    })
 });
 
 router.post('/update', checksession, async (req, res) => {
+    if (!req || !req.body || req.body.user)
+        return res.status(200).json({
+            status: false,
+            message: "Somthing went worng with your sent parameters"
+        });
     var userToFind = {};
     if (req.session.passport.user == req.body.user.userName) /// edit user
     {
-        let myUser = await User.findOne({ userName: req.body.user.userName, isActive: true }).exec();
+        let myUser = await User.findOne({
+            userName: req.body.user.userName,
+            isActive: true
+        }).exec();
         if (myUser == undefined)
-            return res.status(200).json({ status: false, message: "Your user name is wrong!" });
+            return res.status(200).json({
+                status: false,
+                message: "Your user name is wrong!"
+            });
 
-        if (req.body.user.password != undefined && req.body.user.password != ""
-            && req.body.oldPassword != undefined && req.body.oldPassword != "") {
+        if (req.body.user.password != undefined && req.body.user.password != "" &&
+            req.body.oldPassword != undefined && req.body.oldPassword != "") {
             userToFind.password = crypto.decrypt(req.body.oldPassword, myUser.passwordKey);
             req.body.user.password = crypto.decrypt(req.body.user.password, myUser.passwordKey);
-        }
-        else
+        } else
             delete req.body.user.password;
         if (req.body.user.isBlogger && !myUser.isBlogger) {
-            let message = [{ title: "Request for blogger", content: "I want to be a blogger", sender: req.body.user.userName, date: Date.now(), isRead: false, isConfirm: false }];
-            User.update({ isAdmin: true, isActive: true }, { $push: { inbox: message } },
+            let message = [{
+                title: "Request for blogger",
+                content: "I want to be a blogger",
+                sender: req.body.user.userName,
+                date: Date.now(),
+                isRead: false,
+                isConfirm: false
+            }];
+            User.update({
+                    isAdmin: true,
+                    isActive: true
+                }, {
+                    $push: {
+                        inbox: message
+                    }
+                },
                 function (err, user) {
                     if (err || !user) {
                         res.status(200).json({
@@ -158,20 +232,31 @@ router.post('/update', checksession, async (req, res) => {
                 });
             delete req.body.user.isBlogger;
         }
-    }
-    else {//Is an admin
-        User.findOne({ userName: req.session.passport.uname, isActive: true, isAdmin: true }, function (err, user) {
+    } else { //Is an admin
+        User.findOne({
+            userName: req.session.passport.user,
+            isActive: true,
+            isAdmin: true
+        }, function (err, user) {
             if (err || !user)
-                return res.status(200).json({ status: false, message: "Your not an admin!\nYou can't change othe users properties" });
+                return res.status(200).json({
+                    status: false,
+                    message: "Your not an admin!\nYou can't change othe users properties"
+                });
         });
         if (req.body.user.password != undefined && req.body.user.password != "") {
-            let myUser = await User.findOne({ userName: req.body.user.userName, isActive: true }).exec();
+            let myUser = await User.findOne({
+                userName: req.body.user.userName,
+                isActive: true
+            }).exec();
             req.body.user.password = crypto.decrypt(req.body.user.password, myUser.passwordKey);
-        }
-        else delete req.body.user.password;
+        } else delete req.body.user.password;
     }
     if (!checkUserValues(req.body.user))
-        return res.status(200).json({ status: false, message: "Somthing missed in your properties" });
+        return res.status(200).json({
+            status: false,
+            message: "Somthing missed in your properties"
+        });
 
     userToFind.userName = req.body.user.userName;
     userToFind.isActive = true;
@@ -179,8 +264,14 @@ router.post('/update', checksession, async (req, res) => {
 
     User.findOneAndUpdate(userToFind, req.body.user, function (err, user) {
         if (err || !user)
-            return res.status(200).json({ status: false, message: "Your old password isn't correct!\nPlease try again." });
-        res.status(200).json({ status: true, message: "Your changed was saved." });
+            return res.status(200).json({
+                status: false,
+                message: "Your old password isn't correct!\nPlease try again."
+            });
+        res.status(200).json({
+            status: true,
+            message: "Your changed was saved."
+        });
     });
 });
 
