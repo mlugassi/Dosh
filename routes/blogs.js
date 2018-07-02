@@ -5,7 +5,9 @@ const User = require('../model')("User");
 var multer = require('multer');
 const path = require('path');
 const checksession = require('./checksession');
-const {ObjectId} = require('mongodb');
+const {
+    ObjectId
+} = require('mongodb');
 
 // Set The Storage Engine
 const storage = multer.diskStorage({
@@ -403,17 +405,24 @@ router.post('/add_comment', checksession, function (req, res) {
         status: false,
         message: "Content doesn't match the length rules"
     });
-    else
-        Blog.update({
+    else {
+        let _id = "";
+        Blog.findOne({
             id: req.body.blogId,
             isActive: true
-        }, {
-            $push: {
-                "comments.comment": {
+        }, function (err, result) {
+            if (err) throw err;
+            if (result == null) return res.json({
+                status: false,
+                message: "Post doesn't exists"
+            });
+            else {
+                result.comments.count++;
+                result.comments.comment.push({
                     writer: req.session.passport.user,
                     imgPath: req.body.imgPath,
                     content: req.body.content,
-                    created_at: req.body.date, // TODO: check if is needed
+                    created_at: req.body.date,
                     likes: {
                         count: 0,
                         users: []
@@ -423,22 +432,61 @@ router.post('/add_comment', checksession, function (req, res) {
                         users: []
                     },
                     replies: []
-                }
-            },
-            $inc: {
-                "comments.count": 1
+                });
+                _id = result.comments.comment[result.comments.comment.length - 1]._id;
+                Blog.findOneAndUpdate({
+                    id: req.body.blogId
+                }, result, function (err, result) {
+                    if (err) throw err;
+                    if (result == null) return res.json({
+                        status: false,
+                        message: "Somthing went wrong with the update DB"
+                    });
+                    else
+                        res.json({
+                            status: true,
+                            message: "Comment added successfully",
+                            _id: _id
+                        });
+                });
             }
-        }, function (err, result) {
-            if (err) throw err;
-            if (result == null) return res.json({
-                status: false,
-                message: "Post or doesn't exists"
-            });
-            else return res.json({
-                status: true,
-                message: "Comment added successfully"
-            });
         });
+    }
+    // Blog.update({
+    //     id: req.body.blogId,
+    //     isActive: true
+    // }, {
+    //     $push: {
+    //         "comments.comment": {
+    //             writer: req.session.passport.user,
+    //             imgPath: req.body.imgPath,
+    //             content: req.body.content,
+    //             created_at: req.body.date, // TODO: check if is needed
+    //             likes: {
+    //                 count: 0,
+    //                 users: []
+    //             },
+    //             unlikes: {
+    //                 count: 0,
+    //                 users: []
+    //             },
+    //             replies: []
+    //         }
+    //     },
+    //     $inc: {
+    //         "comments.count": 1
+    //     }
+    // }, function (err, result) {
+    //     if (err) throw err;
+    //     if (result == null) return res.json({
+    //         status: false,
+    //         message: "Post doesn't exists"
+    //     });
+    //     else return res.json({
+    //         status: true,
+    //         message: "Comment added successfully"
+    //     });
+    // });
 });
 
 router.post('/add_reply', checksession, function (req, res) {
@@ -450,47 +498,97 @@ router.post('/add_reply', checksession, function (req, res) {
         status: false,
         message: "Content doesn't match the length rules"
     });
-    else
-        Blog.update({
+    else {
+        let _id = "";
+        Blog.findOne({
             id: req.body.blogId
-        }, {
-            $push: {
-                "comments.comment.$[cmt].replies": {
-                    writer: req.session.passport.user,
-                    imgPath: req.body.imgPath,
-                    content: req.body.content,
-                    created_at: req.body.date, // TODO: check if is needed
-                    likes: {
-                        count: 0,
-                        users: []
-                    },
-                    unlikes: {
-                        count: 0,
-                        users: []
-                    }
-                }
-            },
-            $inc: {
-                "comments.count": 1
-            }
-        }, {
-            arrayFilters: [{
-                "cmt._id": {
-                    $eq: ObjectId(req.body.commentId)
-                }
-            }]
         }, function (err, result) {
-            console.log(result);
             if (err) throw err;
             if (result == null) return res.json({
                 status: false,
-                message: "Post or comment doesn't exists"
+                message: "Post doesn't exists"
             });
-            else return res.json({
-                status: true,
-                message: "Reply added successfully"
+            result.comments.comment.forEach(comment => {
+                    if (comment._id == req.body.commentId) {
+                        result.comments.count++;
+                        comment.replies.push({
+                            writer: req.session.passport.user,
+                            imgPath: req.body.imgPath,
+                            content: req.body.content,
+                            created_at: req.body.date,
+                            likes: {
+                                count: 0,
+                                users: []
+                            },
+                            unlikes: {
+                                count: 0,
+                                users: []
+                            },
+                        });
+                        _id = comment.replies[comment.replies.length - 1]._id;
+                    }
+                }
+
+            );
+            Blog.findOneAndUpdate({
+                id: req.body.blogId
+            }, result, function (err, result) {
+                if (err) throw err;
+                if (result == null) return res.json({
+                    status: false,
+                    message: "Somthing went wrong with the update DB"
+                });
+                else
+                    res.json({
+                        status: true,
+                        message: "Reply added successfully",
+                        _id: _id
+                    });
             });
         });
+
+
+    }
+    // Blog.update({
+    //     id: req.body.blogId
+    // }, {
+    //     $push: {
+    //         "comments.comment.$[cmt].replies": {
+    //             writer: req.session.passport.user,
+    //             imgPath: req.body.imgPath,
+    //             content: req.body.content,
+    //             created_at: req.body.date, // TODO: check if is needed
+    //             likes: {
+    //                 count: 0,
+    //                 users: []
+    //             },
+    //             unlikes: {
+    //                 count: 0,
+    //                 users: []
+    //             }
+    //         }
+    //     },
+    //     $inc: {
+    //         "comments.count": 1
+    //     }
+    // }, {
+    //     arrayFilters: [{
+    //         "cmt._id": {
+    //             $eq: ObjectId(req.body.commentId)
+    //         }
+    //     }]
+    // }, function (err, result) {
+    //     console.log(result);
+    //     if (err) throw err;
+    //     if (result == null) return res.json({
+    //         status: false,
+    //         message: "Post or comment doesn't exists"
+    //     });
+    //     else return res.json({
+    //         status: true,
+    //         message: "Reply added successfully"
+    //     });
+    // });
 });
 
 router.post('/do_like', checksession, function (req, res) {

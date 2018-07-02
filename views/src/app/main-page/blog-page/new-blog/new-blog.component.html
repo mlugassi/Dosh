@@ -6,10 +6,10 @@
           <button class="btn btn-secondary imgBtn" (click)="file.click()">
             <i class="fas fa-camera"> </i>
           </button>
-          <input type="file" (change)="getFile($event)" class="form-control" accept="image/*" #file/>
+          <input type="file" (change)="onFileChange($event.target.files)" class="form-control" accept="image/*" #file/>
         </div>
-        <div [ngClass]="transbox">
-          <img src="{{imgPath}}" class="img-fluid" alt="">
+        <div class="transbox">
+          <img style="z-index: 0;" height="100%" width="100%" [src]="imgPath" class="img-fluid" alt="">
         </div>
       </div>
     </div>
