@@ -22,19 +22,9 @@ export class ResetPasswordComponent implements OnInit {
 
         this.uuid = params['id'] || '';
       });
-
-    // this.appService.checkUuid(this.uuid)
-    //   .subscribe(res => {
-    //     alert(234234243);
-    //     if (res.status)
-    //       alert(res.status);
-    //     else
-    //       alert("Somthing went wrong..");
-    //   })
   }
 
   reset() {
-    alert("RESET");
     if (this.password == this.confirmPassword) {
       this.appService.getKeyWithUuid(this.uuid)
         .subscribe(resKey => {
@@ -42,7 +32,7 @@ export class ResetPasswordComponent implements OnInit {
             this.appService.doReset(this.uuid, (crypto.AES.encrypt(md5(this.password), resKey.key).toString()))
               .subscribe(res => {
                 if (res.message)
-                  alert(res.message);
+                  alert(res.message);         
               })
           }
           else
@@ -52,16 +42,4 @@ export class ResetPasswordComponent implements OnInit {
     else
       alert("The passwords are differents");
   }
-  // resetPassword() {
-  //   if (this.password == this.confirmPassword)
-  //     this.appService.resetPassword(this.uuid, this.password)
-  //       .subscribe(res => {
-  //         if (res.status)
-  //           alert(res.message);
-  //         else
-  //           alert("Somthing went wrong..");
-  //       })
-  //   else
-  //     alert("The passwords are differents");
-  // }
 }

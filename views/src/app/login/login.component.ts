@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppService } from '../services/app.service';
 
@@ -14,16 +14,11 @@ import { AuthGuard } from '../auth.guard';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  user: User;
   loginUserName;
   loginPassword;
-  userName;
   password;
   confirmPassword;
-  firstName;
-  lastName;
-  email;
-  gender;
-  birthDay;
   check = true;
   year;
   month;
@@ -33,9 +28,6 @@ export class LoginComponent implements OnInit {
   emailToReset;
   MyKey;
   showPage = false;
-  isBlogger = false;
-
-  // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard) { }
 
   ngOnInit() {
@@ -55,8 +47,8 @@ export class LoginComponent implements OnInit {
   login(AfterSignup) {
     if (AfterSignup) {
       alert("This is login after signup");
-      this.loginUserName = this.userName;
-      this.loginPassword = this.password;
+      this.loginUserName = this.user.userName;
+      this.loginPassword = this.user.password;
     }
     this.appService.getKey(new User(this.loginUserName, ""))
       .subscribe(resKey => {
@@ -81,13 +73,12 @@ export class LoginComponent implements OnInit {
 
   signup() {
     if (this.password == this.confirmPassword) {
-      this.appService.getKey(new User(this.userName, ""))
+      this.appService.getKey(new User(this.user.userName, ""))
         .subscribe(resKey => {
           if (resKey.status && resKey.key) {
-            var encryptedPassword = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
-            this.birthDay = this.year + "-" + this.month + "-" + this.day;
-            this.appService.signup(new User(this.userName, encryptedPassword,
-              this.firstName, this.lastName, this.email, this.gender, this.birthDay, this.isBlogger))
+            this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
+            this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
+            this.appService.signup(this.user)
               .subscribe(res => {
                 alert(res.message);
                 if (res.status)
@@ -106,13 +97,13 @@ export class LoginComponent implements OnInit {
   onSelectionChange() {
     this.check = !this.check;
     if (!this.check)
-      this.gender = "Female";
+      this.user.gender = "Female";
     else
-      this.gender = "Male";
+      this.user.gender = "Male";
   }
   switch() { this.hide = !this.hide; }
   switchRememberMe() { this.rememME = !this.rememME; }
-  switchBlogger() { this.isBlogger = !this.isBlogger; }
+  switchBlogger() { this.user.isBlogger = !this.user.isBlogger; }
 
 
   rememberMe() {

@@ -10,26 +10,26 @@
             <div class="row">
               <div class="col-xs-6 col-md-6">
                 <small style="color:white">Your first name:</small>
-                <input type="text" name="firstname" class="form-control" [(ngModel)]="firstName" placeholder="First Name" required/> </div>
+                <input type="text" name="firstname" class="form-control" [(ngModel)]="user.firstName" placeholder="First Name" required/> </div>
               <div class="col-xs-6 col-md-6">
                 <small style="color:white">Your last name:</small>
-                <input type="text" name="lastname" required class="form-control" [(ngModel)]="lastName" placeholder="Last Name" /> </div>
+                <input type="text" name="lastname" required class="form-control" [(ngModel)]="user.lastName" placeholder="Last Name" /> </div>
             </div>
             <div class="row">
               <div class="col-xs-6 col-md-6">
                 <small style="color:white">User name:</small>
-                <input type="text" name="userName" required class="form-control" [(ngModel)]="userName" placeholder="User name" /> </div>
+                <input type="text" name="userName" required class="form-control" [(ngModel)]="user.userName" placeholder="User name" /> </div>
               <div class="col-xs-6 col-md-6">
 
                 <small style="color:white">Gender:</small>
-                <select name="gender" required class="form-control" [(ngModel)]="gender">
+                <select name="gender" required class="form-control" [(ngModel)]="user.gender">
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                 </select>
               </div>
             </div>
             <small style="color:white">Email:</small>
-            <input type="email" name="email" required class="form-control" [(ngModel)]="email" placeholder="Your Email" />
+            <input type="email" name="email" required class="form-control" [(ngModel)]="user.email" placeholder="Your Email" />
             <div class="row">
               <div class="col-xs-6 col-md-6">
                 <small style="color:white">Password:</small>
@@ -185,7 +185,7 @@
             <br>
             <div class="row">
               <label class="col-xs-6 col-md-6">
-                <input type="checkbox" [checked]=isBlogger (click)="switchBlogger()">
+                <input type="checkbox" [checked]="user.isBlogger" (click)="switchBlogger()">
                 <span style="color:white"> I want to be a blogger</span>
               </label>
             </div>
@@ -249,11 +249,11 @@
 </body>
 
 
-<div class="modal fade" id="resetPassword-modal" aria-hidden="true">
+<div class="modal fade" #resetModal id="resetPassword-modal" aria-hidden="true">
   <div class="modal-dialog" style="background: white">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <div class="modal-body">
-      <form class="modal-content animate" (ngSubmit)="resetPassword()" #resetForm="ngForm">
+      <form ngNativeValidate class="modal-content animate" (ngSubmit)="resetPassword()" #resetForm="ngForm">
         <div class="container">
           <label for="mail">Enter Email for reset password</label>
           <input type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email" required>
