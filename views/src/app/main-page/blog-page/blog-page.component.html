@@ -25,7 +25,7 @@
                     <a href="blogs/{{blog.id}}">{{blog.title}} </a>
                   </h5>
                   <p>
-                      By {{blog.author}}
+                    By {{blog.author}}
                   </p>
                   <div class="sub-meta">
                     <span>
@@ -40,7 +40,7 @@
         </div>
         <div class="tech-btm">
           <!-- <h4>All Posts</h4> -->
-          <button type="button" class="accordion" data-toggle="collapse" data-target="#allBlogsAcc">All Blogs</button>
+          <button type="button" class="accordion" data-toggle="collapse" data-target="#allBlogsAcc">Other Blogs</button>
           <div id="allBlogsAcc" class="collapse">
             <div *ngFor="let blog of allBlogs">
               <div *ngIf="blog" class="blog-grids row mb-3">
@@ -68,7 +68,49 @@
             </div>
           </div>
         </div>
-
+        <div class="single-gd my-5 tech-btm">
+          <h4>Categories</h4>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-secondary text-white" role="progressbar" [ngStyle]="{width: categories['Economics']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}"
+              [attr.aria-valuenow]="categories['Economics']" aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Economics" style="margin-left: 5px; color: white">Economics</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-success text-white" role="progressbar" [ngStyle]="{width: categories['Parenting']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Parenting']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Parenting" style="margin-left: 5px; color: white">Parenting</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-danger text-white" role="progressbar" [ngStyle]="{width: categories['Political']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Political']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Political" style="margin-left: 5px; color: white">Political</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-warning text-white" role="progressbar" [ngStyle]="{width: categories['Pet']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Pet']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Pet" style="margin-left: 5px; color: white">Pet</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-info text-white" role="progressbar" [ngStyle]="{width: categories['Gaming']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Gaming']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Gaming" style="margin-left: 5px; color: white">Gaming</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-dark text-white" role="progressbar" [ngStyle]="{width: categories['Nature']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Nature']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Nature" style="margin-left: 5px; color: white">Nature</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped text-white" role="progressbar" [ngStyle]="{width: categories['Medical']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Medical']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Medical" style="margin-left: 5px; color: white">Medical</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-secondary text-white" role="progressbar" [ngStyle]="{width: categories['Science']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Science']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Science" style="margin-left: 5px; color: white">Science</a></div>
+          </div>
+          <div class="progress  text-white">
+            <div class="progress-bar progress-bar-striped bg-success text-white" role="progressbar" [ngStyle]="{width: categories['Business']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Business']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"><a href="blogs/filter/Business" style="margin-left: 5px; color: white">Business</a></div>
+          </div>
+          <div class="progress">
+            <div class="progress-bar progress-bar-striped bg-danger text-white" role="progressbar" [ngStyle]="{width: categories['Sport']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}" [attr.aria-valuenow]="categories['Sport']"
+              aria-valuemin="0" [attr.aria-valuemax]="(allBlogs.length + myBlogs.length)"> <a href="blogs/filter/Sport" style="margin-left: 5px; color: white">Sport</a></div>
+          </div>
+        </div>
       </aside>
       <!--//left-->
 

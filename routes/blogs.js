@@ -666,7 +666,9 @@ router.post('/undo_unlike', checksession, function (req, res) {
 router.get('/:id', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
 });
-
+router.get('/filter/:filter', checksession, function (req, res) {
+    res.sendfile('./views/dist/views/index.html');
+});
 
 //Blog like & unlike
 

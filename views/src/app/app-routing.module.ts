@@ -28,6 +28,7 @@ const appRoutes: Routes = [
           { path: ':id', component: BlogContentComponent }
         ]
       },
+      { path: 'blogs/filter/:filter', component: BlogsComponent },
       { path: "users", component: UsersComponent },
       { path: "inbox", component: InboxComponent },
       { path: 'contact', component: ContactComponent },
