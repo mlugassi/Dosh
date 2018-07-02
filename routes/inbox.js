@@ -21,103 +21,124 @@ router.get('/', checksession, function (req, res) {
 });
 
 router.get('/gatAll', checksession, function (req, res) {
-  console.log("i'm in inbox/inbox")
-  User.findOne({ userName: req.session.passport.user }, function (err, user) {
-    console.log(user);
-    return res.json(user.inbox);
+  console.log("i'm in inbox/getAll");
+  User.findOne({ userName: req.session.passport.user }, function (err, response) {
+    if (err || !response)
+      return res.json([]);
+    return res.json(response.inbox);
   })
 });
 
 router.post('/readInbox', checksession, function (req, res) {
   console.log("i'm in inbox/readInbox")
+  if (!req.body.inboxId)
+    return res.json({ status: false, message: "Please send the inbox Id you rode." });
+
   User.update({ userName: req.session.passport.user, "inbox._id": req.body.inboxId },
-    { $set: { "inbox.$.isRead": true } }, function (err, user) {
-      console.log(err);
-      console.log(user);
-      return res.json({ status: "OK" });
+    { $set: { "inbox.$.isRead": true } }, function (err, response) {
+      if (err || !response || !response.nModified)
+        return res.json({ status: false, message: "The inbox wasn't updted." });
+      else
+        return res.json({ status: true, message: "The inbox updte successfully." });
     });
 });
-router.get('/changeInboxCount',checksession,function(req,res){
+router.get('/changeInboxCount', checksession, function (req, res) {
   console.log("------------------------in change new Inbox---------------------------------------------");
-  User.findOneAndUpdate({userName:req.session.passport.user},{inboxCount:0},function(err,user){
-    console.log(err);
-    console.log(user);
+  User.findOneAndUpdate({ userName: req.session.passport.user }, { inboxCount: 0 }, function (err, user) {
+    if (err || !user)
+      return res.json({ status: false, message: "The count wasn't updted." });
+    else
+      return res.json({ status: true, message: "The count updte successfully to 0." });
   });
-  res.status(200).json({status:true});
 });
+
 router.post('/unreadInbox', checksession, function (req, res) {
   console.log("i'm in inbox/unreadInbox")
+  if (!req.body.inboxId)
+    return res.json({ status: false, message: "Please send the inbox Id you unrode." });
   User.update({ userName: req.session.passport.user, "inbox._id": req.body.inboxId },
-    { $set: { "inbox.$.isRead": false } }, function (err, user) {
-      console.log(err);
-      console.log(user);
-      return res.json({ status: "OK" });
+    { $set: { "inbox.$.isRead": false } }, function (err, response) {
+      if (err || !response || !response.nModified)
+        return res.json({ status: false, message: "The inbox wasn't updted." });
+      else
+        return res.json({ status: true, message: "The inbox updte successfully." });
+    });
+});
+
+router.post('/delete', checksession, function (req, res) {
+  console.log("i'm in inbox/deleteInbox")
+  if (!req.body.inboxId)
+    return res.json({ status: false, message: "Please send the inbox Id you want to delete." });
+
+  User.update({ userName: req.session.passport.user },
+    { $pull: { inbox: { _id: req.body.inboxId } } }, function (err, response) {
+      if (err || !response || !response.nModified)
+        return res.json({ status: false, message: "The inbox wasn't deleted." });
+      else
+        return res.json({ status: true, message: "The inbox was deleted." });
     });
 });
 router.post('/confirmInbox', checksession, function (req, res) {
   console.log("i'm in inbox/confirmInbox")
-  User.findOne({ userName: req.session.passport.user }, function (err, user) {
-    var sender;
-    user.inbox.forEach(element => {
-      if (element._id == req.body.inboxId) {
-        if (element.isConfirm) return res.json({ status: false });
-        sender = element.sender;
+  if (!req.body.inboxId)
+    return res.json({ status: false, message: "Please send the inbox Id you confirm." });
+  User.findOneAndUpdate({
+    userName: req.session.passport.user, isAdmin: true,
+    "inbox._id": req.body.inboxId, "inbox.isConfirm": false
+  }, { $set: { "inbox.$.isConfirm": true } },
+    function (err, user) {
+      if (err || !user)
+        return res.json({ status: false, message: "" });
+      else {
+        let sender;
+        user.inbox.forEach(element => {
+          if (element._id == req.body.inboxId)
+            sender = element.sender;
+        });
+        User.update({ userName: sender },
+          {
+            $set: { isBlogger: true },
+            $push: { inbox: [{ title: "Your request was confirm", content: "Congregulation!! You are a blogger now!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+            $inc: { inboxCount: 1 }
+          }, function (err, response) {
+            if (err || !response || !response.nModified)
+              return res.json({ status: false, message: "The user wasn't beeb a blogger." });
+            else
+              return res.json({ status: true, message: "The user is a blogger now." });
+          })
       }
-    });
-    User.findOneAndUpdate({ userName: sender }, { isBlogger: true }, function (err, user) {
-      if (!err && user) {
-        User.update({ userName: req.session.passport.user, "inbox._id": req.body.inboxId },
-          { $set: { "inbox.$.isConfirm": true } },function(err,user){console.log(user)});
-        var message = [{ title: "Your request was confirm", content: "Congregulation!! You are a blogger now!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }];
-        User.update({ userName: sender }, { $push: { inbox: message }, $inc:{inboxCount:1} },function(err,user){console.log(user)});
-        return res.json({ status: true });
-      }
-    })
-    console.log(sender);
-  });
-});
-router.post('/delete', checksession, function (req, res) {
-  console.log("i'm in inbox/deleteInbox")
-  console.log(req.body.inboxId);
-  User.update({ userName: req.session.passport.user },
-    { $pull: { inbox: { _id: req.body.inboxId } } }, function (err, user) {
-      console.log(err);
-      console.log(user);
-      return res.json({ status: "OK" });
     });
 });
 router.post('/rejectInbox', checksession, function (req, res) {
-  try {
-    console.log("i'm in inbox/rejectInbox")
-    User.findOne({ userName: req.session.passport.user }, function (err, user) {
-      var sender, title;
-      user.inbox.forEach(element => {
-        if (element._id == req.body.inboxId) {
-          sender = element.sender;
-          title = element.title;
-        }
-      });
-      if (title == "Your request was rejected") {
-        User.update({ userName: req.session.passport.user, "inbox._id": req.body.inboxId },
-          { $set: { "inbox.$.isConfirm": true } }, function (err, user) {
-            return res.json({ status: "OK" });
-          });
-      }
-      var message = [{ title: "Your request was rejected", content: "", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }];
-      User.update({ userName: sender }, { $push: { inbox: message }, $inc:{inboxCount:1} },
-        function (err, user) {
-          if (!err && user) {
-            User.update({ userName: req.session.passport.user, "inbox._id": req.body.inboxId },
-              { $set: { "inbox.$.isConfirm": true } }, function (err, user) {
-                return res.json({ status: "OK" });
-              });
-          }
+  console.log("i'm in inbox/rejectInbox")
+  if (!req.body.inboxId)
+    return res.json({ status: false, message: "Please send the inbox Id you reject." });
+  User.findOneAndUpdate({
+    userName: req.session.passport.user, isAdmin: true,
+    "inbox._id": req.body.inboxId, "inbox.isConfirm": false
+  }, { $set: { "inbox.$.isConfirm": true } },
+    function (err, user) {
+      if (err || !user)
+        return res.json({ status: false, message: "" });
+      else {
+        let sender;
+        user.inbox.forEach(element => {
+          if (element._id == req.body.inboxId)
+            sender = element.sender;
         });
+        User.update({ userName: sender },
+          {
+            $set: { isBlogger: false },
+            $push: { inbox: [{ title: "Your request was rejected", content: "", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+            $inc: { inboxCount: 1 }
+          }, function (err, response) {
+            if (err || !response || !response.nModified)
+              return res.json({ status: false, message: "Something is went wrong." });
+            else
+              return res.json({ status: true, message: "The user request was reject." });
+          })
+      }
     });
-  }
-  catch (err) {
-    console.log(err);
-  }
 });
 
 

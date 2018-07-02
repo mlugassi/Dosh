@@ -135,7 +135,7 @@ router.get('/resetPassword/:UUID', function (req, res) {
     isActive: true
   }, function (err, result) {
     if (err || !result) {
-      condole.log(err);
+      console.log(err);
       res.redirect('/pageNotFound');
     }
     else

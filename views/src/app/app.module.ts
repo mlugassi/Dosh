@@ -30,6 +30,7 @@ import { BlogCardComponent } from './main-page/blogs/blog-card/blog-card.compone
 import { BlogSmallCardComponent } from './main-page/home/recent-posts/blog-small-card/blog-small-card.component';
 import { MostCommentedComponent } from './main-page/home/most-commented/most-commented.component';
 import { AboutComponent } from './about/about.component';
+import { DateFormatePipe } from './date-formate.pipe';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { AboutComponent } from './about/about.component';
     BlogCardComponent,
     BlogSmallCardComponent,
     MostCommentedComponent,
-    AboutComponent
+    AboutComponent,
+    DateFormatePipe
   ],
   imports: [
     BrowserModule,

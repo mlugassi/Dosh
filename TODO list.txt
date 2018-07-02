@@ -1,16 +1,16 @@
 TODO:
 Refael:
-1. close the reset modal after sending the mail
-2. check how to send an email from the server in diffrent way
-3. change the name of the default component
-4. fix the automtic login screen show fow a momemnt - (הופעת מסך לשנייה ואז הלוגין)
-5. adding question - "Do you want to post bloges?" -  in the sign up page
-6. make the password enqryption beeter by using public and private key
-7. check what worng with the reset password (dosn't send an email)
-8. in the reset password page  - change the password input to password type
-9.move the configuration button to the end of the navbar.
-10. If not have any inbox to print a matching message
-11. To fix the user modal.
+X - 1. close the reset modal after sending the mail
+V - 2. check how to send an email from the server in diffrent way
+V - 3. change the name of the default component
+X - 4. fix the automtic login screen show fow a momemnt - (הופעת מסך לשנייה ואז הלוגין)
+V - 5. adding question - "Do you want to post bloges?" -  in the sign up page
+X - 6. make the password enqryption beeter by using public and private key
+V - 7. check what worng with the reset password (dosn't send an email)
+V - 8. in the reset password page  - change the password input to password type
+V - 9.move the configuration button to the end of the navbar.
+V - 10. If not have any inbox to print a matching message
+V - 11. To fix the user modal.
 
 Micahel:
 1.  dismmis modal - fixes

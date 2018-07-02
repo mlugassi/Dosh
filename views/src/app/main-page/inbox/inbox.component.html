@@ -25,6 +25,7 @@
               </a>
             </div>
         </div>
+        <h3>{{NotInboxMessage}}</h3>
         <table class="table table-inbox">
           <tbody>
             <tr *ngFor="let in of inbox; let i = index" class={{in.class}}>
@@ -35,7 +36,7 @@
                 <tr data-toggle="collapse" attr.data-target={{in.id}} (click)="read(in.index)">
                   <td class="view-message  dont-show" width="40%">{{in.sender}}</td>
                   <td class="view-message dont-show" width="40%">{{in.title}}</td>
-                  <td class="view-message  text-right" width="20%">{{in.date}}</td>
+                  <td class="view-message  text-right" width="20%">{{in.date | dateFormate}}</td>
                 </tr>
                 <tr id={{in._id}} class="collapse">
                   <td colspan="2">
@@ -45,7 +46,8 @@
                         {{in.content}}
                      </div>
                     </td>
-                    <td>
+                    <td style="text-align:right;">
+                      {{in.date | date: 'LLL d, y'}}
                     <button class="btn btn-primary btn-block signup-btn read-m" (click)="confirm(in.index)" [hidden]="inbox[i].isConfirm">confirm</button>
                     <button class="btn btn-primary btn-block signup-btn read-m" style="background: tomato" (click)="reject(in.index)" [hidden]="inbox[i].isConfirm">reject</button>
                   </td>
