@@ -68,7 +68,7 @@
             </div>
           </div>
         </div>
-        <div class="single-gd my-5 tech-btm">
+        <div class="single-gd my-5 tech-btm" *ngIf="allBlogs && myBlogs && categories">
           <h4>Categories</h4>
           <div class="progress">
             <div class="progress-bar progress-bar-striped bg-secondary text-white" role="progressbar" [ngStyle]="{width: categories['Economics']/(allBlogs.length + myBlogs.length) | percent:'1.0-1'}"
