@@ -12,55 +12,70 @@ export class InboxComponent implements OnInit {
   constructor(private appService: AppService) { }
   inbox: Inbox[];
   CheckAll: boolean = false;
+  NotInboxMessage = "";
 
   ngOnInit() {
     this.appService.get_inbox()
       .subscribe(res => {
-        this.inbox = res;
-        var d = new Date();
-        for (let index = 0; index < this.inbox.length; index++) {
-          if (d.getDate() == Number(this.inbox[index].date.substring(8, 10)) &&
-            d.getMonth() + 1 == Number(this.inbox[index].date.substring(5, 7)))
-            this.inbox[index].date = this.inbox[index].date.substring(11, 16);
-          else
-            this.inbox[index].date = this.inbox[index].date.substring(8, 10) +
-              "/" + this.inbox[index].date.substring(5, 7);
-          this.inbox[index].id = "#" + this.inbox[index]._id;
-          this.inbox[index].isChecked = false;
-          if (!(this.inbox[index].isRead))
-            this.inbox[index].class = "unread";
-          this.inbox[index].index = index;
-        };
+        if (res.length == 0)
+          this.NotInboxMessage = "Not have any Inbox to show.";
+        else {
+          this.inbox = res.reverse();
+          var d = new Date();
+          for (let index = 0; index < this.inbox.length; index++) {
+            this.inbox[index].id = "#" + this.inbox[index]._id;
+            this.inbox[index].isChecked = false;
+            if (!(this.inbox[index].isRead))
+              this.inbox[index].class = "unread";
+            this.inbox[index].index = index;
+          };
+        }
       });
   }
   confirm(index: number) {
-    this.appService.confirmInbox(this.inbox[index]._id)
-      .subscribe(res => {
-        this.inbox[index].isConfirm = true;
-      });
+    if (confirm("Are you sure that you want to confirm the request?"))
+      this.appService.confirmInbox(this.inbox[index]._id)
+        .subscribe(res => {
+          if (res.status)
+            this.inbox[index].isConfirm = true;
+          else
+            alert(res.message);
+        });
   }
   reject(index: number) {
-    this.appService.rejectInbox(this.inbox[index]._id)
-      .subscribe(res => {
-        this.inbox[index].isConfirm = true;
-      });
+    if (confirm("Are you sure that you want to reject the request?"))
+      this.appService.rejectInbox(this.inbox[index]._id)
+        .subscribe(res => {
+          if (res.status)
+            this.inbox[index].isConfirm = true;
+          else
+            alert(res.message);
+        });
   }
   read(index: number) {
     if (index != undefined) {
       if (this.inbox[index].isRead == false)
         this.appService.readInbox(this.inbox[index]._id)
           .subscribe(res => {
-            this.inbox[index].class = "";
-            this.inbox[index].isRead = true;
+            if (res.status) {
+              this.inbox[index].class = "";
+              this.inbox[index].isRead = true;
+            }
+            else
+              alert(res.message);
           });
     }
     else {
       for (let index = 0; index < this.inbox.length; index++) {
         if (this.inbox[index].isChecked == true && this.inbox[index].isRead == false) {
-          this.inbox[index].class = "";
           this.appService.readInbox(this.inbox[index]._id)
             .subscribe(res => {
-              this.inbox[index].isRead = true;
+              if (res.status) {
+                this.inbox[index].class = "";
+                this.inbox[index].isRead = true;
+              }
+              else
+                alert(res.message);
             });
         }
         this.inbox[index].isChecked = false;
@@ -71,10 +86,14 @@ export class InboxComponent implements OnInit {
   unread() {
     for (let index = 0; index < this.inbox.length; index++) {
       if (this.inbox[index].isChecked == true && this.inbox[index].isRead == true) {
-        this.inbox[index].class = "unread";
         this.appService.unreadInbox(this.inbox[index]._id)
           .subscribe(res => {
-            this.inbox[index].isRead = false;
+            if (res.status) {
+              this.inbox[index].class = "unread";
+              this.inbox[index].isRead = false;
+            }
+            else
+              alert(res.message);
           });
       }
       this.inbox[index].isChecked = false;
@@ -82,23 +101,22 @@ export class InboxComponent implements OnInit {
     this.CheckAll = false;
   }
   delete() {
-    for (let index = 0; index < this.inbox.length; index++) {
-      if (this.inbox[index].isChecked == true) {
-        //delete from the list
-        this.inbox.splice(index, 1);
+    if (confirm("Are you sure that you want to remove this inbox?")) {
+      for (let index = 0; index < this.inbox.length; index++) {
+        if (this.inbox[index].isChecked == true) {
+          //delete from the list
 
-        this.appService.delete_inbox(this.inbox[index]._id)
-          .subscribe(res => {
-            if (res.status == "OK") {
-            }
-            else
-              alert(res.status);
-          });
+          this.appService.delete_inbox(this.inbox[index]._id)
+            .subscribe(res => {
+              if (res.status)
+                this.inbox.splice(index, 1);
+              else
+                alert(res.message);
+            });
+        }
       }
+      this.CheckAll = false;
     }
-
-    this.CheckAll = false;
-    this.inbox[this.inbox.length - 1].isChecked = false;
   }
   checkAll() {
     this.CheckAll = !this.CheckAll;
