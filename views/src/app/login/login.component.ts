@@ -14,7 +14,7 @@ import { AuthGuard } from '../auth.guard';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-  user: User;
+  user: User = new User("", "");
   loginUserName;
   loginPassword;
   password;
@@ -28,17 +28,15 @@ export class LoginComponent implements OnInit {
   emailToReset;
   MyKey;
   showPage = false;
+  //isBlogger = false;
+  // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard) { }
 
   ngOnInit() {
     if (localStorage.getItem('DoshUserName') && localStorage.getItem('DoshPassword')) {
       this.loginUserName = localStorage.getItem('DoshUserName');
       this.loginPassword = localStorage.getItem('DoshPassword');
-      if (!this.login(false)) {
-        alert("remove local storage");
-        localStorage.removeItem('DoshUserName');
-        localStorage.removeItem('DoshPassword');
-      }
+      this.login(false);
     }
     else
       this.showPage = true;
@@ -48,22 +46,24 @@ export class LoginComponent implements OnInit {
     if (AfterSignup) {
       alert("This is login after signup");
       this.loginUserName = this.user.userName;
-      this.loginPassword = this.user.password;
+      this.loginPassword = this.password;
     }
     this.appService.getKey(new User(this.loginUserName, ""))
       .subscribe(resKey => {
         if (resKey.status && resKey.key) {
           var encryptedPassword = crypto.AES.encrypt(md5(this.loginPassword), resKey.key).toString();
-          this.appService.login(new User(this.loginUserName, encryptedPassword))
+          this.appService.login(this.loginUserName, encryptedPassword)
             .subscribe(res => {
               if (res.status) {
                 if (this.rememME)
                   this.rememberMe();
                 this.router.navigate(['/']);
               }
-              else
+              else {
                 alert("Error message: " + res.message);
-              return false;
+                localStorage.removeItem('DoshUserName');
+                localStorage.removeItem('DoshPassword');
+              }
             })
         }
         else
