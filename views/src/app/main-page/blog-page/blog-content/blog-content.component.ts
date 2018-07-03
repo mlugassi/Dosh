@@ -14,6 +14,7 @@ export class BlogContentComponent implements OnInit {
   blog: Blog;
   watcher: String;
   imgPath: String;
+  postImg: String;
   isBlogger: Boolean;
   newCommentText: String;
   editedContent: String;
@@ -34,7 +35,7 @@ export class BlogContentComponent implements OnInit {
         this.imgPath = res.imgPath;
         this.isBlogger = res.isBlogger;
       }
-    })
+    });
     this.inEdit = false;
     this.activatedRoute
       .params
@@ -44,6 +45,7 @@ export class BlogContentComponent implements OnInit {
           if (!res) return;
           this.blog = res;
           this.category = res.category;
+          this.postImg = res.imgPath;
         });
       });
     this.date = new Date();
@@ -72,11 +74,19 @@ export class BlogContentComponent implements OnInit {
   cancel() {
     this.editedTitle = this.blog.title;
     this.editedContent = this.blog.content;
+    this.postImg = this.blog.imgPath;
     this.inEdit = false;
   }
-  getFile(event) {
-    this.file = event.target.files[0];
+
+  onFileChange(files) {
+    this.file = files.item(0);
+    var render = new FileReader();
+    render.onload = (event: any) => {
+      this.postImg = event.target.result;
+    }
+    render.readAsDataURL(this.file);
   }
+
   save() {
     if (!this.checkValues()) return;
     this.appService.update_blog(this.blog.id, this.editedTitle, this.editedContent, this.category).subscribe(res => {
@@ -86,7 +96,7 @@ export class BlogContentComponent implements OnInit {
         this.blog.category = this.category;
         if (this.file) {
           let formData = new FormData();
-          formData.append('uploadedImg', this.file, this.blog.id + ".jpg");
+          formData.append('uploadedImg', this.file, this.blog.author + "_" + Date.now().toString() + ".jpg");
           this.appService.upload_blog_Image(formData).subscribe(res => {
             if (!res.status)
               alert(res.message);

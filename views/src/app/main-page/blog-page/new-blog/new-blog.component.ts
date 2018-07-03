@@ -20,19 +20,25 @@ export class NewBlogComponent implements OnInit {
 
   ngOnInit() {
     this.imgPath = "/images/blogs/default.jpg";
+    this.category = "Choose Category...";
   }
 
-  getFile(event) {
-    this.file = event.target.files[0];
+  onFileChange(files) {
+    this.file = files.item(0);
+    var render = new FileReader();
+    render.onload = (event: any) => {
+      this.imgPath = event.target.result;
+    }
+    render.readAsDataURL(this.file);
   }
+
   save() {
-    alert("!this.sss()");
     if (!this.checkValues()) return;
     this.appService.add_blog(this.title, this.content, this.category).subscribe(res => {
       if (res.status && this.file) {
         let formData = new FormData();
         let id = res.id;
-        formData.append('uploadedImg', this.file, res.id + ".jpg");
+        formData.append('uploadedImg', this.file, res.id + "_" + Date.now().toString() + ".jpg");
         this.appService.upload_blog_Image(formData).subscribe(res => {
           if (!res.status)
             alert(res.message);

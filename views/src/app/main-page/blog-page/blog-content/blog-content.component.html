@@ -6,10 +6,10 @@
           <button class="btn btn-secondary imgBtn" (click)="file.click()">
             <i class="fas fa-camera"> </i>
           </button>
-          <input type="file" (change)="getFile($event)" class="form-control" accept="image/*" #file/>
+          <input type="file" (change)="onFileChange($event.target.files)" class="form-control" accept="image/*" #file/>
         </div>
         <div [ngClass]="inEdit? 'transbox':''">
-          <img style="z-index: 0;" height="100%" width="100%" src="{{blog.imgPath}}" class="img-fluid" alt="">
+          <img style="z-index: 0;" height="100%" width="100%" [src]="postImg" class="img-fluid" alt="">
         </div>
       </div>
       <div class="blog-info-middle">
@@ -25,10 +25,10 @@
               {{blog.unlikes.count}} Unlikes</i>
           </li>
           <li>
-            <i class="far fa-comment"> {{blog.comments.count}} Comments  </i>
+            <i class="far fa-comment"> {{blog.comments.count}} Comments </i>
           </li>
           <li style="float: right;">
-            <i class="fas fa-tags"> {{blog.category}}</i>
+            <a class="fas fa-tags" href="blogs/filter/{{blog.category}}"> {{blog.category}}</a>
           </li>
         </ul>
       </div>
@@ -50,13 +50,19 @@
       <input type="text" class="form-control" [(ngModel)]="editedTitle" placeholder="Write a title..." />
       <textarea class="form-control" [(ngModel)]="editedContent" placeholder="Write something..."></textarea>
       <div class="edit">
-          <select class="form-control" [(ngModel)]="category">
-            <option [attr.value]="All">Choose Category...</option>
-            <option [attr.value]="Sport">Sport</option>
-            <option [attr.value]="Trips">Trips</option>
-            <option [attr.value]="Soccer">Soccer</option>
-          </select>
-        </div>
+        <select class="form-control" [(ngModel)]="category">
+          <option [attr.value]="Economics">Economics</option>
+          <option [attr.value]="Parenting">Parenting</option>
+          <option [attr.value]="Political">Political</option>
+          <option [attr.value]="Pet">Pet</option>
+          <option [attr.value]="Gaming">Gaming</option>
+          <option [attr.value]="Nature">Nature</option>
+          <option [attr.value]="Medical">Medical</option>
+          <option [attr.value]="Science">Science</option>
+          <option [attr.value]="Business">Business</option>
+          <option [attr.value]="Sport">Sport</option>
+        </select>
+      </div>
     </div>
     <div style="font-size: 20px;">
       <div class="comment" style="position: absolute; left: 10px;">

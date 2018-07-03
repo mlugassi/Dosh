@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from '../../services/app.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import Blog from '../../models/Blog';
 
 @Component({
@@ -24,7 +24,7 @@ export class BlogsComponent implements OnInit {
   category: String;
 
 
-  constructor(private router: Router, private appService: AppService) { }
+  constructor(private router: Router, private appService: AppService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
     this.appService.get_who_am_I().subscribe(res => {
@@ -35,11 +35,13 @@ export class BlogsComponent implements OnInit {
       else
         alert(res.message);
     })
-    this.inManage = false;
-    this.category = "All Categories";
-    this.appService.get_all_blogs().subscribe(res => {
-      this.allBlogs = res;
-      this.showAllPost();
+    this.activatedRoute.params.subscribe(params => {
+      this.category = params['filter'] || 'All Categories';
+      this.inManage = false;
+      this.appService.get_all_blogs().subscribe(res => {
+        this.allBlogs = res;
+        this.showAllPost();
+      });
     });
   }
 
@@ -141,6 +143,7 @@ export class BlogsComponent implements OnInit {
     this.inManage = false;
   }
   delete() {
+    if (!confirm("Do you want delete these posts?\nAre you sure?")) return;
     this.selectedBlogs.forEach(blog => {
       this.appService.delete_blog(blog.id).subscribe(res => {
         if (res.status) {
