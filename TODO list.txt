@@ -38,3 +38,5 @@ Micahel:
 20. check that only the alloed users can do the delete or edit to post/s (server and cliet)
 21. check what heppens when the blogs are empty
 24. fix the delete and add blog - increase and decrese blogs of user doesnt work
+25. check if the progress bar is works
+26. fix the camera to center in user update
