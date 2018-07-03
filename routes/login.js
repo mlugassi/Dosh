@@ -10,17 +10,19 @@ const checksession = require('./checksession');
 router.post('/login', (req, res, next) => {
   passport.authenticate('local', { successRedirect: '/' }, function (err, user, info) {
     if (err)
-      return next(err);
+      res.status(200).json({ status: false, message: err });
     if (!user)
       res.status(200).json({ status: false, message: info.message });
-    req.logIn(user, function (err) {
-      if (err) { return next(err); }
-      console.log("login to: " + user);
-      User.findOneAndUpdate({ userName: user.userName }, { passwordKey: "" }, function (err, user) {
-        if (err || !user) { console.log("The passwordKey isn't reset") }
+    else {
+      req.logIn(user, function (err) {
+        if (err) { res.status(200).json({ status: false, message: err }); }
+        console.log("login to: " + user);
+        User.findOneAndUpdate({ userName: user.userName }, { passwordKey: "" }, function (err, user) {
+          if (err || !user) { console.log("The passwordKey isn't reset") }
+        });
+        res.status(200).json({ status: true, message: "You loged in successfully." });
       });
-      res.status(200).json({ status: true, message: "You loged in successfully." });
-    });
+    }
   })(req, res, next);
 });
 

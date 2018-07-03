@@ -25,8 +25,8 @@ export class AppService {
     return this.http.get<any>(`${this.api_url}/check_session`)
       .pipe(map(res => res.status as boolean));
   }
-  login(user: User): Observable<any> {
-    return this.http.post(`${this.api_url}/login`, user)
+  login(userName,password): Observable<any> {
+    return this.http.post(`${this.api_url}/login`, {userName:userName, password:password})
       .pipe(map(res => res as any || ""));
   }
   signup(user: User): Observable<any> {
