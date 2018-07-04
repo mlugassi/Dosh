@@ -11,6 +11,8 @@ V - 8. in the reset password page  - change the password input to password type
 V - 9.move the configuration button to the end of the navbar.
 V - 10. If not have any inbox to print a matching message
 V - 11. To fix the user modal.
+X - 12. after reset password move the page to login.
+X - 13. remove password from edit.
 
 Micahel:
 1.  dismmis modal - fixes
