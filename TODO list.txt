@@ -40,3 +40,4 @@ Micahel:
 24. fix the delete and add blog - increase and decrese blogs of user doesnt work
 25. check if the progress bar is works
 26. fix the camera to center in user update
+27. check values of user - checl that old password not undefiend

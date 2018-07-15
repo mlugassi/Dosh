@@ -129,7 +129,7 @@ export class UsersComponent implements OnInit {
   }
 
   checkValues() {
-    if (this.editPass && this.password != this.confirmPassword && (!this.password || !this.confirmPassword)) {
+    if (this.editPass && (this.password != this.confirmPassword || !this.password || !this.confirmPassword)) {
       this.password = this.confirmPassword = "";
       alert("Password and Confirm Password don't match");
       return false;
