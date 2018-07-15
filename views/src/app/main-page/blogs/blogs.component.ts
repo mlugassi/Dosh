@@ -143,7 +143,7 @@ export class BlogsComponent implements OnInit {
     this.inManage = false;
   }
   delete() {
-    if (!confirm("Do you want delete these posts?\nAre you sure?")) return;
+    if (this.selectedBlogs.length == 0 || !confirm("Do you want delete these posts?\nAre you sure?")) return;
     this.selectedBlogs.forEach(blog => {
       this.appService.delete_blog(blog.id).subscribe(res => {
         if (res.status) {

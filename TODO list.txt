@@ -15,6 +15,7 @@ X - 12. after reset password move the page to login.
 X - 13. remove password from edit.
 
 Micahel:
+DONE:
 1.  dismmis modal - fixes
 2.  check update user - fixed
 3.  check why image save oppositly - depeds on browser
@@ -23,6 +24,7 @@ Micahel:
 8.  make the check vales beeter - fixed
 10. fix the catgey ang make it with ng model - fixed
 11. fix the home page - fixed
+13. make the images circle - fixed
 14. make the mange and remove the spaces in the blog cards - fixed
 16. check why cant reply affter adding new post and check if like to comment/blog/reply works - fixed
 17. check values of users - fixed
@@ -31,16 +33,15 @@ Micahel:
 22. confirm to delete in blogs view - fixed
 23. make image preload - fixed
 24. fix the delete and add blog - increase and decrese blogs of user doesnt work - fixed
+26. fix the camera to center in user update - fixed
+27. check values of user - checl that old password not undefiend - fixed
 
-
+TODO:
 9.  maybe add ability to remove a comment (for admin and writer)
 12. ADD TOOTLIPS
-13. make the images circle
 15  make shure that the check values happens in the sever side and the user side
 20. check that only the alloed users can do the delete or edit to post/s (server and cliet)
 21. check what heppens when the blogs are empty
-26. fix the camera to center in user update
-27. check values of user - checl that old password not undefiend
 
 Later:
 5.  check what is cb 
