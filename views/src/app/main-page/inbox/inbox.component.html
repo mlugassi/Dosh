@@ -47,7 +47,7 @@
                      </div>
                     </td>
                     <td style="text-align:right;">
-                      {{in.date | date: 'LLL d, y'}}
+                      {{in.date | date: 'medium'}}
                     <button class="btn btn-primary btn-block signup-btn read-m" (click)="confirm(in.index)" [hidden]="inbox[i].isConfirm">confirm</button>
                     <button class="btn btn-primary btn-block signup-btn read-m" style="background: tomato" (click)="reject(in.index)" [hidden]="inbox[i].isConfirm">reject</button>
                   </td>

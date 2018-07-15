@@ -7,15 +7,15 @@ export class DateFormatePipe implements PipeTransform {
 
   transform(value: string, args?: any): string {
     var d = new Date();
-    if (d.getDate() == Number(value.substring(8, 10)) &&
-      d.getMonth() + 1 == Number(value.substring(5, 7))) {
-      if (Number(value.substring(11, 13)) == d.getHours())
-        return "Now";
-      return value.substring(11, 16);
-    }
+    var date = new Date(value);
+    if (d.getTime() - date.getTime() < 3600000)
+      return (d.getMinutes() - date.getMinutes()) + " minutes ago";
+    if (d.getDate() == date.getDate() &&
+      d.getMonth() == date.getMonth())
+      return date.getHours() + ":" + date.getMinutes();
     else
-      return value.substring(8, 10) +
-        "/" + value.substring(5, 7);
+      return (date.getDate().toString().length > 1 ? date.getDate() : ("0" + date.getDate())) +
+        "/" + ((date.getMonth() + 1).toString().length > 1 ? (date.getMonth() + 1) : ("0" + (date.getMonth() + 1)));
   }
 
 }
