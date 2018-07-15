@@ -26,6 +26,7 @@ DONE:
 11. fix the home page - fixed
 13. make the images circle - fixed
 14. make the mange and remove the spaces in the blog cards - fixed
+15  make shure that the check values happens in the sever side and the user side - fixed
 16. check why cant reply affter adding new post and check if like to comment/blog/reply works - fixed
 17. check values of users - fixed
 18. add categories link to filter blolgs by category - fixed
@@ -39,9 +40,10 @@ DONE:
 TODO:
 9.  maybe add ability to remove a comment (for admin and writer)
 12. ADD TOOTLIPS
-15  make shure that the check values happens in the sever side and the user side
 20. check that only the alloed users can do the delete or edit to post/s (server and cliet)
 21. check what heppens when the blogs are empty
+28. fix the image path of comments and replies to be updated
+29. check if user updated successfully and if it's possible to update images
 
 Later:
 5.  check what is cb 
