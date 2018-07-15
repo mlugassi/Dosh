@@ -232,9 +232,9 @@ router.post('/delete', checksession, function (req, res) {
                 price: true
             }],
             isActive: true
-        }, function (err, result) {
+        }, function (err, user) {
             if (err) throw err;
-            if (result == null) return res.json({
+            if (user == null) return res.json({
                 status: false,
                 message: "You do not have permission to delete this post"
             });
@@ -256,13 +256,13 @@ router.post('/delete', checksession, function (req, res) {
                             isBlogger: true,
                             isActive: true
                         }, {
-                            $inc: {
-                                blogs: -1
-                            }
-                        });
-                        return res.json({
-                            status: true,
-                            message: "Post id: " + blog.id + " deleted successfully "
+                            blogs: user.blogs - 1
+                        }, function (err, usr) {
+                            if (err || !usr) throw err;
+                            return res.json({
+                                status: true,
+                                message: "Post id: " + blog.id + " deleted successfully "
+                            });
                         });
                     }
                 });
@@ -365,12 +365,14 @@ router.post('/add', checksession, function (req, res) {
                                 isActive: true
                             }, {
                                 blogs: user.blogs + 1
-                            });
-                            console.log('blog created:' + blog);
-                            return res.json({
-                                status: true,
-                                id: id,
-                                message: "Blog id: " + id + "created successfully"
+                            }, function (err, usr) {
+                                if (err || !usr) throw err;
+                                console.log('blog created:' + blog);
+                                return res.json({
+                                    status: true,
+                                    id: id,
+                                    message: "Blog id: " + id + "created successfully"
+                                });
                             });
                         });
                     }

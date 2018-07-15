@@ -13,7 +13,8 @@ export class BlogPageComponent implements OnInit {
   allBlogs: Blog[];
   categories: { [id: string]: number };
 
-  constructor(private appService: AppService) { }
+  constructor(private appService: AppService) { 
+  }
 
   ngOnInit() {
     this.categories = {};
@@ -32,7 +33,6 @@ export class BlogPageComponent implements OnInit {
       this.myBlogs.forEach(blog => {
         this.categories[blog.category.valueOf()]++;
       });
-      alert(this.myBlogs.length);
     });
 
     this.appService.get_all_blogs_but_mine().subscribe(res => {
@@ -40,8 +40,17 @@ export class BlogPageComponent implements OnInit {
       this.allBlogs.forEach(blog => {
         this.categories[blog.category.valueOf()]++;
       });
-      alert(this.allBlogs.length);
-
     });
   }
+
+  // onCategoryChanged(data: { blogId: Number, category: String }) {
+  //   let blog = this.myBlogs.find(blog => blog.id == data.blogId);
+  //   this.categories[blog.category.valueOf()]--;
+  //   this.categories[data.category.valueOf()]++;
+  //   blog.category = data.category;
+  // }
+  // onBlogAdded(newBlog: Blog) {
+  //   this.categories[newBlog.category.valueOf()]++;
+  //   this.myBlogs.push(newBlog)
+  // }
 }

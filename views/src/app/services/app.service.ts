@@ -1,5 +1,3 @@
-import NavHeader from '../models/NavHeader';
-// import CardComponent from '../catalog/card/card.component';
 import User from '../models/User';
 import Blog from '../models/Blog';
 import { Injectable } from '@angular/core';

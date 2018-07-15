@@ -9,7 +9,7 @@
           <input type="file" (change)="onFileChange($event.target.files)" class="form-control" accept="image/*" #file/>
         </div>
         <div [ngClass]="inEdit? 'transbox':''">
-          <img style="z-index: 0;" height="100%" width="100%" [src]="postImg" class="img-fluid" alt="">
+          <img style="z-index: 0" height="100%" width="100%" [src]="postImg" class="img-fluid" alt="">
         </div>
       </div>
       <div class="blog-info-middle">
@@ -124,7 +124,7 @@
     <div class="comment-bottom">
       <div class="row">
         <div class="col-lg-2">
-          <img src="{{imgPath}}" height="70px" width="70px" alt="" class="img-fluid" />
+          <img src="{{imgPath}}" style="border-radius: 50%" height="65px" width="65px"/>
         </div>
         <div class="col-lg-10">
           <textarea class="form-control" [(ngModel)]="newCommentText" placeholder="Write a comment..."></textarea>
