@@ -14,7 +14,7 @@ import { ResourceLoader } from '@angular/compiler';
 })
 export class NavbarComponent implements OnInit {
   user: User;
-  editPass: Boolean = true;
+  editPass: Boolean = false;
   image;
   years = [];
   days = [];
@@ -51,6 +51,7 @@ export class NavbarComponent implements OnInit {
       })
   }
   openModal(content) {
+    this.editPass = false;
     this.load_user();
     this.modal = this.modalService.open(content, { centered: true });
   }
@@ -66,8 +67,7 @@ export class NavbarComponent implements OnInit {
     this.appService.getKey(new User(this.user.userName, ""))
       .subscribe(resKey => {
         if (resKey.status && resKey.key) {
-          if (this.password != undefined && this.password != "" &&
-            this.oldPassword != undefined && this.oldPassword != "") {
+          if (this.password && this.oldPassword) {
             this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
             this.oldPassword = crypto.AES.encrypt(md5(this.oldPassword), resKey.key).toString();
           }
