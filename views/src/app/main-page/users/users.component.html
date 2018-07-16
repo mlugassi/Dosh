@@ -22,8 +22,8 @@
         <td colspan="1" class="align-middle" *ngIf="user.isBlogger && !user.isAdmin"> Blogger</td>
         <td colspan="1" class="align-middle" *ngIf="!user.isBlogger && !user.isAdmin"></td>
         <td colspan="1">
-          <button class="btn btn-primary fa fa-edit pull-right" style="margin: 2px" (click)="openModal(content, user.userName)"></button>
-          <button *ngIf="watcher != user.userName" class="btn btn-danger fa fa-trash pull-right" style="margin: 2px" (click)="deleteUser(user.userName)"></button>
+          <button class="btn btn-primary fa fa-edit pull-right" style="margin: 2px" placement="right" ngbTooltip="Edit Profile" (click)="openModal(content, user.userName)"></button>
+          <button *ngIf="watcher != user.userName" class="btn btn-danger fa fa-trash pull-right" placement="right" ngbTooltip="Delete User" style="margin: 2px" (click)="deleteUser(user.userName)"></button>
         </td>
         <tr>
     </tbody>
@@ -42,7 +42,7 @@
           <div class="row">
             <div class="col-xs-6 col-md-6" style="width: 100%; background: transparent">
               <div class="edit">
-                <div class="btn btn-secondary imgBtn" (click)="file.click()">
+                <div class="btn btn-secondary imgBtn"  placement="left" ngbTooltip="Upload New Image" (click)="file.click()">
                   <i class="fas fa-camera" style="position: absolute;     top: 50%; left: 50%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%);">
                   </i>
                 </div>
