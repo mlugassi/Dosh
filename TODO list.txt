@@ -24,6 +24,7 @@ DONE:
 8.  make the check vales beeter - fixed
 10. fix the catgey ang make it with ng model - fixed
 11. fix the home page - fixed
+12. ADD TOOTLIPS - fixed
 13. make the images circle - fixed
 14. make the mange and remove the spaces in the blog cards - fixed
 15  make shure that the check values happens in the sever side and the user side - fixed
@@ -31,19 +32,19 @@ DONE:
 17. check values of users - fixed
 18. add categories link to filter blolgs by category - fixed
 19. add to the right side amount of each category and the same link like above - fixed
+20. check that only the alloed users can do the delete or edit to post/s (server and cliet) - fixed
 22. confirm to delete in blogs view - fixed
 23. make image preload - fixed
 24. fix the delete and add blog - increase and decrese blogs of user doesnt work - fixed
 26. fix the camera to center in user update - fixed
 27. check values of user - checl that old password not undefiend - fixed
+28. fix the image path of comments and replies to be updated - fixed
 
 TODO:
 9.  maybe add ability to remove a comment (for admin and writer)
-12. ADD TOOTLIPS
-20. check that only the alloed users can do the delete or edit to post/s (server and cliet)
 21. check what heppens when the blogs are empty
-28. fix the image path of comments and replies to be updated
 29. check if user updated successfully and if it's possible to update images
+30. fix the comment and reply image after update
 
 Later:
 5.  check what is cb 

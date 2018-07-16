@@ -124,7 +124,7 @@
     <div class="comment-bottom">
       <div class="row">
         <div class="col-lg-2">
-          <img src="{{imgPath}}" style="border-radius: 50%" height="65px" width="65px"/>
+          <img [src]="imgPath" style="border-radius: 50%" height="65px" width="65px"/>
         </div>
         <div class="col-lg-10">
           <textarea class="form-control" [(ngModel)]="newCommentText" placeholder="Write a comment..."></textarea>

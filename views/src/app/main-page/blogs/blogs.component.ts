@@ -20,6 +20,7 @@ export class BlogsComponent implements OnInit {
   otherPosts: Boolean;
   watcher: String;
   isAdmin: Boolean;
+  isBlogger:Boolean;
   inManage: Boolean;
   category: String;
 
@@ -31,6 +32,7 @@ export class BlogsComponent implements OnInit {
       if (res.status) {
         this.watcher = res.watcher;
         this.isAdmin = res.isAdmin;
+        this.isBlogger = res.isBlogger;
       }
       else
         alert(res.message);
