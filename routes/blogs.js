@@ -36,7 +36,7 @@ function checkFileType(file, cb) {
     if (mimetype && extname) {
         return cb(null, true);
     } else {
-        cb('Error: Images Only!');
+        cb('Error: Only jpg images!');
     }
 }
 
@@ -213,7 +213,21 @@ router.post('/blog', checksession, function (req, res) {
                 message: "Post doesn't exists"
             });
             else
-                res.json(result);
+                User.find({}, function (err, users) {
+                    if (err) throw err;
+                    if (result == null) return res.json({
+                        status: false,
+                        message: "There are no users"
+                    });
+                    else
+                        result.comments.comment.forEach(cmt => {
+                            cmt.imgPath = users.find(usr => usr.userName == cmt.writer).imgPath;
+                            cmt.replies.forEach(reply => {
+                                reply.imgPath = users.find(usr => usr.userName == reply.writer).imgPath;
+                            });
+                        })
+                    return res.json(result);
+                })
         });
 });
 
@@ -232,9 +246,9 @@ router.post('/delete', checksession, function (req, res) {
                 price: true
             }],
             isActive: true
-        }, function (err, result) {
+        }, function (err, user) {
             if (err) throw err;
-            if (result == null) return res.json({
+            if (user == null) return res.json({
                 status: false,
                 message: "You do not have permission to delete this post"
             });
@@ -256,13 +270,13 @@ router.post('/delete', checksession, function (req, res) {
                             isBlogger: true,
                             isActive: true
                         }, {
-                            $inc: {
-                                blogs: -1
-                            }
-                        });
-                        return res.json({
-                            status: true,
-                            message: "Post id: " + blog.id + " deleted successfully "
+                            blogs: user.blogs - 1
+                        }, function (err, usr) {
+                            if (err || !usr) throw err;
+                            return res.json({
+                                status: true,
+                                message: "Post id: " + blog.id + " deleted successfully "
+                            });
                         });
                     }
                 });
@@ -365,12 +379,14 @@ router.post('/add', checksession, function (req, res) {
                                 isActive: true
                             }, {
                                 blogs: user.blogs + 1
-                            });
-                            console.log('blog created:' + blog);
-                            return res.json({
-                                status: true,
-                                id: id,
-                                message: "Blog id: " + id + "created successfully"
+                            }, function (err, usr) {
+                                if (err || !usr) throw err;
+                                console.log('blog created:' + blog);
+                                return res.json({
+                                    status: true,
+                                    id: id,
+                                    message: "Blog id: " + id + "created successfully"
+                                });
                             });
                         });
                     }
@@ -469,41 +485,6 @@ router.post('/add_comment', checksession, function (req, res) {
             }
         });
     }
-    // Blog.update({
-    //     id: req.body.blogId,
-    //     isActive: true
-    // }, {
-    //     $push: {
-    //         "comments.comment": {
-    //             writer: req.session.passport.user,
-    //             imgPath: req.body.imgPath,
-    //             content: req.body.content,
-    //             created_at: req.body.date, // TODO: check if is needed
-    //             likes: {
-    //                 count: 0,
-    //                 users: []
-    //             },
-    //             unlikes: {
-    //                 count: 0,
-    //                 users: []
-    //             },
-    //             replies: []
-    //         }
-    //     },
-    //     $inc: {
-    //         "comments.count": 1
-    //     }
-    // }, function (err, result) {
-    //     if (err) throw err;
-    //     if (result == null) return res.json({
-    //         status: false,
-    //         message: "Post doesn't exists"
-    //     });
-    //     else return res.json({
-    //         status: true,
-    //         message: "Comment added successfully"
-    //     });
-    // });
 });
 
 router.post('/add_reply', checksession, function (req, res) {
@@ -566,46 +547,6 @@ router.post('/add_reply', checksession, function (req, res) {
 
 
     }
-    // Blog.update({
-    //     id: req.body.blogId
-    // }, {
-    //     $push: {
-    //         "comments.comment.$[cmt].replies": {
-    //             writer: req.session.passport.user,
-    //             imgPath: req.body.imgPath,
-    //             content: req.body.content,
-    //             created_at: req.body.date, // TODO: check if is needed
-    //             likes: {
-    //                 count: 0,
-    //                 users: []
-    //             },
-    //             unlikes: {
-    //                 count: 0,
-    //                 users: []
-    //             }
-    //         }
-    //     },
-    //     $inc: {
-    //         "comments.count": 1
-    //     }
-    // }, {
-    //     arrayFilters: [{
-    //         "cmt._id": {
-    //             $eq: ObjectId(req.body.commentId)
-    //         }
-    //     }]
-    // }, function (err, result) {
-    //     console.log(result);
-    //     if (err) throw err;
-    //     if (result == null) return res.json({
-    //         status: false,
-    //         message: "Post or comment doesn't exists"
-    //     });
-    //     else return res.json({
-    //         status: true,
-    //         message: "Reply added successfully"
-    //     });
-    // });
 });
 
 router.post('/do_like', checksession, function (req, res) {

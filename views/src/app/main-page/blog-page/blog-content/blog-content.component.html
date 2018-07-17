@@ -3,13 +3,13 @@
     <div class="b-grid-top">
       <div class="blog_info_left_grid">
         <div *ngIf="inEdit" class="edit">
-          <button class="btn btn-secondary imgBtn" (click)="file.click()">
+          <button class="btn btn-secondary imgBtn"  placement="right" ngbTooltip="Upload New Image" (click)="file.click()">
             <i class="fas fa-camera"> </i>
           </button>
           <input type="file" (change)="onFileChange($event.target.files)" class="form-control" accept="image/*" #file/>
         </div>
         <div [ngClass]="inEdit? 'transbox':''">
-          <img style="z-index: 0;" height="100%" width="100%" [src]="postImg" class="img-fluid" alt="">
+          <img style="z-index: 0" height="100%" width="100%" [src]="postImg" class="img-fluid" alt="">
         </div>
       </div>
       <div class="blog-info-middle">
@@ -79,33 +79,33 @@
 
 
       <div *ngIf="blog && blog.author == watcher && !inEdit" class="action" style="position: absolute; right: 10px;">
-        <button class="btn btn-success" (click)="newBlog()">
+        <button class="btn btn-success" placement="right" ngbTooltip="Add New Post" (click)="newBlog()">
           <i class="fas fa-plus">
           </i>
         </button>
-        <button class="btn btn-warning" (click)="edit()">
+        <button class="btn btn-warning" placement="right" ngbTooltip="Edit This Post" (click)="edit()">
           <i class="fa fa-edit">
           </i>
         </button>
-        <button class="btn btn-danger" (click)="delete()">
+        <button class="btn btn-danger" placement="right" ngbTooltip="Delete This Post" (click)="delete()">
           <i class="fa fa-trash">
           </i>
         </button>
       </div>
 
       <div *ngIf="blog && blog.author == watcher && inEdit" class="edit" style="position: absolute; right: 10px;">
-        <button class="btn btn-success" (click)="save()">
+        <button class="btn btn-success" placement="right" ngbTooltip="Save Changes" (click)="save()">
           <i class="fas fa-save">
           </i>
         </button>
-        <button class="btn btn-danger" (click)="cancel()">
+        <button class="btn btn-danger" placement="right" ngbTooltip="Cancel" (click)="cancel()">
           <i class="fas fa-times">
           </i>
         </button>
       </div>
 
       <div *ngIf="blog && blog.author != watcher && isBlogger" class="action" style="position: absolute; right: 10px;">
-        <button class="btn btn-success" (click)="newBlog()">
+        <button class="btn btn-success" placement="right" ngbTooltip="Add New Post" (click)="newBlog()">
           <i class="fas fa-plus">
           </i>
         </button>
@@ -124,7 +124,7 @@
     <div class="comment-bottom">
       <div class="row">
         <div class="col-lg-2">
-          <img src="{{imgPath}}" height="70px" width="70px" alt="" class="img-fluid" />
+          <img [src]="imgPath" style="border-radius: 50%" height="65px" width="65px"/>
         </div>
         <div class="col-lg-10">
           <textarea class="form-control" [(ngModel)]="newCommentText" placeholder="Write a comment..."></textarea>

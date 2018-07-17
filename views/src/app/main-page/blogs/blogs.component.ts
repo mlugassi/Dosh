@@ -20,6 +20,7 @@ export class BlogsComponent implements OnInit {
   otherPosts: Boolean;
   watcher: String;
   isAdmin: Boolean;
+  isBlogger:Boolean;
   inManage: Boolean;
   category: String;
 
@@ -31,6 +32,7 @@ export class BlogsComponent implements OnInit {
       if (res.status) {
         this.watcher = res.watcher;
         this.isAdmin = res.isAdmin;
+        this.isBlogger = res.isBlogger;
       }
       else
         alert(res.message);
@@ -143,7 +145,7 @@ export class BlogsComponent implements OnInit {
     this.inManage = false;
   }
   delete() {
-    if (!confirm("Do you want delete these posts?\nAre you sure?")) return;
+    if (this.selectedBlogs.length == 0 || !confirm("Do you want delete these posts?\nAre you sure?")) return;
     this.selectedBlogs.forEach(blog => {
       this.appService.delete_blog(blog.id).subscribe(res => {
         if (res.status) {

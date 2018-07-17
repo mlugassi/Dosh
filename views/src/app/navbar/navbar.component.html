@@ -65,9 +65,14 @@
     <div class="modal-header">
       <div class="row">
         <div class="col-xs-6 col-md-6" style="width: 100%">
-          <img [src]="image" class="img-circle" name="imgPath" alt="Tap To Change Image" width="200" height="200">
-          <br>
-          <input type="file" id="uploadedImg" class="form-control" accept="image/*" (change)="onFileChange($event.target.files)" />
+            <div class="edit">
+                <div class="btn btn-secondary imgBtn" placement="left" ngbTooltip="Upload New Image" (click)="file.click()">
+                  <i class="fas fa-camera" style="position: absolute;     top: 50%; left: 50%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%);">
+                  </i>
+                </div>
+                <input type="file" (change)="onFileChange($event.target.files)" class="form-control" accept="image/*" #file/>
+              </div>
+              <img style="z-index: 0;border-radius: 50%;" width="200" height="200" [src]="image">
         </div>
         <div class="col-xs-6 col-md-6">
           <br>

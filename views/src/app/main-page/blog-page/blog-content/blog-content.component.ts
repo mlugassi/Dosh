@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AppService } from '../../../services/app.service';
 import Blog from '../../../models/Blog';
 import Comment from '../../../models/Comment';
+// import { CommunicationService } from '../../../services/CommunicationService';
+
 
 @Component({
   selector: 'app-blog-content',
@@ -24,7 +26,9 @@ export class BlogContentComponent implements OnInit {
   inEdit: boolean;
   file: File;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private appService: AppService) { }
+  @Output() categoryChanged = new EventEmitter<{ blogID: Number, categoty: String }>();
+
+  constructor(private router: Router ,private activatedRoute: ActivatedRoute, private appService: AppService) { }
 
   ngOnInit() {
     this.appService.get_who_am_I().subscribe(res => {
@@ -93,6 +97,7 @@ export class BlogContentComponent implements OnInit {
       if (res.status) {
         this.blog.title = this.editedTitle;
         this.blog.content = this.editedContent;
+        // if (this.category != this.blog.category) this.categoryChanged.emit({ blogID: this.blog.id, categoty: this.category });
         this.blog.category = this.category;
         if (this.file) {
           let formData = new FormData();
