@@ -213,7 +213,21 @@ router.post('/blog', checksession, function (req, res) {
                 message: "Post doesn't exists"
             });
             else
-                res.json(result);
+                User.find({}, function (err, users) {
+                    if (err) throw err;
+                    if (result == null) return res.json({
+                        status: false,
+                        message: "There are no users"
+                    });
+                    else
+                        result.comments.comment.forEach(cmt => {
+                            cmt.imgPath = users.find(usr => usr.userName == cmt.writer).imgPath;
+                            cmt.replies.forEach(reply => {
+                                reply.imgPath = users.find(usr => usr.userName == reply.writer).imgPath;
+                            });
+                        })
+                    return res.json(result);
+                })
         });
 });
 

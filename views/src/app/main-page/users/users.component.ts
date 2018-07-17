@@ -51,6 +51,7 @@ export class UsersComponent implements OnInit {
             .subscribe(res => {
                 this.users = res;
             })
+        this.password = this.confirmPassword = this.oldPassword = undefined;
     }
 
     load_user(userName) {
@@ -71,13 +72,10 @@ export class UsersComponent implements OnInit {
         tar.firstName = src.firstName;
         tar.gender = src.gender;
         tar.imgPath = src.imgPath;
-        tar.inbox = src.inbox;
-        tar.inboxCount = src.inboxCount;
         tar.isActive = src.isActive;
         tar.isAdmin = src.isAdmin;
         tar.isBlogger = src.isBlogger;
         tar.lastName = src.lastName;
-        tar.password = src.password;
         tar.userName = src.userName;
     }
 
@@ -105,45 +103,51 @@ export class UsersComponent implements OnInit {
     }
     update() {
         if (!this.checkValues()) return;
-        this.appService.getKey(new User(this.user.userName, ""))
-            .subscribe(resKey => {
-                if (resKey.status && resKey.key) {
-                    if (this.watcher == this.user.userName)
-                        this.oldPassword = crypto.AES.encrypt(md5(this.oldPassword), resKey.key).toString();
-                    if (this.editPass)
+        if (this.editPass)
+            this.appService.getKey(new User(this.user.userName, ""))
+                .subscribe(resKey => {
+                    if (resKey.status && resKey.key) {
+                        if (this.watcher == this.user.userName)
+                            this.oldPassword = crypto.AES.encrypt(md5(this.oldPassword), resKey.key).toString();
                         this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
-                    this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
-                    this.appService.update_user(this.user, this.oldPassword)
-                        .subscribe(res => {
-                            if (!res.status)
-                                return alert(res.message);
-                            this.uploadImage();
-                            this.copyUser(this.user, this.selectedUser);
-                            this.selectedUser.imgPath = this.image;
-                            this.close_modal();
-                        });
-                }
-                else
-                    alert(resKey.message);
+                        this.sendUpdate();
+                    }
+                    else
+                        alert(resKey.message);
+                });
+        else this.sendUpdate();
+    }
+
+    sendUpdate() {
+        this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
+        this.user.imgPath = undefined;
+        this.appService.update_user(this.user)
+            .subscribe(res => {
+                if (!res.status)
+                    return alert(res.message);
+                this.uploadImage();
+                this.copyUser(this.user, this.selectedUser);
+                this.selectedUser.imgPath = this.image;
+                this.close_modal();
             });
     }
 
     checkValues() {
         if (this.editPass && (this.password != this.confirmPassword || !this.password || !this.confirmPassword)) {
-            this.password = this.confirmPassword = "";
+            this.password = this.confirmPassword = undefined;
             alert("Password and Confirm Password don't match");
             return false;
         }
         if (this.watcher == this.user.userName && this.editPass && !this.oldPassword) {
-            this.password = this.confirmPassword = this.oldPassword = "";
+            this.password = this.confirmPassword = this.oldPassword = undefined;
             alert("You must to fill Old Password");
             return false;
         }
-        if (this.editPass && (this.password == "" || this.confirmPassword == "")) {
+        if (this.editPass && (!this.password || !this.confirmPassword)) {
             alert("You must to fill Password and Confirm Password");
             return false;
         }
-        if (!this.user.userName || !this.user.firstName || !this.user.lastName || !this.user.imgPath || !this.user.birthDay || !this.user.email || !this.user.gender) {
+        if (!this.user.userName || !this.user.firstName || !this.user.lastName || !this.user.birthDay || !this.user.email || !this.user.gender) {
             alert("You must to fill all the fields");
             return false;
         }

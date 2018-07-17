@@ -39,14 +39,17 @@ DONE:
 26. fix the camera to center in user update - fixed
 27. check values of user - checl that old password not undefiend - fixed
 28. fix the image path of comments and replies to be updated - fixed
+29. check if user updated successfully and if it's possible to update images
+30. fix the comment and reply image after update - fixed
+
 
 TODO:
-9.  maybe add ability to remove a comment (for admin and writer)
 21. check what heppens when the blogs are empty
-29. check if user updated successfully and if it's possible to update images
-30. fix the comment and reply image after update
+31. create searching
+
 
 Later:
 5.  check what is cb 
 6.  check if it possible to make only one post req when upload image
+9.  maybe add ability to remove a comment (for admin and writer)
 25. check if the progress bar is works - neet to add update when adding new blog or chenged category

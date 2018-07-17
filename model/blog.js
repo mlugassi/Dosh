@@ -26,7 +26,6 @@ module.exports = db => {
             count: Number,
             comment: [{
                 writer: String,
-                imgPath: String,
                 content: String,
                 likes: {
                     count: Number,
@@ -38,7 +37,6 @@ module.exports = db => {
                 },
                 replies: [{
                     writer: String,
-                    imgPath: String,
                     content: String,
                     likes: {
                         count: Number,
