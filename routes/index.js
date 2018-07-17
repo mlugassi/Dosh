@@ -6,6 +6,11 @@ const checksession = require('./checksession');
 var crypto = require("crypto-js/aes");
 var nodemailer = require('nodemailer');
 
+var mailOptions = {
+  from: 'DONTREPLAY@RMflowers.com',
+  subject: 'Reset Password',
+};
+
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -13,11 +18,6 @@ var transporter = nodemailer.createTransport({
     pass: '3398088Ml'
   }
 });
-
-var mailOptions = {
-  from: 'DONTREPLAY@RMflowers.com',
-  subject: 'Reset Password',
-};
 
 router.get('/check_session', function (req, res) {
   let status = false;
@@ -112,7 +112,7 @@ router.post('/askToResetPassword', function (req, res) {
         });
       })
       mailOptions.to = req.body.email;
-      mailOptions.html = "<p>Hello" + result.userName + ",</p><a href = \"http://localhost/resetPassword/" + result.uuid + "\"> Click here for reset your password</a>";
+      mailOptions.html = "<p>Hello " + result.userName + ",</p><a href = \"http://localhost/resetPassword/" + result.uuid + "\"> Click here for reset your password</a>";
       transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
           console.log(error);

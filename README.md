@@ -9,3 +9,6 @@ Refael:
 7. check what worng with the reset password (dosn't send an email)
 8. in the reset password page  - change the password input to password type
 9. 
+
+1038633096216-vj4dk5dsmtrjrb99hcatgq07q7puo6mr.apps.googleusercontent.com
+fCk4eF49tM2sN3aamoukzO1S

@@ -13,6 +13,103 @@ var LocalStrategy = require('passport-local').Strategy;
 var md5 = require('md5');
 var path = require('path');
 var crypto = require("crypto-js/aes");
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+//var SMTPServer = require('smtp-server').SMTPServer;
+const nodemailer = require('nodemailer');
+
+
+passport.use(new GoogleStrategy({
+  clientID: "1038633096216-vj4dk5dsmtrjrb99hcatgq07q7puo6mr.apps.googleusercontent.com",
+  clientSecret: "fCk4eF49tM2sN3aamoukzO1S",
+  callbackURL: "http://localhost/auth/google/callback"
+},
+function(accessToken, refreshToken, profile, done) {
+     //User.findOrCreate({ userid: profile.id }, { name: profile.displayName,userid: profile.id }, function (err, user) {
+     //  return done(err, user);
+     //});
+     console.log("User: ");
+     console.log(profile);
+     return done(null,true);
+}
+));
+
+var transporter = nodemailer.createTransport({
+  host: '127.0.0.1',
+  port: 8080,
+  secure: false, // true for 465, false for other ports
+  auth: {
+    user: 'refael@127.0.0.1', // your domain email address
+    pass: 'refael' // your password
+  }
+});
+
+var mailOptions = {
+  from: '"Bob" <refael@127.0.0.1>',
+  to: 'refaelz1@walla.com',
+  subject: "Hello",
+  html : "Here goes the message body"
+};
+
+transporter.sendMail(mailOptions, function (err, info) {
+  if (err) {
+    console.log(err);
+    return ('Error while sending email' + err)
+  }
+  else {
+    console.log("Email sent");
+    return ('Email sent')
+  }
+});
+
+
+
+
+
+// const SMTP = new SMTPServer({
+//   secure: false,
+//   onAuth(auth, callback){
+//     if(auth.username != 'refael' || auth.password != 'refael'){
+//         console.log('Invalid username or password');
+//     }
+//     console.log(123); // where 123 is the user id or similar property
+// }
+// }).listen(8080,'127.0.0.1',function(err,user){console.log("drgdgdfgdgfgdffgddd");}); 
+
+// nodemailer.createTestAccount((err, account) => {
+//   // create reusable transporter object using the default SMTP transport
+//   let transporter = nodemailer.createTransport({
+//       host: '127.0.0.1',
+//       port: 8080,
+//       secure: false, // true for 465, false for other ports
+//       auth: {
+//           user: 'refael@localhost', // generated ethereal user
+//           pass: 'refael' // generated ethereal password
+//       }
+//   });
+
+//   // setup email data with unicode symbols
+//   let mailOptions = {
+//       from: '"Fred Foo 👻" <refael@localhost>', // sender address
+//       to: 'refaelz1@walla.com', // list of receivers
+//       subject: 'Hello ✔', // Subject line
+//       text: 'Hello world?', // plain text body
+//       html: '<b>Hello world?</b>' // html body
+//   };
+
+//   // send mail with defined transport object
+//   transporter.sendMail(mailOptions, (error, info) => {
+//       if (error) {
+//           return console.log(error);
+//       }
+//       console.log(2324234);
+//       console.log('Message sent: %s', info.messageId);
+//       // Preview only available when sending through an Ethereal account
+//       console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+//       // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+//       // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+//   });
+// });
 
 const User = require('./model')("User");
 
@@ -23,7 +120,11 @@ let blogs = require('./routes/blogs');
 let inbox = require('./routes/inbox');
 let login = require('./routes/login'); // it will be our controller for logging in/out
 //let flowers = require('./routes/flowers');
-
+app.use((req,res,next)=>{
+  res.header("Access-Control-Allow-Origin", "*");
+  //res.header("Access-Control-Allow-Headers","Origin","X-Requested-With","Content-Type","Accept","Authorization");
+  next();
+});
 (async () => {
   let MongoStore = connectMongo(session);
   let sessConnStr = "mongodb://127.0.0.1/Dosh";

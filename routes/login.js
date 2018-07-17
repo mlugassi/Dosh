@@ -26,6 +26,12 @@ router.post('/login', (req, res, next) => {
   })(req, res, next);
 });
 
+router.get('/google', passport.authenticate('google', {
+  scope: ['profile'],
+}));
+router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+  res.send("Im here in auth");
+});
 router.post('/signup', async (req, res, next) => {
   if (!req.body || !req.body.userName || !req.body.firstName || !req.body.email
     || !req.body.birthDay || !req.body.userName || !req.body.password || !req.body.gender)

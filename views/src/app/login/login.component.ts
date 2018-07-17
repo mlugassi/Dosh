@@ -119,4 +119,13 @@ export class LoginComponent implements OnInit {
           alert("Somthing went wrong..");
       })
   }
+  google() {
+    this.appService.google()
+      .subscribe(res => {
+        if (res)
+          alert(res);
+        else
+          alert("Somthing went wrong..");
+      })
+  }
 }
