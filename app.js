@@ -191,17 +191,28 @@ app.use((req, res, next) => {
     callbackURL: "http://localhost/auth/google/callback"
   },
     function (accessToken, refreshToken, profile, done) {
-      user = {};
-      user.userName = profile.id;
-      user.firstName = profile.name.familyName;
-      user.lastName = profile.name.givenName;
-      user.gender = profile.gender;
-      user.password = "google";
-      User.findOne({ userName: user.userName }, function (err, user1) {
-        if (err || !user1)
+      User.findOne({ userName: profile.id }, function (err, user1) {
+        if (err || !user1) {
+          user = {};
+          user.userName = profile.id;
+          user.firstName = profile.name.givenName;
+          user.lastName = profile.name.familyName;
+          user.gender = profile.gender || "male";
+          user.email = " ";
+          user.birthDay = new Date();
+          user.isAdmin = false;
+          user.isActive = true;
+          user.isBlogger = false;
+          user.isResetReq = false;
+          user.password = "google";
+          user.imgPath = "/images/users_profiles/" + user.gender + ".default.jpg" || "";
+          user.blogs = 0;
+          user.inbox = [{ title: "Welcome to our blog site", content: "We exiting for your join", sender: "System", date: Date.now(), isRead: false, isConfirm: true }];
+          user.inboxCount = 1;
           User.create(user, function (err, user2) {
             return done(err, user2);
           })
+        }
         else
           return done(false, user1);
       })
