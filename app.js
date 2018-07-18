@@ -17,22 +17,6 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 //var SMTPServer = require('smtp-server').SMTPServer;
 const nodemailer = require('nodemailer');
 
-
-passport.use(new GoogleStrategy({
-  clientID: "1038633096216-vj4dk5dsmtrjrb99hcatgq07q7puo6mr.apps.googleusercontent.com",
-  clientSecret: "fCk4eF49tM2sN3aamoukzO1S",
-  callbackURL: "http://localhost/auth/google/callback"
-},
-function(accessToken, refreshToken, profile, done) {
-     //User.findOrCreate({ userid: profile.id }, { name: profile.displayName,userid: profile.id }, function (err, user) {
-     //  return done(err, user);
-     //});
-     console.log("User: ");
-     console.log(profile);
-     return done(null,true);
-}
-));
-
 var transporter = nodemailer.createTransport({
   host: '127.0.0.1',
   port: 8080,
@@ -47,7 +31,7 @@ var mailOptions = {
   from: '"Bob" <refael@127.0.0.1>',
   to: 'refaelz1@walla.com',
   subject: "Hello",
-  html : "Here goes the message body"
+  html: "Here goes the message body"
 };
 
 transporter.sendMail(mailOptions, function (err, info) {
@@ -120,7 +104,7 @@ let blogs = require('./routes/blogs');
 let inbox = require('./routes/inbox');
 let login = require('./routes/login'); // it will be our controller for logging in/out
 //let flowers = require('./routes/flowers');
-app.use((req,res,next)=>{
+app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   //res.header("Access-Control-Allow-Headers","Origin","X-Requested-With","Content-Type","Accept","Authorization");
   next();
@@ -176,10 +160,10 @@ app.use((req,res,next)=>{
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-      usernameField: 'userName',
-      passwordField: 'password',
-      passReqToCallback: true
-    },
+    usernameField: 'userName',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
     function (req, userName, password, done) {
       User.findOne({
         userName: userName
@@ -201,6 +185,28 @@ app.use((req,res,next)=>{
       });
     }
   ));
+  passport.use(new GoogleStrategy({
+    clientID: "1038633096216-vj4dk5dsmtrjrb99hcatgq07q7puo6mr.apps.googleusercontent.com",
+    clientSecret: "fCk4eF49tM2sN3aamoukzO1S",
+    callbackURL: "http://localhost/auth/google/callback"
+  },
+    function (accessToken, refreshToken, profile, done) {
+      user = {};
+      user.userName = profile.id;
+      user.firstName = profile.name.familyName;
+      user.lastName = profile.name.givenName;
+      user.gender = profile.gender;
+      user.password = "google";
+      User.findOne({ userName: user.userName }, function (err, user1) {
+        if (err || !user1)
+          User.create(user, function (err, user2) {
+            return done(err, user2);
+          })
+        else
+          return done(false, user1);
+      })
+    }
+  ));
   passport.serializeUser(function (user, done) {
     done(null, user.userName);
   });
@@ -209,12 +215,7 @@ app.use((req,res,next)=>{
     User.findOne({
       userName: uname
     }, function (err, user) {
-      if (err)
-        done("The user isn't exist", user);
-      else
-        done(err, user);
-
-
+      done(err, user);
     });
   });
   app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
@@ -249,9 +250,9 @@ app.use((req,res,next)=>{
   app.listen(80);
   console.log('80 is the magic port');
 })()
-.catch(err => {
-  console.log("Failure: " + err);
-  process.exit(0);
-});
+  .catch(err => {
+    console.log("Failure: " + err);
+    process.exit(0);
+  });
 
 module.exports = app;

@@ -29,8 +29,20 @@ router.post('/login', (req, res, next) => {
 router.get('/google', passport.authenticate('google', {
   scope: ['profile'],
 }));
-router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
-  res.send("Im here in auth");
+router.get('/auth/google/callback', (req, res, next) => {
+  passport.authenticate('google', { successRedirect: '/' }, function (err, user, info) {
+    if (err)
+      res.status(200).json({ status: false, message: err });
+    if (!user)
+      res.status(200).json({ status: false, message: info.message });
+    else {
+      req.logIn(user, function (err) {
+        if (err) { res.status(200).json({ status: false, message: err }); }
+        console.log("login to: " + user);
+        res.status(200).redirect('/');
+      });
+    }
+  })(req, res, next);
 });
 router.post('/signup', async (req, res, next) => {
   if (!req.body || !req.body.userName || !req.body.firstName || !req.body.email
