@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(AfterSignup) {
+    alert("in login");
     if (AfterSignup) {
       alert("This is login after signup");
       this.loginUserName = this.user.userName;

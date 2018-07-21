@@ -233,14 +233,6 @@
             <div class="modal-footer">
               <input class="btn btn-lg btn-primary btn-block signup-btn read-m" type="submit" value="Log In" [disabled]="!loginForm.form.valid">
             </div>
-            <div class="row">
-              <div class="col-xs-6 col-md-6">
-                <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:red; color: white" (click)="google()">google+</button>
-              </div>
-              <div class="col-xs-6 col-md-6">
-                <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:blue; color: white" (click)="google()">facebook+</button>
-              </div>
-            </div>
             <div class="form-group">
               <div class="pull-right">
                 <span style="color:white"> Don't have an account?</span>
@@ -250,6 +242,14 @@
               </div>
             </div>
           </form>
+          <div class="row">
+            <div class="col-xs-6 col-md-6">
+              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:red; color: white" (click)="google()">google+</button>
+            </div>
+            <div class="col-xs-6 col-md-6">
+              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:blue; color: white" (click)="google()">facebook+</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
