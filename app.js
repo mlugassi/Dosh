@@ -13,7 +13,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var path = require('path');
 var crypto = require("crypto-js/aes");
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const Nexmo = require('nexmo');
 const User = require('./model')("User");
 var app = express();
 let index = require('./routes/index');
@@ -62,20 +61,7 @@ app.use((req, res, next) => {
   );
   next();
 });
-const nexmo = new Nexmo({
-  apiKey: "436ac272",
-  apiSecret: "SIhAhXYf0uUrm56G"
-});
-/*nexmo.message.sendSms(
-  '972528776896', '972525504030', 'Bla Bla Bla!!                                     \n.',
-   (err, responseData) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.dir(responseData);
-      }
-    }
-);*/
+
 (async () => {
   let MongoStore = connectMongo(session);
   let sessConnStr = "mongodb://127.0.0.1/Dosh";

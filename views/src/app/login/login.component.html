@@ -265,22 +265,26 @@
       <form ngNativeValidate class="modal-content animate" (ngSubmit)="resetPassword()" #resetForm="ngForm">
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#email" (click)="resetWithEmail()">Email</a>
+            <a class="nav-link active" data-toggle="tab" href="#content" (click)="resetWithEmail()">Email</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#phone" (click)="resetWithPhone()">Phone</a>
+            <a class="nav-link" data-toggle="tab" href="#content" (click)="resetWithPhone()">Phone</a>
           </li>
         </ul>
         <div id="myTabContent" class="tab-content">
-          <div class="tab-pane fade show active" id="email">
+          <div class="tab-pane fade show active" id="content">
             <div class="container">
-              <label for="mail">Enter Email for reset password</label>
-              <input type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email" [required]="emailReset">
+              <label for="mail">{{lableResetText}}</label>
+              <input *ngIf="emailReset" type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email" required>
+              <input *ngIf="!emailReset&&!code" type="number" name="phoneToReset" class="form-control" [(ngModel)]="phoneToReset" placeholder="Phone" required>
+              <input *ngIf="code" type="text" name="codeToReset" class="form-control" [(ngModel)]="codeToReset" placeholder="Your code" required>
             </div>
             <br>
-            <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
+            <input class="btn btn-primary btn-block signup-btn read-m" type="submit" [value]="submitReset" [disabled]="!resetForm.form.valid">
           </div>
-          <div class="tab-pane fade" id="phone">
+
+
+          <!-- <div class="tab-pane fade" id="phone">
             <div [hidden]="code">
               <div class="container">
                 <label for="mail">Enter phone number</label>
@@ -296,7 +300,7 @@
               <br>
               <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
             </div>
-          </div>
+          </div> -->
         </div>
       </form>
     </div>

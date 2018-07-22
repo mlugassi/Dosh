@@ -26,8 +26,14 @@ export class LoginComponent implements OnInit {
   hide = false;
   rememME = false;
   emailToReset;
+  phoneToReset;
+  codeToReset;
   MyKey;
   showPage = false;
+  lableResetText;
+  submitReset;
+  ContentInputReset;
+  resetType;
   emailReset = false;
   code = false;
   //isBlogger = false;
@@ -42,6 +48,8 @@ export class LoginComponent implements OnInit {
     }
     else
       this.showPage = true;
+    this.resetWithEmail();
+
   }
 
   login(AfterSignup) {
@@ -114,6 +122,7 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('DoshPassword', this.loginPassword);
   }
   resetPassword() {
+    if(this.emailReset){
     this.appService.askToResetPassword(this.emailToReset)
       .subscribe(res => {
         if (res.message)
@@ -121,6 +130,39 @@ export class LoginComponent implements OnInit {
         else
           alert("Somthing went wrong..");
       })
+    }
+    else if(!this.code)
+    {
+      this.appService.askToResetWithPhone(this.phoneToReset)
+      .subscribe(res => {
+        if (res.message){
+          alert(res.message);
+         this.codeMode(); 
+          this.code=true;
+        }
+        else
+          alert("Somthing went wrong..");
+      })
+    }
+    else{
+      this.appService.doResetWithPhone(this.codeToReset, this.phoneToReset)
+      .subscribe(res => {
+        if (res.status){
+          alert(res.message);
+          this.router.navigate(['/resetPassword/'+this.codeToReset]);
+        }
+        else
+          alert(res.message);
+      })
+    }
+  }
+  codeMode()
+  {
+    this.code=true;
+    this.lableResetText = "Enter the code you got now";
+    this.submitReset = "Reset my password";
+    this.resetType = "number";
+
   }
   google() {
     this.appService.google()
@@ -132,11 +174,13 @@ export class LoginComponent implements OnInit {
       })
   }
   resetWithEmail() {
-    alert(1);
     this.emailReset = true;
+    this.lableResetText = "Enter Email for reset password";
+    this.submitReset = "Reset my password";
   }
   resetWithPhone() {
-    alert(2);
     this.emailReset = false;
+    this.lableResetText = "Enter phone number for reset password";
+    this.submitReset = "Send me a code";
   }
 }
