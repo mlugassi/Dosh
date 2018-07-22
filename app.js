@@ -127,6 +127,7 @@ const nexmo = new Nexmo({
     callbackURL: "/auth/google/callback"
   },
     function (accessToken, refreshToken, profile, done) {
+//      console.log(profile);
       User.findOne({ userName: profile.id }, function (err, user1) {
         if (err || !user1) {
           user = {};
@@ -134,7 +135,7 @@ const nexmo = new Nexmo({
           user.firstName = profile.name.givenName;
           user.lastName = profile.name.familyName;
           user.gender = profile.gender || "male";
-          user.email = " ";
+          user.email = profile.emails[0].value;
           user.birthDay = new Date();
           user.isAdmin = false;
           user.isActive = true;
