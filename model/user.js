@@ -17,6 +17,7 @@ module.exports = db => {
         },
         email: { type: String, unique: true },
         uuid: { type: String, unique: true },
+        phoneUuid: { type: String, unique: true },
         gender: String,
         imgPath: String,
         birthDay: Date,

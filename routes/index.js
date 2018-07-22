@@ -5,6 +5,11 @@ const User = require('../model')("User");
 const checksession = require('./checksession');
 var crypto = require("crypto-js/aes");
 var nodemailer = require('nodemailer');
+const Nexmo = require('nexmo');
+const nexmo = new Nexmo({
+  apiKey: "436ac272",
+  apiSecret: "SIhAhXYf0uUrm56G"
+});
 
 var mailOptions = {
   from: 'DONTREPLAY@RMflowers.com',
@@ -81,7 +86,9 @@ router.get('/getKey/:UUID', async (req, res) => {
   console.log("I'm in get /getKey");
   var key = generateKey();
   await User.findOneAndUpdate({
-    uuid: req.params.UUID
+    $or: [{ uuid: req.params.UUID },
+    { phoneUuid: req.params.UUID }],
+    isActive: true,
   }, {
       passwordKey: key
     }, function (err, user) {
@@ -93,6 +100,55 @@ router.get('/getKey/:UUID', async (req, res) => {
     });
 });
 
+router.post('/askToResetWithPhone', function (req, res) {
+  if (!req.body || !req.body.phone)
+    return res.json({ status: false, message: "Somthing missed up" });
+  let uuid = create_UUID().substr(0, 5);
+  User.findOneAndUpdate({ phone: req.body.phone, isActive: true }, { phoneUuid: uuid, isResetReq: true }, function (err, result) {
+    if (err || !result)
+      return res.status(200).json({
+        status: false,
+        message: "Your phone isn't exist."
+      });
+    else {
+      nexmo.message.sendSms(
+        '972528776896', result.phone, uuid + "                                    \n.",
+        (err, responseData) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.status(200).json({
+              status: true,
+              message: "An SMS will send you in few seconds."
+            });
+          }
+        }
+      );
+    }
+  });
+});
+
+router.post('/doResetWithPhone', function (req, res) {
+  if (!req.body || !req.body.uuid || !req.body.phone)
+    return res.json({ status: false, message: "Somthing missed up" });
+  User.findOne({
+    isResetReq: true,
+    phone: req.body.phone,
+    phoneUuid: req.body.uuid,
+    isActive: true,
+  }, function (err, result) {
+    if (err || !result)
+      res.status(200).json({
+        status: false,
+        message: "Your code is wrong."
+      });
+    else
+      res.status(200).json({
+        status: true,
+        message: "You move to the change password page."
+      });
+  });
+});
 router.post('/askToResetPassword', function (req, res) {
   if (!req.body || !req.body.email)
     return res.json({ status: false, message: "Somthing missed up" });
@@ -134,7 +190,8 @@ router.post('/askToResetPassword', function (req, res) {
 router.get('/resetPassword/:UUID', function (req, res) {
   console.log("in resetPassword with UUID");
   User.findOne({
-    uuid: req.params.UUID,
+    $or: [{ uuid: req.params.UUID },
+    { phoneUuid: req.params.UUID }],
     isActive: true
   }, function (err, result) {
     if (err || !result) {
@@ -148,19 +205,22 @@ router.get('/resetPassword/:UUID', function (req, res) {
 router.post('/doReset', function (req, res) {
   if (!req.body || !req.body.uuid || !req.body.password)
     return res.json({ status: false, message: "Somthing missed up" });
-
+  console.log();
   User.findOne({
     isResetReq: true,
-    uuid: req.body.uuid
+    $or: [{ uuid: req.body.uuid },
+    { phoneUuid: req.body.uuid }],
   }, function (err, result) {
     user = {};
     user.uuid = "";
+    user.phoneUuid = "";
     user.isResetReq = false;
     user.password = crypto.decrypt(req.body.password, result.passwordKey);
     user.passwordKey = "";
     User.findOneAndUpdate({
       isResetReq: true,
-      uuid: req.body.uuid,
+      $or: [{ uuid: req.body.uuid },
+      { phoneUuid: req.body.uuid }],
       isActive: true
     }, user, function (err, newUser) {
       if (err || !newUser)

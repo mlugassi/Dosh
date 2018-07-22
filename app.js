@@ -13,7 +13,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var path = require('path');
 var crypto = require("crypto-js/aes");
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
-const Nexmo = require('nexmo');
 const User = require('./model')("User");
 var app = express();
 let index = require('./routes/index');
@@ -32,10 +31,6 @@ app.use((req, res, next) => {
     "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
-});
-const nexmo = new Nexmo({
-  apiKey: "436ac272",
-  apiSecret: "SIhAhXYf0uUrm56G"
 });
 
 (async () => {
