@@ -15,6 +15,7 @@ import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-co
 import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.component';
 import { AboutComponent } from './about/about.component';
 import { SearchComponent } from './main-page/search/search.component';
+import { ChatComponent } from './main-page/chat/chat.component';
 
 const appRoutes: Routes = [
   { path: 'resetPassword/:id', component: ResetPasswordComponent },
@@ -22,6 +23,7 @@ const appRoutes: Routes = [
   { path: 'aboutUS', component: AboutComponent },
   { path: '', component: MainPageComponent, canActivate: [AuthGuard], children: [
       { path: "", component: HomeComponent },
+      { path: 'chat', component: ChatComponent },
       { path: 'blogs', component: BlogsComponent },
       {
         path: 'blogs', component: BlogPageComponent, children: [

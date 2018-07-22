@@ -32,6 +32,7 @@ import { MostCommentedComponent } from './main-page/home/most-commented/most-com
 import { AboutComponent } from './about/about.component';
 import { DateFormatePipe } from './date-formate.pipe';
 import { SearchComponent } from './main-page/search/search.component';
+import { ChatComponent } from './main-page/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { SearchComponent } from './main-page/search/search.component';
     MostCommentedComponent,
     AboutComponent,
     DateFormatePipe,
-    SearchComponent
+    SearchComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,

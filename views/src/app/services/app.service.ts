@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import Inbox from '../models/Inbox';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
   api_url = 'http://localhost:80';
+
   //todoUrl = `${this.api_url}/todo`;
 
   constructor(
