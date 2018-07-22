@@ -27,8 +27,8 @@ export class AppService {
     return this.http.get<any>(`${this.api_url}/google`)
       .pipe(map(res => res.status as boolean));
   }
-  login(userName,password): Observable<any> {
-    return this.http.post(`${this.api_url}/login`, {userName:userName, password:password})
+  login(userName, password): Observable<any> {
+    return this.http.post(`${this.api_url}/login`, { userName: userName, password: password })
       .pipe(map(res => res as any || ""));
   }
   signup(user: User): Observable<any> {
@@ -139,6 +139,10 @@ export class AppService {
   }
   get_who_am_I() {
     return this.http.get<any>(`${this.api_url}/blogs/who_am_I`);
+  }
+  serach(filter) {
+    return this.http.get(`${this.api_url}/blogs/search/` + filter)
+      .pipe(map(res => res as Blog[] || []));
   }
   /*END BLOGS REST */
 

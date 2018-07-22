@@ -14,6 +14,7 @@ import { BlogPageComponent } from './main-page/blog-page/blog-page.component';
 import { BlogContentComponent } from './main-page/blog-page/blog-content/blog-content.component';
 import { NewBlogComponent } from './main-page/blog-page/new-blog/new-blog.component';
 import { AboutComponent } from './about/about.component';
+import { SearchComponent } from './main-page/search/search.component';
 
 const appRoutes: Routes = [
   { path: 'resetPassword/:id', component: ResetPasswordComponent },
@@ -33,11 +34,10 @@ const appRoutes: Routes = [
       { path: "inbox", component: InboxComponent },
       { path: 'contact', component: ContactComponent },
       { path: 'about', component: AboutComponent },
+      { path: 'search/:filter', component: SearchComponent },
     ]
   },
   { path: 'login', component: LoginComponent },
-  //   {path: 'cars', component: CarsComponent},
-  //   {path: 'not-found', component: PageNotFoundComponent},
   { path: '**', component: PageNotFoundComponent }
 ];
 

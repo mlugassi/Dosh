@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import User from '../models/User';
+import { Router } from '@angular/router';
 import { AppService } from '../services/app.service';
 import { FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +16,7 @@ import { ResourceLoader } from '@angular/compiler';
 export class NavbarComponent implements OnInit {
   user: User;
   editPass: Boolean = false;
+  filter: String;
   image;
   years = [];
   days = [];
@@ -29,7 +31,7 @@ export class NavbarComponent implements OnInit {
   file: File = null;
   unread = false;
 
-  constructor(private appService: AppService, private modalService: NgbModal) { }
+  constructor(private appService: AppService, private modalService: NgbModal, private router: Router) { }
 
   ngOnInit() {
     for (let index = 1900; index <= 2018; index++)
@@ -108,6 +110,10 @@ export class NavbarComponent implements OnInit {
   }
   close_modal() {
     this.modal.close();
+  }
+  search() {
+    if (!this.filter) return;
+    this.router.navigate(['/search/' + this.filter]);
   }
   uploadImage() {
     //let file; //= $('#uploadedImg').prop('files')[0];

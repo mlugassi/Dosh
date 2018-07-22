@@ -203,31 +203,32 @@ router.post('/blog', checksession, function (req, res) {
             message: "Somthing went worng with your sent parameters"
         });
     else
-        Blog.findOne({
-            id: req.body.id,
-            isActive: true
-        }, function (err, result) {
+        User.find({}, function (err, users) {
             if (err) throw err;
-            if (result == null) return res.json({
+            if (!users) return res.json({
                 status: false,
-                message: "Post doesn't exists"
+                message: "There are no users"
             });
             else
-                User.find({}, function (err, users) {
+                Blog.findOne({
+                    id: req.body.id,
+                    isActive: true
+                }, function (err, result) {
                     if (err) throw err;
-                    if (result == null) return res.json({
+                    if (!result) return res.json({
                         status: false,
-                        message: "There are no users"
+                        message: "Post doesn't exists"
                     });
-                    else
+                    else {
                         result.comments.comment.forEach(cmt => {
                             cmt.imgPath = users.find(usr => usr.userName == cmt.writer).imgPath;
-                            cmt.replies.forEach(reply => {
+                            cmt.replies.map(function (reply) {
                                 reply.imgPath = users.find(usr => usr.userName == reply.writer).imgPath;
                             });
                         })
-                    return res.json(result);
-                })
+                        return res.json(result);
+                    }
+                });
         });
 });
 
@@ -627,7 +628,51 @@ router.get('/:id', checksession, function (req, res) {
 router.get('/filter/:filter', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
 });
+router.get('/search/:filter', checksession, function (req, res) {
+    if (!req.params || !req.params.filter)
+        return res.json({
+            status: false,
+            message: "Somthing missed up"
+        });
+    let s = '/' + req.params.filter + '/i';
+    console.log(s);
 
+    Blog.find({
+            $or: [{
+                title: {
+                    $regex: req.params.filter,
+                    $options: 'i'
+                }
+            }, {
+                author: {
+                    $regex: req.params.filter,
+                    $options: 'i'
+                }
+            }, {
+                content: {
+                    $regex: req.params.filter,
+                    $options: 'i'
+                }
+            }, {
+                category: {
+                    $regex: req.params.filter,
+                    $options: 'i'
+                }
+            }, ],
+            isActive: true,
+        },
+        function (err, blogs) {
+            if (err) throw err;
+            if (!blogs) return res.json({
+                status: false,
+                message: "There are no blogs"
+            });
+            else {
+                return res.json(blogs);
+            }
+        }
+    );
+});
 //Blog like & unlike
 
 function do_like_to_blog(blogId, user) {

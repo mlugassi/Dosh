@@ -33,6 +33,7 @@ DONE:
 18. add categories link to filter blolgs by category - fixed
 19. add to the right side amount of each category and the same link like above - fixed
 20. check that only the alloed users can do the delete or edit to post/s (server and cliet) - fixed
+21. check what heppens when the blogs are empty - fixed
 22. confirm to delete in blogs view - fixed
 23. make image preload - fixed
 24. fix the delete and add blog - increase and decrese blogs of user doesnt work - fixed
@@ -41,11 +42,10 @@ DONE:
 28. fix the image path of comments and replies to be updated - fixed
 29. check if user updated successfully and if it's possible to update images
 30. fix the comment and reply image after update - fixed
+31. create searching - fixed
 
 
 TODO:
-21. check what heppens when the blogs are empty
-31. create searching
 
 
 Later:
