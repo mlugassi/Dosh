@@ -244,7 +244,8 @@
           </form>
           <div class="row">
             <div class="col-xs-6 col-md-6">
-              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:red; color: white" (click)="google()">google+</button>
+              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:red; color: white" (click)="google()">
+                <img src="/images/google_plus.png">google+</button>
             </div>
             <div class="col-xs-6 col-md-6">
               <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:blue; color: white" (click)="google()">facebook+</button>
@@ -262,16 +263,43 @@
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
     <div class="modal-body">
       <form ngNativeValidate class="modal-content animate" (ngSubmit)="resetPassword()" #resetForm="ngForm">
-        <div class="container">
-          <label for="mail">Enter Email for reset password</label>
-          <input type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email" required>
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#email" (click)="resetWithEmail()">Email</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#phone" (click)="resetWithPhone()">Phone</a>
+          </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+          <div class="tab-pane fade show active" id="email">
+            <div class="container">
+              <label for="mail">Enter Email for reset password</label>
+              <input type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email" [required]="emailReset">
+            </div>
+            <br>
+            <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
+          </div>
+          <div class="tab-pane fade" id="phone">
+            <div [hidden]="code">
+              <div class="container">
+                <label for="mail">Enter phone number</label>
+                <input type="text" name="emailToReset" class="form-control" [(ngModel)]="phoneToReset" placeholder="Phone number" [required]="!emailReset&&!code">
+              </div>
+              <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
+            </div>
+            <div [hidden]="!code">
+              <div class="container">
+                <label for="mail">Enter the code</label>
+                <input type="text" name="emailToReset" class="form-control" [(ngModel)]="theCodeReset" placeholder="code" [required]="!emailReset&&code">
+              </div>
+              <br>
+              <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
+            </div>
+          </div>
         </div>
-        <br>
-        <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
       </form>
     </div>
   </div>
-  <!-- /.modal-dialog -->
 </div>
-<!-- /.modal -->
 <app-footer *ngIf="showPage"></app-footer>
