@@ -33,6 +33,7 @@ import { AboutComponent } from './about/about.component';
 import { DateFormatePipe } from './date-formate.pipe';
 import { SearchComponent } from './main-page/search/search.component';
 import { ChatComponent } from './main-page/chat/chat.component';
+import { ChatMessageComponent } from './main-page/chat/chat-message/chat-message.component';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { ChatComponent } from './main-page/chat/chat.component';
     AboutComponent,
     DateFormatePipe,
     SearchComponent,
-    ChatComponent
+    ChatComponent,
+    ChatMessageComponent
   ],
   imports: [
     BrowserModule,

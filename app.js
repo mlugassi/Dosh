@@ -25,40 +25,11 @@ let login = require('./routes/login'); // it will be our controller for logging 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 
-io.on('connection',(socket)=>{
-
-  console.log('new connection made.');
-
-
-  socket.on('join', function(data){
-    //joining
-    socket.join(data.room);
-
-    console.log(data.user + ' joined the room : ' + data.room);
-
-    socket.broadcast.to(data.room).emit('new user joined', {user:data.user, message:'has joined this room.'});
-  });
-
-
-  socket.on('leave', function(data){
-  
-    console.log(data.user + 'left the room : ' + data.room);
-
-    socket.broadcast.to(data.room).emit('left room', {user:data.user, message:'has left this room.'});
-
-    socket.leave(data.room);
-  });
-
-  socket.on('message',function(data){
-
-    io.in(data.room).emit('new message', {user:data.user, message:data.message});
-  })
-});
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
   );
   next();
 });
@@ -66,16 +37,7 @@ const nexmo = new Nexmo({
   apiKey: "436ac272",
   apiSecret: "SIhAhXYf0uUrm56G"
 });
-/*nexmo.message.sendSms(
-  '972528776896', '972525504030', 'Bla Bla Bla!!                                     \n.',
-   (err, responseData) => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.dir(responseData);
-      }
-    }
-);*/
+
 (async () => {
   let MongoStore = connectMongo(session);
   let sessConnStr = "mongodb://127.0.0.1/Dosh";
@@ -96,13 +58,10 @@ const nexmo = new Nexmo({
   app.set('views', path.join(__dirname, 'views'));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.static(path.join(__dirname, 'views', 'dist', 'views')));
-  //app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
-  //app.use('/home', express.static(path.join(__dirname, 'views', 'dist', 'views')));
   app.use(bodyParser.json()); // support json encoded bodies
   app.use(bodyParser.urlencoded({
     extended: false
   })); // support encoded bodies
-  //app.use(cookieParser());
 
   let secret = 'Dosh secret'; // must be the same one for cookie parser and for session
   app.use(cookieParser(secret));
@@ -127,10 +86,10 @@ const nexmo = new Nexmo({
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-    usernameField: 'userName',
-    passwordField: 'password',
-    passReqToCallback: true
-  },
+      usernameField: 'userName',
+      passwordField: 'password',
+      passReqToCallback: true
+    },
     function (req, userName, password, done) {
       User.findOne({
         userName: userName
@@ -153,13 +112,15 @@ const nexmo = new Nexmo({
     }
   ));
   passport.use(new GoogleStrategy({
-    clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
-    clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
-    callbackURL: "/auth/google/callback"
-  },
+      clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
+      clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
+      callbackURL: "/auth/google/callback"
+    },
     function (accessToken, refreshToken, profile, done) {
-//      console.log(profile);
-      User.findOne({ userName: profile.id }, function (err, user1) {
+      //      console.log(profile);
+      User.findOne({
+        userName: profile.id
+      }, function (err, user1) {
         if (err || !user1) {
           user = {};
           user.userName = profile.id;
@@ -175,13 +136,19 @@ const nexmo = new Nexmo({
           user.password = "google";
           user.imgPath = "/images/users_profiles/" + user.gender + ".default.jpg" || "";
           user.blogs = 0;
-          user.inbox = [{ title: "Welcome to our blog site", content: "We exiting for your join", sender: "System", date: Date.now(), isRead: false, isConfirm: true }];
+          user.inbox = [{
+            title: "Welcome to our blog site",
+            content: "We exiting for your join",
+            sender: "System",
+            date: Date.now(),
+            isRead: false,
+            isConfirm: true
+          }];
           user.inboxCount = 1;
           User.create(user, function (err, user2) {
             return done(err, user2);
           })
-        }
-        else
+        } else
           return done(false, user1);
       })
     }
@@ -227,12 +194,38 @@ const nexmo = new Nexmo({
     res.render('error');
   });
 
+  io.on('connection',(socket)=>{
+
+    console.log('new connection made.');
+  
+  
+    socket.on('join', function(data){
+      //joining
+      socket.join(data.room);
+  
+      console.log(data.user + ' joined the room : ' + data.room);
+  
+      socket.broadcast.to(data.room).emit('new user joined', {user:data.user, message:'has joined this room.'});
+    });
+  
+  
+    socket.on('leave', function(data){
+      console.log(data.user + ' left the room : ' + data.room);
+      socket.broadcast.to(data.room).emit('left room', {user:data.user, message:'has left this room.'});
+      socket.leave(data.room);
+    });
+  
+    socket.on('message',function(data){
+  
+      io.in(data.room).emit('new message', {user:data.user, message:data.message});
+    })
+  });
   server.listen(80);
   console.log('80 is the magic port');
 })()
-  .catch(err => {
-    console.log("Failure: " + err);
-    process.exit(0);
-  });
+.catch(err => {
+  console.log("Failure: " + err);
+  process.exit(0);
+});
 
 module.exports = app;
