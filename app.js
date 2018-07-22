@@ -13,6 +13,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var path = require('path');
 var crypto = require("crypto-js/aes");
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+const Nexmo = require('nexmo');
 const User = require('./model')("User");
 var app = express();
 let index = require('./routes/index');
@@ -55,9 +56,26 @@ io.on('connection',(socket)=>{
 });
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
-  //res.header("Access-Control-Allow-Headers","Origin","X-Requested-With","Content-Type","Accept","Authorization");
+  res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
+const nexmo = new Nexmo({
+  apiKey: "436ac272",
+  apiSecret: "SIhAhXYf0uUrm56G"
+});
+/*nexmo.message.sendSms(
+  '972528776896', '972525504030', 'Bla Bla Bla!!                                     \n.',
+   (err, responseData) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.dir(responseData);
+      }
+    }
+);*/
 (async () => {
   let MongoStore = connectMongo(session);
   let sessConnStr = "mongodb://127.0.0.1/Dosh";
@@ -135,11 +153,12 @@ app.use((req, res, next) => {
     }
   ));
   passport.use(new GoogleStrategy({
-    clientID: "1038633096216-vj4dk5dsmtrjrb99hcatgq07q7puo6mr.apps.googleusercontent.com",
-    clientSecret: "fCk4eF49tM2sN3aamoukzO1S",
-    callbackURL: "http://localhost/auth/google/callback"
+    clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
+    clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
+    callbackURL: "/auth/google/callback"
   },
     function (accessToken, refreshToken, profile, done) {
+//      console.log(profile);
       User.findOne({ userName: profile.id }, function (err, user1) {
         if (err || !user1) {
           user = {};
@@ -147,7 +166,7 @@ app.use((req, res, next) => {
           user.firstName = profile.name.givenName;
           user.lastName = profile.name.familyName;
           user.gender = profile.gender || "male";
-          user.email = " ";
+          user.email = profile.emails[0].value;
           user.birthDay = new Date();
           user.isAdmin = false;
           user.isActive = true;

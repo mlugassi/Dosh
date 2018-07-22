@@ -20,6 +20,10 @@ module.exports = db => {
         gender: String,
         imgPath: String,
         birthDay: Date,
+        phone: {
+            type: String,
+            unique: true
+        },
         blogs: Number,
         inboxCount: Number,
         inbox: [{

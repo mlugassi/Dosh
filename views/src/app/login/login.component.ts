@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
   emailToReset;
   MyKey;
   showPage = false;
+  emailReset = false;
+  code = false;
   //isBlogger = false;
   // navHeader: NavHeader[] = [];
   constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard) { }
@@ -43,6 +45,7 @@ export class LoginComponent implements OnInit {
   }
 
   login(AfterSignup) {
+    alert("in login");
     if (AfterSignup) {
       alert("This is login after signup");
       this.loginUserName = this.user.userName;
@@ -127,5 +130,13 @@ export class LoginComponent implements OnInit {
         else
           alert("Somthing went wrong..");
       })
+  }
+  resetWithEmail() {
+    alert(1);
+    this.emailReset = true;
+  }
+  resetWithPhone() {
+    alert(2);
+    this.emailReset = false;
   }
 }
