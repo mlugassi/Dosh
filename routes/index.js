@@ -173,7 +173,9 @@ router.post('/doReset', function (req, res) {
     });
   });
 });
-
+router.get('/search/:filter', checksession, function (req, res) {
+  res.sendfile('./views/dist/views/index.html');
+});
 function create_UUID() {
   var dt = new Date().getTime();
   var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {

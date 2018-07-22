@@ -1,0 +1,38 @@
+<section class="main-content-w3layouts-agileits">
+    <div class="container">
+    
+      <!-- <h3 class="tittle">Blog Posts</h3> -->
+      <div class="inner-sec">
+        <div class="left-blog-info-w3layouts-agileits text-left">
+          <div *ngFor="let blog of blogs; let i = index;">
+            <div *ngIf="!(i%3)" class="row">
+              <div class="row">
+                <div class="col-lg-4">
+                  <app-blog-card [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                </div>
+                <div class="col-lg-4">
+                  <app-blog-card [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                </div>
+                <div class="col-lg-4">
+                  <app-blog-card [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-left mt-4">
+              <li class="page-item" [ngClass]="currentPage == 1 ? 'disabled' : ''">
+                <a class="page-link" (click)="prevPage()">Previous</a>
+              </li>
+              <li *ngFor="let page of filteredBlogs; let i = index" class="page-item" [ngClass]="(currentPage - 1) == i ? 'active' : ''">
+                <a class="page-link" (click)="moveToPage(i)">{{i + 1}}</a>
+              </li>
+              <li class="page-item" [ngClass]="currentPage == pages ? 'disabled' : ''">
+                <a class="page-link" (click)="nextPage()">Next</a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>

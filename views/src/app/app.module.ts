@@ -31,6 +31,7 @@ import { BlogSmallCardComponent } from './main-page/home/recent-posts/blog-small
 import { MostCommentedComponent } from './main-page/home/most-commented/most-commented.component';
 import { AboutComponent } from './about/about.component';
 import { DateFormatePipe } from './date-formate.pipe';
+import { SearchComponent } from './main-page/search/search.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { DateFormatePipe } from './date-formate.pipe';
     BlogSmallCardComponent,
     MostCommentedComponent,
     AboutComponent,
-    DateFormatePipe
+    DateFormatePipe,
+    SearchComponent
   ],
   imports: [
     BrowserModule,
