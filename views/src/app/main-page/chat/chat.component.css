@@ -178,7 +178,9 @@ input:focus {
   border-radius: 50px;
   border-radius: 50px;
 }
-
+.blogRow:hover {
+  cursor: pointer;
+}
 .blogRow {
   background: #e7e5e556;
   margin: 3px;

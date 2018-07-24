@@ -174,6 +174,8 @@ var io = require('socket.io')(server);
     });
   });
   app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
+  //app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
+
   app.use('/users', users);
   app.use('/blogs', blogs);
   app.use('/inbox', inbox);

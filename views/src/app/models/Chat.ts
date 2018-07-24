@@ -1,9 +1,13 @@
 export default class Chat {
   id: Number;
   owner: String;
+  title: String;
+  likes: Number;
+  unlikes: Number;
+  imgPath: String;
   participates: [String];
-  messages: [{
-    text: String,
+  messages: [Comment];
+    /*text: String,
     sender: String,
     date: Date,
     likes: {
@@ -14,10 +18,7 @@ export default class Chat {
       count: Number,
       users: [String]
     }
-  }];
-  imgPath: String;
-
-  constructor(imgPath: String, title: String, subTitle: String, btnContent: String) {
-    this.imgPath = imgPath;
+  }];*/
+  constructor() {
   }
 }

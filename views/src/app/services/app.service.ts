@@ -1,10 +1,13 @@
 import User from '../models/User';
 import Blog from '../models/Blog';
+import Chat from '../models/Chat';
+import Comment from '../models/Comment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import Inbox from '../models/Inbox';
+import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -181,5 +184,15 @@ export class AppService {
   rejectInbox(inbox: String) {
     return this.http.post(`${this.api_url}/inbox/rejectInbox`, { inboxId: inbox })
       .pipe(map(res => res as any || ""));
+  }
+
+  //-----------------chat---------------------
+  get_chats() {
+    return this.http.get(`${this.api_url}/chat/getAll`)
+      .pipe(map(res => res as Chat[] || []));
+  }
+  get_messages(id) {
+    return this.http.get(`${this.api_url}/chat/messages/`+id)
+      .pipe(map(res => res as Comment[] || []));
   }
 }

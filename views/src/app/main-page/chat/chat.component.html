@@ -21,23 +21,21 @@
       </div>
     </div>
     <div class="col-md-3">
-        <h4>Active Rooms</h4>
-      <div class="row blogRow">
+      <h4>Active Rooms</h4>
+      <div *ngFor="let chat of chats" class="row blogRow" (click)="openChat();">
         <div class="col-md-2 col-sm-1">
-          <img class="blgImg" src="/images/users_profiles/Male.default.jpg">
+          <img class="blgImg" src={{chat.imgPath}}>
         </div>
         <div class="col-md-10 col-sm-11 blogRowTitle">
           <h5>
-            blog title
+            {{chat.title}}
           </h5>
           <div>
-            <i class="fas fa-user"> </i> autor
-            <i class="far fa-thumbs-down blogLikes"> 4</i>
-            <i class="far fa-thumbs-down blogLikes"> 4</i>
+            <i class="fas fa-user"> </i> {{chat.owner}}
+            <i class="far fa-thumbs-up blogLikes"> {{chat.likes}}</i>
+            <i class="far fa-thumbs-down blogLikes"> {{chat.unlikes}}</i>
           </div>
-
         </div>
-
       </div>
     </div>
   </div>
