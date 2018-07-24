@@ -40,9 +40,6 @@ router.get('/', checksession, function (req, res) {
 router.get('/contact', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');
 });
-router.get('/chat', checksession, function (req, res) {
-  res.sendfile('./views/dist/views/index.html');
-});
 router.get('/contactUS', function (req, res) {
   res.sendfile('./views/dist/views/index.html');
 });
