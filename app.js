@@ -14,24 +14,38 @@ var path = require('path');
 var crypto = require("crypto-js/aes");
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const User = require('./model')("User");
+const Chat = require('./model')("Chat");
 var app = express();
 let index = require('./routes/index');
 let users = require('./routes/users');
 let blogs = require('./routes/blogs');
 let inbox = require('./routes/inbox');
+let chat  = require('./routes/chat');
 let login = require('./routes/login'); // it will be our controller for logging in/out
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
+// chat1 = {};
+// chat1.id = 1;
+// chat1.owner = "refaelz1";
+// chat1.participates = ["refaelz1", "sapirz1"];
+// chat1.messages = [{text:"Bla bla bla1",sender:"refaelz1",date: Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla1",sender:"refaelz1",date:Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla2",sender:"refaelz1",date:Date.now(), likes:{count:0,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla3",sender:"refaelz1",date:Date.now(), likes:{count:5,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla4",sender:"sapirz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:3,users:[]}},
+// {text:"Bla bla bla5",sender:"sapirz1",date:Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla6",sender:"refaelz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:5,users:[]}}];
+// Chat.create(chat1);
 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+  });
 
 (async () => {
   let MongoStore = connectMongo(session);
@@ -81,10 +95,10 @@ app.use((req, res, next) => {
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-      usernameField: 'userName',
-      passwordField: 'password',
-      passReqToCallback: true
-    },
+    usernameField: 'userName',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
     function (req, userName, password, done) {
       User.findOne({
         userName: userName
@@ -107,10 +121,10 @@ app.use((req, res, next) => {
     }
   ));
   passport.use(new GoogleStrategy({
-      clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
-      clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
-      callbackURL: "/auth/google/callback"
-    },
+    clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
+    clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
+    callbackURL: "/auth/google/callback"
+  },
     function (accessToken, refreshToken, profile, done) {
       //      console.log(profile);
       User.findOne({
@@ -163,6 +177,7 @@ app.use((req, res, next) => {
   app.use('/users', users);
   app.use('/blogs', blogs);
   app.use('/inbox', inbox);
+  app.use('/chat', chat);
   app.use('/', login); // register login controller
   app.use('/', index);
   // catch 404 and forward to error handler
@@ -189,38 +204,38 @@ app.use((req, res, next) => {
     res.render('error');
   });
 
-  io.on('connection',(socket)=>{
+  io.on('connection', (socket) => {
 
     console.log('new connection made.');
-  
-  
-    socket.on('join', function(data){
+
+
+    socket.on('join', function (data) {
       //joining
       socket.join(data.room);
-  
+
       console.log(data.user + ' joined the room : ' + data.room);
-  
-      socket.broadcast.to(data.room).emit('new user joined', {user:data.user, message:'has joined this room.'});
+
+      socket.broadcast.to(data.room).emit('new user joined', { user: data.user, message: 'has joined this room.' });
     });
-  
-  
-    socket.on('leave', function(data){
+
+
+    socket.on('leave', function (data) {
       console.log(data.user + ' left the room : ' + data.room);
-      socket.broadcast.to(data.room).emit('left room', {user:data.user, message:'has left this room.'});
+      socket.broadcast.to(data.room).emit('left room', { user: data.user, message: 'has left this room.' });
       socket.leave(data.room);
     });
-  
-    socket.on('message',function(data){
-  
-      io.in(data.room).emit('new message', {user:data.user, message:data.message});
+
+    socket.on('message', function (data) {
+
+      io.in(data.room).emit('new message', { user: data.user, message: data.message });
     })
   });
   server.listen(80);
   console.log('80 is the magic port');
 })()
-.catch(err => {
-  console.log("Failure: " + err);
-  process.exit(0);
-});
+  .catch(err => {
+    console.log("Failure: " + err);
+    process.exit(0);
+  });
 
 module.exports = app;

@@ -64,7 +64,7 @@ export class NavbarComponent implements OnInit {
   update() {
     if (this.password != this.confirmPassword) {
       this.password = this.confirmPassword = "";
-      return alert("not match");
+      return alert("The passwords are not match");
     }
     this.appService.getKey(new User(this.user.userName, ""))
       .subscribe(resKey => {
