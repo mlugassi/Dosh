@@ -81,7 +81,7 @@
 
 .chat-warp.right>div:after {
   left: auto;
-  right: -10px;
+  right: -8px;
   border-width: 13px 13px 0 0;
   border-color: #f8f9fa transparent transparent transparent;
 }
