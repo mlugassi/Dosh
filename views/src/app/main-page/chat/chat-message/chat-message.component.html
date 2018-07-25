@@ -7,8 +7,8 @@
       <p>{{message.text}}</p>
     </div>
     <div class="like-warp">
-      <i class="far fa-thumbs-up" (click)="like()"> {{message.likes.count}}</i>
-      <i class="far fa-thumbs-down" (click)="unlike()"> {{message.unlikes.count}}</i>
+      <i class="far fa-thumbs-up" (click)="like(message_id)"> {{message.likes.count}}</i>
+      <i class="far fa-thumbs-down" (click)="unlike(message_id)"> {{message.unlikes.count}}</i>
     </div>
   </div>
 </div>

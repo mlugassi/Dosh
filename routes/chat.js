@@ -14,7 +14,7 @@ router.get('/getAll', checksession, async (req, res) => {
   chats = [];
   myChats = await Chat.find({ participates: req.session.passport.user }).exec();
   for (item of myChats) {
-    await Blog.findOne({ id: 1 }, function (err, blog) {
+    await Blog.findOne({ id: item.id }, function (err, blog) {
       newChat = {};
       newChat.id = item.id;
       newChat.owner = item.owner;
@@ -30,11 +30,12 @@ router.get('/getAll', checksession, async (req, res) => {
   return res.status(200).json(chats);
 });
 router.get('/messages/:id', checksession, async (req, res) => {
-  myChat = await Chat.findOne({ id: req.params.id }, function (err, chat) {
+
+  myChat = await Chat.findOne({ id: req.params.id ,participates: req.session.passport.user }, function (err, chat) {
 
   });
   for (element of myChat.messages) {
-    temp = await User.findOne({ userName: element.sender }).exec();//"\\images\\blogs\\1.jpg"
+    temp = await User.findOne({ userName: element.sender}).exec();//"\\images\\blogs\\1.jpg"
     console.log(temp.imgPath);
     element.imgPath = temp.imgPath;
   };
@@ -42,4 +43,7 @@ router.get('/messages/:id', checksession, async (req, res) => {
   return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user});
 });
 
+router.get('/:id', checksession, function (req, res) {
+  res.sendfile('./views/dist/views/index.html');
+});
 module.exports = router;

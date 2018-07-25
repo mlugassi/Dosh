@@ -4,7 +4,6 @@
       <div class="frame">
         <app-chat-message></app-chat-message>
       </div>
-
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
           <div class="text text-r" style="background:whitesmoke !important">
@@ -22,7 +21,7 @@
     </div>
     <div class="col-md-3">
       <h4>Active Rooms</h4>
-      <div *ngFor="let chat of chats" class="row blogRow" (click)="openChat();">
+      <div *ngFor="let chat of chats" class="row blogRow" (click)="openChat(chat.id);">
         <div class="col-md-2 col-sm-1">
           <img class="blgImg" src={{chat.imgPath}}>
         </div>

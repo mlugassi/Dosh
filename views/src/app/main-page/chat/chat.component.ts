@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import Chat from '../../models/Chat';
+import { Router } from '@angular/router';
 import { AppService } from '../../services/app.service';
 
 @Component({
@@ -16,7 +17,7 @@ export class ChatComponent implements OnInit {
     messageText: String;
     chats: Chat[];
     messageArray: Array<{ user: String, message: String }> = [];
-    constructor(private chatService: ChatService, private appService: AppService) {
+    constructor(private chatService: ChatService, private appService: AppService, private router: Router) {
 
         this.chatService.newUserJoined()
             .subscribe(data => this.messageArray.push(data));
@@ -30,12 +31,12 @@ export class ChatComponent implements OnInit {
 
     ngOnInit() {
         this.appService.get_chats().subscribe(res => {
-            if (res) 
+            if (res)
                 this.chats = res;
         });
     }
-    openChat(){
-        alert("openChat");
+    openChat(id: Number) {
+        this.router.navigate(['chat/' + id]);
     }
     join() {
         this.chatService.joinRoom({ user: this.user, room: this.room });
