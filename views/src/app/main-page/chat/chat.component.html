@@ -4,7 +4,6 @@
       <div class="frame">
         <app-chat-message></app-chat-message>
       </div>
-
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
           <div class="text text-r">
@@ -32,20 +31,19 @@
       </nav>
       <div class="tab-content sidebar" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-rooms" role="tabpanel" aria-labelledby="nav-home-tab">
-          <div class="row chatRow">
+          <div *ngFor="let chat of chats" class="row chatRow" (click)="openChat(chat.id);">
             <div class="col-md-2 col-sm-1">
-              <img class="rowImg" src="/images/users_profiles/Male.default.jpg">
+              <img class="rowImg" src={{chat.imgPath}}>
             </div>
             <div class="col-md-10 col-sm-11 blogRowTitle">
               <h5>
-                blog title
+                {{chat.title}}
               </h5>
               <div>
-                <i class="fas fa-user"> </i> autor
-                <i class="far fa-thumbs-down blogLikes"> 4</i>
-                <i class="far fa-thumbs-down blogLikes"> 4</i>
+                <i class="fas fa-user"> </i> {{chat.owner}}
+                <i class="far fa-thumbs-up blogLikes"> {{chat.likes}}</i>
+                <i class="far fa-thumbs-down blogLikes"> {{chat.unlikes}}</i>
               </div>
-
             </div>
           </div>
         </div>

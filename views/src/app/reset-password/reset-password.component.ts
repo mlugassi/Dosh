@@ -19,7 +19,6 @@ export class ResetPasswordComponent implements OnInit {
     this.activatedRoute
       .params
       .subscribe(params => {
-
         this.uuid = params['id'] || '';
       });
   }

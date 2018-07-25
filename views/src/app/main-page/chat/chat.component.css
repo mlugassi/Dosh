@@ -183,6 +183,7 @@ input:focus {
 .chatRow {
   background: #e7e5e556;
   margin: 6px 3px 0;
+  cursor: pointer;
 }
 
 .chatRow .blogRowTitle {

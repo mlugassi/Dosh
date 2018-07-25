@@ -1,5 +1,7 @@
 import User from '../models/User';
 import Blog from '../models/Blog';
+import Chat from '../models/Chat';
+import Message from '../models/Message';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -180,6 +182,16 @@ export class AppService {
   }
   rejectInbox(inbox: String) {
     return this.http.post(`${this.api_url}/inbox/rejectInbox`, { inboxId: inbox })
+      .pipe(map(res => res as any || ""));
+  }
+
+  //-----------------chat---------------------
+  get_chats() {
+    return this.http.get(`${this.api_url}/chat/getAll`)
+      .pipe(map(res => res as Chat[] || []));
+  }
+  get_messages(id) {
+    return this.http.get(`${this.api_url}/chat/messages/`+id)
       .pipe(map(res => res as any || ""));
   }
 }

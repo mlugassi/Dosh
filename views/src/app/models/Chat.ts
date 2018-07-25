@@ -1,23 +1,14 @@
+import Message from "./Message";
+
 export default class Chat {
   id: Number;
   owner: String;
-  participates: [String];
-  messages: [{
-    text: String,
-    sender: String,
-    date: Date,
-    likes: {
-      count: Number,
-      users: [String]
-    },
-    unlikes: {
-      count: Number,
-      users: [String]
-    }
-  }];
+  title: String;
+  likes: Number;
+  unlikes: Number;
   imgPath: String;
-
-  constructor(imgPath: String, title: String, subTitle: String, btnContent: String) {
-    this.imgPath = imgPath;
+  participates: [String];
+  messages: [Message];
+  constructor() {
   }
 }

@@ -26,16 +26,16 @@ let login = require('./routes/login'); // it will be our controller for logging 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
 // chat1 = {};
-// chat1.id = 1;
-// chat1.owner = "refaelz1";
-// chat1.participates = ["refaelz1", "sapirz1"];
+// chat1.id = 3;
+// chat1.owner = "sapirz1";
+// chat1.participates = ["sapirz1","shilatz1"];
 // chat1.messages = [{text:"Bla bla bla1",sender:"refaelz1",date: Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla1",sender:"refaelz1",date:Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla2",sender:"refaelz1",date:Date.now(), likes:{count:0,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla3",sender:"refaelz1",date:Date.now(), likes:{count:5,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla4",sender:"sapirz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:3,users:[]}},
-// {text:"Bla bla bla5",sender:"sapirz1",date:Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla6",sender:"refaelz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:5,users:[]}}];
+// {text:"Bla bla bla1",sender:"shilatz1",date:Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla2",sender:"shilatz1",date:Date.now(), likes:{count:0,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla3",sender:"sapirz1",date:Date.now(), likes:{count:5,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla4",sender:"shilatz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:3,users:[]}},
+// {text:"Bla bla bla5",sender:"sapirz1",date:Date.now(), likes:{count:7,users:["refaelz1"]},unlike:{count:0,users:[]}},
+// {text:"Bla bla bla6",sender:"shilatz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:5,users:[]}}];
 // Chat.create(chat1);
 
   app.use((req, res, next) => {
@@ -174,6 +174,8 @@ var io = require('socket.io')(server);
     });
   });
   app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
+  //app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
+
   app.use('/users', users);
   app.use('/blogs', blogs);
   app.use('/inbox', inbox);
