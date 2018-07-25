@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Blog = require('../model')("Blog");
 const User = require('../model')("User");
+const Chat = require('../model')("Chat");
 var multer = require('multer');
 const path = require('path');
 const checksession = require('./checksession');
@@ -388,6 +389,12 @@ router.post('/add', checksession, function (req, res) {
                                     id: id,
                                     message: "Blog id: " + id + "created successfully"
                                 });
+                            });
+                            Chat.create({
+                                id: blog.id,
+                                owner: blog.author,
+                                participates: [blog.author],
+                                message: []
                             });
                         });
                     }

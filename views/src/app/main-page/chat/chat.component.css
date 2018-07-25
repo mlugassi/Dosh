@@ -34,6 +34,7 @@
 .text-r {
   float: right;
   padding-left: 10px;
+  background: whitesmoke !important;
 }
 
 .macro {
@@ -167,7 +168,7 @@ input:focus {
   bottom: 38px;
 }
 
-.blogRow .blgImg {
+.chatRow .rowImg {
   width: 45px;
   height: 45px;
   left: 5px;
@@ -179,32 +180,66 @@ input:focus {
   border-radius: 50px;
 }
 
-.blogRow {
+.chatRow {
   background: #e7e5e556;
-  margin: 3px;
+  margin: 6px 3px 0;
 }
 
-.blogRow .blogRowTitle {
+.chatRow .blogRowTitle {
   min-height: 50px;
 }
 
-.blogRow .blogRowTitle>h5 {
+.chatRow .userRowTitle {
+  min-height: 50px;
+  text-align: left;
+  padding-top: 15px;
+}
+
+.userRowTitle>h5 {
+  font-size: 15px;
+}
+
+.newRoomsBtn {
+  text-align: center;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-top: transparent;
+  border-radius: 0 0 10px 10px;
+}
+
+.newRoomsBtn>button {
+  width: 90%;
+}
+
+.chatRow .blogRowTitle>h5 {
   font-size: 12px;
   margin: 5px 0 3px;
 }
 
-.blogRow .blogRowTitle>div {
+.chatRow .blogRowTitle>div {
   position: absolute;
   bottom: 0;
   font-size: 12px;
   color: grey;
 }
 
-.blogRow .blogRowTitle .blogLikes {
+.chatRow .blogRowTitle .blogLikes {
   margin: 0 8px 0;
 }
 
 h4 {
   text-align: center;
   margin: 10px 0 5px;
+}
+
+.sidebar {
+  height: 74%;
+  overflow-y: scroll;
+  border: 1px solid #ccc;
+  border-top: transparent;
+  border-bottom: transparent;
+}
+
+.navTab {
+  margin-top: 20px;
 }
