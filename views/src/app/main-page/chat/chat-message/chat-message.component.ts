@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Comment from '../../../models/Comment';
+import Message from '../../../models/Message';
 import { AppService } from '../../../services/app.service';
 
 @Component({
@@ -8,16 +8,23 @@ import { AppService } from '../../../services/app.service';
   styleUrls: ['./chat-message.component.css']
 })
 export class ChatMessageComponent implements OnInit {
-  messages: Comment[];
+  messages: Message[];
+  userName;
   constructor(private appService: AppService) { }
 
   ngOnInit() {
     this.appService.get_messages(1).subscribe(res => {
-      if (res){
-        this.messages = res;
-      alert(this.messages[0].writer);
+      if (res) {
+        this.messages = res.messages as Message[];
+        this.userName = res.userName;
       }
     });
+  }
+  like(){
+
+  }
+  unlike(){
+    
   }
 
 }

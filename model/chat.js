@@ -15,6 +15,7 @@ module.exports = db => {
             text: String,
             sender: String,
             date: Date,
+            imgPath: String,
             likes: {
                 count: Number,
                 users: [String]

@@ -1,13 +1,12 @@
 import User from '../models/User';
 import Blog from '../models/Blog';
 import Chat from '../models/Chat';
-import Comment from '../models/Comment';
+import Message from '../models/Message';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import Inbox from '../models/Inbox';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 
 @Injectable({
   providedIn: 'root'
@@ -193,6 +192,6 @@ export class AppService {
   }
   get_messages(id) {
     return this.http.get(`${this.api_url}/chat/messages/`+id)
-      .pipe(map(res => res as Comment[] || []));
+      .pipe(map(res => res as any || ""));
   }
 }

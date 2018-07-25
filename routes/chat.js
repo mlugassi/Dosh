@@ -30,9 +30,16 @@ router.get('/getAll', checksession, async (req, res) => {
   return res.status(200).json(chats);
 });
 router.get('/messages/:id', checksession, async (req, res) => {
-  myChats = await Chat.findOne({ id: req.params.id }, function (err, chat) {
-    return res.status(200).json(chat.messages);
+  myChat = await Chat.findOne({ id: req.params.id }, function (err, chat) {
+
   });
+  for (element of myChat.messages) {
+    temp = await User.findOne({ userName: element.sender }).exec();//"\\images\\blogs\\1.jpg"
+    console.log(temp.imgPath);
+    element.imgPath = temp.imgPath;
+  };
+  console.log(myChat.messages);
+  return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user});
 });
 
 module.exports = router;

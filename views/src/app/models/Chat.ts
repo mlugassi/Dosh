@@ -1,3 +1,5 @@
+import Message from "./Message";
+
 export default class Chat {
   id: Number;
   owner: String;
@@ -6,19 +8,7 @@ export default class Chat {
   unlikes: Number;
   imgPath: String;
   participates: [String];
-  messages: [Comment];
-    /*text: String,
-    sender: String,
-    date: Date,
-    likes: {
-      count: Number,
-      users: [String]
-    },
-    unlikes: {
-      count: Number,
-      users: [String]
-    }
-  }];*/
+  messages: [Message];
   constructor() {
   }
 }
