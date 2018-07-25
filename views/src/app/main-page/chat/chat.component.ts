@@ -50,9 +50,10 @@ export class ChatComponent implements OnInit {
             });
     }
     openChat(id: Number) {
-        if (this.room && this.room != id.toString())
+        if (this.room && this.room == id.toString())
+            return;
+        if (this.room)
             this.leave();
-        else return;
         this.room = id.toString();
         this.join();
         this.router.navigate(['chat/' + id]);
