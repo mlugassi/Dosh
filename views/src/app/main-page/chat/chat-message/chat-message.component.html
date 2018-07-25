@@ -1,4 +1,4 @@
-<div *ngFor="let message of messages" [ngClass]="userName==message.sender ? 'chat-warp left' : 'chat-warp right'">
+<div [ngClass]="userName==message.sender ? 'chat-warp left' : 'chat-warp right'">
   <div class="clearfix">
     <img class="avatar-item" src={{message.imgPath}} />
     <div class="text-warp">

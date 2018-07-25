@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import Message from '../../../models/Message';
 import { AppService } from '../../../services/app.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,24 +10,16 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./chat-message.component.css']
 })
 export class ChatMessageComponent implements OnInit {
-  messages: Message[];
-  userName;
+  @Input() message: Message;
+  @Input() userName: String;
+
+  //messages: Message[];
   id;
-  constructor(private appService: AppService, private activatedRoute: ActivatedRoute) { }
+  constructor(private appService: AppService) { }
 
   ngOnInit() {
 
-    this.activatedRoute
-      .params
-      .subscribe(params => {
-        this.id = params['id'] || '';
-        this.appService.get_messages(this.id).subscribe(res => {
-          if (res) {
-            this.messages = res.messages as Message[];
-            this.userName = res.userName;
-          }
-        });
-      });
+    
 
   }
   like() {

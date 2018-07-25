@@ -3,6 +3,7 @@ export default class Message {
   sender: String;
   imgPath: String;
   text: String;
+  room: String;
   likes: {
     count: Number,
     users: [String]
@@ -13,7 +14,7 @@ export default class Message {
   };
   date: String;
 
-  constructor(_id: String, sender: String, imgPath: String, text: String, date: String) {
+  constructor(_id: String=undefined, sender: String="", imgPath: String="", text: String="", date: String=Date.now().toString()) {
     this.sender = sender;
     this.imgPath = imgPath;
     this.text = text;

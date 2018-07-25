@@ -20,7 +20,7 @@ let index = require('./routes/index');
 let users = require('./routes/users');
 let blogs = require('./routes/blogs');
 let inbox = require('./routes/inbox');
-let chat  = require('./routes/chat');
+let chat = require('./routes/chat');
 let login = require('./routes/login'); // it will be our controller for logging in/out
 
 var server = require('http').Server(app);
@@ -38,14 +38,14 @@ var io = require('socket.io')(server);
 // {text:"Bla bla bla6",sender:"shilatz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:5,users:[]}}];
 // Chat.create(chat1);
 
-  app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Headers",
-      "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-  });
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 
 (async () => {
   let MongoStore = connectMongo(session);
@@ -216,7 +216,6 @@ var io = require('socket.io')(server);
       socket.join(data.room);
 
       console.log(data.user + ' joined the room : ' + data.room);
-
       socket.broadcast.to(data.room).emit('new user joined', { user: data.user, message: 'has joined this room.' });
     });
 
@@ -228,8 +227,13 @@ var io = require('socket.io')(server);
     });
 
     socket.on('message', function (data) {
-
-      io.in(data.room).emit('new message', { user: data.user, message: data.message });
+      Chat.update({ id: data.room }, {
+        $push: { messages: [data] }
+      }, function (err, chat) {
+        console.log(err);
+        console.log(chat);
+      });
+      io.in(data.room).emit('new message', data);
     })
   });
   server.listen(80);

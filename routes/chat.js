@@ -25,8 +25,6 @@ router.get('/getAll', checksession, async (req, res) => {
       chats.push(newChat);
     });
   };
-  console.log("chats: ");
-  console.log(chats);
   return res.status(200).json(chats);
 });
 router.get('/messages/:id', checksession, async (req, res) => {
@@ -36,10 +34,8 @@ router.get('/messages/:id', checksession, async (req, res) => {
   });
   for (element of myChat.messages) {
     temp = await User.findOne({ userName: element.sender}).exec();//"\\images\\blogs\\1.jpg"
-    console.log(temp.imgPath);
     element.imgPath = temp.imgPath;
   };
-  console.log(myChat.messages);
   return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user});
 });
 
