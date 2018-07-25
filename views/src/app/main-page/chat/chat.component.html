@@ -6,9 +6,10 @@
       </div>
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
-          <div class="text text-r" style="background:whitesmoke !important">
+          <div class="text text-r">
             <input class="mytext" placeholder="Type a message" [(ngModel)]="text" />
           </div>
+
           <div class="btns">
             <button class="btn btn-info far fa-image btn-circle imgBtn"></button>
           </div>
@@ -19,21 +20,48 @@
       </div>
     </div>
     <div class="col-md-3">
-      <h4>Active Rooms</h4>
-      <div *ngFor="let chat of chats" class="row blogRow" (click)="openChat(chat.id);">
-        <div class="col-md-2 col-sm-1">
-          <img class="blgImg" src={{chat.imgPath}}>
+
+      <nav class="navTab">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-rooms" role="tab" aria-controls="nav-rooms"
+            aria-selected="true">Active Rooms</a>
+          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users"
+            aria-selected="false">Users</a>
         </div>
-        <div class="col-md-10 col-sm-11 blogRowTitle">
-          <h5>
-            {{chat.title}}
-          </h5>
-          <div>
-            <i class="fas fa-user"> </i> {{chat.owner}}
-            <i class="far fa-thumbs-up blogLikes"> {{chat.likes}}</i>
-            <i class="far fa-thumbs-down blogLikes"> {{chat.unlikes}}</i>
+      </nav>
+      <div class="tab-content sidebar" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-rooms" role="tabpanel" aria-labelledby="nav-home-tab">
+          <div *ngFor="let chat of chats" class="row chatRow" (click)="openChat(chat.id);">
+            <div class="col-md-2 col-sm-1">
+              <img class="rowImg" src={{chat.imgPath}}>
+            </div>
+            <div class="col-md-10 col-sm-11 blogRowTitle">
+              <h5>
+                {{chat.title}}
+              </h5>
+              <div>
+                <i class="fas fa-user"> </i> {{chat.owner}}
+                <i class="far fa-thumbs-up blogLikes"> {{chat.likes}}</i>
+                <i class="far fa-thumbs-down blogLikes"> {{chat.unlikes}}</i>
+              </div>
+            </div>
           </div>
         </div>
+        <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <div class="row chatRow">
+            <div class="col-md-2 col-sm-1">
+              <img class="rowImg" src="/images/users_profiles/Male.default.jpg">
+            </div>
+            <div class="col-md-10 col-sm-11 userRowTitle">
+              <h5>
+                Username
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="newRoomsBtn">
+        <button class="btn btn-info"> Join New Room</button>
       </div>
     </div>
   </div>
