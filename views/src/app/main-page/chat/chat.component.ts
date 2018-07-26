@@ -21,14 +21,46 @@ export class ChatComponent implements OnInit {
     messages: any[];
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
 
-        // this.chatService.newUserJoined()
-        //     .subscribe(data => this.messages.push(data));
+        this.chatService.newUserJoined()
+            .subscribe(data => {
+                this.message = new Message();
+                this.message.text = data.user + " is joing to the room.";
+                this.message.isJoinMessage = true;
+                this.messages.push(this.message);
+            });
 
-        // this.chatService.userLeftRoom()
-        //     .subscribe(data => this.messages.push(data));
+        this.chatService.userLeftRoom()
+            .subscribe(data => {
+                this.message = new Message();
+                this.message.text = data.user + " is left the room.";
+                this.message.isJoinMessage = true;
+                this.messages.push(this.message);
+            });
 
-        // this.chatService.newMessageReceived()
-        //     .subscribe(data => this.messages.push(data));
+        this.chatService.newMessageReceived()
+            .subscribe(data => {
+                if (data.sender != this.user) {
+                    this.message = data as Message;
+                    this.messages.push(this.message);
+                }
+            });
+        this.chatService.newLike()
+            .subscribe(data => {
+                alert("new like");
+                this.messages.forEach(element => {
+                    if (element._id == data.idMessage) {
+                        if (data.flag) {
+                            element.likes.count++;
+                            element.likes.users.push(data.user);
+                        }
+                        else {
+                            element.likes.count--;
+                            var index = element.likes.users.indexOf(data.user);
+                            element.likes.users.splice(index, 1);
+                        }
+                    }
+                });
+            });
     }
 
     ngOnInit() {
@@ -45,6 +77,8 @@ export class ChatComponent implements OnInit {
                     if (res) {
                         this.messages = res.messages as Message[];
                         this.user = res.userName;
+                        if (this.room)
+                            this.join();
                     }
                 });
             });

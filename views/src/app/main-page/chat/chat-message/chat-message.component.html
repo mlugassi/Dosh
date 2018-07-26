@@ -1,4 +1,4 @@
-<div [ngClass]="userName==message.sender ? 'chat-warp left' : 'chat-warp right'">
+<div *ngIf="!message.isJoinMessage" [ngClass]="userName==message.sender ? 'chat-warp left' : 'chat-warp right'">
   <div class="clearfix">
     <img class="avatar-item" src={{message.imgPath}} />
     <div class="text-warp">
@@ -7,8 +7,9 @@
       <p>{{message.text}}</p>
     </div>
     <div class="like-warp">
-      <i class="far fa-thumbs-up" (click)="like(message_id)"> {{message.likes.count}}</i>
-      <i class="far fa-thumbs-down" (click)="unlike(message_id)"> {{message.unlikes.count}}</i>
+      <i [ngClass]="message.likes.users.indexOf(userName)>-1 ? 'far fa-thumbs-up pushed' : 'far fa-thumbs-up'" (click)="like(message._id)"> {{message.likes.count}}</i>
+      <i class="far fa-thumbs-down" (click)="unlike(message._id)"> {{message.unlikes.count}}</i>
     </div>
   </div>
 </div>
+<div *ngIf="message.isJoinMessage" style="left: 30%">{{message.text}}</div>

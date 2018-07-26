@@ -226,6 +226,12 @@ app.use((req, res, next) => {
       socket.leave(data.room);
     });
 
+    socket.on('like', function (data) {
+      console.log("----------------------like----------------");
+      console.log("room: " + data.room + ", user: " +data.user + ", id: "  +data.idMessage+ ", flag: "+data.flag);
+      socket.broadcast.to(data.room).emit('new like', { user: data.user, idMessage: data.idMessage, flag: data.flag });
+    });
+
     socket.on('message', function (data) {
       Chat.update({ id: data.room }, {
         $push: { messages: [data] }

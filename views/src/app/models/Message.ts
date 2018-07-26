@@ -1,11 +1,12 @@
 export default class Message {
   _id: String;
+  isJoinMessage: boolean;
   sender: String;
   imgPath: String;
   text: String;
   room: String;
   likes: {
-    count: Number,
+    count: number,
     users: [String]
   };
   unlikes: {
@@ -20,7 +21,7 @@ export default class Message {
     this.text = text;
     this.date = date;
     this._id = _id;
-    this.likes = { count: 0, users: [] as [String] };
-    this.unlikes = { count: 0, users: [] as [String] };
+    this.likes = { count: 0, users: [""] as [String] };
+    this.unlikes = { count: 0, users: [""] as [String] };
   }
 }

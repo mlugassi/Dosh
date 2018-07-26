@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-md-9 ">
       <div class="frame">
-        <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user></app-chat-message>
+        <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user [room]=room></app-chat-message>
         <h2 *ngIf="!room">Please pick up one chat</h2>
       </div>
       <div class="chat-func clearfix">

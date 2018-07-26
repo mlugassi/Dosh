@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as io from 'socket.io-client'
-import { Observable } from 'rxjs';
+import { Observable, fromEvent, Observer } from 'rxjs';
 import Message from '../models/Message';
 
 @Injectable({
@@ -8,6 +8,8 @@ import Message from '../models/Message';
 })
 export class ChatService {
     private socket = io('http://localhost:80');
+    public stam$: Observable<any>; // error: any
+
     constructor() { }
     joinRoom(data) {
         this.socket.emit('join', data);
@@ -16,12 +18,36 @@ export class ChatService {
     newUserJoined() {
         let observable = new Observable<{ user: String, message: String }>(observer => {
             this.socket.on('new user joined', (data) => {
-                alert("new user joined");
                 observer.next(data);
             });
+            //alert("disconnect 1");
+
             return () => { this.socket.disconnect(); }
         });
-
+        return observable;
+    }
+    like(data) {
+        //alert("like");
+        this.socket.emit('like', data);
+    }
+    newLike() {
+        let observable = new Observable<{ idMessage: String, user: String, flag: boolean }>(observer => {
+            this.socket.on('new like', (data) => {
+                observer.next(data);
+            });
+            //alert("disconnect 2");
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
+    unlike() {
+        let observable = new Observable<{ user: String, message: String }>(observer => {
+            this.socket.on('new unlike', (data) => {
+                observer.next(data);
+            });
+            //alert("disconnect 3");
+            return () => { this.socket.disconnect(); }
+        });
         return observable;
     }
 
@@ -32,12 +58,11 @@ export class ChatService {
     userLeftRoom() {
         let observable = new Observable<{ user: String, message: String }>(observer => {
             this.socket.on('left room', (data) => {
-                alert(data.room);
                 observer.next(data);
             });
+            //alert("disconnect 4");
             return () => { this.socket.disconnect(); }
         });
-
         return observable;
     }
 
@@ -48,10 +73,9 @@ export class ChatService {
     newMessageReceived() {
         let observable = new Observable<Message>(observer => {
             this.socket.on('new message', (data) => {
-                alert("new message");
-                alert(data);
                 observer.next(data);
             });
+            //alert("disconnect 5");
             return () => { this.socket.disconnect(); }
         });
         return observable;

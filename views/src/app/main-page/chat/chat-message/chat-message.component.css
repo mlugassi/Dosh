@@ -99,6 +99,10 @@ i:hover {
   color: #01cd74;
   cursor: pointer;
 }
+i.pushed {
+  color: #01cd74;
+  cursor: pointer;
+}
 
 .clicked {
   color: #01cd74 !important;
