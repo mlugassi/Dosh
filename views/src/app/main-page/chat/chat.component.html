@@ -62,8 +62,49 @@
         </div>
       </div>
       <div class="newRoomsBtn">
-        <button class="btn btn-info"> Join New Room</button>
+        <button class="btn btn-info" data-toggle="modal" data-target="#myModal"> Join New Room</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- <ng-template class="modal fade" id="myModal" role="dialog"> -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Join Room</h4>
+        <button type="button" class="close" aria-label="Close" (click)="close_modal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div style="border: 1px solid #ccc; height: 350px;">
+          <div class="row chatRow">
+            <div class="col-md-1 col-sm-1">
+              <input type="checkbox" style="position: relative; top: 25%">
+            </div>
+            <div class="col-md-2 col-sm-2">
+              <img class="rowImg" src={{chat.imgPath}}>
+            </div>
+            <div class="col-md-9 col-sm-9 blogRowTitle">
+              <h5>
+                title
+              </h5>
+              <div>
+                <i class="fas fa-user"> </i> owner
+                <i class="far fa-thumbs-up blogLikes"> 3</i>
+                <i class="far fa-thumbs-down blogLikes"> 3</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-info" data-dismiss="modal"> Join</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- </ng-template> -->
