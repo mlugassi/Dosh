@@ -107,3 +107,11 @@ i.pushed {
 .clicked {
   color: #01cd74 !important;
 }
+
+.newJoin{
+  text-align: center;
+  margin: 5px 80px 5px;
+  background: white;
+  border-radius: 20px; 
+  color: #777;
+}

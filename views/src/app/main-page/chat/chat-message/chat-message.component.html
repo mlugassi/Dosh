@@ -7,9 +7,15 @@
       <p>{{message.text}}</p>
     </div>
     <div class="like-warp">
-      <i [ngClass]="message.likes.indexOf(userName)>-1 ? 'far fa-thumbs-up pushed' : 'far fa-thumbs-up'" (click)="like(message._id)"> {{message.likes.length}}</i>
-      <i [ngClass]="message.unlikes.indexOf(userName)>-1 ? 'far fa-thumbs-down pushed' : 'far fa-thumbs-down'" (click)="unlike(message._id)"> {{message.unlikes.length}}</i>
+      <i [ngClass]="message.likes.indexOf(userName)>-1 ? 'far fa-thumbs-up pushed' : 'far fa-thumbs-up'" (click)="like(message._id)">
+      {{message.likes.length}}</i>
+      <i [ngClass]="message.unlikes.indexOf(userName)>-1 ? 'far fa-thumbs-down pushed' : 'far fa-thumbs-down'" (click)="unlike(message._id)">
+      {{message.unlikes.length}}</i>
     </div>
   </div>
 </div>
 <div *ngIf="message.isJoinMessage" style="left: 30%">{{message.text}}</div>
+
+<div class="newJoin">
+  <div>mlugassi join to room</div>
+</div>
