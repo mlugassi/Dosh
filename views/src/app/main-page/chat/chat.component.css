@@ -146,6 +146,9 @@ input:focus {
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
+  background: #01cd74;
+  color: white;
+  border: #01cd74;
 }
 
 .btn-circle.btn-lg {
@@ -155,18 +158,6 @@ input:focus {
   font-size: 18px;
   line-height: 1.33;
   border-radius: 25px;
-}
-
-.srchBtn {
-  width: 40px;
-  height: 40px;
-  position: absolute;
-  display: inline-block;
-  font-size: 15px;
-  bottom: 5px;
-  left: 5px;
-  border-radius: 25px;
-  opacity: 0.7;
 }
 
 .btn-circle.imgBtn {
@@ -267,3 +258,111 @@ h4 {
   height: 350px;
   border-radius: 10px;
 }
+
+.srchBar {
+  position: absolute;
+  font-size: 15px;
+  bottom: 5px;
+  left: 5px;
+}
+
+.srchBar>i {
+  /* position: absolute; */
+  /* left: 250px; */
+  /* display: none; */
+  margin-left: 2px;
+  opacity: 0.3;
+}
+
+.srchBar>input {
+  outline: none;
+  border: solid 1px #ccc;
+  padding: 9px 10px 9px 32px;
+  background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+  width: 130px;
+  height: 40px;
+  border-radius: 25px;
+  -webkit-transition: all .5s;
+  -moz-transition: all .5s;
+  transition: all .5s;
+  background-color: #fff;
+  border-color: #01cd74;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.srchBar>input:focus {
+  /* width: 300px; */
+  padding-left: 32px;
+  color: #000;
+  background-color: #fff;
+  cursor: auto;
+  opacity: 1;
+}
+
+.srchBar>input:focus+i,
+.srchBar>input:focus+i+i,
+.srchBar>i:hover {
+  opacity: 1;
+}
+
+.joinRoomBtn {
+  background-color: #01cd74;
+  color: white;
+  width: 90%;
+}
+
+/*
+.srchBtn {
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  display: inline-block;
+  font-size: 15px;
+  bottom: 5px;
+  left: 5px;
+  border-radius: 25px;
+  opacity: 0.7;
+}
+
+.srchBar>input[type=search] {
+  -webkit-appearance: textfield; 
+  -webkit-box-sizing: content-box;
+  font-family: inherit;
+  font-size: 100%;
+  background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
+  padding: 9px 10px 9px 32px;
+  -webkit-border-radius: 10em;
+  -moz-border-radius: 10em; 
+  width: 130px;
+  -webkit-box-shadow: 0 0 5px rgba(109, 207, 246, .5);
+  -moz-box-shadow: 0 0 5px rgba(109, 207, 246, .5);
+  box-shadow: 0 0 5px rgba(109, 207, 246, .5);
+  width: 15px;
+  padding-left: 10px;
+  color: transparent;
+} */
+
+/* .srchBar>input::-webkit-search-decoration, .srchBar>input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.srchBar>input:-moz-placeholder {
+  color: #999;
+}
+
+.srchBar>input::-webkit-input-placeholder {
+  color: #999;
+}
+
+.srchBar>input[type=search]:hover {
+  background-color: #fff;
+} */
+
+/* .srchBar>input:-moz-placeholder {
+  color: transparent;
+}
+
+.srchBar>input::-webkit-input-placeholder {
+  color: transparent;
+} */
