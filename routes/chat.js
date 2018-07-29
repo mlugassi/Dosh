@@ -27,16 +27,19 @@ router.get('/getAll', checksession, async (req, res) => {
   };
   return res.status(200).json(chats);
 });
-router.get('/messages/:id', checksession, async (req, res) => {
-
-  myChat = await Chat.findOne({ id: req.params.id ,participates: req.session.passport.user }, function (err, chat) {
+router.get('/messages/:id/:index', checksession, async (req, res) => {
+  if (!req.params.index)
+    req.params.index = 1;
+  myChat = await Chat.findOne({ id: req.params.id, participates: req.session.passport.user }, { messages: { $slice: [req.params.index * -5, 5] } }, function (err, chat) {
 
   });
   for (element of myChat.messages) {
-    temp = await User.findOne({ userName: element.sender}).exec();//"\\images\\blogs\\1.jpg"
+    temp = await User.findOne({ userName: element.sender }).exec();//"\\images\\blogs\\1.jpg"
     element.imgPath = temp.imgPath;
   };
-  return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user});
+  img = await User.findOne({ userName: req.session.passport.user }).exec();//"\\images\\blogs\\1.jpg"
+  img = img.imgPath;
+  return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user, imgPath: img });
 });
 
 router.get('/:id', checksession, function (req, res) {
