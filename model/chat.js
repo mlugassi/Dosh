@@ -16,14 +16,8 @@ module.exports = db => {
             sender: String,
             date: Date,
             imgPath: String,
-            likes: {
-                count: Number,
-                users: [String]
-            },
-            unlikes: {
-                count: Number,
-                users: [String]
-            },
+            likes: [String],
+            unlikes: [String],
             // isActive: Boolean,
             created_at: Date,
             updated_at: Date

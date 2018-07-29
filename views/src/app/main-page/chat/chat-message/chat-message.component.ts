@@ -23,21 +23,30 @@ export class ChatMessageComponent implements OnInit {
 
   }
   like(id) {
-    if (!this.message.likes.users.find(user => user == this.userName)) {
+    if (!this.message.likes.find(user => user == this.userName)) {
       this.chatService.like({ idMessage: id, user: this.userName, room: this.room, flag: true });
-      this.message.likes.count++;
-      this.message.likes.users.push(this.userName);
+      this.message.likes.push(this.userName);
+      var index = this.message.unlikes.indexOf(this.userName);
+      index > -1 ? this.message.unlikes.splice(index,1):null;
     }
     else {
       this.chatService.like({ idMessage: id, user: this.userName, room: this.room, flag: false });
-      this.message.likes.count--;
-      var index = this.message.likes.users.indexOf(this.userName);
-      this.message.likes.users.splice(index,1);
+      var index = this.message.likes.indexOf(this.userName);
+      this.message.likes.splice(index,1);
     }
-
   }
-  unlike() {
-
-  }
+  unlike(id) {
+    if (!this.message.unlikes.find(user => user == this.userName)) {
+      this.chatService.unlike({ idMessage: id, user: this.userName, room: this.room, flag: true });
+      this.message.unlikes.push(this.userName);
+      var index = this.message.likes.indexOf(this.userName);
+      index > -1 ? this.message.likes.splice(index,1):null;
+    }
+    else {
+      this.chatService.unlike({ idMessage: id, user: this.userName, room: this.room, flag: false });
+      var index = this.message.unlikes.indexOf(this.userName);
+      this.message.unlikes.splice(index,1);
+    }
+  }89
 
 }

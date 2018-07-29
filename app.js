@@ -28,14 +28,14 @@ var io = require('socket.io')(server);
 // chat1 = {};
 // chat1.id = 3;
 // chat1.owner = "sapirz1";
-// chat1.participates = ["sapirz1","shilatz1"];
-// chat1.messages = [{text:"Bla bla bla1",sender:"refaelz1",date: Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla1",sender:"shilatz1",date:Date.now(), likes:{count:6,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla2",sender:"shilatz1",date:Date.now(), likes:{count:0,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla3",sender:"sapirz1",date:Date.now(), likes:{count:5,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla4",sender:"shilatz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:3,users:[]}},
-// {text:"Bla bla bla5",sender:"sapirz1",date:Date.now(), likes:{count:7,users:["refaelz1"]},unlike:{count:0,users:[]}},
-// {text:"Bla bla bla6",sender:"shilatz1",date:Date.now(), likes:{count:2,users:["refaelz1","sapirz1"]},unlike:{count:5,users:[]}}];
+// chat1.participates = ["refaelz1","sapirz1","shilatz1"];
+// chat1.messages = [{text:"Bla bla bla1",sender:"refaelz1",date: Date.now(), likes:["refaelz1"],unlike:[]},
+// {text:"Bla bla bla1",sender:"shilatz1",date:Date.now(), likes:["refaelz1"],unlike:[]},
+// {text:"Bla bla bla2",sender:"shilatz1",date:Date.now(), likes:["refaelz1"],unlike:[]},
+// {text:"Bla bla bla3",sender:"sapirz1",date:Date.now(), likes:["refaelz1"],unlike:[]},
+// {text:"Bla bla bla4",sender:"shilatz1",date:Date.now(), likes:["refaelz1","sapirz1","shilatz1","1","2","3"],unlike:[]},
+// {text:"Bla bla bla5",sender:"sapirz1",date:Date.now(), likes:["shilatz1"],unlike:[]},
+// {text:"Bla bla bla6",sender:"shilatz1",date:Date.now(), likes:["refaelz1","sapirz1"],unlike:[]}];
 // Chat.create(chat1);
 
 app.use((req, res, next) => {
@@ -228,18 +228,52 @@ app.use((req, res, next) => {
 
     socket.on('like', function (data) {
       console.log("----------------------like----------------");
-      console.log("room: " + data.room + ", user: " +data.user + ", id: "  +data.idMessage+ ", flag: "+data.flag);
-      if(data.flag)
-      Chat.update({ id: data.room, "messages._id": data.idMessage },
-      { $push: { "messages.$.likes.users": data.user } }, function (err, response) {
-        console.log(err);
-        console.log(response);
-      });
-
-
+      console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
+      if (data.flag) {
+        Chat.update({ id: data.room, "messages._id": data.idMessage },
+          {
+            $push: { "messages.$.likes": data.user },
+            $pull: { "messages.$.unlikes": data.user }
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
+      } else {
+        Chat.update({ id: data.room, "messages._id": data.idMessage },
+          {
+            $pull: { "messages.$.likes": data.user },
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
+      }
       socket.broadcast.to(data.room).emit('new like', { user: data.user, idMessage: data.idMessage, flag: data.flag });
     });
 
+    socket.on('unlike', function (data) {
+      console.log("----------------------unlike----------------");
+      console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
+      if (data.flag) {
+        Chat.update({ id: data.room, "messages._id": data.idMessage },
+          {
+            $push: { "messages.$.unlikes": data.user },
+            $pull: { "messages.$.likes": data.user }
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
+      }
+      else {
+        Chat.update({ id: data.room, "messages._id": data.idMessage },
+          {
+            $pull: { "messages.$.unlikes": data.user },
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
+      }
+      socket.broadcast.to(data.room).emit('new unlike', { user: data.user, idMessage: data.idMessage, flag: data.flag });
+    });
     socket.on('message', function (data) {
       Chat.update({ id: data.room }, {
         $push: { messages: [data] }
