@@ -14,8 +14,4 @@
     </div>
   </div>
 </div>
-<div *ngIf="message.isJoinMessage" style="left: 30%">{{message.text}}</div>
-
-<div class="newJoin">
-  <div>mlugassi join to room</div>
-</div>
+<div class="newJoin" *ngIf="message.isJoinMessage">{{message.text}}</div>
