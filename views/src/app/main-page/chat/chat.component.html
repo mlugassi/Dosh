@@ -4,6 +4,7 @@
       <div class="frame">
         <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user [room]=room></app-chat-message>
         <h2 *ngIf="!room">Please pick up one chat</h2>
+        <button class="btn btn-light btn-circle fas fa-search srchBtn"></button> 
       </div>
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
@@ -66,33 +67,32 @@
       </div>
     </div>
   </div>
-  <!-- <ng-template class="modal fade" id="myModal" role="dialog"> -->
-  <!-- <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog joinRoomDialog">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" aria-label="Close" (click)="close_modal()">
+          <button type="button" class="close" aria-label="Close" data-dismiss="modal" data-target="#myModal">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <div style="border: 1px solid #ccc; height: 350px;  border-radius: 10px;">
+          <div class="joinRoomBorder">
             <div class="row chatRow">
-              <div class="col-md-1 col-sm-1">
-                <input type="checkbox" style="position: relative; top: 25%">
+              <div class="col-md-2 col-sm-1">
+                <img class="rowImg" src="">
               </div>
-              <div class="col-md-2 col-sm-2">
-                <img class="rowImg" src={{chat.imgPath}}>
-              </div>
-              <div class="col-md-9 col-sm-9 blogRowTitle">
+              <div class="col-md-8 col-sm-8 blogRowTitle">
                 <h5>
                   title
-                </h5> 
+                </h5>
                 <div>
                   <i class="fas fa-user"> </i> owner
-                  <i class="far fa-thumbs-up blogLikes"> 3</i>
-                  <i class="far fa-thumbs-down blogLikes"> 3</i>
+                  <i class="far fa-thumbs-up blogLikes"> likes</i>
+                  <i class="far fa-thumbs-down blogLikes"> unlikes</i>
                 </div>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <input type="checkbox" style="position: relative; top: 25%">
               </div>
             </div>
           </div>
@@ -101,8 +101,6 @@
           <button class="btn btn-info" data-dismiss="modal" style="  width: 90%;"> Join</button>
         </div>
       </div>
-
     </div>
-  </div> -->
-  <!-- </ng-template> -->
+  </div>
 </div>
