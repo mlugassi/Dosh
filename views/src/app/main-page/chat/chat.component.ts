@@ -46,20 +46,31 @@ export class ChatComponent implements OnInit {
             });
         this.chatService.newLike()
             .subscribe(data => {
-                alert("new like");
-                this.messages.forEach(element => {
-                    if (element._id == data.idMessage) {
-                        if (data.flag) {
-                            element.likes.count++;
-                            element.likes.users.push(data.user);
-                        }
-                        else {
-                            element.likes.count--;
-                            var index = element.likes.users.indexOf(data.user);
-                            element.likes.users.splice(index, 1);
-                        }
+                var element = this.messages.find(element => element._id == data.idMessage);
+                if (element) {
+                    if (data.flag) {
+                        element.likes.push(data.user);
+                        var i = element.unlikes.indexOf(data.user);
+                        i > -1 ? element.unlikes.splice(i, 1) : null;
+                    } else {
+                        var i = element.likes.indexOf(data.user);
+                        element.likes.splice(i, 1);
                     }
-                });
+                }
+            });
+        this.chatService.newUnlike()
+            .subscribe(data => {
+                var element = this.messages.find(element => element._id == data.idMessage);
+                if (element) {
+                    if (data.flag) {
+                        element.unlikes.push(data.user);
+                        var i = element.likes.indexOf(data.user);
+                        i > -1 ? element.likes.splice(i, 1) : null;
+                    } else {
+                        var i = element.unlikes.indexOf(data.user);
+                        element.unlikes.splice(i, 1);
+                    }
+                }
             });
     }
 

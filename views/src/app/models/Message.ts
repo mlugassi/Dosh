@@ -5,14 +5,8 @@ export default class Message {
   imgPath: String;
   text: String;
   room: String;
-  likes: {
-    count: number,
-    users: [String]
-  };
-  unlikes: {
-    count: Number,
-    users: [String]
-  };
+  likes: [String];
+  unlikes: [String];
   date: String;
 
   constructor(_id: String=undefined, sender: String="", imgPath: String="", text: String="", date: String=Date.now().toString()) {
@@ -21,7 +15,7 @@ export default class Message {
     this.text = text;
     this.date = date;
     this._id = _id;
-    this.likes = { count: 0, users: [] as [String] };
-    this.unlikes = { count: 0, users: [] as [String] };
+    this.likes = [] as [String];
+    this.unlikes = [] as [String];
   }
 }

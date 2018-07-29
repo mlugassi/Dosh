@@ -40,8 +40,12 @@ export class ChatService {
         });
         return observable;
     }
-    unlike() {
-        let observable = new Observable<{ user: String, message: String }>(observer => {
+    unlike(data) {
+        //alert("like");
+        this.socket.emit('unlike', data);
+    }
+    newUnlike() {
+        let observable = new Observable<{ idMessage: String, user: String, flag: boolean }>(observer => {
             this.socket.on('new unlike', (data) => {
                 observer.next(data);
             });
