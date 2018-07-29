@@ -266,20 +266,20 @@ h4 {
   left: 5px;
 }
 
-.srchBar>i {
+.srchBar>div >i {
   /* position: absolute; */
   /* left: 250px; */
   /* display: none; */
   margin-left: 2px;
-  opacity: 0.3;
+  opacity: 0.0;
 }
 
-.srchBar>input {
+.srchBar> div> input {
   outline: none;
   border: solid 1px #ccc;
-  padding: 9px 10px 9px 32px;
+  padding: 9px 10px 9px 28px;
   background: #ededed url(https://static.tumblr.com/ftv85bp/MIXmud4tx/search-icon.png) no-repeat 9px center;
-  width: 130px;
+  width: 40px;
   height: 40px;
   border-radius: 25px;
   -webkit-transition: all .5s;
@@ -291,19 +291,32 @@ h4 {
   opacity: 0.3;
 }
 
-.srchBar>input:focus {
-  /* width: 300px; */
+.srchBar>div:hover > input {
+   width: 300px;
   padding-left: 32px;
   color: #000;
   background-color: #fff;
   cursor: auto;
+  opacity: 1; 
+}
+.srchBar> div:hover >i {
   opacity: 1;
 }
-
-.srchBar>input:focus+i,
-.srchBar>input:focus+i+i,
-.srchBar>i:hover {
-  opacity: 1;
+.srchBar>div > input :focus{
+  width: 300px;
+ padding-left: 32px;
+ color: #000;
+ background-color: #fff;
+ cursor: auto;
+ opacity: 1; 
+}
+.srchBar>div > input :not(:placeholder-shown){
+  width: 300px;
+ padding-left: 32px;
+ color: #000;
+ background-color: #fff;
+ cursor: auto;
+ opacity: 1; 
 }
 
 .joinRoomBtn {
