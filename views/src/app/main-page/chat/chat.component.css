@@ -257,3 +257,13 @@ h4 {
 .navTab {
   margin-top: 20px;
 }
+
+.joinRoomDialog {
+  width: 350px;
+}
+
+.joinRoomBorder {
+  border: 1px solid #ccc;
+  height: 350px;
+  border-radius: 10px;
+}
