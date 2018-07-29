@@ -19,7 +19,8 @@
           </div>
 
           <div class="btns">
-            <button class="btn  far fa-image btn-circle imgBtn"></button>
+            <button class="btn  far fa-image btn-circle imgBtn" (click)="file.click()"></button>
+            <input type="file" (change)="onFileChange($event.target.files)" hidden="hidden" accept="image/*" #file/>
           </div>
           <div class="btns">
             <button class=" btn btn-info fas fa-paper-plane btn-circle btn-lg sendBtn" (click)="send_message()" (keyup.enter)="send_message()"></button>

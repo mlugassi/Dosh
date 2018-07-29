@@ -127,4 +127,8 @@ export class ChatComponent implements OnInit {
         this.messages.push(this.message);
     }
 
+    onFileChange(files) {
+        alert("need to implement");
+      }
+
 }
