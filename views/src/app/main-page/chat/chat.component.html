@@ -4,102 +4,110 @@
       <div class="frame">
         <div #scrollMe (scroll)="onScroll()">
           <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user [room]=room></app-chat-message>
-          <h2 *ngIf="!room">Please pick up one chat</h2>
-          <button class="btn btn-light btn-circle fas fa-search srchBtn"></button>
-      </div>
-    </div>
-    <div class="chat-func clearfix">
-      <div class="msj-rta macro">
-        <div class="text text-r">
-          <input class="mytext" placeholder="Type a message" [(ngModel)]="text" (keyup.enter)="send_message()" />
-        </div>
-
-        <div class="btns">
-          <button class="btn btn-info far fa-image btn-circle imgBtn"></button>
-        </div>
-        <div class="btns">
-          <button class=" btn btn-info fas fa-paper-plane btn-circle btn-lg sendBtn" (click)="send_message()" (keyup.enter)="send_message()"></button>
-        </div>
-        <div class="srchBar">
-          <div>
-              <input type="text" placeholder="Search" value="adasdasd">
+          <div *ngIf="!room" class="noChatSelected">
+            <h2>Please pick up one chat</h2>
+          </div>
+          <div class="srchBar">
+            <div>
+              <input type="text" placeholder="Search">
               <i class="btn btn-circle fas fa-chevron-left"></i>
               <i class="btn btn-circle fas fa-chevron-right"></i>
+            </div>
           </div>
+          <button (click)="load_messages()"></button> 
         </div>
       </div>
-    </div>
-  </div>
-  <div class="col-md-3">
+      <div class="chat-func clearfix">
+        <div class="msj-rta macro">
+          <div class="text text-r">
+            <input class="mytext" placeholder="Type a message" [(ngModel)]="text" />
+          </div>
 
           <div class="btns">
             <button class="btn  far fa-image btn-circle imgBtn" (click)="file.click()"></button>
             <input type="file" (change)="onFileChange($event.target.files)" hidden="hidden" accept="image/*" #file/>
           </div>
-          <div class="col-md-10 col-sm-11 blogRowTitle">
-            <h5>
-              {{chat.title}}
-            </h5>
-            <div>
-              <i class="fas fa-user"> </i> {{chat.owner}}
-              <i class="far fa-thumbs-up blogLikes"> {{chat.likes}}</i>
-              <i class="far fa-thumbs-down blogLikes"> {{chat.unlikes}}</i>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <div class="row chatRow">
-          <div class="col-md-2 col-sm-1">
-            <img class="rowImg" src="/images/users_profiles/Male.default.jpg">
-          </div>
-          <div class="col-md-10 col-sm-11 userRowTitle">
-            <h5>
-              Username
-            </h5>
+          <div class="btns">
+            <button class=" btn btn-info fas fa-paper-plane btn-circle btn-lg sendBtn" (click)="send_message()" (keyup.enter)="send_message()"></button>
           </div>
         </div>
       </div>
     </div>
-    <div class="newRoomsBtn">
-      <button class="btn btn-info" data-toggle="modal" data-target="#myModal"> Join New Room</button>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="myModal" role="dialog">
-  <div class="modal-dialog joinRoomDialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" data-dismiss="modal" data-target="#myModal">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="joinRoomBorder">
-          <div class="row chatRow">
+    <div class="col-md-3">
+
+      <nav class="navTab">
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+          <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-rooms" role="tab" aria-controls="nav-rooms"
+            aria-selected="true">Active Rooms</a>
+          <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-users" role="tab" aria-controls="nav-users"
+            aria-selected="false">Users</a>
+        </div>
+      </nav>
+      <div class="tab-content sidebar" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-rooms" role="tabpanel" aria-labelledby="nav-home-tab">
+          <div *ngFor="let chat of chats" class="row chatRow" (click)="openChat(chat.id);">
             <div class="col-md-2 col-sm-1">
-              <img class="rowImg" src="">
+              <img class="rowImg" src={{chat.imgPath}}>
             </div>
-            <div class="col-md-8 col-sm-8 blogRowTitle">
+            <div class="col-md-10 col-sm-11 blogRowTitle">
               <h5>
-                title
+                {{chat.title}}
               </h5>
               <div>
-                <i class="fas fa-user"> </i> owner
-                <i class="far fa-thumbs-up blogLikes"> likes</i>
-                <i class="far fa-thumbs-down blogLikes"> unlikes</i>
+                <i class="fas fa-user"> </i> {{chat.owner}}
+                <i class="far fa-thumbs-up blogLikes"> {{chat.likes}}</i>
+                <i class="far fa-thumbs-down blogLikes"> {{chat.unlikes}}</i>
               </div>
             </div>
-            <div class="col-md-1 col-sm-1">
-              <input type="checkbox" style="position: relative; top: 25%">
+          </div>
+        </div>
+        <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <div class="row chatRow">
+            <div class="col-md-2 col-sm-1">
+              <img class="rowImg" src="/images/users_profiles/Male.default.jpg">
+            </div>
+            <div class="col-md-10 col-sm-11 userRowTitle">
+              <h5>
+                Username
+              </h5>
             </div>
           </div>
         </div>
       </div>
-      <div style="text-align: center; margin: 0 5px 20px">
-        <button class="btn btn-info" data-dismiss="modal" style="  width: 90%;"> Join</button>
+      <div class="newRoomsBtn">
+        <button class="btn joinRoomBtn" data-toggle="modal" data-target="#myModal"> Join New Room</button>
       </div>
     </div>
   </div>
-</div>
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog joinRoomDialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="joinRoomBorder">
+            <div class="row chatRow">
+              <div class="col-md-2 col-sm-1">
+                <img class="rowImg" src="">
+              </div>
+              <div class="col-md-8 col-sm-8 blogRowTitle">
+                <h5>
+                  title
+                </h5>
+                <div>
+                  <i class="fas fa-user"> </i> owner
+                  <i class="far fa-thumbs-up blogLikes"> likes</i>
+                  <i class="far fa-thumbs-down blogLikes"> unlikes</i>
+                </div>
+              </div>
+              <div class="col-md-1 col-sm-1">
+                <input type="checkbox" style="position: relative; top: 25%">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="text-align: center; margin: 0 5px 20px">
+          <button class="btn joinRoomBtn" data-dismiss="modal">Join</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
