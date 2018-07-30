@@ -216,6 +216,8 @@ app.use((req, res, next) => {
       socket.join(data.room);
 
       console.log(data.user + ' joined the room : ' + data.room);
+     // console.log("-------------------------clients----------------------------");
+     // console.log(socket.rooms);
       socket.broadcast.to(data.room).emit('new user joined', { user: data.user, message: 'has joined this room.' });
     });
 

@@ -47,6 +47,6 @@ export class ChatMessageComponent implements OnInit {
       var index = this.message.unlikes.indexOf(this.userName);
       this.message.unlikes.splice(index,1);
     }
-  }89
+  }
 
 }

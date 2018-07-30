@@ -27,16 +27,30 @@ router.get('/getAll', checksession, async (req, res) => {
   };
   return res.status(200).json(chats);
 });
-router.get('/messages/:id', checksession, async (req, res) => {
+router.get('/messages/:id/:index', checksession, async (req, res) => {
+  mult = 5;
+  if (!req.params.index)
+    req.params.index = 1;
+  size = (await Chat.findOne({ id: req.params.id })).messages.length;
+  from = req.params.index * -1 * mult;
+  count = mult;
+  if (size < from * -1) {
+    count = size + from + mult;
+    console.log(count);
+    from = -1 * size;
+    console.log(from);
+  }
+  myChat = await Chat.findOne({ id: req.params.id, participates: req.session.passport.user },
+    { messages: { $slice: [from, count] } }, function (err, chat) {
 
-  myChat = await Chat.findOne({ id: req.params.id ,participates: req.session.passport.user }, function (err, chat) {
-
-  });
+    });
   for (element of myChat.messages) {
-    temp = await User.findOne({ userName: element.sender}).exec();//"\\images\\blogs\\1.jpg"
+    temp = await User.findOne({ userName: element.sender }).exec();
     element.imgPath = temp.imgPath;
   };
-  return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user});
+  img = await User.findOne({ userName: req.session.passport.user }).exec();
+  img = img.imgPath;
+  return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user, imgPath: img });
 });
 
 router.get('/:id', checksession, function (req, res) {

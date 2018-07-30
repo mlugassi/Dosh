@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import Chat from '../../models/Chat';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from '../../services/app.service';
 import Message from '../../models/Message';
+import { element } from 'protractor';
 
 @Component({
     selector: 'app-chat',
@@ -11,14 +12,41 @@ import Message from '../../models/Message';
     styleUrls: ['./chat.component.css'],
     providers: [ChatService]
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, AfterViewChecked {
+    @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
+    ngAfterViewChecked() {
+        this.scrollToBottom();
+    }
+
+    private onScroll() {
+        let element = this.myScrollContainer.nativeElement
+        let atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
+        if (this.disableScrollDown && atBottom) {
+            this.disableScrollDown = false
+        } else {
+            this.disableScrollDown = true
+        }
+    }
+
+
+    private scrollToBottom(): void {
+        if (this.disableScrollDown) {
+            return
+        }
+        try {
+            this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        } catch(err) { }
+    }
     user: String;
+    index: number = 1;
     room: String;
     message: Message;
+    imgPath: String;
     text: String;
     chats: Chat[];
-    messages: any[];
+    messages: Message[] = [];
+    disableScrollDown = false;
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
 
         this.chatService.newUserJoined()
@@ -42,6 +70,7 @@ export class ChatComponent implements OnInit {
                 if (data.sender != this.user) {
                     this.message = data as Message;
                     this.messages.push(this.message);
+                    this.scrollToBottom();
                 }
             });
         this.chatService.newLike()
@@ -84,15 +113,24 @@ export class ChatComponent implements OnInit {
             .params
             .subscribe(params => {
                 this.room = params['id'] || '';
-                this.appService.get_messages(this.room).subscribe(res => {
-                    if (res) {
-                        this.messages = res.messages as Message[];
-                        this.user = res.userName;
-                        if (this.room)
-                            this.join();
-                    }
-                });
+                this.load_messages();
             });
+    }
+    load_messages() {
+        this.appService.get_messages(this.room, this.index++).subscribe(res => {
+            if (res) {
+                var msgs = res.messages as Message[];
+                if (msgs.length > 0)
+                    msgs.reverse().forEach(element => this.messages.unshift(element));
+                this.scrollToBottom();
+
+                //else remove the button to load more
+                this.user = res.userName;
+                this.imgPath = res.imgPath;
+                if (this.room)
+                    this.join();
+            }
+        });
     }
     openChat(id: Number) {
         if (this.room && this.room == id.toString())
@@ -109,6 +147,7 @@ export class ChatComponent implements OnInit {
         //this.message.likes = { count: 0, users: [""] };
         //this.message.unlikes = { count: 0, users: [""] };
         this.message.room = this.room;
+        this.message.imgPath = this.imgPath;
         this.message.sender = this.user;
         this.message.text = this.text;
         this.sendMessage();
@@ -125,6 +164,7 @@ export class ChatComponent implements OnInit {
     sendMessage() {
         this.chatService.sendMessage(this.message);
         this.messages.push(this.message);
+        this.scrollToBottom();
     }
 
     onFileChange(files) {
