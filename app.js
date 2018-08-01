@@ -252,6 +252,52 @@ app.use((req, res, next) => {
         connected_users: connected_users.filter(user => user.userName != data.user)
       });
     });
+
+    socket.on('privateMessage', function (data) {
+      let chatID = (data.user1 > data.user2) ? data.user1 + "_" + data.user2 : data.user2 + "_" + data.user1;
+      Chat.findOne({
+        id: chatID
+      }, function (err, chat) {
+        if (err) throw err;
+        if (chat) {
+          Chat.findOneAndUpdate({
+            id: chatID
+          }, {
+            $push: {
+              messages: [data.message]
+            }
+          }, function (err, chat) {
+            if (err) throw err;
+            if (!chat) return;
+            Chat.findOne({
+              id: chatID
+            }, function (err, newChat) {
+              if (err) throw err;
+              newChat.messages[chat.messages.length].imgPath = data.message.imgPath;
+              io.in(data.user2).emit('new private message', {
+                userName: data.user1,
+                message: newChat.messages[chat.messages.length]
+              });
+            });
+          });
+        } else {
+          let newChat = {};
+          newChat.id = chatID;
+          newChat.participates = [data.user1, data.user2];
+          newChat.messages = [data.message];
+          Chat.create(newChat);
+          socket.join(chatID);
+
+          socket.broadcast.to(data.user2).emit('new private message', {
+            userName: data.user1,
+            message: data.message
+          });
+
+        }
+      });
+
+    });
+
     socket.on('like', function (data) {
       console.log("----------------------like----------------");
       console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);

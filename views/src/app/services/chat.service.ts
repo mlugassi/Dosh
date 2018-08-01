@@ -114,9 +114,23 @@ export class ChatService {
         this.socket.emit('message', message);
     }
 
+    sendPrivateMessage(data) {
+        this.socket.emit('privateMessage', data);
+    }
     newMessageReceived() {
         let observable = new Observable<Message>(observer => {
             this.socket.on('new message', (data) => {
+                observer.next(data);
+            });
+            //alert("disconnect 5");
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
+
+    newPrivateMessageReceived() {
+        let observable = new Observable<{ chatID: String, userName: String, message: Message }>(observer => {
+            this.socket.on('new private message', (data) => {
                 observer.next(data);
             });
             //alert("disconnect 5");
