@@ -1,7 +1,7 @@
 import Message from "./Message";
 
 export default class Chat {
-  id: Number;
+  id: String;
   owner: String;
   title: String;
   likes: Number;

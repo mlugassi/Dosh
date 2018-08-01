@@ -33,6 +33,17 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                 this.message.isJoinMessage = true;
                 this.messages.push(this.message);
             });
+
+        this.chatService.newPrivateMessageReceived().subscribe(data => {
+           if (data.userName != this.user) {
+            this.message = data.message;
+            this.messages.push(this.message);
+            this.scrollToBottom();
+        }
+        else {
+            this.messages[this.messages.length - 1] = data.message;
+        }
+        })
         this.chatService.connectedUsers()
             .subscribe(data => {
                 this.connectedUsers = data.connected_users;
@@ -98,17 +109,20 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                 this.chats.forEach(chat => this.chatService.joinRoom({ user: this.user, room: chat.id }));
                 this.imgPath = res.imgPath;
                 this.chatService.createServerConnection({ user: this.user, imgPath: this.imgPath });
+                this.activatedRoute
+                .params
+                .subscribe(params => {
+                    this.room = params['id'] || '';
+                    this.first_load();
+                });
             }
         });
-        this.activatedRoute
-            .params
-            .subscribe(params => {
-                this.room = params['id'] || '';
-                this.first_load();
-            });
+
     }
     first_load() {
-        this.appService.get_messages(this.room, this.index++).subscribe(res => {
+        let chatID = this.room;
+        if (isNaN(Number(this.room))) chatID = (this.user > this.room) ? this.user + "_" + this.room : this.room + "_" + this.user;
+        this.appService.get_messages(chatID, this.index++).subscribe(res => {
             if (res) {
                 this.messages = res;
                 var read_more = new Message();
@@ -131,15 +145,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             }
         });
     }
-    openChat(id: Number) {
-        if (this.room && this.room == id.toString())
+    openChat(id: String) {
+        if (this.room && this.room == id)
             return;
-        // if (this.room)
-        //     this.leave();
         this.index = 1;
-        this.room = id.toString();
+        this.room = id;
         this.router.navigate(['chat/' + id]);
     }
+
     send_message() {
         this.message = new Message();
         this.message.room = this.room;
@@ -158,13 +171,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
 
     sendMessage() {
-        this.chatService.sendMessage(this.message);
+        if (isNaN(Number(this.room)))
+            this.chatService.sendPrivateMessage({ user1: this.user, user2: this.room, message: this.message });
+        else
+            this.chatService.sendMessage(this.message);
         this.messages.push(this.message);
         this.scrollToBottom();
     }
 
     onFileChange(files) {
-        alert("need to implement");
+       alert("need to implement");
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
