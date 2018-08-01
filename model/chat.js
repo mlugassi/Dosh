@@ -18,6 +18,7 @@ module.exports = db => {
             imgPath: String,
             likes: [String],
             unlikes: [String],
+            isImage: Boolean,
             // isActive: Boolean,
             created_at: Date,
             updated_at: Date

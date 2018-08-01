@@ -36,7 +36,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         }
         try {
             this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-        } catch(err) { }
+        } catch (err) { }
     }
     user: String;
     index: number = 1;
@@ -48,9 +48,9 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     messages: Message[] = [];
     disableScrollDown = false;
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
-
         this.chatService.newUserJoined()
             .subscribe(data => {
+                if (data.room != this.room) return;
                 this.message = new Message();
                 this.message.text = data.user + " is joing to the room.";
                 this.message.isJoinMessage = true;
@@ -67,6 +67,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
         this.chatService.newMessageReceived()
             .subscribe(data => {
+                alert("get message");
                 if (data.sender != this.user) {
                     this.message = data as Message;
                     this.messages.push(this.message);
@@ -104,41 +105,59 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
+        //this.join(this.user,this.user);
         this.appService.get_chats().subscribe(res => {
-            if (res)
-                this.chats = res as Chat[];
+            if (res) {
+                this.chats = res.chats;
+                this.user = res.user;
+                this.chats.forEach(chat => this.chatService.joinRoom({ user: this.user, room: chat.id }));
+                this.imgPath = res.imgPath;
+            }
         });
-
         this.activatedRoute
             .params
             .subscribe(params => {
                 this.room = params['id'] || '';
-                this.load_messages();
+                this.first_load();
             });
+    }
+    first_load() {
+        this.appService.get_messages(this.room, this.index++).subscribe(res => {
+            if (res) {
+                this.messages = res;
+                var read_more = new Message();
+                read_more.isLoadMessage = true;
+                read_more.text = "read more";
+                this.messages.unshift(read_more);
+
+
+            }
+        });
     }
     load_messages() {
         this.appService.get_messages(this.room, this.index++).subscribe(res => {
             if (res) {
-                var msgs = res.messages as Message[];
-                if (msgs.length > 0)
+                var msgs = res;
+                if (msgs.length > 0) {
+                    var read_more = this.messages.shift();
                     msgs.reverse().forEach(element => this.messages.unshift(element));
-                this.scrollToBottom();
+                    this.messages.unshift(read_more);
+                }
+                else {
+                    this.messages.shift(); //remove the button to load more
+                }
 
-                //else remove the button to load more
-                this.user = res.userName;
-                this.imgPath = res.imgPath;
-                if (this.room)
-                    this.join();
+                //this.scrollToBottom();
             }
         });
     }
     openChat(id: Number) {
         if (this.room && this.room == id.toString())
             return;
-        if (this.room)
-            this.leave();
+        // if (this.room)
+        //     this.leave();
+        this.index = 1;
         this.room = id.toString();
-        this.join();
         this.router.navigate(['chat/' + id]);
     }
     send_message() {

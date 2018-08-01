@@ -12,11 +12,12 @@ export class ChatService {
 
     constructor() { }
     joinRoom(data) {
+        // alert(this.socket);
         this.socket.emit('join', data);
     }
 
     newUserJoined() {
-        let observable = new Observable<{ user: String, message: String }>(observer => {
+        let observable = new Observable<{ user: String, message: String, room: String }>(observer => {
             this.socket.on('new user joined', (data) => {
                 observer.next(data);
             });
@@ -70,6 +71,20 @@ export class ChatService {
         return observable;
     }
 
+
+    sendImgMessage(message) {
+        this.socket.emit('ImgMessage', message);
+    }
+    newImgMessageReceived() {
+        let observable = new Observable<Message>(observer => {
+            this.socket.on('new ImgMessage', (data) => {
+                observer.next(data);
+            });
+            //alert("disconnect 5");
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
     sendMessage(message) {
         this.socket.emit('message', message);
     }

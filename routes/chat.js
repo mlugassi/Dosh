@@ -25,7 +25,9 @@ router.get('/getAll', checksession, async (req, res) => {
       chats.push(newChat);
     });
   };
-  return res.status(200).json(chats);
+  img = await User.findOne({ userName: req.session.passport.user }).exec();
+  img = img.imgPath;
+  return res.status(200).json({ chats: chats, user: req.session.passport.user, imgPath: img });
 });
 router.get('/messages/:id/:index', checksession, async (req, res) => {
   mult = 5;
@@ -42,15 +44,12 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
   }
   myChat = await Chat.findOne({ id: req.params.id, participates: req.session.passport.user },
     { messages: { $slice: [from, count] } }, function (err, chat) {
-
     });
   for (element of myChat.messages) {
     temp = await User.findOne({ userName: element.sender }).exec();
     element.imgPath = temp.imgPath;
   };
-  img = await User.findOne({ userName: req.session.passport.user }).exec();
-  img = img.imgPath;
-  return res.status(200).json({ messages: myChat.messages, userName: req.session.passport.user, imgPath: img });
+  return res.status(200).json( myChat.messages );
 });
 
 router.get('/:id', checksession, function (req, res) {

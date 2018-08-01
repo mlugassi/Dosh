@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,EventEmitter,Output } from '@angular/core';
 import Message from '../../../models/Message';
 import { ChatService } from '../../../services/chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,7 @@ export class ChatMessageComponent implements OnInit {
   @Input() message: Message;
   @Input() userName: String;
   @Input() room: String;
+  @Output() loadMessage = new EventEmitter();
 
   id;
   constructor(private chatService: ChatService) { }
@@ -48,5 +49,8 @@ export class ChatMessageComponent implements OnInit {
       this.message.unlikes.splice(index,1);
     }
   }
-
+  load()
+  {
+    this.loadMessage.emit();
+  }
 }

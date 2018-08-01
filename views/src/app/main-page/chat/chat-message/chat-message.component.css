@@ -95,6 +95,14 @@ i {
   transition: 0.4s;
 }
 
+img.img-content {
+  display: block;
+  max-width:300px;
+  max-height:200px;
+  width: auto;
+  height: auto;
+}
+
 i:hover {
   color: #01cd74;
   cursor: pointer;

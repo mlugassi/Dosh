@@ -1,6 +1,7 @@
 export default class Message {
   _id: String;
   isJoinMessage: boolean;
+  isLoadMessage: boolean;
   sender: String;
   imgPath: String;
   text: String;
@@ -8,8 +9,9 @@ export default class Message {
   likes: [String];
   unlikes: [String];
   date: String;
+  isImage: boolean;
 
-  constructor(_id: String=undefined, sender: String="", imgPath: String="", text: String="", date: String=Date.now().toString()) {
+  constructor(_id: String = undefined, sender: String = "", imgPath: String = "", text: String = "", date: String = Date.now().toString()) {
     this.sender = sender;
     this.imgPath = imgPath;
     this.text = text;
@@ -17,5 +19,7 @@ export default class Message {
     this._id = _id;
     this.likes = [] as [String];
     this.unlikes = [] as [String];
+    this.isImage = false;
+    this.isLoadMessage = false;
   }
 }

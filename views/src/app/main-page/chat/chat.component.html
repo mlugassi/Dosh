@@ -3,7 +3,9 @@
     <div class="col-md-9 ">
       <div class="frame">
         <div #scrollMe (scroll)="onScroll()">
-          <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user [room]=room></app-chat-message>
+          <app-chat-message *ngFor="let item of messages"
+           [message]="item" [userName]=user [room]=room
+           (loadMessage)="load_messages()"></app-chat-message>
           <h2 *ngIf="!room">Please pick up one chat</h2>
           <button class="btn btn-light btn-circle fas fa-search srchBtn"></button>
       </div>

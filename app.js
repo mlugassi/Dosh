@@ -9,6 +9,7 @@ let mongoose = require('mongoose'); // add mongoose for MongoDB access
 let session = require('express-session'); // add session management module
 let connectMongo = require('connect-mongo'); // add session store implementation for MongoDB
 var passport = require('passport');
+var fs = require('fs');
 var LocalStrategy = require('passport-local').Strategy;
 var path = require('path');
 var crypto = require("crypto-js/aes");
@@ -206,19 +207,40 @@ app.use((req, res, next) => {
     res.render('error');
   });
 
+  conected_users = [];
   io.on('connection', (socket) => {
 
     console.log('new connection made.');
 
+    // var readStream = fs.createReadStream(path.resolve(__dirname, 'images/1.jpg'), {
+    //   encoding:'binary'
+    // }), chunks = [];
+
+    // readStream.on('readable', function () {
+    //   console.log("reading");
+    // });
+    // readStream.on('data', function (chunk) {
+    //   chunks.push(chunk);
+    //   socket.emit('img-chunk',chunk);
+    // });
+    // readStream.on('end', function(){
+    //   console.log("end");
+    // });
+
 
     socket.on('join', function (data) {
       //joining
+      // if (io.sockets.adapter.rooms[data.room])
+      //   return;
+      console.log("-----------------------rooms----------------------------")
+      var r = "" + data.room;
+      console.log(io.sockets.adapter.rooms[data.room]);
+      // console.log();
+      //console.log(socket.rooms)
       socket.join(data.room);
 
       console.log(data.user + ' joined the room : ' + data.room);
-     // console.log("-------------------------clients----------------------------");
-     // console.log(socket.rooms);
-      socket.broadcast.to(data.room).emit('new user joined', { user: data.user, message: 'has joined this room.' });
+      socket.broadcast.to(data.room).emit('new user joined', { user: data.user, message: 'has joined this room.', room: data.room });
     });
 
 
@@ -284,6 +306,15 @@ app.use((req, res, next) => {
         console.log(chat);
       });
       io.in(data.room).emit('new message', data);
+    })
+    socket.on('ImgMessage', function (data) {
+      Chat.update({ id: data.room }, {
+        $push: { messages: [data] }
+      }, function (err, chat) {
+        console.log(err);
+        console.log(chat);
+      });
+      io.in(data.room).emit('new ImgMessage', data);
     })
   });
   server.listen(80);
