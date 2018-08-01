@@ -186,4 +186,8 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.scrollToBottom();
     }
 
+    onFileChange(files) {
+        alert("need to implement");
+      }
+
 }
