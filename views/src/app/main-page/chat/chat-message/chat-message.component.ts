@@ -24,6 +24,7 @@ export class ChatMessageComponent implements OnInit {
 
   }
   like(id) {
+    alert(id);
     if (!this.message.likes.find(user => user == this.userName)) {
       this.chatService.like({ idMessage: id, user: this.userName, room: this.room, flag: true });
       this.message.likes.push(this.userName);

@@ -254,7 +254,7 @@ app.use((req, res, next) => {
       console.log("----------------------like----------------");
       console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
       if (data.flag) {
-        Chat.update({ id: data.room, "messages._id": data.idMessage },
+        Chat.findOneAndUpdate({ id: data.room, "messages._id": data.idMessage },
           {
             $push: { "messages.$.likes": data.user },
             $pull: { "messages.$.unlikes": data.user }
@@ -263,7 +263,7 @@ app.use((req, res, next) => {
             console.log(response);
           });
       } else {
-        Chat.update({ id: data.room, "messages._id": data.idMessage },
+        Chat.findOneAndUpdate({ id: data.room, "messages._id": data.idMessage },
           {
             $pull: { "messages.$.likes": data.user },
           }, function (err, response) {
@@ -299,13 +299,18 @@ app.use((req, res, next) => {
       socket.broadcast.to(data.room).emit('new unlike', { user: data.user, idMessage: data.idMessage, flag: data.flag });
     });
     socket.on('message', function (data) {
-      Chat.update({ id: data.room }, {
+      Chat.findOneAndUpdate({ id: data.room }, {
         $push: { messages: [data] }
       }, function (err, chat) {
-        console.log(err);
-        console.log(chat);
+        console.log(!err);
+        Chat.findOne({ id: data.room }, function (err, newChat) {
+          if (!err)
+            console.log(newChat.messages[chat.messages.length]);
+            //data._id = newChat.messages[chat.messages.length]._id;
+            newChat.messages[chat.messages.length].imgPath=data.imgPath;
+          io.in(data.room).emit('new message', newChat.messages[chat.messages.length]);
+        });
       });
-      io.in(data.room).emit('new message', data);
     })
     socket.on('ImgMessage', function (data) {
       Chat.update({ id: data.room }, {
