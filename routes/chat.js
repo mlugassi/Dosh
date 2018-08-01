@@ -39,7 +39,7 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
   if (size < from * -1) {
     count = size + from + mult;
     console.log(count);
-    from = -1 * size;
+    from = -1 * size - 1;
     console.log(from);
   }
   myChat = await Chat.findOne({ id: req.params.id, participates: req.session.passport.user },
@@ -52,24 +52,24 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
   return res.status(200).json(myChat.messages);
 });
 
-router.get('/search/:id/:expression', checksession, async (req, res) => {
+router.get('/search/:id/:expression?', checksession, async (req, res) => {
   if (!req.params.id)
     req.params.index = 1;
   console.log(req.params.id);
   console.log(req.params.expression);
-
+  if (!req.params.expression)
+    req.params.expression = "";
   var messages = [];
   result = await Chat.findOne({ id: req.params.id }, function (err, chat) {
   });
   result.messages.forEach(element => {
-    if (element.text.includes(req.params.expression))
+    if (element.text.includes(req.params.expression) && !element.isImage)
       messages.push(element);
   });
   for (element of messages) {
     temp = await User.findOne({ userName: element.sender }).exec();
     element.imgPath = temp.imgPath;
   };
-  console.log(messages)
   return res.status(200).json(messages);
 });
 
