@@ -16,6 +16,10 @@ export class ChatService {
         this.socket.emit('join', data);
     }
 
+    createServerConnection(data) {
+        this.socket.emit('serverConnection', data);
+    }
+
     newUserJoined() {
         let observable = new Observable<{ user: String, message: String, room: String }>(observer => {
             this.socket.on('new user joined', (data) => {
@@ -27,6 +31,27 @@ export class ChatService {
         });
         return observable;
     }
+
+    connectedUsers() {
+        let observable = new Observable<{ connected_users: { userName: String, imgPath: String }[] }>(observer => {
+            this.socket.on('connected users', (data) => {
+                observer.next(data);
+            });
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
+
+    newUserConnected() {
+        let observable = new Observable<{ userName: String, imgPath: String }>(observer => {
+            this.socket.on('new user connected', (data) => {
+                observer.next(data);
+            });
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
+
     like(data) {
         //alert("like");
         this.socket.emit('like', data);

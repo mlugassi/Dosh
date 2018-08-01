@@ -13,31 +13,6 @@ import { element } from 'protractor';
     providers: [ChatService]
 })
 export class ChatComponent implements OnInit, AfterViewChecked {
-    @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-
-    ngAfterViewChecked() {
-        this.scrollToBottom();
-    }
-
-    private onScroll() {
-        let element = this.myScrollContainer.nativeElement
-        let atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
-        if (this.disableScrollDown && atBottom) {
-            this.disableScrollDown = false
-        } else {
-            this.disableScrollDown = true
-        }
-    }
-
-
-    private scrollToBottom(): void {
-        if (this.disableScrollDown) {
-            return
-        }
-        try {
-            this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-        } catch (err) { }
-    }
     user: String;
     index: number = 1;
     room: String;
@@ -46,6 +21,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     text: String;
     chats: Chat[];
     messages: Message[] = [];
+    connectedUsers: { userName: String, imgPath: String }[];
     disableScrollDown = false;
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.chatService.newUserJoined()
@@ -56,7 +32,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                 this.message.isJoinMessage = true;
                 this.messages.push(this.message);
             });
-
+        this.chatService.connectedUsers()
+            .subscribe(data => {
+                this.connectedUsers = data.connected_users;
+            });
+        this.chatService.newUserConnected()
+            .subscribe(data => {
+                this.connectedUsers.push(data);
+            });
         this.chatService.userLeftRoom()
             .subscribe(data => {
                 this.message = new Message();
@@ -107,13 +90,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
 
     ngOnInit() {
-        //this.join(this.user,this.user);
         this.appService.get_chats().subscribe(res => {
             if (res) {
                 this.chats = res.chats;
                 this.user = res.user;
                 this.chats.forEach(chat => this.chatService.joinRoom({ user: this.user, room: chat.id }));
                 this.imgPath = res.imgPath;
+                this.chatService.createServerConnection({ user: this.user, imgPath: this.imgPath });
             }
         });
         this.activatedRoute
@@ -131,8 +114,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                 read_more.isLoadMessage = true;
                 read_more.text = "read more";
                 this.messages.unshift(read_more);
-
-
             }
         });
     }
@@ -187,6 +168,32 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     onFileChange(files) {
         alert("need to implement");
+    }
+
+    @ViewChild('scrollMe') private myScrollContainer: ElementRef;
+
+    ngAfterViewChecked() {
+        this.scrollToBottom();
+    }
+
+    private onScroll() {
+        let element = this.myScrollContainer.nativeElement
+        let atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
+        if (this.disableScrollDown && atBottom) {
+            this.disableScrollDown = false
+        } else {
+            this.disableScrollDown = true
+        }
+    }
+
+
+    private scrollToBottom(): void {
+        if (this.disableScrollDown) {
+            return
+        }
+        try {
+            this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        } catch (err) { }
     }
 
 }

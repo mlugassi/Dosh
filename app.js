@@ -96,10 +96,10 @@ app.use((req, res, next) => {
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-    usernameField: 'userName',
-    passwordField: 'password',
-    passReqToCallback: true
-  },
+      usernameField: 'userName',
+      passwordField: 'password',
+      passReqToCallback: true
+    },
     function (req, userName, password, done) {
       User.findOne({
         userName: userName
@@ -122,10 +122,10 @@ app.use((req, res, next) => {
     }
   ));
   passport.use(new GoogleStrategy({
-    clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
-    clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
-    callbackURL: "/auth/google/callback"
-  },
+      clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
+      clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
+      callbackURL: "/auth/google/callback"
+    },
     function (accessToken, refreshToken, profile, done) {
       //      console.log(profile);
       User.findOne({
@@ -207,96 +207,127 @@ app.use((req, res, next) => {
     res.render('error');
   });
 
-  conected_users = [];
+  var connected_users = [];
   io.on('connection', (socket) => {
 
     console.log('new connection made.');
 
-    // var readStream = fs.createReadStream(path.resolve(__dirname, 'images/1.jpg'), {
-    //   encoding:'binary'
-    // }), chunks = [];
-
-    // readStream.on('readable', function () {
-    //   console.log("reading");
-    // });
-    // readStream.on('data', function (chunk) {
-    //   chunks.push(chunk);
-    //   socket.emit('img-chunk',chunk);
-    // });
-    // readStream.on('end', function(){
-    //   console.log("end");
-    // });
-
-
     socket.on('join', function (data) {
-      //joining
-      // if (io.sockets.adapter.rooms[data.room])
-      //   return;
-      console.log("-----------------------rooms----------------------------")
-      var r = "" + data.room;
-      console.log(io.sockets.adapter.rooms[data.room]);
-      // console.log();
-      //console.log(socket.rooms)
       socket.join(data.room);
-
       console.log(data.user + ' joined the room : ' + data.room);
-      socket.broadcast.to(data.room).emit('new user joined', { user: data.user, message: 'has joined this room.', room: data.room });
+      socket.broadcast.to(data.room).emit('new user joined', {
+        user: data.user,
+        message: 'has joined this room.',
+        room: data.room
+      });
     });
 
 
     socket.on('leave', function (data) {
       console.log(data.user + ' left the room : ' + data.room);
-      socket.broadcast.to(data.room).emit('left room', { user: data.user, message: 'has left this room.' });
+      socket.broadcast.to(data.room).emit('left room', {
+        user: data.user,
+        message: 'has left this room.'
+      });
       socket.leave(data.room);
     });
 
+    socket.on('serverConnection', function (data) {
+      if (!connected_users.includes({
+          userName: data.user,
+          imgPath: data.imgPath
+        })) {
+        connected_users.forEach(user => {
+          socket.broadcast.to(user.userName).emit('new user connected', {
+            userName: data.user,
+            imgPath: data.imgPath
+          });
+        })
+        socket.join(data.user);
+        console.log(data.user + ' has connected');
+        socket.emit('connected users', {
+          connected_users: connected_users
+        });
+        connected_users.push({
+          userName: data.user,
+          imgPath: data.imgPath
+        });
+      }
+    });
     socket.on('like', function (data) {
       console.log("----------------------like----------------");
       console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
       if (data.flag) {
-        Chat.findOneAndUpdate({ id: data.room, "messages._id": data.idMessage },
-          {
-            $push: { "messages.$.likes": data.user },
-            $pull: { "messages.$.unlikes": data.user }
-          }, function (err, response) {
-            console.log(err);
-            console.log(response);
-          });
+        Chat.update({
+          id: data.room,
+          "messages._id": data.idMessage
+        }, {
+          $push: {
+            "messages.$.likes": data.user
+          },
+          $pull: {
+            "messages.$.unlikes": data.user
+          }
+        }, function (err, response) {
+          console.log(err);
+          console.log(response);
+        });
       } else {
-        Chat.findOneAndUpdate({ id: data.room, "messages._id": data.idMessage },
-          {
-            $pull: { "messages.$.likes": data.user },
-          }, function (err, response) {
-            console.log(err);
-            console.log(response);
-          });
+        Chat.update({
+          id: data.room,
+          "messages._id": data.idMessage
+        }, {
+          $pull: {
+            "messages.$.likes": data.user
+          },
+        }, function (err, response) {
+          console.log(err);
+          console.log(response);
+        });
       }
-      socket.broadcast.to(data.room).emit('new like', { user: data.user, idMessage: data.idMessage, flag: data.flag });
+      socket.broadcast.to(data.room).emit('new like', {
+        user: data.user,
+        idMessage: data.idMessage,
+        flag: data.flag
+      });
     });
 
     socket.on('unlike', function (data) {
       console.log("----------------------unlike----------------");
       console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
       if (data.flag) {
-        Chat.update({ id: data.room, "messages._id": data.idMessage },
-          {
-            $push: { "messages.$.unlikes": data.user },
-            $pull: { "messages.$.likes": data.user }
-          }, function (err, response) {
-            console.log(err);
-            console.log(response);
-          });
+        Chat.update({
+          id: data.room,
+          "messages._id": data.idMessage
+        }, {
+          $push: {
+            "messages.$.unlikes": data.user
+          },
+          $pull: {
+            "messages.$.likes": data.user
+          }
+        }, function (err, response) {
+          console.log(err);
+          console.log(response);
+        });
+      } else {
+        Chat.update({
+          id: data.room,
+          "messages._id": data.idMessage
+        }, {
+          $pull: {
+            "messages.$.unlikes": data.user
+          },
+        }, function (err, response) {
+          console.log(err);
+          console.log(response);
+        });
       }
-      else {
-        Chat.update({ id: data.room, "messages._id": data.idMessage },
-          {
-            $pull: { "messages.$.unlikes": data.user },
-          }, function (err, response) {
-            console.log(err);
-            console.log(response);
-          });
-      }
-      socket.broadcast.to(data.room).emit('new unlike', { user: data.user, idMessage: data.idMessage, flag: data.flag });
+      socket.broadcast.to(data.room).emit('new unlike', {
+        user: data.user,
+        idMessage: data.idMessage,
+        flag: data.flag
+      });
     });
     socket.on('message', function (data) {
       Chat.findOneAndUpdate({ id: data.room }, {
@@ -313,8 +344,12 @@ app.use((req, res, next) => {
       });
     })
     socket.on('ImgMessage', function (data) {
-      Chat.update({ id: data.room }, {
-        $push: { messages: [data] }
+      Chat.update({
+        id: data.room
+      }, {
+        $push: {
+          messages: [data]
+        }
       }, function (err, chat) {
         console.log(err);
         console.log(chat);
@@ -325,9 +360,9 @@ app.use((req, res, next) => {
   server.listen(80);
   console.log('80 is the magic port');
 })()
-  .catch(err => {
-    console.log("Failure: " + err);
-    process.exit(0);
-  });
+.catch(err => {
+  console.log("Failure: " + err);
+  process.exit(0);
+});
 
 module.exports = app;
