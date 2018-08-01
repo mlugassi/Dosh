@@ -57,13 +57,14 @@
 
 .frame {
   background: #e0e0de;
-  height: 450px;
+  height: 390px;
   overflow: hidden;
   padding: 0;
-  margin: 20px 30px 0;
+  margin: 0 30px 0;
   overflow-y: scroll;
   position: relative;
 }
+
 
 div>div>div>div.msj-rta.macro {
   margin: auto;
@@ -190,6 +191,10 @@ input:focus {
   cursor: pointer;
 }
 
+.active {
+  background: #01cd7518;
+}
+
 .chatRow .blogRowTitle {
   min-height: 50px;
 }
@@ -218,12 +223,13 @@ input:focus {
 
 .chatRow .blogRowTitle>h5 {
   font-size: 12px;
-  margin: 5px 0 3px;
+  margin: 5px 0 20px 5px;
 }
 
 .chatRow .blogRowTitle>div {
   position: absolute;
   bottom: 0;
+  margin-left: 5px;
   font-size: 12px;
   color: grey;
 }
@@ -257,6 +263,7 @@ h4 {
   border: 1px solid #ccc;
   height: 350px;
   border-radius: 10px;
+  overflow-y: scroll;
 }
 
 .srchBar {
@@ -266,7 +273,7 @@ h4 {
   left: 5px;
 }
 
-.srchBar>div >i {
+.srchBar>div>i {
   /* position: absolute; */
   /* left: 250px; */
   /* display: none; */
@@ -274,7 +281,7 @@ h4 {
   opacity: 0.0;
 }
 
-.srchBar> div> input {
+.srchBar>div>input {
   outline: none;
   border: solid 1px #ccc;
   padding: 9px 10px 9px 28px;
@@ -291,32 +298,35 @@ h4 {
   opacity: 0.3;
 }
 
-.srchBar>div:hover > input {
-   width: 300px;
+.srchBar>div:hover>input {
+  width: 300px;
   padding-left: 32px;
   color: #000;
   background-color: #fff;
   cursor: auto;
-  opacity: 1; 
-}
-.srchBar> div:hover >i {
   opacity: 1;
 }
-.srchBar>div > input :focus{
-  width: 300px;
- padding-left: 32px;
- color: #000;
- background-color: #fff;
- cursor: auto;
- opacity: 1; 
+
+.srchBar>div:hover>i {
+  opacity: 1;
 }
-.srchBar>div > input :not(:placeholder-shown){
+
+.srchBar>div>input :focus {
   width: 300px;
- padding-left: 32px;
- color: #000;
- background-color: #fff;
- cursor: auto;
- opacity: 1; 
+  padding-left: 32px;
+  color: #000;
+  background-color: #fff;
+  cursor: auto;
+  opacity: 1;
+}
+
+.srchBar>div>input :not(:placeholder-shown) {
+  width: 300px;
+  padding-left: 32px;
+  color: #000;
+  background-color: #fff;
+  cursor: auto;
+  opacity: 1;
 }
 
 .joinRoomBtn {
@@ -325,12 +335,30 @@ h4 {
   width: 90%;
 }
 
-.noChatSelected {
+
+.chatHeader {
+  background: #01915298;
+  margin: 20px 30px 0;
+  height: 60px;
+  max-height: 60px;
+  color: white;
   text-align: center;
-  margin: 30px;
-  background: white;
-  border-radius: 20px;
-  color: #777;
+}
+
+.chatHeader>div>div>img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border-radius: 50px;
+  border-radius: 50px;
+}
+
+.chatHeader>div>div>i {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 /*

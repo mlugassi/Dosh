@@ -1,12 +1,23 @@
 <div class="container">
   <div class="row">
     <div class="col-md-9 ">
+      <div class="chatHeader">
+        <div *ngIf="room" class="row">
+          <div class="col-sm-2 col-md-1">
+            <img src="/images/blogs/3.jpg">
+          </div>
+          <div class="col-sm-8 col-md-9">
+            <h2>title</h2>
+          </div>
+          <div class="col-sm-2 col-md-2">
+            <i class="btn fas fa-sign-out-alt" ngbTooltip="Leave this room" (click)="leaveRoom()"></i>
+          </div>
+        </div>
+        <h2 *ngIf="!room">Please pick up one chat</h2>
+      </div>
       <div class="frame">
         <div #scrollMe (scroll)="onScroll()">
           <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user [room]=room></app-chat-message>
-          <div *ngIf="!room" class="noChatSelected">
-            <h2>Please pick up one chat</h2>
-          </div>
           <div class="srchBar">
             <div>
               <input type="text" placeholder="Search">
@@ -14,7 +25,7 @@
               <i class="btn btn-circle fas fa-chevron-right"></i>
             </div>
           </div>
-          <button (click)="load_messages()"></button> 
+          <button (click)="load_messages()"></button>
         </div>
       </div>
       <div class="chat-func clearfix">
@@ -45,7 +56,7 @@
       </nav>
       <div class="tab-content sidebar" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-rooms" role="tabpanel" aria-labelledby="nav-home-tab">
-          <div *ngFor="let chat of chats" class="row chatRow" (click)="openChat(chat.id);">
+          <div *ngFor="let chat of chats" class="row chatRow active" (click)="openChat(chat.id);">
             <div class="col-md-2 col-sm-1">
               <img class="rowImg" src={{chat.imgPath}}>
             </div>
@@ -94,8 +105,8 @@
                 </h5>
                 <div>
                   <i class="fas fa-user"> </i> owner
-                  <i class="far fa-thumbs-up blogLikes"> likes</i>
-                  <i class="far fa-thumbs-down blogLikes"> unlikes</i>
+                  <i class="far fa-thumbs-up blogLikes"> 5</i>
+                  <i class="far fa-thumbs-down blogLikes"> 6</i>
                 </div>
               </div>
               <div class="col-md-1 col-sm-1">
