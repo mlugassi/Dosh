@@ -31,8 +31,8 @@
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
           <div class="text text-r">
-              <input class="mytext" placeholder="Type a message" [(ngModel)]="text" (keyup.enter)="send_message()" />
-            </div>
+            <input class="mytext" placeholder="Type a message" [(ngModel)]="text" (keyup.enter)="send_message()" />
+          </div>
 
           <div class="btns">
             <button class="btn  far fa-image btn-circle imgBtn" (click)="file.click()"></button>
@@ -73,13 +73,13 @@
           </div>
         </div>
         <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div class="row chatRow">
+          <div *ngFor="let user of connectedUsers" class="row chatRow">
             <div class="col-md-2 col-sm-1">
-              <img class="rowImg" src="/images/users_profiles/Male.default.jpg">
+              <img class="rowImg" src={{user.imgPath}}>
             </div>
             <div class="col-md-10 col-sm-11 userRowTitle">
               <h5>
-                Username
+                {{user.userName}}
               </h5>
             </div>
           </div>
