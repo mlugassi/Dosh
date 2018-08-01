@@ -330,17 +330,18 @@ app.use((req, res, next) => {
       });
     });
     socket.on('message', function (data) {
-      Chat.update({
-        id: data.room
-      }, {
-        $push: {
-          messages: [data]
-        }
+      Chat.findOneAndUpdate({ id: data.room }, {
+        $push: { messages: [data] }
       }, function (err, chat) {
-        console.log(err);
-        console.log(chat);
+        console.log(!err);
+        Chat.findOne({ id: data.room }, function (err, newChat) {
+          if (!err)
+            console.log(newChat.messages[chat.messages.length]);
+            //data._id = newChat.messages[chat.messages.length]._id;
+            newChat.messages[chat.messages.length].imgPath=data.imgPath;
+          io.in(data.room).emit('new message', newChat.messages[chat.messages.length]);
+        });
       });
-      io.in(data.room).emit('new message', data);
     })
     socket.on('ImgMessage', function (data) {
       Chat.update({

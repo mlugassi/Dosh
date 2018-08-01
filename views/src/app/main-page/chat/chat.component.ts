@@ -50,11 +50,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
         this.chatService.newMessageReceived()
             .subscribe(data => {
-                alert("get message");
                 if (data.sender != this.user) {
                     this.message = data as Message;
                     this.messages.push(this.message);
                     this.scrollToBottom();
+                }
+                else {
+                    this.messages[this.messages.length] = data;
                 }
             });
         this.chatService.newLike()
@@ -143,9 +145,6 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
     send_message() {
         this.message = new Message();
-        //this.message.date = "now";//Date.now().toString();
-        //this.message.likes = { count: 0, users: [""] };
-        //this.message.unlikes = { count: 0, users: [""] };
         this.message.room = this.room;
         this.message.imgPath = this.imgPath;
         this.message.sender = this.user;
