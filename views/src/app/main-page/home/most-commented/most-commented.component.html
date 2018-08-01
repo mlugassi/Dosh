@@ -5,7 +5,7 @@
         <ul *ngIf="blogs" id="demo1_thumbs" class="list-inline">
 
           <li *ngFor="let blog of blogs; let first = first">
-            <a href="blogs/{{blog.id}}">
+            <a routerLink="blogs/{{blog.id}}">
               <img src="{{blog.imgPath}}">
               <div class="mid-text-info">
                 <h4>{{blog.title}}</h4>
@@ -20,7 +20,7 @@
       </div>
       <div *ngIf="mostCommentedBlog" id="demo1_main_image" class="col-md-8  news-right" style="text-align: center;">
         <div class="desoSlide-wrapper">
-          <a href="blogs/{{mostCommentedBlog.id}}">
+          <a routerLink="blogs/{{mostCommentedBlog.id}}">
             <img class="img-responsive animated fadeInLeft" style="opacity: 0;" [src]="mostCommentedBlog.imgPath">
           </a>
           <div class="desoSlide-overlay" style="left: 0px; top: 355px; width: 710.8px; opacity: 0.7;">

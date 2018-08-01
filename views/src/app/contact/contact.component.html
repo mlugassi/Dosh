@@ -1,5 +1,5 @@
 <body>
-    <a href="/" class="btn btn-primary btn-block signup-btn read-m" *ngIf="href=='/contactUS'">Back to home</a>
+    <a routerLink="/" class="btn btn-primary btn-block signup-btn read-m" *ngIf="href=='/contactUS'">Back to home</a>
 	<!--/main-->
 	<section class="main-content-w3layouts-agileits">
 
@@ -79,7 +79,7 @@
 								<label for="textarea">Message</label>
 								<textarea id="textarea" placeholder=""></textarea>
                             </div>
-                            <a href="/" (click)="submit()" class="btn btn-primary btn-block signup-btn" style="background:#01cd74; border: white">Send</a>
+                            <a routerLink="/" (click)="submit()" class="btn btn-primary btn-block signup-btn" style="background:#01cd74; border: white">Send</a>
 						</div>
 					</div>
 				</form>
