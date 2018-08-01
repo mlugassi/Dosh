@@ -10,7 +10,7 @@
             <h2>title</h2>
           </div>
           <div class="col-sm-2 col-md-2">
-            <i class="btn fas fa-sign-out-alt" ngbTooltip="Leave Room" (click)="leaveRoom()"></i>
+            <i class="btn fas fa-sign-out-alt" ngbTooltip="Leave Room" (click)="leave()"></i>
           </div>
         </div>
         <h2 *ngIf="!room">Please pick up one chat</h2>
@@ -20,12 +20,11 @@
           <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user [room]=room (loadMessage)="load_messages()"></app-chat-message>
           <div class="srchBar">
             <div>
-              <input type="text" placeholder="Search">
+              <input type="text" placeholder="Search" [(ngModel)]="expression" (input)="search()" (keyup.enter)="search()">
               <i class="btn btn-circle fas fa-chevron-left"></i>
               <i class="btn btn-circle fas fa-chevron-right"></i>
             </div>
           </div>
-          <button (click)="load_messages()"></button>
         </div>
       </div>
       <div class="chat-func clearfix">

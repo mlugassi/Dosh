@@ -194,4 +194,9 @@ export class AppService {
     return this.http.get(`${this.api_url}/chat/messages/` + id + '/' + index)
       .pipe(map(res => res as Message[] || []));
   }
+  search_messages(id, text) {
+    return this.http.get(`${this.api_url}/chat/search/` + id + '/' + text)
+      .pipe(map(res => res as Message[] || []));
+  }
+  
 }

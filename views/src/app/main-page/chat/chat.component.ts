@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     message: Message;
     imgPath: String;
     text: String;
+    expression: String;
     chats: Chat[];
     messages: Message[] = [];
     connectedUsers: { userName: String, imgPath: String }[];
@@ -135,14 +136,10 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         this.appService.get_messages(this.room, this.index++).subscribe(res => {
             if (res) {
                 var msgs = res;
-                if (msgs.length > 0) {
-                    var read_more = this.messages.shift();
-                    msgs.reverse().forEach(element => this.messages.unshift(element));
+                var read_more = this.messages.shift();
+                msgs.reverse().forEach(element => this.messages.unshift(element));
+                if (msgs.length == 5)
                     this.messages.unshift(read_more);
-                }
-                else {
-                    this.messages.shift(); //remove the button to load more
-                }
 
                 //this.scrollToBottom();
             }
@@ -210,6 +207,13 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         try {
             this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
         } catch (err) { }
+    }
+    search() {
+        this.appService.search_messages(this.room, this.expression)
+            .subscribe(res => {
+                if (res)
+                    this.messages = res;
+            });
     }
 
 }
