@@ -31,15 +31,15 @@
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
           <div class="text text-r">
-            <input class="mytext" placeholder="Type a message" [(ngModel)]="text" />
-          </div>
+              <input class="mytext" placeholder="Type a message" [(ngModel)]="text" (keyup.enter)="send_message()" />
+            </div>
 
           <div class="btns">
             <button class="btn  far fa-image btn-circle imgBtn" (click)="file.click()"></button>
             <input type="file" (change)="onFileChange($event.target.files)" hidden="hidden" accept="image/*" #file/>
           </div>
           <div class="btns">
-            <button class=" btn btn-info fas fa-paper-plane btn-circle btn-lg sendBtn" (click)="send_message()" (keyup.enter)="send_message()"></button>
+            <button class=" btn btn-info fas fa-paper-plane btn-circle btn-lg sendBtn" (click)="send_message()"></button>
           </div>
         </div>
       </div>
