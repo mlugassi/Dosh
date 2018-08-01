@@ -73,7 +73,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                     this.scrollToBottom();
                 }
                 else {
-                    this.messages[this.messages.length] = data;
+                    this.messages[this.messages.length-1] = data;
                 }
             });
         this.chatService.newLike()

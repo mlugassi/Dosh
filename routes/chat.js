@@ -49,8 +49,32 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
     temp = await User.findOne({ userName: element.sender }).exec();
     element.imgPath = temp.imgPath;
   };
-  return res.status(200).json( myChat.messages );
+  return res.status(200).json(myChat.messages);
 });
+
+router.get('/search/:id/:expression', checksession, async (req, res) => {
+  if (!req.params.id)
+    req.params.index = 1;
+  console.log(req.params.id);
+  console.log(req.params.expression);
+
+  var messages = [];
+  result = await Chat.findOne({ id: req.params.id }, function (err, chat) {
+  });
+  result.messages.forEach(element => {
+    if (element.text.includes(req.params.expression))
+      messages.push(element);
+  });
+  for (element of messages) {
+    temp = await User.findOne({ userName: element.sender }).exec();
+    element.imgPath = temp.imgPath;
+  };
+  console.log(messages)
+  return res.status(200).json(messages);
+});
+
+
+
 
 router.get('/:id', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');
