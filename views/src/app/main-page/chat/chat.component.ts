@@ -21,6 +21,7 @@ export class ChatComponent implements OnInit {
     chats: Chat[];
     activeChatMsgs: Message[];
     connectedUsers: Chat[];
+    userMode:Boolean;
 
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.chatService.newUserJoined()
@@ -136,12 +137,12 @@ export class ChatComponent implements OnInit {
                 this.activeChatMsgs.unshift(read_more);
         });
     }
-    openChat(chat: Chat) {
-        alert(this.activeChat && this.activeChat.id == chat.id);
+    openChat(chat: Chat, userMode:Boolean = false) {
         if (this.activeChat && this.activeChat.id == chat.id)
             return;
         this.index = 1;
         this.activeChat = chat;
+        this.userMode = userMode
         this.first_load();
     }
 
@@ -161,6 +162,7 @@ export class ChatComponent implements OnInit {
 
     leave() {
         this.chatService.leaveRoom({ user: this.currentUser.userName, room: this.activeChat.id });
+        this.chats = this.chats.filter(chat => chat.id != this.activeChat.id);
     }
 
 

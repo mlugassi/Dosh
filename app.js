@@ -226,6 +226,16 @@ app.use((req, res, next) => {
 
     socket.on('leave', function (data) {
       console.log(data.user + ' left the room : ' + data.room);
+      Chat.update({
+        id: data.room
+      }, {
+        $pull: {
+          participates: data.user
+        },
+      }, function(err, chat){
+        console.log(err);
+        console.log(chat);
+      });
       socket.broadcast.to(data.room).emit('left room', {
         user: data.user,
         message: 'has left this room.'
