@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-9 ">
+    <div class="col-md-9 col-sm-9">
       <div class="chatHeader">
         <div *ngIf="activeChat" class="row">
           <div class="col-sm-2 col-md-1">
@@ -10,23 +10,25 @@
             <h2>{{activeChat.title}}</h2>
           </div>
           <div class="col-sm-2 col-md-2">
-            <i *ngIf="!userMode && activeChat.owner != currentUser.userName" class="btn fas fa-sign-out-alt" ngbTooltip="Leave Room" (click)="leave()"></i>
+            <i *ngIf="!userMode && activeChat.owner != currentUser.userName" class="btn fas fa-sign-out-alt" ngbTooltip="Leave Room"
+              (click)="leave()"></i>
           </div>
         </div>
         <h2 *ngIf="!activeChat">Please pick up one chat</h2>
       </div>
       <div class="frame">
         <div *ngIf="activeChat && activeChatMsgs">
-          <app-chat-message *ngFor="let item of activeChatMsgs" [message]="item" [userName]=currentUser.userName [room]=activeChat.id (loadMessage)="load_messages()"></app-chat-message>
-          <div class="srchBar">
-            <div>
-              <input type="text" placeholder="Search" [(ngModel)]="srchExp" (input)="search()" (keyup.enter)="search()">
-              <i class="btn btn-circle fas fa-chevron-left"></i>
-              <i class="btn btn-circle fas fa-chevron-right"></i>
-            </div>
-          </div>
+          <app-chat-message *ngFor="let item of activeChatMsgs" [message]="item" [userName]=currentUser.userName [room]=activeChat.id
+            (loadMessage)="load_messages()"></app-chat-message>
         </div>
       </div>
+      <div class="srchBar">
+          <div>
+            <input type="text" placeholder="Search" [(ngModel)]="srchExp" (input)="search()" (keyup.enter)="search()">
+            <i class="btn btn-circle fas fa-chevron-left"></i>
+            <i class="btn btn-circle fas fa-chevron-right"></i>
+          </div>
+        </div>
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
           <div class="text text-r">
@@ -43,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3 col-sm-3">
 
       <nav class="navTab">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -56,11 +58,11 @@
       <div class="tab-content sidebar" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-rooms" role="tabpanel" aria-labelledby="nav-home-tab">
           <div *ngFor="let chat of myChats">
-            <div class="row chatRow" [ngClass]="(activeChat && chat.id==activeChat.id) ? 'active' : ''" (click)="openChat(chat);">
-              <div class="col-md-2 col-sm-1">
+            <div class="row chatRow" [ngClass]="(activeChat && chat.id==activeChat.id) ? 'activeChat' : ''" (click)="openChat(chat);">
+              <div class="col-md-3 col-sm-3 imgContainer">
                 <img class="rowImg" src={{chat.imgPath}}>
               </div>
-              <div class="col-md-10 col-sm-11 blogRowTitle">
+              <div class="col-md-9 col-sm-9 blogRowTitle">
                 <h5>
                   {{chat.title}}
                 </h5>
@@ -72,12 +74,12 @@
           </div>
         </div>
         <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div *ngFor="let chat of connectedUsers" class="row chatRow" [ngClass]="(activeChat && chat.id==activeChat.id) ? 'active' : ''"
+          <div *ngFor="let chat of connectedUsers" class="row chatRow" [ngClass]="(activeChat && chat.id==activeChat.id) ? 'activeChat' : ''"
             (click)="openChat(chat, true)">
-            <div class="col-md-2 col-sm-1">
+            <div class="col-md-3 col-sm-3 imgContainer">
               <img class="rowImg" src={{chat.imgPath}}>
             </div>
-            <div class="col-md-10 col-sm-11 userRowTitle">
+            <div class="col-md-9 col-sm-9 userRowTitle">
               <h5>
                 {{chat.title}}
               </h5>
@@ -97,7 +99,7 @@
           <div class="joinRoomBorder">
             <div *ngFor="let chat of otherChats">
               <div class="row chatRow">
-                <div class="col-md-2 col-sm-1">
+                <div class="col-md-2 col-sm-2 imgContainer">
                   <img class="rowImg" src="{{chat.chat.imgPath}}">
                 </div>
                 <div class="col-md-8 col-sm-8 blogRowTitle">
@@ -108,15 +110,15 @@
                     <i class="fas fa-user"> </i> {{chat.chat.owner}}
                   </div>
                 </div>
-                <div class="col-md-1 col-sm-1">
-                  <input type="checkbox" (change)="chat.toJoin = !chat.toJoin" style="position: relative; top: 25%">
+                <div class="col-md-2 col-sm-2">
+                  <input type="checkbox" (change)="chat.toJoin = !chat.toJoin">
                 </div>
               </div>
             </div>
 
           </div>
         </div>
-        <div style="text-align: center; margin: 0 5px 20px">
+        <div class="modalBtnContainer">
           <button class="btn joinRoomBtn" data-dismiss="modal" (click)="sendJoinReq()">Join</button>
         </div>
       </div>
