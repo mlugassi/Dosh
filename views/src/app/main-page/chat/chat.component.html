@@ -2,25 +2,25 @@
   <div class="row">
     <div class="col-md-9 ">
       <div class="chatHeader">
-        <div *ngIf="room" class="row">
+        <div *ngIf="activeChat" class="row">
           <div class="col-sm-2 col-md-1">
-            <img src="/images/blogs/3.jpg">
+            <img src="{{activeChat.imgPath}}">
           </div>
           <div class="col-sm-8 col-md-9">
-            <h2>title</h2>
+            <h2>{{activeChat.title}}</h2>
           </div>
           <div class="col-sm-2 col-md-2">
             <i class="btn fas fa-sign-out-alt" ngbTooltip="Leave Room" (click)="leave()"></i>
           </div>
         </div>
-        <h2 *ngIf="!room">Please pick up one chat</h2>
+        <h2 *ngIf="!activeChat">Please pick up one chat</h2>
       </div>
       <div class="frame">
         <div #scrollMe (scroll)="onScroll()">
-          <app-chat-message *ngFor="let item of messages" [message]="item" [userName]=user [room]=room (loadMessage)="load_messages()"></app-chat-message>
+          <app-chat-message *ngFor="let item of activeChatMsgs" [message]="item" [userName]=currentUser [room]=activeChat.id (loadMessage)="load_messages()"></app-chat-message>
           <div class="srchBar">
             <div>
-              <input type="text" placeholder="Search" [(ngModel)]="expression" (input)="search()" (keyup.enter)="search()">
+              <input type="text" placeholder="Search" [(ngModel)]="srchExp" (input)="search()" (keyup.enter)="search()">
               <i class="btn btn-circle fas fa-chevron-left"></i>
               <i class="btn btn-circle fas fa-chevron-right"></i>
             </div>
@@ -30,7 +30,7 @@
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
           <div class="text text-r">
-            <input class="mytext" placeholder="Type a message" [(ngModel)]="text" (keyup.enter)="send_message()" />
+            <input class="mytext" placeholder="Type a message" [(ngModel)]="messageInputText" (keyup.enter)="send_message()" />
           </div>
 
           <div class="btns">
@@ -55,7 +55,7 @@
       </nav>
       <div class="tab-content sidebar" id="nav-tabContent">
         <div class="tab-pane fade show active" id="nav-rooms" role="tabpanel" aria-labelledby="nav-home-tab">
-          <div *ngFor="let chat of chats" [ngClass]="chat.id==room ? 'row chatRow active' : 'row chatRow'" (click)="openChat(chat.id);">
+          <div *ngFor="let chat of chats" [ngClass]="chat.id==activeChat.id ? 'row chatRow active' : 'row chatRow'" (click)="openChat(chat);">
             <div class="col-md-2 col-sm-1">
               <img class="rowImg" src={{chat.imgPath}}>
             </div>
@@ -70,13 +70,13 @@
           </div>
         </div>
         <div class="tab-pane fade" id="nav-users" role="tabpanel" aria-labelledby="nav-profile-tab">
-          <div *ngFor="let user of connectedUsers" class="row chatRow" (click)="openChat(user.userName)">
+          <div *ngFor="let chat of connectedUsers" class="row chatRow" (click)="openChat(chat)">
             <div class="col-md-2 col-sm-1">
-              <img class="rowImg" src={{user.imgPath}}>
+              <img class="rowImg" src={{chat.imgPath}}>
             </div>
             <div class="col-md-10 col-sm-11 userRowTitle">
               <h5>
-                {{user.userName}}
+                {{chat.title}}
               </h5>
             </div>
           </div>

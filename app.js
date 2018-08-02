@@ -213,6 +213,7 @@ app.use((req, res, next) => {
     console.log('new connection made.');
 
     socket.on('join', function (data) {
+      console.log("join");
       socket.join(data.room);
       console.log(data.user + ' joined the room : ' + data.room);
       socket.broadcast.to(data.room).emit('new user joined', {
@@ -251,51 +252,6 @@ app.use((req, res, next) => {
       socket.emit('connected users', {
         connected_users: connected_users.filter(user => user.userName != data.user)
       });
-    });
-
-    socket.on('privateMessage', function (data) {
-      let chatID = (data.user1 > data.user2) ? data.user1 + "_" + data.user2 : data.user2 + "_" + data.user1;
-      Chat.findOne({
-        id: chatID
-      }, function (err, chat) {
-        if (err) throw err;
-        if (chat) {
-          Chat.findOneAndUpdate({
-            id: chatID
-          }, {
-            $push: {
-              messages: [data.message]
-            }
-          }, function (err, chat) {
-            if (err) throw err;
-            if (!chat) return;
-            Chat.findOne({
-              id: chatID
-            }, function (err, newChat) {
-              if (err) throw err;
-              newChat.messages[chat.messages.length].imgPath = data.message.imgPath;
-              io.in(data.user2).emit('new private message', {
-                userName: data.user1,
-                message: newChat.messages[chat.messages.length]
-              });
-            });
-          });
-        } else {
-          let newChat = {};
-          newChat.id = chatID;
-          newChat.participates = [data.user1, data.user2];
-          newChat.messages = [data.message];
-          Chat.create(newChat);
-          socket.join(chatID);
-
-          socket.broadcast.to(data.user2).emit('new private message', {
-            userName: data.user1,
-            message: data.message
-          });
-
-        }
-      });
-
     });
 
     socket.on('like', function (data) {
@@ -374,6 +330,7 @@ app.use((req, res, next) => {
       });
     });
     socket.on('message', function (data) {
+      let room = isNaN(Number(data.room)) ? data.room.replace(data.sender, '').replace('_', '') : data.room;
       Chat.findOneAndUpdate({
         id: data.room
       }, {
@@ -381,16 +338,13 @@ app.use((req, res, next) => {
           messages: [data]
         }
       }, function (err, chat) {
-        console.log(!err);
-        Chat.findOne({
-          id: data.room
-        }, function (err, newChat) {
-          if (!err)
-            console.log(newChat.messages[chat.messages.length]);
-          //data._id = newChat.messages[chat.messages.length]._id;
-          newChat.messages[chat.messages.length].imgPath = data.imgPath;
-          io.in(data.room).emit('new message', newChat.messages[chat.messages.length]);
+        if (err) throw err;
+        if (!chat) Chat.create({
+          id: data.room,
+          participates: [data.sender, data.room],
+          message: [data]
         });
+        io.in(room).emit('new message', data);
       });
     })
     socket.on('ImgMessage', function (data) {

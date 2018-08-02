@@ -45,11 +45,15 @@ router.get('/getAll', checksession, async (req, res) => {
 });
 router.get('/messages/:id/:index', checksession, async (req, res) => {
   mult = 5;
+  console.log(req.params.id);
+  console.log(req.params.index);
   if (!req.params.index)
     req.params.index = 1;
-  size = (await Chat.findOne({
+  let chat = (await Chat.findOne({
     id: req.params.id
-  })).messages.length;
+  }));
+  if(!chat)  return res.status(200).json([]);
+  size = chat.messages.length;
   from = req.params.index * -1 * mult;
   count = mult;
   if (size < from * -1) {
@@ -57,6 +61,10 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
     console.log(count);
     from = -1 * size - 1;
     console.log(from);
+  }
+  if(size == 0 ){
+    count = 1 ;
+    from = 0;
   }
   myChat = await Chat.findOne({
     id: req.params.id,
@@ -66,6 +74,7 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
       $slice: [from, count]
     }
   }, function (err, chat) {});
+
   for (element of myChat.messages) {
     temp = await User.findOne({
       userName: element.sender
