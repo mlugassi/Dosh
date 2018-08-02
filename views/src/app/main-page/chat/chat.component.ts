@@ -1,10 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import Chat from '../../models/Chat';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from '../../services/app.service';
 import Message from '../../models/Message';
-import { element } from 'protractor';
 
 @Component({
     selector: 'app-chat',
@@ -18,10 +17,12 @@ export class ChatComponent implements OnInit {
     index: number;
     messageInputText: String;
     srchExp: String;
-    chats: Chat[];
+    myChats: Chat[];
+    otherChats: { chat: Chat, toJoin: Boolean }[];
     activeChatMsgs: Message[];
     connectedUsers: Chat[];
-    userMode:Boolean;
+    chatsToJoin: Chat[];
+    userMode: Boolean;
 
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.chatService.newUserJoined()
@@ -108,12 +109,15 @@ export class ChatComponent implements OnInit {
     ngOnInit() {
         this.appService.get_chats().subscribe(res => {
             if (!res) return;
-            this.chats = res.chats;
+            this.myChats = res.myChats;
             this.currentUser = { userName: res.user, imgPath: res.imgPath };
             this.index = 1;
             this.activeChatMsgs = [];
             this.connectedUsers = [];
-            this.chats.forEach(chat => this.chatService.joinRoom({ user: this.currentUser.userName, room: chat.id }));
+            this.chatsToJoin = [];
+            this.otherChats = [];
+            res.otherChats.forEach(chat => this.otherChats.push({ chat: chat, toJoin: false }));
+            this.myChats.forEach(chat => this.chatService.joinRoom({ user: this.currentUser.userName, room: chat.id }));
             this.chatService.createServerConnection({ user: this.currentUser.userName, imgPath: this.currentUser.imgPath });
         });
     }
@@ -137,12 +141,12 @@ export class ChatComponent implements OnInit {
                 this.activeChatMsgs.unshift(read_more);
         });
     }
-    openChat(chat: Chat, userMode:Boolean = false) {
+    openChat(chat: Chat, userMode: Boolean = false) {
         if (this.activeChat && this.activeChat.id == chat.id)
             return;
         this.index = 1;
         this.activeChat = chat;
-        this.userMode = userMode
+        this.userMode = userMode;
         this.first_load();
     }
 
@@ -162,7 +166,12 @@ export class ChatComponent implements OnInit {
 
     leave() {
         this.chatService.leaveRoom({ user: this.currentUser.userName, room: this.activeChat.id });
-        this.chats = this.chats.filter(chat => chat.id != this.activeChat.id);
+        this.myChats = this.myChats.filter(chat => chat.id != this.activeChat.id);
+    }
+    sendJoinReq() {
+        this.otherChats.forEach(chat => {
+            alert("chat.chat: " + chat.chat.title + " chat.toJoin " + chat.toJoin);
+        })
     }
 
 

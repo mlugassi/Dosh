@@ -188,7 +188,7 @@ export class AppService {
   //-----------------chat---------------------
   get_chats() {
     return this.http.get(`${this.api_url}/chat/getAll`)
-      .pipe(map(res => res as { chats: Chat[], user: String, imgPath:string } || {chats:[],user:"",imgPath:""}));
+      .pipe(map(res => res as { myChats: Chat[], otherChats: Chat[], user: String, imgPath: string } || { myChats: [], otherChats: [], user: "", imgPath: "" }));
   }
   get_messages(id, index) {
     return this.http.get(`${this.api_url}/chat/messages/` + id + '/' + index)
@@ -198,5 +198,5 @@ export class AppService {
     return this.http.get(`${this.api_url}/chat/search/` + id + '/' + text)
       .pipe(map(res => res as Message[] || []));
   }
-  
+
 }
