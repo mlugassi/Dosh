@@ -96,10 +96,10 @@ app.use((req, res, next) => {
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(new LocalStrategy({
-      usernameField: 'userName',
-      passwordField: 'password',
-      passReqToCallback: true
-    },
+    usernameField: 'userName',
+    passwordField: 'password',
+    passReqToCallback: true
+  },
     function (req, userName, password, done) {
       User.findOne({
         userName: userName
@@ -122,10 +122,10 @@ app.use((req, res, next) => {
     }
   ));
   passport.use(new GoogleStrategy({
-      clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
-      clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
-      callbackURL: "/auth/google/callback"
-    },
+    clientID: "1038633096216-p5iebk1r91lum4804bic3mhpu1ig92vc.apps.googleusercontent.com",
+    clientSecret: "FFRtdwr4rYnvh5n7lYrBf3SM",
+    callbackURL: "/auth/google/callback"
+  },
     function (accessToken, refreshToken, profile, done) {
       //      console.log(profile);
       User.findOne({
@@ -213,6 +213,7 @@ app.use((req, res, next) => {
     console.log('new connection made.');
 
     socket.on('join', function (data) {
+      console.log("join");
       socket.join(data.room);
       console.log(data.user + ' joined the room : ' + data.room);
       socket.broadcast.to(data.room).emit('new user joined', {
@@ -225,6 +226,16 @@ app.use((req, res, next) => {
 
     socket.on('leave', function (data) {
       console.log(data.user + ' left the room : ' + data.room);
+      Chat.update({
+        id: data.room
+      }, {
+          $pull: {
+            participates: data.user
+          },
+        }, function (err, chat) {
+          console.log(err);
+          console.log(chat);
+        });
       socket.broadcast.to(data.room).emit('left room', {
         user: data.user,
         message: 'has left this room.'
@@ -253,51 +264,6 @@ app.use((req, res, next) => {
       });
     });
 
-    socket.on('privateMessage', function (data) {
-      let chatID = (data.user1 > data.user2) ? data.user1 + "_" + data.user2 : data.user2 + "_" + data.user1;
-      Chat.findOne({
-        id: chatID
-      }, function (err, chat) {
-        if (err) throw err;
-        if (chat) {
-          Chat.findOneAndUpdate({
-            id: chatID
-          }, {
-            $push: {
-              messages: [data.message]
-            }
-          }, function (err, chat) {
-            if (err) throw err;
-            if (!chat) return;
-            Chat.findOne({
-              id: chatID
-            }, function (err, newChat) {
-              if (err) throw err;
-              newChat.messages[chat.messages.length].imgPath = data.message.imgPath;
-              io.in(data.user2).emit('new private message', {
-                userName: data.user1,
-                message: newChat.messages[chat.messages.length]
-              });
-            });
-          });
-        } else {
-          let newChat = {};
-          newChat.id = chatID;
-          newChat.participates = [data.user1, data.user2];
-          newChat.messages = [data.message];
-          Chat.create(newChat);
-          socket.join(chatID);
-
-          socket.broadcast.to(data.user2).emit('new private message', {
-            userName: data.user1,
-            message: data.message
-          });
-
-        }
-      });
-
-    });
-
     socket.on('like', function (data) {
       console.log("----------------------like----------------");
       console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
@@ -306,28 +272,28 @@ app.use((req, res, next) => {
           id: data.room,
           "messages._id": data.idMessage
         }, {
-          $push: {
-            "messages.$.likes": data.user
-          },
-          $pull: {
-            "messages.$.unlikes": data.user
-          }
-        }, function (err, response) {
-          console.log(err);
-          console.log(response);
-        });
+            $push: {
+              "messages.$.likes": data.user
+            },
+            $pull: {
+              "messages.$.unlikes": data.user
+            }
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
       } else {
         Chat.update({
           id: data.room,
           "messages._id": data.idMessage
         }, {
-          $pull: {
-            "messages.$.likes": data.user
-          },
-        }, function (err, response) {
-          console.log(err);
-          console.log(response);
-        });
+            $pull: {
+              "messages.$.likes": data.user
+            },
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
       }
       socket.broadcast.to(data.room).emit('new like', {
         user: data.user,
@@ -344,28 +310,28 @@ app.use((req, res, next) => {
           id: data.room,
           "messages._id": data.idMessage
         }, {
-          $push: {
-            "messages.$.unlikes": data.user
-          },
-          $pull: {
-            "messages.$.likes": data.user
-          }
-        }, function (err, response) {
-          console.log(err);
-          console.log(response);
-        });
+            $push: {
+              "messages.$.unlikes": data.user
+            },
+            $pull: {
+              "messages.$.likes": data.user
+            }
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
       } else {
         Chat.update({
           id: data.room,
           "messages._id": data.idMessage
         }, {
-          $pull: {
-            "messages.$.unlikes": data.user
-          },
-        }, function (err, response) {
-          console.log(err);
-          console.log(response);
-        });
+            $pull: {
+              "messages.$.unlikes": data.user
+            },
+          }, function (err, response) {
+            console.log(err);
+            console.log(response);
+          });
       }
       socket.broadcast.to(data.room).emit('new unlike', {
         user: data.user,
@@ -374,45 +340,44 @@ app.use((req, res, next) => {
       });
     });
     socket.on('message', function (data) {
-      Chat.findOneAndUpdate({
-        id: data.room
-      }, {
-        $push: {
-          messages: [data]
-        }
-      }, function (err, chat) {
-        console.log(!err);
-        Chat.findOne({
-          id: data.room
-        }, function (err, newChat) {
-          if (!err)
-            console.log(newChat.messages[chat.messages.length]);
-          //data._id = newChat.messages[chat.messages.length]._id;
-          newChat.messages[chat.messages.length].imgPath = data.imgPath;
-          io.in(data.room).emit('new message', newChat.messages[chat.messages.length]);
+      let room = isNaN(Number(data.room)) ? data.room.replace(data.sender, '').replace('_', '') : data.room;
+      Chat.findOneAndUpdate({ id: data.room }, { $push: { messages: [data] }
+        }, function (err, chat) {
+          if (!err && chat) {
+            Chat.findOne({ id: data.room }, function (err, newChat) {
+              if (!err && newChat)
+                io.in(room).emit('new message', newChat.messages.pop());
+            });
+          }
+          else if (!chat) Chat.create({
+            id: data.room,
+            participates: [data.sender, data.room],
+            message: [data]
+          }, function (err, chat) {
+            io.in(room).emit('new message', chat.messages.pop());
+          });
         });
-      });
-    })
+    });
     socket.on('ImgMessage', function (data) {
       Chat.update({
         id: data.room
       }, {
-        $push: {
-          messages: [data]
-        }
-      }, function (err, chat) {
-        console.log(err);
-        console.log(chat);
-      });
+          $push: {
+            messages: [data]
+          }
+        }, function (err, chat) {
+          console.log(err);
+          console.log(chat);
+        });
       io.in(data.room).emit('new ImgMessage', data);
     })
   });
   server.listen(80);
   console.log('80 is the magic port');
 })()
-.catch(err => {
-  console.log("Failure: " + err);
-  process.exit(0);
-});
+  .catch(err => {
+    console.log("Failure: " + err);
+    process.exit(0);
+  });
 
 module.exports = app;

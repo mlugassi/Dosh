@@ -11,11 +11,19 @@ router.get('/', checksession, function (req, res) {
 });
 
 router.get('/getAll', checksession, async (req, res) => {
-  chats = [];
-  myChats = await Chat.find({
+  let myChats = [];
+  let otherChats = [];
+
+  myChatsTemp = await Chat.find({
     participates: req.session.passport.user
   }).exec();
-  for (item of myChats) {
+
+  otherChatsTemp = await Chat.find({
+    participates: {
+      $ne: req.session.passport.user
+    }
+  }).exec();
+  for (item of myChatsTemp) {
     if (isNaN(Number(item.id)))
       continue;
     await Blog.findOne({
@@ -30,7 +38,25 @@ router.get('/getAll', checksession, async (req, res) => {
       newChat.likes = blog.likes.count;
       newChat.unlikes = blog.unlikes.count;
       newChat.imgPath = blog.imgPath;
-      chats.push(newChat);
+      myChats.push(newChat);
+    });
+  };
+  for (item of otherChatsTemp) {
+    if (isNaN(Number(item.id)))
+      continue;
+    await Blog.findOne({
+      id: item.id
+    }, function (err, blog) {
+      if (err) throw err;
+      if (!blog) return;
+      newChat = {};
+      newChat.id = item.id;
+      newChat.owner = item.owner;
+      newChat.title = blog.title;
+      newChat.likes = blog.likes.count;
+      newChat.unlikes = blog.unlikes.count;
+      newChat.imgPath = blog.imgPath;
+      otherChats.push(newChat);
     });
   };
   img = await User.findOne({
@@ -38,11 +64,13 @@ router.get('/getAll', checksession, async (req, res) => {
   }).exec();
   img = img.imgPath;
   return res.status(200).json({
-    chats: chats,
+    myChats: myChats,
+    otherChats: otherChats,
     user: req.session.passport.user,
     imgPath: img
   });
 });
+
 router.get('/messages/:id/:index', checksession, async (req, res) => {
   console.log("get messages");
   mult = 5;
@@ -62,10 +90,11 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
     id: req.params.id,
     participates: req.session.passport.user
   }, {
-      messages: {
-        $slice: [from, count]
-      }
-    }, function (err, chat) { });
+    messages: {
+      $slice: [from, count]
+    }
+  }, function (err, chat) {});
+
   for (element of myChat.messages) {
     temp = await User.findOne({
       userName: element.sender

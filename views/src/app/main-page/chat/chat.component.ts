@@ -1,10 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild, AfterViewChecked } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import Chat from '../../models/Chat';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from '../../services/app.service';
 import Message from '../../models/Message';
-import { element } from 'protractor';
 
 @Component({
     selector: 'app-chat',
@@ -12,68 +11,74 @@ import { element } from 'protractor';
     styleUrls: ['./chat.component.css'],
     providers: [ChatService]
 })
-export class ChatComponent implements OnInit, AfterViewChecked {
-    user: String;
-    index: number = 1;
-    room: String;
-    message: Message;
-    imgPath: String;
-    text: String;
-    expression: string;
-    chats: Chat[];
-    messages: Message[] = [];
-    connectedUsers: { userName: String, imgPath: String }[];
-    disableScrollDown = false;
+export class ChatComponent implements OnInit {
+    activeChat: Chat;
+    currentUser: { userName: String, imgPath: String };
+    index: number;
+    messageInputText: String;
+    srchExp: string;
+    myChats: Chat[];
+    otherChats: { chat: Chat, toJoin: Boolean }[];
+    activeChatMsgs: Message[];
+    connectedUsers: Chat[];
+    chatsToJoin: Chat[];
+    userMode: Boolean;
+
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.chatService.newUserJoined()
             .subscribe(data => {
-                if (data.room != this.room) return;
-                this.message = new Message();
-                this.message.text = data.user + " is joing to the room.";
-                this.message.isJoinMessage = true;
-                this.messages.push(this.message);
+                if (!this.activeChat || data.room != this.activeChat.id) return;
+                let message = new Message();
+                message.text = data.user + " is joing to the room.";
+                message.isJoinMessage = true;
+                this.activeChatMsgs.push(message);
             });
 
-        this.chatService.newPrivateMessageReceived().subscribe(data => {
-            if (data.userName != this.user) {
-                this.message = data.message;
-                this.messages.push(this.message);
-                this.scrollToBottom();
-            }
-            else {
-                this.messages[this.messages.length - 1] = data.message;
-            }
-        })
+        this.chatService.newPrivateMessageReceived()
+            .subscribe(data => {
+                if (data.userName != this.currentUser.userName)
+                    this.activeChatMsgs.push(data.message);
+                else
+                    this.activeChatMsgs[this.activeChatMsgs.length - 1] = data.message;
+            })
         this.chatService.connectedUsers()
             .subscribe(data => {
-                this.connectedUsers = data.connected_users;
+                data.connected_users.forEach(user => {
+                    let chat = new Chat();
+                    chat.id = (this.currentUser.userName > user.userName) ? this.currentUser.userName + "_" + user.userName : user.userName + "_" + this.currentUser.userName;
+                    chat.title = user.userName;
+                    chat.imgPath = user.imgPath;
+                    this.connectedUsers.push(chat);
+                }
+
+                )
             });
         this.chatService.newUserConnected()
             .subscribe(data => {
-                this.connectedUsers.push(data);
+                let chat = new Chat();
+                chat.id = (this.currentUser.userName > data.userName) ? this.currentUser.userName + "_" + data.userName : data.userName + "_" + this.currentUser.userName;
+                chat.title = data.userName;
+                chat.imgPath = data.imgPath;
+                this.connectedUsers.push(chat);
             });
         this.chatService.userLeftRoom()
             .subscribe(data => {
-                this.message = new Message();
-                this.message.text = data.user + " is left the room.";
-                this.message.isJoinMessage = true;
-                this.messages.push(this.message);
+                let message = new Message();
+                message.text = data.user + " is left the room.";
+                message.isJoinMessage = true;
+                this.activeChatMsgs.push(message);
             });
 
         this.chatService.newMessageReceived()
             .subscribe(data => {
-                if (data.sender != this.user) {
-                    this.message = data as Message;
-                    this.messages.push(this.message);
-                    this.scrollToBottom();
-                }
-                else {
-                    this.messages[this.messages.length - 1] = data;
-                }
+                if (data.sender != this.currentUser.userName)
+                    this.activeChatMsgs.push(data);
+                else
+                    this.activeChatMsgs[this.activeChatMsgs.length - 1] = data;
             });
         this.chatService.newLike()
             .subscribe(data => {
-                var element = this.messages.find(element => element._id == data.idMessage);
+                var element = this.activeChatMsgs.find(element => element._id == data.idMessage);
                 if (element) {
                     if (data.flag) {
                         element.likes.push(data.user);
@@ -87,7 +92,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             });
         this.chatService.newUnlike()
             .subscribe(data => {
-                var element = this.messages.find(element => element._id == data.idMessage);
+                var element = this.activeChatMsgs.find(element => element._id == data.idMessage);
                 if (element) {
                     if (data.flag) {
                         element.unlikes.push(data.user);
@@ -103,121 +108,91 @@ export class ChatComponent implements OnInit, AfterViewChecked {
 
     ngOnInit() {
         this.appService.get_chats().subscribe(res => {
-            if (res) {
-                this.chats = res.chats;
-                this.user = res.user;
-                this.chats.forEach(chat => this.chatService.joinRoom({ user: this.user, room: chat.id }));
-                this.imgPath = res.imgPath;
-                this.chatService.createServerConnection({ user: this.user, imgPath: this.imgPath });
-                this.activatedRoute
-                    .params
-                    .subscribe(params => {
-                        this.room = params['id'] || '';
-                        this.first_load();
-                    });
-            }
+            if (!res) return;
+            this.myChats = res.myChats;
+            this.currentUser = { userName: res.user, imgPath: res.imgPath };
+            this.index = 1;
+            this.activeChatMsgs = [];
+            this.connectedUsers = [];
+            this.chatsToJoin = [];
+            this.otherChats = [];
+            res.otherChats.forEach(chat => this.otherChats.push({ chat: chat, toJoin: false }));
+            this.myChats.forEach(chat => this.chatService.joinRoom({ user: this.currentUser.userName, room: chat.id }));
+            this.chatService.createServerConnection({ user: this.currentUser.userName, imgPath: this.currentUser.imgPath });
         });
-
     }
     first_load() {
-        let chatID = this.room;
-        if (isNaN(Number(this.room))) chatID = (this.user > this.room) ? this.user + "_" + this.room : this.room + "_" + this.user;
-        this.appService.search_messages(chatID, this.index++,this.expression).subscribe(res => {
+        this.appService.search_messages(this.activeChat.id, this.index++, this.srchExp).subscribe(res => {
             if (res) {
-                this.messages = res;
+                this.activeChatMsgs = res;
                 var read_more = new Message();
                 read_more.isLoadMessage = true;
                 read_more.text = "read more";
-                this.messages.unshift(read_more);
+                this.activeChatMsgs.unshift(read_more);
             }
         });
     }
     load_messages() {
-        this.appService.search_messages(this.room, this.index++,this.expression).subscribe(res => {
+        this.appService.search_messages(this.activeChat.id, this.index++, this.srchExp).subscribe(res => {
             if (res) {
                 var msgs = res;
-                var read_more = this.messages.shift();
-                msgs.reverse().forEach(element => this.messages.unshift(element));
+                var read_more = this.activeChatMsgs.shift();
+                msgs.reverse().forEach(element => this.activeChatMsgs.unshift(element));
                 if (msgs.length == 5)
-                    this.messages.unshift(read_more);
+                    this.activeChatMsgs.unshift(read_more);
 
                 //this.scrollToBottom();
             }
         });
     }
-    openChat(id: String) {
-        if (this.room && this.room == id)
+    openChat(chat: Chat, userMode: Boolean = false) {
+        if (this.activeChat && this.activeChat.id == chat.id)
             return;
         this.index = 1;
-        this.room = id;
-        this.router.navigate(['chat/' + id]);
+        this.activeChat = chat;
+        this.userMode = userMode;
+        this.first_load();
     }
 
     send_message() {
-        this.message = new Message();
-        this.message.room = this.room;
-        this.message.imgPath = this.imgPath;
-        this.message.sender = this.user;
-        this.message.text = this.text;
-        this.sendMessage();
-        this.text = "";
+        let message = new Message();
+        message.room = this.activeChat.id;
+        message.imgPath = this.currentUser.imgPath;
+        message.sender = this.currentUser.userName;
+        message.text = this.messageInputText;
+        this.chatService.sendMessage(message);
+        this.activeChatMsgs.push(message);
+        this.messageInputText = "";
     }
     join() {
-        this.chatService.joinRoom({ user: this.user, room: this.room });
+        this.chatService.joinRoom({ user: this.currentUser.userName, room: this.activeChat.id });
     }
 
     leave() {
-        this.chatService.leaveRoom({ user: this.user, room: this.room });
+        this.chatService.leaveRoom({ user: this.currentUser.userName, room: this.activeChat.id });
+        this.myChats = this.myChats.filter(chat => chat.id != this.activeChat.id);
+    }
+    sendJoinReq() {
+        this.otherChats.forEach(chat => {
+            alert("chat.chat: " + chat.chat.title + " chat.toJoin " + chat.toJoin);
+        })
     }
 
-    sendMessage() {
-        if (isNaN(Number(this.room)))
-            this.chatService.sendPrivateMessage({ user1: this.user, user2: this.room, message: this.message });
-        else
-            this.chatService.sendMessage(this.message);
-        this.messages.push(this.message);
-        this.scrollToBottom();
-    }
 
     onFileChange(files) {
         alert("need to implement");
     }
 
-    @ViewChild('scrollMe') private myScrollContainer: ElementRef;
-
-    ngAfterViewChecked() {
-        this.scrollToBottom();
-    }
-
-    private onScroll() {
-        let element = this.myScrollContainer.nativeElement
-        let atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
-        if (this.disableScrollDown && atBottom) {
-            this.disableScrollDown = false
-        } else {
-            this.disableScrollDown = true
-        }
-    }
-
-
-    private scrollToBottom(): void {
-        if (this.disableScrollDown) {
-            return
-        }
-        try {
-            this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
-        } catch (err) { }
-    }
     search() {
         this.index = 1;
-        this.appService.search_messages(this.room, this.index++, this.expression)
+        this.appService.search_messages(this.activeChat.id, this.index++, this.srchExp)
             .subscribe(res => {
                 if (res) {
-                    this.messages = res;
+                    this.activeChatMsgs = res;
                     var read_more = new Message();
                     read_more.isLoadMessage = true;
                     read_more.text = "read more";
-                    this.messages.unshift(read_more);
+                    this.activeChatMsgs.unshift(read_more);
                 }
             });
     }
