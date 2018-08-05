@@ -68,7 +68,6 @@ export class ChatComponent implements OnInit {
                     chat.imgPath = user.imgPath;
                     this.connectedUsers.push(chat);
                 }
-
                 )
             });
         this.chatService.newUserConnected()
@@ -89,6 +88,7 @@ export class ChatComponent implements OnInit {
 
         this.chatService.newMessageReceived()
             .subscribe(data => {
+                alert("new message");
                 if (data.sender != this.currentUser.userName)
                     this.activeChatMsgs.push(data);
                 else
@@ -209,7 +209,9 @@ export class ChatComponent implements OnInit {
     }
     sendJoinReq() {
         this.otherChats.forEach(chat => {
-            alert("chat.chat: " + chat.chat.title + " chat.toJoin " + chat.toJoin);
+            if (chat.toJoin == true)
+                this.appService.join_to_chat(chat.chat.id).subscribe(res => alert(res.message));
+            chat.toJoin = false;
         })
     }
 

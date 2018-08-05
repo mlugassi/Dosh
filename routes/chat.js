@@ -90,10 +90,10 @@ router.get('/messages/:id/:index', checksession, async (req, res) => {
     id: req.params.id,
     participates: req.session.passport.user
   }, {
-    messages: {
-      $slice: [from, count]
-    }
-  }, function (err, chat) {});
+      messages: {
+        $slice: [from, count]
+      }
+    }, function (err, chat) { });
 
   for (element of myChat.messages) {
     temp = await User.findOne({
@@ -124,7 +124,7 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
     id: req.params.id
   }, function (err, chat) { });
   console.log("expression= " + req.params.expression);
-  if (req.params.expression != "" && req.params.expression!=undefined) {
+  if (req.params.expression != "" && req.params.expression != undefined) {
     result.messages.forEach(element => {
       if (element.text.includes(req.params.expression) && !element.isImage)
         messages.push(element);
@@ -155,5 +155,32 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
 
 router.get('/:id', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');
+});
+router.get('/join/:id', checksession, async (req, res) => {
+  Chat.findOne({ id: req.params.id }, function (err, chat) {
+    if (!err && chat)
+      User.update({ userName: chat.owner, isBlogger: true, isActive: true },
+        {
+          $push: {
+            inbox: [{
+              type: "chat" + chat.id, title: req.session.passport.user + " what to join to chat " + chat.id,
+              content: " ",
+              sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: false
+            }]
+          },
+          $inc: { inboxCount: 1 }
+        },
+        function (err, user) {
+          console.log(err);
+          console.log(user);
+          if (!err && user)
+            return res.json({ status: true, message: "Your request was sent." });
+          else
+            return res.json({ status: false, message: "1Something was wrong.\nYour reuest wasn't sent." });
+        });
+    else {
+      return res.json({ status: false, message: "2Something was wrong.\nYour reuest wasn't sent." });
+    }
+  })
 });
 module.exports = router;

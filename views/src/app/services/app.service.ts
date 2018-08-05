@@ -198,5 +198,9 @@ export class AppService {
     return this.http.get(`${this.api_url}/chat/search/` + id + '/' + index + '/' + text)
       .pipe(map(res => res as Message[] || []));
   }
+  join_to_chat(id) {
+    return this.http.get(`${this.api_url}/chat/join/` + id )
+      .pipe(map(res => res as {status:boolean,message:string} || {status:false,message:""}));
+  }
 
 }
