@@ -19,7 +19,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     message: Message;
     imgPath: String;
     text: String;
-    expression: String;
+    expression: string;
     chats: Chat[];
     messages: Message[] = [];
     connectedUsers: { userName: String, imgPath: String }[];
@@ -35,14 +35,14 @@ export class ChatComponent implements OnInit, AfterViewChecked {
             });
 
         this.chatService.newPrivateMessageReceived().subscribe(data => {
-           if (data.userName != this.user) {
-            this.message = data.message;
-            this.messages.push(this.message);
-            this.scrollToBottom();
-        }
-        else {
-            this.messages[this.messages.length - 1] = data.message;
-        }
+            if (data.userName != this.user) {
+                this.message = data.message;
+                this.messages.push(this.message);
+                this.scrollToBottom();
+            }
+            else {
+                this.messages[this.messages.length - 1] = data.message;
+            }
         })
         this.chatService.connectedUsers()
             .subscribe(data => {
@@ -110,11 +110,11 @@ export class ChatComponent implements OnInit, AfterViewChecked {
                 this.imgPath = res.imgPath;
                 this.chatService.createServerConnection({ user: this.user, imgPath: this.imgPath });
                 this.activatedRoute
-                .params
-                .subscribe(params => {
-                    this.room = params['id'] || '';
-                    this.first_load();
-                });
+                    .params
+                    .subscribe(params => {
+                        this.room = params['id'] || '';
+                        this.first_load();
+                    });
             }
         });
 
@@ -122,7 +122,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     first_load() {
         let chatID = this.room;
         if (isNaN(Number(this.room))) chatID = (this.user > this.room) ? this.user + "_" + this.room : this.room + "_" + this.user;
-        this.appService.get_messages(chatID, this.index++).subscribe(res => {
+        this.appService.search_messages(chatID, this.index++,this.expression).subscribe(res => {
             if (res) {
                 this.messages = res;
                 var read_more = new Message();
@@ -133,7 +133,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         });
     }
     load_messages() {
-        this.appService.get_messages(this.room, this.index++).subscribe(res => {
+        this.appService.search_messages(this.room, this.index++,this.expression).subscribe(res => {
             if (res) {
                 var msgs = res;
                 var read_more = this.messages.shift();
@@ -180,7 +180,7 @@ export class ChatComponent implements OnInit, AfterViewChecked {
     }
 
     onFileChange(files) {
-       alert("need to implement");
+        alert("need to implement");
     }
 
     @ViewChild('scrollMe') private myScrollContainer: ElementRef;
@@ -209,10 +209,16 @@ export class ChatComponent implements OnInit, AfterViewChecked {
         } catch (err) { }
     }
     search() {
-        this.appService.search_messages(this.room, this.expression)
+        this.index = 1;
+        this.appService.search_messages(this.room, this.index++, this.expression)
             .subscribe(res => {
-                if (res)
+                if (res) {
                     this.messages = res;
+                    var read_more = new Message();
+                    read_more.isLoadMessage = true;
+                    read_more.text = "read more";
+                    this.messages.unshift(read_more);
+                }
             });
     }
 
