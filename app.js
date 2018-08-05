@@ -147,6 +147,7 @@ app.use((req, res, next) => {
           user.imgPath = "/images/users_profiles/" + user.gender + ".default.jpg" || "";
           user.blogs = 0;
           user.inbox = [{
+            type: "other",
             title: "Welcome to our blog site",
             content: "We exiting for your join",
             sender: "System",

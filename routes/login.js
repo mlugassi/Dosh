@@ -69,7 +69,7 @@ router.post('/signup', async (req, res, next) => {
       user.isResetReq = false;
       user.imgPath = "/images/users_profiles/" + user.gender + ".default.jpg" || "";
       user.blogs = 0;
-      user.inbox = [{ title: "Welcome to our blog site", content: "We exiting for your join", sender: "System", date: Date.now(), isRead: false, isConfirm: true }];
+      user.inbox = [{type:"other", title: "Welcome to our blog site", content: "We exiting for your join", sender: "System", date: Date.now(), isRead: false, isConfirm: true }];
       user.inboxCount = 1;
       user.uuid = "";
       user.passwordKey = "";
@@ -82,7 +82,7 @@ router.post('/signup', async (req, res, next) => {
         });
         console.log('user created:' + user);
         if (req.body.isBlogger) {
-          User.update({ isAdmin: true, isActive: true }, { $push: { inbox: [{ title: "Request for blogger", content: "I want to be a blogger", sender: user.userName, date: Date.now(), isRead: false, isConfirm: false }] }, $inc: { inboxCount: 1 } },
+          User.update({ isAdmin: true, isActive: true }, { $push: { inbox: [{type:"blog", title: "Request for blogger", content: "I want to be a blogger", sender: user.userName, date: Date.now(), isRead: false, isConfirm: false }] }, $inc: { inboxCount: 1 } },
             function (err, admin) {
               if (!err && admin) {
                 return res.status(200).json({

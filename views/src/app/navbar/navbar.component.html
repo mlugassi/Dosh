@@ -8,16 +8,14 @@
       <a class="navbar-brand logo" routerLink="/">
         <i class="fab fa-linode"></i> Blogular</a>
       <ul class="navbar-nav mr-auto">
-          <a class="nav-link" routerLink="/">Home</a>
-          <a class="nav-link" routerLink="/blogs">Blogs</a>
-            <a class="nav-link" routerLink="/chat">Chat</a>
-        <li class="nav-item" *ngIf="user.isAdmin">
-          <a class="nav-link" routerLink="/users">Users</a>
-        </li>
-          <a class="nav-link" routerLink="/contact">Contact</a>
-          <a class="nav-link" routerLink="/about">About</a>
+        <a class="nav-link" routerLink="/">Home</a>
+        <a class="nav-link" routerLink="/blogs" data-toggle="collapse">Blogs</a>
+        <a class="nav-link" routerLink="/chat">Chat</a>
+        <a class="nav-link" routerLink="/users" *ngIf="user.isAdmin">Users</a>
+        <a class="nav-link" routerLink="/contact">Contact</a>
+        <a class="nav-link" routerLink="/about">About</a>
       </ul>
-      <ul class="navbar-nav">
+      <ul class="navbar-nav" data-close-on-click="true">
         <li class="nav-item dropdown">
           <i class="fas fa-circle" *ngIf="user.inboxCount > 0"></i>
           <a class="nav-link dropdown-toggle" href="#" id="Dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -1,5 +1,6 @@
 export default class Inbox {
   _id: string;
+  type:['blog','chat','other'];
   title: string;
   content: string;
   sender: string;

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var debug = require('debug')('Dosh:inbox');
 const User = require('../model')("User");
+const Chat = require('../model')("Chat");
 const checksession = require('./checksession');
 
 // User.findOneAndUpdate({ userName: "refaelz1" }, {
@@ -82,32 +83,69 @@ router.post('/confirmInbox', checksession, function (req, res) {
   console.log("i'm in inbox/confirmInbox")
   if (!req.body.inboxId)
     return res.json({ status: false, message: "Please send the inbox Id you confirm." });
-  User.findOneAndUpdate({
-    userName: req.session.passport.user, isAdmin: true,
-    "inbox._id": req.body.inboxId, "inbox.isConfirm": false
-  }, { $set: { "inbox.$.isConfirm": true } },
-    function (err, user) {
-      if (err || !user)
-        return res.json({ status: false, message: "" });
-      else {
-        let sender;
-        user.inbox.forEach(element => {
-          if (element._id == req.body.inboxId)
-            sender = element.sender;
-        });
-        User.update({ userName: sender },
-          {
-            $set: { isBlogger: true },
-            $push: { inbox: [{ title: "Your request was confirm", content: "Congregulation!! You are a blogger now!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
-            $inc: { inboxCount: 1 }
-          }, function (err, response) {
-            if (err || !response || !response.nModified)
-              return res.json({ status: false, message: "The user wasn't beeb a blogger." });
-            else
-              return res.json({ status: true, message: "The user is a blogger now." });
-          })
-      }
-    });
+
+  if (req.body.inboxType == "blog") {
+    User.findOneAndUpdate({
+      userName: req.session.passport.user, isAdmin: true,
+      "inbox._id": req.body.inboxId, "inbox.isConfirm": false
+    }, { $set: { "inbox.$.isConfirm": true } },
+      function (err, user) {
+        if (err || !user)
+          return res.json({ status: false, message: "" });
+        else {
+          let sender;
+          user.inbox.forEach(element => {
+            if (element._id == req.body.inboxId)
+              sender = element.sender;
+          });
+          User.update({ userName: sender },
+            {
+              $set: { isBlogger: true },
+              $push: { inbox: [{ type: "other", title: "Your request was confirm", content: "Congregulation!! You are a blogger now!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+              $inc: { inboxCount: 1 }
+            }, function (err, response) {
+              if (err || !response || !response.nModified)
+                return res.json({ status: false, message: "The user wasn't been a blogger." });
+              else
+                return res.json({ status: true, message: "The user is a blogger now." });
+            })
+        }
+      });
+  }
+  else if (req.body.inboxType.startwith("chat")) {
+    chatId = req.body.inboxType.substring(4, 5);
+    console.log("chatId: " + chatId);
+    User.findOneAndUpdate({
+      userName: req.session.passport.user, isBlogger: true,
+      "inbox._id": req.body.inboxId, "inbox.isConfirm": false
+    }, { $set: { "inbox.$.isConfirm": true } },
+      function (err, user) {
+        if (err || !user)
+          return res.json({ status: false, message: "" });
+        else {
+          let sender;
+          user.inbox.forEach(element => {
+            if (element._id == req.body.inboxId)
+              sender = element.sender;
+          });
+
+          User.update({ userName: sender },
+            {
+              $push: { inbox: [{ type: "other", title: "Your request was confirm", content: "Congregulation!! You joined to the chat " + chatId +"!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+              $inc: { inboxCount: 1 }
+            }, function (err, response) {
+              if (err || !response || !response.nModified)
+                return res.json({ status: false, message: "The user wasn't been a blogger." });
+              else
+                Chat.findOneAndUpdate({ id: chatId },
+                  { $push: { participates: sender } }, function (err, chat) {
+                    if (err || !chat)
+                      return res.json({ status: true, message: "The user is a join to chat " + chatId + " now." });
+                  });
+            });
+        }
+      });
+  }
 });
 router.post('/rejectInbox', checksession, function (req, res) {
   console.log("i'm in inbox/rejectInbox")
@@ -128,8 +166,8 @@ router.post('/rejectInbox', checksession, function (req, res) {
         });
         User.update({ userName: sender },
           {
-            $set: { isBlogger: false },
-            $push: { inbox: [{ title: "Your request was rejected", content: "", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+            //$set: { isBlogger: false },
+            $push: { inbox: [{type:"other", title: "Your request was rejected", content: "", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
             $inc: { inboxCount: 1 }
           }, function (err, response) {
             if (err || !response || !response.nModified)
