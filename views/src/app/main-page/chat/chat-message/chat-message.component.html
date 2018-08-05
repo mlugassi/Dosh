@@ -4,8 +4,8 @@
     <div class="text-warp">
       <h3>{{message.sender}}</h3>
       <p *ngIf="!message.isImage && !isLink(message.text)">{{message.text}}</p>
-      <a *ngIf="isLink(message.text)" href={{message.text}}>{{message.text}}</a>
-      <img class="img-content" *ngIf="message.isImage" src={{message.text}} >
+      <a *ngIf="isLink(message.text)" href={{message.text}} target="_blank" style="overflow: hidden;">{{message.text}}</a>
+      <img class="img-content" *ngIf="message.isImage" [src]="message.text" >
       <div class="date">{{message.date | date: 'LLL d, y HH:mm'}}</div>
     </div>
     <div class="like-warp">

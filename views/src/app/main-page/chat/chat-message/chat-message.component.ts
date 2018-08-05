@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
 import Message from '../../../models/Message';
 import { ChatService } from '../../../services/chat.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -16,7 +15,17 @@ export class ChatMessageComponent implements OnInit {
   @Output() loadMessage = new EventEmitter();
 
   id;
-  constructor(private chatService: ChatService) { }
+  constructor(private chatService: ChatService, private cdRef: ChangeDetectorRef) {
+    chatService.endUpload()
+      .subscribe(() => {
+        // for reload the image
+        let text = this.message.text;
+        this.message.text = "";
+        this.cdRef.detectChanges();
+        this.message.text = text;
+        this.cdRef.detectChanges();
+      })
+  }
 
   ngOnInit() {
 
@@ -51,9 +60,7 @@ export class ChatMessageComponent implements OnInit {
     }
   }
   isLink(text: string) {
-    if (text.startsWith("http://") || text.startsWith("www.")
-      || text.endsWith(".com") || text.endsWith(".co.il"))
-      return true;
+    if (text.startsWith("http") || text.startsWith("www.")) return true;
     return false;
   }
   load() {
