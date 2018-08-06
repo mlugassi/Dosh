@@ -67,8 +67,7 @@ export class ChatComponent implements OnInit {
                     chat.title = user.userName;
                     chat.imgPath = user.imgPath;
                     this.connectedUsers.push(chat);
-                }
-                )
+                })
             });
         this.chatService.newUserConnected()
             .subscribe(data => {
@@ -153,10 +152,17 @@ export class ChatComponent implements OnInit {
     load_messages() {
         this.appService.search_messages(this.activeChat.id, this.index++, this.srchExp).subscribe(res => {
             if (res) {
-                var msgs = res;
-                var read_more = this.activeChatMsgs.shift();
-                msgs.reverse().forEach(element => this.activeChatMsgs.unshift(element));
-                if (msgs.length == 5)
+                var read_more;
+                if (this.activeChatMsgs.length == 0) {
+                    read_more = new Message();
+                    read_more.isLoadMessage = true;
+                    read_more.text = "read more";
+                }
+                else
+                    read_more = this.activeChatMsgs.shift();
+
+                res.reverse().forEach(element => this.activeChatMsgs.unshift(element));
+                if (res.length == 5)
                     this.activeChatMsgs.unshift(read_more);
             }
         });
@@ -167,7 +173,7 @@ export class ChatComponent implements OnInit {
         this.index = 1;
         this.activeChat = chat;
         this.userMode = userMode;
-        this.first_load();
+        this.load_messages();
     }
 
     send_message() {
@@ -222,16 +228,7 @@ export class ChatComponent implements OnInit {
 
     search() {
         this.index = 1;
-        this.appService.search_messages(this.activeChat.id, this.index++, this.srchExp)
-            .subscribe(res => {
-                if (res) {
-                    this.activeChatMsgs = res;
-                    var read_more = new Message();
-                    read_more.isLoadMessage = true;
-                    read_more.text = "read more";
-                    this.activeChatMsgs.unshift(read_more);
-                }
-            });
+        this.activeChatMsgs = [];
+        this.load_messages();
     }
-
 }
