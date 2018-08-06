@@ -27,7 +27,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.get('/google', passport.authenticate('google', {
-  scope: ['profile']
+  scope: ['profile', 'email'],
 }));
 router.get('/auth/google/callback', (req, res, next) => {
   passport.authenticate('google', { successRedirect: '/' }, function (err, user, info) {
