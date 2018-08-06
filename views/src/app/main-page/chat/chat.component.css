@@ -10,6 +10,14 @@
   flex-direction: column;
 }
 
+p[class="numberForChat"] {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 15px;
+  color: #01cd74;
+}
+
 .text>p:first-of-type {
   width: 100%;
   margin-top: 0;

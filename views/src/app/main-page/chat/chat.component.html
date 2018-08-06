@@ -23,12 +23,12 @@
         </div>
       </div>
       <div class="srchBar">
-          <div>
-            <input type="text" placeholder="Search" [(ngModel)]="srchExp" (input)="search()" (keyup.enter)="search()">
-            <i class="btn btn-circle fas fa-chevron-left"></i>
-            <i class="btn btn-circle fas fa-chevron-right"></i>
-          </div>
+        <div>
+          <input type="text" placeholder="Search" [(ngModel)]="srchExp" (input)="search()" (keyup.enter)="search()">
+          <i class="btn btn-circle fas fa-chevron-left"></i>
+          <i class="btn btn-circle fas fa-chevron-right"></i>
         </div>
+      </div>
       <div class="chat-func clearfix">
         <div class="msj-rta macro">
           <div class="text text-r">
@@ -66,6 +66,7 @@
                 <h5>
                   {{chat.title}}
                 </h5>
+                <p class="numberForChat" *ngIf="chat.new_messages > 0">{{chat.new_messages}}</p>
                 <div>
                   <i class="fas fa-user"> </i> {{chat.owner}}
                 </div>

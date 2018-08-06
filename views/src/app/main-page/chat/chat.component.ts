@@ -87,8 +87,9 @@ export class ChatComponent implements OnInit {
 
         this.chatService.newMessageReceived()
             .subscribe(data => {
-                alert("new message");
-                if (data.sender != this.currentUser.userName)
+                if (!this.activeChat || data.room != this.activeChat.id)
+                    (this.myChats.find(chat => chat.id == data.room).new_messages)++;
+                else if (data.sender != this.currentUser.userName)
                     this.activeChatMsgs.push(data);
                 else
                     this.activeChatMsgs[this.activeChatMsgs.length - 1] = data;
@@ -134,7 +135,7 @@ export class ChatComponent implements OnInit {
             this.chatsToJoin = [];
             this.otherChats = [];
             res.otherChats.forEach(chat => this.otherChats.push({ chat: chat, toJoin: false }));
-            this.myChats.forEach(chat => this.chatService.joinRoom({ user: this.currentUser.userName, room: chat.id }));
+            this.myChats.forEach(chat => {this.chatService.joinRoom({ user: this.currentUser.userName, room: chat.id }); chat.new_messages=0;});
             this.chatService.createServerConnection({ user: this.currentUser.userName, imgPath: this.currentUser.imgPath });
         });
     }
@@ -161,6 +162,7 @@ export class ChatComponent implements OnInit {
             return;
         this.index = 1;
         this.activeChat = chat;
+        this.activeChat.new_messages = 0;
         this.userMode = userMode;
         this.load_messages();
     }

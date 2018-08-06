@@ -9,6 +9,7 @@ export default class Chat {
   imgPath: String;
   participates: [String];
   messages: [Message];
+  new_messages: number = 0;
   constructor() {
   }
 }
