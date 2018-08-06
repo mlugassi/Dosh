@@ -163,7 +163,7 @@ router.get('/join/:id', checksession, async (req, res) => {
         {
           $push: {
             inbox: [{
-              type: "chat" + chat.id, title: req.session.passport.user + " what to join to chat " + chat.id,
+              kind: "chat" + chat.id, title: req.session.passport.user + " what to join to chat " + chat.id,
               content: " ",
               sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: false
             }]

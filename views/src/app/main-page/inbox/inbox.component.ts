@@ -34,7 +34,7 @@ export class InboxComponent implements OnInit {
   }
   confirm(index: number) {
     if (confirm("Are you sure that you want to confirm the request?"))
-      this.appService.confirmInbox(this.inbox[index]._id)
+      this.appService.confirmInbox(this.inbox[index]._id,this.inbox[index].kind)
         .subscribe(res => {
           if (res.status)
             this.inbox[index].isConfirm = true;

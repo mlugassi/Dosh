@@ -1,6 +1,6 @@
 export default class Inbox {
   _id: string;
-  type:['blog','chat','other'];
+  kind: string;
   title: string;
   content: string;
   sender: string;
@@ -10,7 +10,7 @@ export default class Inbox {
   id: string;
   class: string;
   isChecked: boolean;
-  index:number;
+  index: number;
 
   constructor() { }
 }

@@ -28,8 +28,8 @@ module.exports = db => {
         blogs: Number,
         inboxCount: Number,
         inbox: [{
-            type: String,
             title: String,
+            kind: String,
             content: String,
             sender: String,
             date: Date,

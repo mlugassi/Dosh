@@ -26,6 +26,8 @@ router.get('/gatAll', checksession, function (req, res) {
   User.findOne({ userName: req.session.passport.user }, function (err, response) {
     if (err || !response)
       return res.json([]);
+    else
+      console.log(response);
     return res.json(response.inbox);
   })
 });
@@ -80,11 +82,14 @@ router.post('/delete', checksession, function (req, res) {
     });
 });
 router.post('/confirmInbox', checksession, function (req, res) {
-  console.log("i'm in inbox/confirmInbox")
+  console.log("i'm in inbox/confirmInbox");
+  console.log(req.body.inboxKind);
+  console.log((req.body.inboxKind).startsWith("chat"));
+
   if (!req.body.inboxId)
     return res.json({ status: false, message: "Please send the inbox Id you confirm." });
 
-  if (req.body.inboxType == "blog") {
+  if (req.body.inboxKind == "blog") {
     User.findOneAndUpdate({
       userName: req.session.passport.user, isAdmin: true,
       "inbox._id": req.body.inboxId, "inbox.isConfirm": false
@@ -101,7 +106,7 @@ router.post('/confirmInbox', checksession, function (req, res) {
           User.update({ userName: sender },
             {
               $set: { isBlogger: true },
-              $push: { inbox: [{ type: "other", title: "Your request was confirm", content: "Congregulation!! You are a blogger now!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+              $push: { inbox: [{ kind: "other", title: "Your request was confirm", content: "Congregulation!! You are a blogger now!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
               $inc: { inboxCount: 1 }
             }, function (err, response) {
               if (err || !response || !response.nModified)
@@ -112,8 +117,8 @@ router.post('/confirmInbox', checksession, function (req, res) {
         }
       });
   }
-  else if (req.body.inboxType.startwith("chat")) {
-    chatId = req.body.inboxType.substring(4, 5);
+  else if (req.body.inboxKind.startsWith("chat")) {
+    chatId = req.body.inboxKind.substring(4, 5);
     console.log("chatId: " + chatId);
     User.findOneAndUpdate({
       userName: req.session.passport.user, isBlogger: true,
@@ -131,7 +136,7 @@ router.post('/confirmInbox', checksession, function (req, res) {
 
           User.update({ userName: sender },
             {
-              $push: { inbox: [{ type: "other", title: "Your request was confirm", content: "Congregulation!! You joined to the chat " + chatId +"!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+              $push: { inbox: [{ kind: "other", title: "Your request was confirm", content: "Congregulation!! You joined to the chat " + chatId + "!", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
               $inc: { inboxCount: 1 }
             }, function (err, response) {
               if (err || !response || !response.nModified)
@@ -152,7 +157,7 @@ router.post('/rejectInbox', checksession, function (req, res) {
   if (!req.body.inboxId)
     return res.json({ status: false, message: "Please send the inbox Id you reject." });
   User.findOneAndUpdate({
-    userName: req.session.passport.user, isAdmin: true,
+    userName: req.session.passport.user,
     "inbox._id": req.body.inboxId, "inbox.isConfirm": false
   }, { $set: { "inbox.$.isConfirm": true } },
     function (err, user) {
@@ -167,7 +172,7 @@ router.post('/rejectInbox', checksession, function (req, res) {
         User.update({ userName: sender },
           {
             //$set: { isBlogger: false },
-            $push: { inbox: [{type:"other", title: "Your request was rejected", content: "", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
+            $push: { inbox: [{ kind: "other", title: "Your request was rejected", content: "", sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: true }] },
             $inc: { inboxCount: 1 }
           }, function (err, response) {
             if (err || !response || !response.nModified)

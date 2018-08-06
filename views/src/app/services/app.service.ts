@@ -176,8 +176,8 @@ export class AppService {
     return this.http.post(`${this.api_url}/inbox/unreadInbox`, { inboxId: inbox })
       .pipe(map(res => res as any || ""));
   }
-  confirmInbox(inbox: String) {
-    return this.http.post(`${this.api_url}/inbox/confirmInbox`, { inboxId: inbox })
+  confirmInbox(inbox: String, kind: String) {
+    return this.http.post(`${this.api_url}/inbox/confirmInbox`, { inboxId: inbox, inboxKind: kind })
       .pipe(map(res => res as any || ""));
   }
   rejectInbox(inbox: String) {
@@ -199,8 +199,8 @@ export class AppService {
       .pipe(map(res => res as Message[] || []));
   }
   join_to_chat(id) {
-    return this.http.get(`${this.api_url}/chat/join/` + id )
-      .pipe(map(res => res as {status:boolean,message:string} || {status:false,message:""}));
+    return this.http.get(`${this.api_url}/chat/join/` + id)
+      .pipe(map(res => res as { status: boolean, message: string } || { status: false, message: "" }));
   }
 
 }
