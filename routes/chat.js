@@ -71,39 +71,6 @@ router.get('/getAll', checksession, async (req, res) => {
   });
 });
 
-router.get('/messages/:id/:index', checksession, async (req, res) => {
-  console.log("get messages");
-  mult = 5;
-  index = req.params.index;
-  if (!index)
-    index = 1;
-  size = (await Chat.findOne({ id: req.params.id })).messages.length;
-
-  if (index * mult > size + mult)
-    return res.status(200).json([]);
-
-  from = Math.min(index * mult, size) * -1;
-  count = size > (index * mult) ? mult : size + mult - (index * mult);
-  console.log(from);
-  console.log(count);
-  myChat = await Chat.findOne({
-    id: req.params.id,
-    participates: req.session.passport.user
-  }, {
-      messages: {
-        $slice: [from, count]
-      }
-    }, function (err, chat) { });
-
-  for (element of myChat.messages) {
-    temp = await User.findOne({
-      userName: element.sender
-    }).exec();
-    element.imgPath = temp.imgPath;
-  };
-  return res.status(200).json(myChat.messages);
-});
-
 router.get('/search/:id/:index/:expression?', checksession, async (req, res) => {
   mult = 5;
   index = req.params.index;
@@ -116,14 +83,10 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   if (index * mult > size + mult)
     return res.status(200).json([]);
 
-  from = Math.min(index * mult, size) * -1;
-  count = size > (index * mult) ? mult : size + mult - (index * mult);
-
   var messages = [];
   result = await Chat.findOne({
     id: req.params.id
   }, function (err, chat) { });
-  console.log("expression= " + req.params.expression);
   if (req.params.expression != "" && req.params.expression != undefined) {
     result.messages.forEach(element => {
       if (element.text.includes(req.params.expression) && !element.isImage)
@@ -133,25 +96,23 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   else
     messages = result.messages;
 
-  var m = [];
-  console.log("i= " + (messages.length - Math.min(messages.length, index * mult)));
-  console.log("ad = " + Math.min(messages.length + mult - index * mult, mult));
-  for (let i = j = messages.length - Math.min(messages.length, index * mult);
-    i < j + Math.min(messages.length + mult - index * mult, mult); i++) {
-    console.log("i = " + i);
-    m.push(messages[i]);
+  console.log(messages);
+  from = messages.length - Math.min(messages.length, index * mult);
+  count = + Math.min(messages.length + mult - index * mult, mult);
+  var requested_messages = [];
+  for (let i = from; i < from + count; i++) {
+    requested_messages.push(messages[i]);
   }
-  for (element of m) {
+  console.log(requested_messages);
+
+  for (element of requested_messages) {
     temp = await User.findOne({
       userName: element.sender
     }).exec();
     element.imgPath = temp.imgPath;
   };
-  return res.status(200).json(m);
+  return res.status(200).json(requested_messages);
 });
-
-
-
 
 router.get('/:id', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');
@@ -176,10 +137,10 @@ router.get('/join/:id', checksession, async (req, res) => {
           if (!err && user)
             return res.json({ status: true, message: "Your request was sent." });
           else
-            return res.json({ status: false, message: "1Something was wrong.\nYour reuest wasn't sent." });
+            return res.json({ status: false, message: "Something was wrong.\nYour reuest wasn't sent." });
         });
     else {
-      return res.json({ status: false, message: "2Something was wrong.\nYour reuest wasn't sent." });
+      return res.json({ status: false, message: "Something was wrong.\nYour reuest wasn't sent." });
     }
   })
 });

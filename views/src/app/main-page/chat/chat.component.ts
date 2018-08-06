@@ -138,19 +138,8 @@ export class ChatComponent implements OnInit {
             this.chatService.createServerConnection({ user: this.currentUser.userName, imgPath: this.currentUser.imgPath });
         });
     }
-    first_load() {
-        this.appService.search_messages(this.activeChat.id, this.index++, this.srchExp).subscribe(res => {
-            if (res) {
-                this.activeChatMsgs = res;
-                var read_more = new Message();
-                read_more.isLoadMessage = true;
-                read_more.text = "read more";
-                this.activeChatMsgs.unshift(read_more);
-            }
-        });
-    }
     load_messages() {
-        this.appService.search_messages(this.activeChat.id, this.index++, this.srchExp).subscribe(res => {
+        this.appService.load_messages(this.activeChat.id, this.index++, this.srchExp).subscribe(res => {
             if (res) {
                 var read_more;
                 if (this.activeChatMsgs.length == 0) {
@@ -220,7 +209,6 @@ export class ChatComponent implements OnInit {
             chat.toJoin = false;
         })
     }
-
 
     onFileChange(files) {
         this.file = files.item(0);
