@@ -17,12 +17,21 @@ export class ChatMessageComponent implements OnInit {
   id;
   constructor(private chatService: ChatService, private cdRef: ChangeDetectorRef) {
     chatService.endUpload()
-      .subscribe(() => {
+      .subscribe((data) => {
+        if (this.message._id != data.id) return;
+        // alert("id " + this.message._id + "\n" +
+        //   "sender " + this.message.sender + "\n" +
+        //   "text " + this.message.text + "\n" +
+        //   "contentImgPath " + this.message.contentImgPath + "\n" +
+        //   "data.imagePath " + data.imgPath + "\n" +
+        //   "room " + this.message.room + "\n" +
+        //   "date " + this.message.date + "\n" +
+        //   "isImage " + this.message.isImage + "\n"
+        // );
         // for reload the image
-        let text = this.message.text;
-        this.message.text = "";
+        this.message.contentImgPath = "";
         this.cdRef.detectChanges();
-        this.message.text = text;
+        this.message.contentImgPath = data.imgPath;
         this.cdRef.detectChanges();
       })
   }

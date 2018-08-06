@@ -78,7 +78,9 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
     req.params.expression = "";
   if (!index)
     index = 1;
-  size = (await Chat.findOne({ id: req.params.id })).messages.length;
+  size = (await Chat.findOne({
+    id: req.params.id
+  })).messages.length;
 
   if (index * mult > size + mult)
     return res.status(200).json([]);
@@ -86,25 +88,21 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   var messages = [];
   result = await Chat.findOne({
     id: req.params.id
-  }, function (err, chat) { });
+  }, function (err, chat) {});
   if (req.params.expression != "" && req.params.expression != undefined) {
     result.messages.forEach(element => {
       if (element.text.includes(req.params.expression) && !element.isImage)
         messages.push(element);
     });
-  }
-  else
+  } else
     messages = result.messages;
 
-  console.log(messages);
   from = messages.length - Math.min(messages.length, index * mult);
-  count = + Math.min(messages.length + mult - index * mult, mult);
+  count = +Math.min(messages.length + mult - index * mult, mult);
   var requested_messages = [];
   for (let i = from; i < from + count; i++) {
     requested_messages.push(messages[i]);
   }
-  console.log(requested_messages);
-
   for (element of requested_messages) {
     temp = await User.findOne({
       userName: element.sender
@@ -118,29 +116,47 @@ router.get('/:id', checksession, function (req, res) {
   res.sendfile('./views/dist/views/index.html');
 });
 router.get('/join/:id', checksession, async (req, res) => {
-  Chat.findOne({ id: req.params.id }, function (err, chat) {
+  Chat.findOne({
+    id: req.params.id
+  }, function (err, chat) {
     if (!err && chat)
-      User.update({ userName: chat.owner, isBlogger: true, isActive: true },
-        {
+      User.update({
+          userName: chat.owner,
+          isBlogger: true,
+          isActive: true
+        }, {
           $push: {
             inbox: [{
-              kind: "chat" + chat.id, title: req.session.passport.user + " what to join to chat " + chat.id,
+              kind: "chat" + chat.id,
+              title: req.session.passport.user + " what to join to chat " + chat.id,
               content: " ",
-              sender: req.session.passport.user, date: Date.now(), isRead: false, isConfirm: false
+              sender: req.session.passport.user,
+              date: Date.now(),
+              isRead: false,
+              isConfirm: false
             }]
           },
-          $inc: { inboxCount: 1 }
+          $inc: {
+            inboxCount: 1
+          }
         },
         function (err, user) {
-          console.log(err);
-          console.log(user);
           if (!err && user)
-            return res.json({ status: true, message: "Your request was sent." });
+            return res.json({
+              status: true,
+              message: "Your request was sent."
+            });
           else
-            return res.json({ status: false, message: "Something was wrong.\nYour reuest wasn't sent." });
+            return res.json({
+              status: false,
+              message: "Something was wrong.\nYour reuest wasn't sent."
+            });
         });
     else {
-      return res.json({ status: false, message: "Something was wrong.\nYour reuest wasn't sent." });
+      return res.json({
+        status: false,
+        message: "Something was wrong.\nYour reuest wasn't sent."
+      });
     }
   })
 });

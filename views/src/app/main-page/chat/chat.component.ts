@@ -38,7 +38,6 @@ export class ChatComponent implements OnInit {
             });
         this.chatService.nextSlice()
             .subscribe(data => {
-
                 var fileReader = new FileReader();
                 var place = data.currentSlice * 100000,
                     slice = this.file.slice(place, place + Math.min(100000, this.file.size - place));
@@ -77,6 +76,11 @@ export class ChatComponent implements OnInit {
                 chat.imgPath = data.imgPath;
                 this.connectedUsers.push(chat);
             });
+
+        this.chatService.disconnectedUser()
+            .subscribe(data => {
+                this.connectedUsers = this.connectedUsers.filter(user => user.title != data.userName)
+            });
         this.chatService.userLeftRoom()
             .subscribe(data => {
                 let message = new Message();
@@ -89,10 +93,31 @@ export class ChatComponent implements OnInit {
             .subscribe(data => {
                 if (!this.activeChat || data.room != this.activeChat.id)
                     (this.myChats.find(chat => chat.id == data.room).new_messages)++;
-                else if (data.sender != this.currentUser.userName)
+                //  else if (data.sender != this.currentUser.userName)
+                //     this.activeChatMsgs.push(data);
+                else {
+                    //  this.activeChatMsgs[this.activeChatMsgs.length - 1] = data;
                     this.activeChatMsgs.push(data);
-                else
-                    this.activeChatMsgs[this.activeChatMsgs.length - 1] = data;
+                    if (this.file) {
+                        var fileReader = new FileReader(),
+                            slice = this.file.slice(0, 100000);
+
+                        fileReader.readAsArrayBuffer(slice);
+                        fileReader.onload = (evt) => {
+                            var arrayBuffer = fileReader.result;
+                            this.chatService.uploadImage({
+                                name: data.contentImgPath,
+                                type: this.file.type,
+                                size: this.file.size,
+                                data: arrayBuffer,
+                                id: data._id,
+                                room: data.room
+                            })
+                        }
+                        $('#sndBtn').prop('disabled', true);
+                        $('#imgBtn').prop('disabled', true);
+                    }
+                }
             });
         this.chatService.newLike()
             .subscribe(data => {
@@ -134,9 +159,9 @@ export class ChatComponent implements OnInit {
             this.connectedUsers = [];
             this.chatsToJoin = [];
             this.otherChats = [];
-            res.otherChats.forEach(chat => this.otherChats.push({ chat: chat, toJoin: false }));
-            this.myChats.forEach(chat => {this.chatService.joinRoom({ user: this.currentUser.userName, room: chat.id }); chat.new_messages=0;});
             this.chatService.createServerConnection({ user: this.currentUser.userName, imgPath: this.currentUser.imgPath });
+            res.otherChats.forEach(chat => this.otherChats.push({ chat: chat, toJoin: false }));
+            this.myChats.forEach(chat => { this.chatService.joinRoom({ user: this.currentUser.userName, room: chat.id }); chat.new_messages = 0; });
         });
     }
     load_messages() {
@@ -158,7 +183,7 @@ export class ChatComponent implements OnInit {
         });
     }
     openChat(chat: Chat, userMode: Boolean = false) {
-        if (this.activeChat && this.activeChat.id == chat.id)
+        if (this.activeChat && chat && this.activeChat.id == chat.id)
             return;
         this.index = 1;
         this.activeChat = chat;
@@ -175,25 +200,9 @@ export class ChatComponent implements OnInit {
         message.text = this.messageInputText;
         if (this.file) {
             message.isImage = true;
-            message.text = "/images/chat/" + this.activeChat.id + "_" + message.sender + "_" + Date.now() + ".jpg";
-            var fileReader = new FileReader(),
-                slice = this.file.slice(0, 100000);
-
-            fileReader.readAsArrayBuffer(slice);
-            fileReader.onload = (evt) => {
-                var arrayBuffer = fileReader.result;
-                this.chatService.uploadImage({
-                    name: message.text,
-                    type: this.file.type,
-                    size: this.file.size,
-                    data: arrayBuffer
-                })
-            }
-            $('#sndBtn').prop('disabled', true);
-            $('#imgBtn').prop('disabled', true);
+            message.contentImgPath = "/images/chat/" + this.activeChat.id + "_" + message.sender + "_" + Date.now() + ".jpg";
         }
         this.chatService.sendMessage(message);
-        this.activeChatMsgs.push(message);
         this.messageInputText = "";
     }
     join() {
@@ -220,5 +229,9 @@ export class ChatComponent implements OnInit {
         this.index = 1;
         this.activeChatMsgs = [];
         this.load_messages();
+    }
+
+    ngOnDestroy() {
+        this.chatService.serverDisconnection({ user: this.currentUser.userName });
     }
 }
