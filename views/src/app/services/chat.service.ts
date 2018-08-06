@@ -138,4 +138,27 @@ export class ChatService {
         });
         return observable;
     }
+
+    uploadImage(message) {
+        this.socket.emit('uploadImage', message);
+    }
+    nextSlice() {
+        let observable = new Observable<{ fileName: String, currentSlice: number }>(observer => {
+            this.socket.on('request slice upload', (data) => {
+                observer.next(data);
+            });
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
+
+    endUpload() {
+        let observable = new Observable<{imgPath: String}>(observer => {
+            this.socket.on('end upload', () => {
+                observer.next();
+            });
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
 }

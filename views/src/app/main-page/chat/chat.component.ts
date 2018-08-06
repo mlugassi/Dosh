@@ -4,6 +4,7 @@ import Chat from '../../models/Chat';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppService } from '../../services/app.service';
 import Message from '../../models/Message';
+import * as $ from 'jquery';
 
 @Component({
     selector: 'app-chat',
@@ -11,6 +12,7 @@ import Message from '../../models/Message';
     styleUrls: ['./chat.component.css'],
     providers: [ChatService]
 })
+
 export class ChatComponent implements OnInit {
     activeChat: Chat;
     currentUser: { userName: String, imgPath: String };
@@ -23,6 +25,7 @@ export class ChatComponent implements OnInit {
     connectedUsers: Chat[];
     chatsToJoin: Chat[];
     userMode: Boolean;
+    file: File;
 
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.chatService.newUserJoined()
@@ -33,13 +36,28 @@ export class ChatComponent implements OnInit {
                 message.isJoinMessage = true;
                 this.activeChatMsgs.push(message);
             });
-
-        this.chatService.newPrivateMessageReceived()
+        this.chatService.nextSlice()
             .subscribe(data => {
-                if (data.userName != this.currentUser.userName)
-                    this.activeChatMsgs.push(data.message);
-                else
-                    this.activeChatMsgs[this.activeChatMsgs.length - 1] = data.message;
+
+                var fileReader = new FileReader();
+                var place = data.currentSlice * 100000,
+                    slice = this.file.slice(place, place + Math.min(100000, this.file.size - place));
+                fileReader.readAsArrayBuffer(slice);
+                fileReader.onload = (evt) => {
+                    var arrayBuffer = fileReader.result;
+                    this.chatService.uploadImage({
+                        name: data.fileName,
+                        type: this.file.type,
+                        size: this.file.size,
+                        data: arrayBuffer
+                    })
+                }
+            })
+        chatService.endUpload()
+            .subscribe(() => {
+                $('#sndBtn').prop('disabled', false);
+                $('#imgBtn').prop('disabled', false);
+                this.file = null;
             })
         this.chatService.connectedUsers()
             .subscribe(data => {
@@ -140,8 +158,6 @@ export class ChatComponent implements OnInit {
                 msgs.reverse().forEach(element => this.activeChatMsgs.unshift(element));
                 if (msgs.length == 5)
                     this.activeChatMsgs.unshift(read_more);
-
-                //this.scrollToBottom();
             }
         });
     }
@@ -160,6 +176,25 @@ export class ChatComponent implements OnInit {
         message.imgPath = this.currentUser.imgPath;
         message.sender = this.currentUser.userName;
         message.text = this.messageInputText;
+        if (this.file) {
+            message.isImage = true;
+            message.text = "/images/chat/" + this.activeChat.id + "_" + message.sender + "_" + Date.now() + ".jpg";
+            var fileReader = new FileReader(),
+                slice = this.file.slice(0, 100000);
+
+            fileReader.readAsArrayBuffer(slice);
+            fileReader.onload = (evt) => {
+                var arrayBuffer = fileReader.result;
+                this.chatService.uploadImage({
+                    name: message.text,
+                    type: this.file.type,
+                    size: this.file.size,
+                    data: arrayBuffer
+                })
+            }
+            $('#sndBtn').prop('disabled', true);
+            $('#imgBtn').prop('disabled', true);
+        }
         this.chatService.sendMessage(message);
         this.activeChatMsgs.push(message);
         this.messageInputText = "";
@@ -182,7 +217,7 @@ export class ChatComponent implements OnInit {
 
 
     onFileChange(files) {
-        alert("need to implement");
+        this.file = files.item(0);
     }
 
     search() {
