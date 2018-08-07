@@ -23,7 +23,7 @@ export class ChatComponent implements OnInit {
     otherChats: { chat: Chat, toJoin: Boolean }[];
     activeChatMsgs: Message[];
     connectedUsers: Chat[];
-    chatsToJoin: Chat[];
+    //    chatsToJoin: Chat[];
     userMode: Boolean;
     file: File;
 
@@ -157,7 +157,7 @@ export class ChatComponent implements OnInit {
             this.index = 1;
             this.activeChatMsgs = [];
             this.connectedUsers = [];
-            this.chatsToJoin = [];
+            //this.chatsToJoin = [];
             this.otherChats = [];
             this.chatService.createServerConnection({ user: this.currentUser.userName, imgPath: this.currentUser.imgPath });
             res.otherChats.forEach(chat => this.otherChats.push({ chat: chat, toJoin: false }));
@@ -233,5 +233,6 @@ export class ChatComponent implements OnInit {
 
     ngOnDestroy() {
         this.chatService.serverDisconnection({ user: this.currentUser.userName });
+        this.myChats.forEach(chat => this.chatService.leaveRoom(chat.id));
     }
 }
