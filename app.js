@@ -238,7 +238,8 @@ app.use((req, res, next) => {
     socket.on('leave', function (data) {
       console.log(data.user + ' left the room : ' + data.room);
       Chat.update({
-        id: data.room
+        id: data.room,
+        isActive: true
       }, {
         $pull: {
           participates: data.user
@@ -282,6 +283,7 @@ app.use((req, res, next) => {
       if (data.flag) {
         Chat.update({
           id: data.room,
+          isActive: true,
           "messages._id": data.idMessage
         }, {
           $push: {
@@ -297,6 +299,7 @@ app.use((req, res, next) => {
       } else {
         Chat.update({
           id: data.room,
+          isActive: true,
           "messages._id": data.idMessage
         }, {
           $pull: {
@@ -322,6 +325,7 @@ app.use((req, res, next) => {
       if (data.flag) {
         Chat.update({
           id: data.room,
+          isActive: true,
           "messages._id": data.idMessage
         }, {
           $push: {
@@ -337,6 +341,7 @@ app.use((req, res, next) => {
       } else {
         Chat.update({
           id: data.room,
+          isActive: true,
           "messages._id": data.idMessage
         }, {
           $pull: {
@@ -357,7 +362,8 @@ app.use((req, res, next) => {
       console.log(isNaN(Number(data.room)));
       let room = isNaN(Number(data.room)) ? data.room.replace(data.sender, '').replace('_', '') : data.room;
       Chat.findOneAndUpdate({
-        id: data.room
+        id: data.room,
+        isActive: true,
       }, {
         $push: {
           messages: [data]
@@ -368,7 +374,8 @@ app.use((req, res, next) => {
         if (updatedChat) {
           console.log("updatedChat not null");
           Chat.findOne({
-            id: data.room
+            id: data.room,
+            isActive: true
           }, function (err, newChat) {
             if (err) throw err;
             console.log("newChat.messages = " + newChat.messages);
@@ -380,7 +387,8 @@ app.use((req, res, next) => {
         } else Chat.create({
           id: data.room,
           participates: [data.sender, room],
-          messages: [data]
+          messages: [data],
+          isActive: true
         }, function (err, newChat) {
           if (err) throw err;
           console.log("newChat is " + newChat);
