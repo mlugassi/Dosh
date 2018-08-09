@@ -28,7 +28,7 @@ export class BlogContentComponent implements OnInit {
 
   @Output() categoryChanged = new EventEmitter<{ blogID: Number, categoty: String }>();
 
-  constructor(private router: Router ,private activatedRoute: ActivatedRoute, private appService: AppService) { }
+  constructor(private router: Router, private activatedRoute: ActivatedRoute, private appService: AppService) { }
 
   ngOnInit() {
     this.appService.get_who_am_I().subscribe(res => {
@@ -101,7 +101,7 @@ export class BlogContentComponent implements OnInit {
         this.blog.category = this.category;
         if (this.file) {
           let formData = new FormData();
-          formData.append('uploadedImg', this.file, this.blog.author + "_" + Date.now().toString() + ".jpg");
+          formData.append('uploadedImg', this.file, this.blog.id + "_" + Date.now().toString() + ".jpg");
           this.appService.upload_blog_Image(formData).subscribe(res => {
             if (!res.status)
               alert(res.message);
