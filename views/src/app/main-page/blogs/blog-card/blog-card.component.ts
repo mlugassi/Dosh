@@ -14,6 +14,7 @@ export class BlogCardComponent implements OnInit {
   @Input() inManage: Boolean;
   @Input() isAdmin: Boolean;
   @Input() isOwn: Boolean;
+  @Input() filter: String;
 
   @Output() checkEvent = new EventEmitter<{ blog: Blog, isChecked: boolean }>();
 

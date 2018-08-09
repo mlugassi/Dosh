@@ -27,9 +27,10 @@
           <a routerLink="blogs/{{blog.id}}">
             <i class="far fa-comment"></i> {{blog.comments.count}} </a>
         </li>
-        <li style="float: right;"> 
+        <li style="float: right;">
           <a routerLink="blogs/{{blog.id}}">
-            <i class="fas fa-tags"></i> {{blog.category}}</a>
+            <i class="fas fa-tags" innerHTML="{{blog.category | highlight : filter}}"></i>
+          </a>
         </li>
       </ul>
     </div>
@@ -37,16 +38,15 @@
       <div class="my-card-body">
 
         <h5 class="my-card-title">
-          <a routerLink="blogs/{{blog.id}}">{{blog.title}}</a>
+          <a routerLink="blogs/{{blog.id}}" innerHTML="{{blog.title | highlight : filter}}"></a>
           <br>
           <span style="font-size: 10px">
-            <i class="fas fa-user"></i> {{blog.author}}
+            <i class="fas fa-user" innerHTML="{{blog.author | highlight : filter}}"></i>
           </span>
         </h5>
-        <p class="card-text mb-3">{{blog.content | slice:0:100}}... </p>
+        <p class="card-text mb-3" innerHTML="{{blog.content | slice:0:100 | highlight : filter}}..."></p>
         <a routerLink="blogs/{{blog.id}}" class="btn btn-primary read-m">Read More</a>
       </div>
     </div>
   </div>
-
 </div>
