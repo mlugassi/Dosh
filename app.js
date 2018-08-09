@@ -133,7 +133,7 @@ app.use((req, res, next) => {
       }, function (err, user1) {
         if (err || !user1) {
           user = {};
-          user.userName = profile.emails[0].value.substr(0,profile.emails[0].value.indexOf('@'));
+          user.userName = profile.emails[0].value.substr(0, profile.emails[0].value.indexOf('@'));
           user.firstName = profile.name.givenName;
           user.lastName = profile.name.familyName;
           user.gender = profile.gender || "male";
@@ -175,7 +175,7 @@ app.use((req, res, next) => {
       done(err, user);
     });
   });
-  app.use(favicon(path.join(__dirname, 'public','images','dosh2.ico')));
+  app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh2.ico')));
   //app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
 
   app.use('/users', users);
@@ -224,7 +224,6 @@ app.use((req, res, next) => {
     console.log('new connection made.');
 
     socket.on('join', function (data) {
-      console.log("join");
       socket.join(data.room);
       console.log(data.user + ' joined the room : ' + data.room);
       socket.broadcast.to(data.room).emit('new user joined', {
@@ -245,8 +244,7 @@ app.use((req, res, next) => {
           participates: data.user
         },
       }, function (err, chat) {
-        console.log(err);
-        console.log(chat);
+        if (err) throw err;
       });
       socket.broadcast.to(data.room).emit('left room', {
         user: data.user,
@@ -263,20 +261,19 @@ app.use((req, res, next) => {
             imgPath: data.imgPath
           });
         })
-        socket.join(data.user);
-        console.log(data.user + ' has connected');
         connected_users.push({
           userName: data.user,
           imgPath: data.imgPath
         });
       }
+      socket.join(data.user);
+      console.log(data.user + ' has connected');
       socket.emit('connected users', {
         connected_users: connected_users.filter(user => user.userName != data.user)
       });
     });
 
     socket.on('like', function (data) {
-      console.log(isNaN(Number(data.room)));
       let room = isNaN(Number(data.room)) ? data.room.replace(data.user, '').replace('_', '') : data.room;
       console.log("----------------------like----------------");
       console.log("room: " + room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
@@ -293,8 +290,7 @@ app.use((req, res, next) => {
             "messages.$.unlikes": data.user
           }
         }, function (err, response) {
-          console.log(err);
-          console.log(response);
+          if (err) throw err;
         });
       } else {
         Chat.update({
@@ -359,7 +355,6 @@ app.use((req, res, next) => {
       });
     });
     socket.on('message', function (data) {
-      console.log(isNaN(Number(data.room)));
       let room = isNaN(Number(data.room)) ? data.room.replace(data.sender, '').replace('_', '') : data.room;
       Chat.findOneAndUpdate({
         id: data.room,
@@ -370,7 +365,6 @@ app.use((req, res, next) => {
         }
       }, function (err, updatedChat) {
         if (err) throw err;
-        console.log("updatedChat " + updatedChat);
         if (updatedChat) {
           console.log("updatedChat not null");
           Chat.findOne({
@@ -378,7 +372,6 @@ app.use((req, res, next) => {
             isActive: true
           }, function (err, newChat) {
             if (err) throw err;
-            console.log("newChat.messages = " + newChat.messages);
             data._id = newChat.messages.pop()._id;
             socket.to(room).emit('new message', data);
             socket.emit('new message', data);
@@ -390,7 +383,6 @@ app.use((req, res, next) => {
           isActive: true
         }, function (err, newChat) {
           if (err) throw err;
-          console.log("newChat is " + newChat);
           if (!newChat) return;
           data._id = newChat.messages.pop()._id;
           socket.to(room).emit('new message', data);
@@ -415,7 +407,6 @@ app.use((req, res, next) => {
         var fileBuffer = Buffer.concat(files[data.name].data);
         fs.writeFile('public' + data.name, fileBuffer, (err) => {
           if (err) throw err;
-          console.log("files[data.name].room " + files[data.name].room);
           socket.to(files[data.name].room).emit('end upload', {
             id: files[data.name].id,
             imgPath: data.name

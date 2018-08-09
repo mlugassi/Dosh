@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import Chat from '../../models/Chat';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -23,9 +23,13 @@ export class ChatComponent implements OnInit {
     otherChats: { chat: Chat, toJoin: Boolean }[];
     activeChatMsgs: Message[];
     connectedUsers: Chat[];
-    //    chatsToJoin: Chat[];
     userMode: Boolean;
     file: File;
+
+    // @HostListener('window:beforeunload', ['$event'])
+    // beforeUnloadHander(event) {
+    //     this.ngOnDestroy();
+    // }
 
     constructor(private chatService: ChatService, private appService: AppService, private router: Router, private activatedRoute: ActivatedRoute) {
         this.chatService.newUserJoined()
