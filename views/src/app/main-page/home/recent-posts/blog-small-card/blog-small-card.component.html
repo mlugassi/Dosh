@@ -1,13 +1,13 @@
 <div class="blog-grids row mb-3">
   <div class="col-md-5 blog-grid-left">
-    <a routerLink="blogs/{{blog.id}}">
+    <a routerLink="/blogs/{{blog.id}}">
       <img src="{{blog.imgPath}}" class="img-fluid" alt="">
     </a>
   </div>
   <div class="col-md-7 blog-grid-right">
 
     <h5>
-      <a routerLink="blogs/{{blog.id}}">{{blog.title}} </a>
+      <a routerLink="/blogs/{{blog.id}}">{{blog.title}} </a>
     </h5>
     <p>
       By {{blog.author}}

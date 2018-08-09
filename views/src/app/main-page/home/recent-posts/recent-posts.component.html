@@ -6,7 +6,7 @@
         <div *ngIf="mostRecetBlog"  class="blog-grid-top">
           <div class="b-grid-top">
             <div class="blog_info_left_grid">
-              <a routerLink="blogs/{{mostRecetBlog.id}}">
+              <a routerLink="/blogs/{{mostRecetBlog.id}}">
                 <img height="100%" width="100%" *ngIf="mostRecetBlog" src="{{mostRecetBlog.imgPath}}" class="img-fluid" alt="">
               </a>
             </div>
@@ -34,10 +34,10 @@
           </div>
 
           <h3>
-            <a routerLink="blogs/{{mostRecetBlog.id}}">{{mostRecetBlog.title}} </a>
+            <a routerLink="/blogs/{{mostRecetBlog.id}}">{{mostRecetBlog.title}} </a>
           </h3>
           <p>{{mostRecetBlog.content | slice: 0:250}}...</p>
-          <a routerLink="blogs/{{mostRecetBlog.id}}" class="btn btn-primary read-m">Read More</a>
+          <a routerLink="/blogs/{{mostRecetBlog.id}}" class="btn btn-primary read-m">Read More</a>
         </div>
         <!--//silder-->
 
