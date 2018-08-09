@@ -1,4 +1,4 @@
-<ngb-carousel *ngIf="favoriteBlogs">
+<ngb-carousel *ngIf="favoriteBlogs && favoriteBlogs.length > 0">
   <ng-template *ngFor="let blog of favoriteBlogs" ngbSlide>
     <div style="z-index: 15; background-color: black; opacity: 0.5;">
       <img [src]="blog.imgPath">

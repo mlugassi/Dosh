@@ -231,19 +231,23 @@
             <div class="modal-footer">
               <input class="btn btn-lg btn-primary btn-block signup-btn read-m" type="submit" value="Log In" [disabled]="!loginForm.form.valid">
             </div>
-            <div class="form-group">
+            <div class="form-group" style="text-align: center">
               <div class="pull-right">
                 <span style="color:white"> Don't have an account?</span>
                 <a class="kinda-link" (click)="switch()">
                   <span style="color:#01cd74"> Sign Up Here</span>
                 </a>
+                <br>
+                <span style="color:white; margin-bottom: 0px"> Or</span>
               </div>
             </div>
           </form>
-          <button class="loginBtn loginBtn--google" style="margin-left: 40px ">
-            <a href="/google" style="color: white">
-              Login with Google</a>
-          </button>
+          <div style="text-align: center">
+            <button class="loginBtn loginBtn--google">
+              <a href="/google" style="color: white">
+                Login with Google</a>
+            </button>
+          </div>
         </div>
       </div>
     </div>

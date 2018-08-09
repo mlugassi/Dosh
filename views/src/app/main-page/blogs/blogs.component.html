@@ -6,15 +6,15 @@
       Manage
     </button>
     <button *ngIf="inManage && isBlogger" class="btnOptions" (click)="cancelManage()">
-        <i class="fas fa-times">
-        </i>
-        Cancel
-      </button>
-      <button *ngIf="inManage && isBlogger" class="btnOptions" (click)="delete()">
-          <i class="fas fa-trash">
-          </i>
-          Delete
-        </button>
+      <i class="fas fa-times">
+      </i>
+      Cancel
+    </button>
+    <button *ngIf="inManage && isBlogger" class="btnOptions" (click)="delete()">
+      <i class="fas fa-trash">
+      </i>
+      Delete
+    </button>
     <button *ngIf="isBlogger" class="btnOptions" (click)="newBlog()">
       <i class="fas fa-plus">
       </i>
@@ -30,32 +30,36 @@
       Show All Posts
     </button>
     <select class="catOpts" [(ngModel)]="category" (change)="filterByCategory()">
-        <option [attr.value]="All">All Categories</option>
-        <option [attr.value]="Economics">Economics</option>
-        <option [attr.value]="Parenting">Parenting</option>
-        <option [attr.value]="Political">Political</option>
-        <option [attr.value]="Pet">Pet</option>
-        <option [attr.value]="Gaming">Gaming</option>
-        <option [attr.value]="Nature">Nature</option>
-        <option [attr.value]="Medical">Medical</option>
-        <option [attr.value]="Science">Science</option>
-        <option [attr.value]="Business">Business</option>
-        <option [attr.value]="Sport">Sport</option>
-      </select>
+      <option [attr.value]="All">All Categories</option>
+      <option [attr.value]="Economics">Economics</option>
+      <option [attr.value]="Parenting">Parenting</option>
+      <option [attr.value]="Political">Political</option>
+      <option [attr.value]="Pet">Pet</option>
+      <option [attr.value]="Gaming">Gaming</option>
+      <option [attr.value]="Nature">Nature</option>
+      <option [attr.value]="Medical">Medical</option>
+      <option [attr.value]="Science">Science</option>
+      <option [attr.value]="Business">Business</option>
+      <option [attr.value]="Sport">Sport</option>
+    </select>
     <!-- <h3 class="tittle">Blog Posts</h3> -->
     <div class="inner-sec">
       <div class="left-blog-info-w3layouts-agileits text-left">
+        <h1 *ngIf="!blogs" style="color: gray; font-size: 50px;text-align: justify;">No posts found, sorry :/</h1>
         <div *ngFor="let blog of blogs; let i = index;">
           <div *ngIf="!(i%3)" class="row">
             <div class="row">
               <div class="col-lg-4">
-                <app-blog-card *ngIf="blogs[i]" [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i].author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                <app-blog-card *ngIf="blogs[i]" [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i].author == watcher"
+                  (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card *ngIf="blogs[i + 1]" [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i + 1].author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                <app-blog-card *ngIf="blogs[i + 1]" [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i + 1].author == watcher"
+                  (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card *ngIf="blogs[i + 2]" [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i + 2].author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                <app-blog-card *ngIf="blogs[i + 2]" [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i + 2].author == watcher"
+                  (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
             </div>
           </div>

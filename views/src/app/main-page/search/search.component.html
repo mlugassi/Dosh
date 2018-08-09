@@ -1,9 +1,9 @@
 <section class="main-content-w3layouts-agileits">
     <div class="container">
-    
-      <!-- <h3 class="tittle">Blog Posts</h3> -->
+    <h1 style="border-bottom: 1px solid gray">Search Resaults</h1>
       <div class="inner-sec">
         <div class="left-blog-info-w3layouts-agileits text-left">
+            <h1 *ngIf="!blogs" style="color: gray; font-size: 50px;text-align: justify;">No results found, let's try again :)</h1>
           <div *ngFor="let blog of blogs; let i = index;">
             <div *ngIf="!(i%3)" class="row">
               <div class="row">
@@ -24,7 +24,7 @@
               <li class="page-item" [ngClass]="currentPage == 1 ? 'disabled' : ''">
                 <a class="page-link" (click)="prevPage()">Previous</a>
               </li>
-              <li *ngFor="let page of filteredBlogs; let i = index" class="page-item" [ngClass]="(currentPage - 1) == i ? 'active' : ''">
+              <li *ngFor="let page of allBlogs; let i = index" class="page-item" [ngClass]="(currentPage - 1) == i ? 'active' : ''">
                 <a class="page-link" (click)="moveToPage(i)">{{i + 1}}</a>
               </li>
               <li class="page-item" [ngClass]="currentPage == pages ? 'disabled' : ''">
