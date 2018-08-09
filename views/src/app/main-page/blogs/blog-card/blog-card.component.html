@@ -3,7 +3,7 @@
 
     <div class="col-lg-12">
       <div>
-        <a routerLink="blogs/{{blog.id}}">
+        <a routerLink="{{blog.id}}">
           <img src="{{blog.imgPath}}" class="card-img-top img-fluid" alt="">
         </a>
         <input *ngIf="inManage && (isAdmin || isOwn)" type="checkbox" (click)="onClick()">
@@ -12,15 +12,15 @@
     <div class="col-lg-12">
       <ul class="blog-icons">
         <li>
-          <a routerLink="blogs/{{blog.id}}">
+          <a routerLink="{{blog.id}}">
             <i class="far fa-calendar-alt"></i> {{blog.created_at | date: 'LLL d, y'}} </a>
         </li>
         <li>
-          <a routerLink="blogs/{{blog.id}}">
+          <a routerLink="{{blog.id}}">
             <i class="far fa-thumbs-up"></i> {{blog.likes.count}} </a>
         </li>
         <li>
-          <a routerLink="blogs/{{blog.id}}">
+          <a routerLink="{{blog.id}}">
             <i class="far fa-thumbs-down"></i> {{blog.unlikes.count}} </a>
         </li>
         <li>
@@ -38,14 +38,14 @@
       <div class="my-card-body">
 
         <h5 class="my-card-title">
-          <a routerLink="blogs/{{blog.id}}" innerHTML="{{blog.title | highlight : filter}}"></a>
+          <a routerLink="{{blog.id}}" innerHTML="{{blog.title | highlight : filter}}"></a>
           <br>
           <span style="font-size: 10px">
             <i class="fas fa-user" innerHTML="{{blog.author | highlight : filter}}"></i>
           </span>
         </h5>
         <p class="card-text mb-3" innerHTML="{{blog.content | slice:0:100 | highlight : filter}}..."></p>
-        <a routerLink="blogs/{{blog.id}}" class="btn btn-primary read-m">Read More</a>
+        <a routerLink="{{blog.id}}" class="btn btn-primary read-m">Read More</a>
       </div>
     </div>
   </div>

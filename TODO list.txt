@@ -56,3 +56,10 @@ Later:
 6.  check if it possible to make only one post req when upload image
 9.  maybe add ability to remove a comment (for admin and writer)
 25. check if the progress bar is works - neet to add update when adding new blog or chenged category
+
+
+LAST REVIEW:
+1. look at the careated at and update at
+2. לבדוק מה בדיוק הבעיה עם הפיפ של התאריך באינבוקס
+3. לסדר שיעלים את הכפתורים של האישור ודחייה לחדר בצאט
+4. לבדוק מה בעיה עם הקטגוריות
