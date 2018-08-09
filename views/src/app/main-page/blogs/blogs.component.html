@@ -45,7 +45,7 @@
     <!-- <h3 class="tittle">Blog Posts</h3> -->
     <div class="inner-sec">
       <div class="left-blog-info-w3layouts-agileits text-left">
-        <h1 *ngIf="!blogs" style="color: gray; font-size: 50px;text-align: justify;">There are no posts, sory :/</h1>
+        <h1 *ngIf="!blogs" style="color: gray; font-size: 50px;text-align: justify;">No posts found, sorry :/</h1>
         <div *ngFor="let blog of blogs; let i = index;">
           <div *ngIf="!(i%3)" class="row">
             <div class="row">
