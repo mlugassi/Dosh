@@ -189,7 +189,7 @@ export class ChatComponent implements OnInit {
         this.activeChat = chat;
         this.activeChat.new_messages = 0;
         this.userMode = userMode;
-        this.activeChatMsgs=[];
+        this.activeChatMsgs = [];
         this.load_messages();
     }
 
@@ -217,7 +217,7 @@ export class ChatComponent implements OnInit {
     sendJoinReq() {
         this.otherChats.forEach(chat => {
             if (chat.toJoin == true)
-                this.appService.join_to_chat(chat.chat.id).subscribe(res => alert(res.message));
+                this.appService.join_to_chat(chat.chat.id).subscribe(res => { if (!res.status) alert(res.message); });
             chat.toJoin = false;
         })
     }

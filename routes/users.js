@@ -200,6 +200,7 @@ router.post('/update', checksession, async (req, res) => {
             let message = [{
                 title: "Request for blogger",
                 content: "I want to be a blogger",
+                kind: "blog",
                 sender: req.body.user.userName,
                 date: Date.now(),
                 isRead: false,
@@ -211,7 +212,8 @@ router.post('/update', checksession, async (req, res) => {
                 }, {
                     $push: {
                         inbox: message
-                    }
+                    },
+                    $inc: { inboxCount: 1 }
                 },
                 function (err, user) {
                     if (err || !user) {
