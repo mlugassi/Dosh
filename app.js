@@ -68,6 +68,7 @@ app.use((req, res, next) => {
   app.set('views', path.join(__dirname, 'views'));
   app.use(express.static(path.join(__dirname, 'public')));
   app.use(express.static(path.join(__dirname, 'views', 'dist', 'views')));
+  app.use(favicon(path.join(__dirname, 'public/images/favicon.ico')));
   app.use(bodyParser.json()); // support json encoded bodies
   app.use(bodyParser.urlencoded({
     extended: false
@@ -175,8 +176,6 @@ app.use((req, res, next) => {
       done(err, user);
     });
   });
-  app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh2.ico')));
-  //app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
 
   app.use('/users', users);
   app.use('/blogs', blogs);
