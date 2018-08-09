@@ -258,10 +258,7 @@ router.post('/delete', checksession, function (req, res) {
                 Blog.findOne({
                     id: req.body.id,
                     isActive: true
-                }, {
-                    isActive: false
                 }, function (err, blog) {
-                    console.log(1);
                     if (err) throw err;
                     if (!blog) return res.json({
                         status: false,
@@ -652,7 +649,14 @@ router.post('/undo_unlike', checksession, function (req, res) {
 });
 
 router.get('/:id', checksession, function (req, res) {
-    res.sendfile('./views/dist/views/index.html');
+    Blog.findOne({
+        id: req.params.id
+    }, function (err, blog) {
+        if (err || !blog)
+            return res.send(404);
+        else
+            res.sendfile('./views/dist/views/index.html');
+    })
 });
 router.get('/filter/:filter', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
