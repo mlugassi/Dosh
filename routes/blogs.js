@@ -413,7 +413,8 @@ router.post('/add', checksession, function (req, res) {
                                 id: blog.id,
                                 owner: blog.author,
                                 participates: [blog.author],
-                                message: []
+                                message: [],
+                                isActive: true
                             });
                         });
                     }
