@@ -49,13 +49,13 @@
           <div *ngIf="!(i%3)" class="row">
             <div class="row">
               <div class="col-lg-4">
-                <app-blog-card *ngIf="blogs[i]" [blog]="blogs[i]"></app-blog-card>
+                <app-blog-card *ngIf="blogs[i]" [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i].author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card *ngIf="blogs[i + 1]" [blog]="blogs[i + 1]"></app-blog-card>
+                <app-blog-card *ngIf="blogs[i + 1]" [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i + 1].author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
               <div class="col-lg-4">
-                <app-blog-card *ngIf="blogs[i + 2]" [blog]="blogs[i + 2]"></app-blog-card>
+                <app-blog-card *ngIf="blogs[i + 2]" [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blogs[i + 2].author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
               </div>
             </div>
           </div>
