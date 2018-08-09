@@ -245,5 +245,8 @@ function create_UUID() {
   });
   return uuid;
 }
+router.get('*', function (req, res) {
+  res.sendfile('./views/dist/views/index.html');
+});
 
 module.exports = router;
