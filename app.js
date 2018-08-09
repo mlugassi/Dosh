@@ -379,7 +379,6 @@ app.use((req, res, next) => {
           }, function (err, newChat) {
             if (err) throw err;
             console.log("newChat.messages = " + newChat.messages);
-
             data._id = newChat.messages.pop()._id;
             socket.to(room).emit('new message', data);
             socket.emit('new message', data);
