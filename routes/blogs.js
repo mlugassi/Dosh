@@ -72,7 +72,7 @@ router.get('/all_blogs', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (!result ) return res.json({
+        if (!result) return res.json({
             status: false,
             message: "There are no posts"
         });
@@ -87,7 +87,7 @@ router.get('/my_blogs', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (!result ) return res.json({
+        if (!result) return res.json({
             status: false,
             message: "There are no posts that belongs to you"
         });
@@ -104,7 +104,7 @@ router.get('/all_blogs_but_mine', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (!result ) return res.json({
+        if (!result) return res.json({
             status: false,
             message: "There are no posts that doesn't belong to you"
         });
@@ -122,7 +122,7 @@ router.get('/favorite_blogs', checksession, function (req, res) {
         }).limit(5).exec(
             function (err, result) {
                 if (err) throw err;
-                if (!result ) return res.json({
+                if (!result) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -142,7 +142,7 @@ router.get('/recent_posts', checksession, function (req, res) {
         }).limit(7).exec(
             function (err, result) {
                 if (err) throw err;
-                if (!result ) return res.json({
+                if (!result) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -162,7 +162,7 @@ router.get('/most_commented_blogs', checksession, function (req, res) {
         }).limit(5).exec(
             function (err, result) {
                 if (err) throw err;
-                if (!result ) return res.json({
+                if (!result) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -188,7 +188,7 @@ router.get('/category/:catgory', checksession, function (req, res) {
             isActive: true
         }, function (err, result) {
             if (err) throw err;
-            if (!result ) return res.json({
+            if (!result) return res.json({
                 status: false,
                 message: "There are no posts in " + req.params.catgory + " category"
             });
@@ -259,29 +259,29 @@ router.post('/delete', checksession, function (req, res) {
                     id: req.body.id,
                     isActive: true
                 }, {
-                    isActive: false
-                }, function (err, blog) {
-                    if (err) throw err;
-                    if (blog == null) return res.json({
-                        status: false,
-                        message: "Post doesn't exists"
-                    });
-                    else {
-                        User.update({
-                            userName: blog.author,
-                            isBlogger: true,
-                            isActive: true
-                        }, {
-                            blogs: user.blogs - 1
-                        }, function (err, usr) {
-                            if (err || !usr) throw err;
-                            return res.json({
-                                status: true,
-                                message: "Post id: " + blog.id + " deleted successfully "
-                            });
+                        isActive: false
+                    }, function (err, blog) {
+                        if (err) throw err;
+                        if (blog == null) return res.json({
+                            status: false,
+                            message: "Post doesn't exists"
                         });
-                    }
-                });
+                        else {
+                            User.update({
+                                userName: blog.author,
+                                isBlogger: true,
+                                isActive: true
+                            }, {
+                                    blogs: user.blogs - 1
+                                }, function (err, usr) {
+                                    if (err || !usr) throw err;
+                                    return res.json({
+                                        status: true,
+                                        message: "Post id: " + blog.id + " deleted successfully "
+                                    });
+                                });
+                        }
+                    });
         });
 });
 
@@ -299,18 +299,18 @@ router.post('/upload', checksession, (req, res) => {
                 id: id,
                 author: req.session.passport.user
             }, {
-                imgPath: "/images/blogs/" + req.file.filename
-            }, function (err, result) {
-                if (err) throw err;
-                if (result == null) return res.status(200).json({
-                    status: false,
-                    message: "You do not have permission to update this post"
+                    imgPath: "/images/blogs/" + req.file.filename
+                }, function (err, result) {
+                    if (err) throw err;
+                    if (result == null) return res.status(200).json({
+                        status: false,
+                        message: "You do not have permission to update this post"
+                    });
+                    else return res.status(200).json({
+                        status: true,
+                        message: "File uploded successfully"
+                    });
                 });
-                else return res.status(200).json({
-                    status: true,
-                    message: "File uploded successfully"
-                });
-            });
             console.log("File uploded successfully");
         }
     });
@@ -380,16 +380,16 @@ router.post('/add', checksession, function (req, res) {
                                 isBlogger: true,
                                 isActive: true
                             }, {
-                                blogs: user.blogs + 1
-                            }, function (err, usr) {
-                                if (err || !usr) throw err;
-                                console.log('blog created:' + blog);
-                                return res.json({
-                                    status: true,
-                                    id: id,
-                                    message: "Blog id: " + id + "created successfully"
+                                    blogs: user.blogs + 1
+                                }, function (err, usr) {
+                                    if (err || !usr) throw err;
+                                    console.log('blog created:' + blog);
+                                    return res.json({
+                                        status: true,
+                                        id: id,
+                                        message: "Blog id: " + id + "created successfully"
+                                    });
                                 });
-                            });
                             Chat.create({
                                 id: blog.id,
                                 owner: blog.author,
@@ -421,20 +421,20 @@ router.post('/update', checksession, function (req, res) {
             author: req.session.passport.user,
             isActive: true
         }, {
-            title: req.body.title,
-            content: req.body.content,
-            category: req.body.category,
-        }, function (err, result) {
-            if (err) throw err;
-            if (result == null) return res.json({
-                status: false,
-                message: "You do not have permission to update this post"
+                title: req.body.title,
+                content: req.body.content,
+                category: req.body.category,
+            }, function (err, result) {
+                if (err) throw err;
+                if (result == null) return res.json({
+                    status: false,
+                    message: "You do not have permission to update this post"
+                });
+                return res.json({
+                    status: true,
+                    message: "Post updated successfully"
+                });
             });
-            return res.json({
-                status: true,
-                message: "Post updated successfully"
-            });
-        });
 });
 
 router.post('/add_comment', checksession, function (req, res) {
@@ -515,25 +515,25 @@ router.post('/add_reply', checksession, function (req, res) {
                 message: "Post doesn't exists"
             });
             result.comments.comment.forEach(comment => {
-                    if (comment._id == req.body.commentId) {
-                        result.comments.count++;
-                        comment.replies.push({
-                            writer: req.session.passport.user,
-                            imgPath: req.body.imgPath,
-                            content: req.body.content,
-                            created_at: req.body.date,
-                            likes: {
-                                count: 0,
-                                users: []
-                            },
-                            unlikes: {
-                                count: 0,
-                                users: []
-                            },
-                        });
-                        _id = comment.replies[comment.replies.length - 1]._id;
-                    }
+                if (comment._id == req.body.commentId) {
+                    result.comments.count++;
+                    comment.replies.push({
+                        writer: req.session.passport.user,
+                        imgPath: req.body.imgPath,
+                        content: req.body.content,
+                        created_at: req.body.date,
+                        likes: {
+                            count: 0,
+                            users: []
+                        },
+                        unlikes: {
+                            count: 0,
+                            users: []
+                        },
+                    });
+                    _id = comment.replies[comment.replies.length - 1]._id;
                 }
+            }
 
             );
             Blog.findOneAndUpdate({
@@ -630,7 +630,12 @@ router.post('/undo_unlike', checksession, function (req, res) {
 });
 
 router.get('/:id', checksession, function (req, res) {
-    res.sendfile('./views/dist/views/index.html');
+    Blog.findOne({ id: req.params.id }, function (err, blog) {
+        if (err || !blog)
+            return res.send(404);
+        else
+        res.sendfile('./views/dist/views/index.html');
+    })
 });
 router.get('/filter/:filter', checksession, function (req, res) {
     res.sendfile('./views/dist/views/index.html');
@@ -645,29 +650,29 @@ router.get('/search/:filter', checksession, function (req, res) {
     console.log(s);
 
     Blog.find({
-            $or: [{
-                title: {
-                    $regex: req.params.filter,
-                    $options: 'i'
-                }
-            }, {
-                author: {
-                    $regex: req.params.filter,
-                    $options: 'i'
-                }
-            }, {
-                content: {
-                    $regex: req.params.filter,
-                    $options: 'i'
-                }
-            }, {
-                category: {
-                    $regex: req.params.filter,
-                    $options: 'i'
-                }
-            }, ],
-            isActive: true,
-        },
+        $or: [{
+            title: {
+                $regex: req.params.filter,
+                $options: 'i'
+            }
+        }, {
+            author: {
+                $regex: req.params.filter,
+                $options: 'i'
+            }
+        }, {
+            content: {
+                $regex: req.params.filter,
+                $options: 'i'
+            }
+        }, {
+            category: {
+                $regex: req.params.filter,
+                $options: 'i'
+            }
+        },],
+        isActive: true,
+    },
         function (err, blogs) {
             if (err) throw err;
             if (!blogs) return res.json({
