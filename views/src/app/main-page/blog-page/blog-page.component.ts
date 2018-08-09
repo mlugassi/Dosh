@@ -42,15 +42,4 @@ export class BlogPageComponent implements OnInit {
       });
     });
   }
-
-  // onCategoryChanged(data: { blogId: Number, category: String }) {
-  //   let blog = this.myBlogs.find(blog => blog.id == data.blogId);
-  //   this.categories[blog.category.valueOf()]--;
-  //   this.categories[data.category.valueOf()]++;
-  //   blog.category = data.category;
-  // }
-  // onBlogAdded(newBlog: Blog) {
-  //   this.categories[newBlog.category.valueOf()]++;
-  //   this.myBlogs.push(newBlog)
-  // }
 }

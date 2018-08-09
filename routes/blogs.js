@@ -51,7 +51,7 @@ router.get('/who_am_I', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (result == null) return res.json({
+        if (!result) return res.json({
             status: false,
             message: "User does't exits"
         });
@@ -72,7 +72,7 @@ router.get('/all_blogs', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (result == null || result.length == 0) return res.json({
+        if (!result ) return res.json({
             status: false,
             message: "There are no posts"
         });
@@ -87,7 +87,7 @@ router.get('/my_blogs', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (result == null || result.length == 0) return res.json({
+        if (!result ) return res.json({
             status: false,
             message: "There are no posts that belongs to you"
         });
@@ -104,7 +104,7 @@ router.get('/all_blogs_but_mine', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (result == null || result.length == 0) return res.json({
+        if (!result ) return res.json({
             status: false,
             message: "There are no posts that doesn't belong to you"
         });
@@ -122,7 +122,7 @@ router.get('/favorite_blogs', checksession, function (req, res) {
         }).limit(5).exec(
             function (err, result) {
                 if (err) throw err;
-                if (result == null || result.length == 0) return res.json({
+                if (!result ) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -142,7 +142,7 @@ router.get('/recent_posts', checksession, function (req, res) {
         }).limit(7).exec(
             function (err, result) {
                 if (err) throw err;
-                if (result == null || result.length == 0) return res.json({
+                if (!result ) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -162,7 +162,7 @@ router.get('/most_commented_blogs', checksession, function (req, res) {
         }).limit(5).exec(
             function (err, result) {
                 if (err) throw err;
-                if (result == null || result.length == 0) return res.json({
+                if (!result ) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -188,7 +188,7 @@ router.get('/category/:catgory', checksession, function (req, res) {
             isActive: true
         }, function (err, result) {
             if (err) throw err;
-            if (result == null || result.length == 0) return res.json({
+            if (!result ) return res.json({
                 status: false,
                 message: "There are no posts in " + req.params.catgory + " category"
             });
