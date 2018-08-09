@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-9 col-sm-9">
+    <div class="col-md-9 col-sm-12">
       <div class="chatHeader">
         <div *ngIf="activeChat" class="row">
           <div class="col-sm-2 col-md-1">
@@ -45,7 +45,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-3 col-sm-3">
+    <div class="col-md-3 col-sm-12">
 
       <nav class="navTab">
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -59,10 +59,10 @@
         <div class="tab-pane fade show active" id="nav-rooms" role="tabpanel" aria-labelledby="nav-home-tab">
           <div *ngFor="let chat of myChats">
             <div class="row chatRow" [ngClass]="(activeChat && chat.id==activeChat.id) ? 'activeChat' : ''" (click)="openChat(chat);">
-              <div class="col-md-3 col-sm-3 imgContainer">
+              <div class="col-md-3 col-sm-2 imgContainer">
                 <img class="rowImg" src={{chat.imgPath}}>
               </div>
-              <div class="col-md-9 col-sm-9 blogRowTitle">
+              <div class="col-md-9 col-sm-10 blogRowTitle">
                 <h5>
                   {{chat.title}}
                 </h5>

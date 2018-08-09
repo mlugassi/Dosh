@@ -153,9 +153,21 @@ export class ChatService {
     }
 
     endUpload() {
-        let observable = new Observable<{imgPath: String}>(observer => {
-            this.socket.on('end upload', () => {
-                observer.next();
+        let observable = new Observable<{ id: String, imgPath: String }>(observer => {
+            this.socket.on('end upload', (data) => {
+                observer.next(data);
+            });
+            return () => { this.socket.disconnect(); }
+        });
+        return observable;
+    }
+    serverDisconnection(data) {
+        this.socket.emit('serverDisconnection', data);
+    }
+    disconnectedUser() {
+        let observable = new Observable<{ userName: String}>(observer => {
+            this.socket.on('disconnected user', (data) => {
+                observer.next(data);
             });
             return () => { this.socket.disconnect(); }
         });
