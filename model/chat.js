@@ -11,6 +11,7 @@ module.exports = db => {
         },
         owner: String,
         participates: [String],
+        isActive: Boolean,
         messages: [{
             text: String,
             sender: String,
@@ -20,7 +21,6 @@ module.exports = db => {
             unlikes: [String],
             isImage: Boolean,
             contentImgPath: String,
-            isActive: Boolean,
             created_at: Date,
             updated_at: Date
         }],

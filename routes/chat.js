@@ -15,10 +15,12 @@ router.get('/getAll', checksession, async (req, res) => {
   let otherChats = [];
 
   myChatsTemp = await Chat.find({
+    isActive:true,
     participates: req.session.passport.user
   }).exec();
 
   otherChatsTemp = await Chat.find({
+    isActive:true,
     participates: {
       $ne: req.session.passport.user
     }
@@ -79,6 +81,7 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   if (!index)
     index = 1;
   result = (await Chat.findOne({
+    isActive:true,
     id: req.params.id
   }));
 
@@ -88,6 +91,7 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
 
   var messages = [];
   result = await Chat.findOne({
+    isActive:true,
     id: req.params.id
   }, function (err, chat) {});
 
@@ -117,12 +121,10 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   return res.status(200).json(requested_messages);
 });
 
-router.get('/:id', checksession, function (req, res) {
-  res.sendfile('./views/dist/views/index.html');
-});
 router.get('/join/:id', checksession, async (req, res) => {
   Chat.findOne({
-    id: req.params.id
+    id: req.params.id,
+    isActive:true,
   }, function (err, chat) {
     if (!err && chat)
       User.update({

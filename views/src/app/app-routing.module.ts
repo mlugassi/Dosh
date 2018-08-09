@@ -24,7 +24,6 @@ const appRoutes: Routes = [
   { path: '', component: MainPageComponent, canActivate: [AuthGuard], children: [
       { path: "", component: HomeComponent },
       { path: 'chat', component: ChatComponent },
-      { path: 'chat/:id', component: ChatComponent },
       { path: 'blogs', component: BlogsComponent },
       {
         path: 'blogs', component: BlogPageComponent, children: [
