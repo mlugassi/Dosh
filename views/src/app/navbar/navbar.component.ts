@@ -54,6 +54,7 @@ export class NavbarComponent implements OnInit {
   }
   openModal(content) {
     this.editPass = false;
+    this.password=this.confirmPassword =this.oldPassword="";
     this.load_user();
     this.modal = this.modalService.open(content, { centered: true });
   }
