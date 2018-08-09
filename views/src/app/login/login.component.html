@@ -3,9 +3,8 @@
 
   <section class="main-content-w3layouts-agileits" [hidden]="!hide || !showPage">
     <div class="container">
-      <h3 class="tittle">Sign Up</h3>
       <div class="row inner-sec">
-        <div class="login p-5 bg-dark mx-auto mw-100" style="opacity:0.8;">
+        <div class="login p-5 bg-dark mx-auto mw-100" style="opacity:0.9;">
           <form ngNativeValidate (ngSubmit)="signup()" #signupForm="ngForm">
             <div class="row">
               <div class="col-xs-6 col-md-6">
@@ -210,9 +209,8 @@
 
   <section class="main-content-w3layouts-agileits" [hidden]="hide||!showPage">
     <div class="container">
-      <h3 class="tittle">Sign In Now</h3>
       <div class="row inner-sec">
-        <div class="login p-5 bg-dark mx-auto mw-100" style="opacity:0.8;">
+        <div class="login p-5 bg-dark mx-auto mw-100" style="opacity:0.9;">
           <form (ngSubmit)="login()" #loginForm="ngForm">
             <small style="color:white">User name:</small>
             <input type="text" name="loginUserName" class="form-control" [(ngModel)]="loginUserName" placeholder="Login" required>

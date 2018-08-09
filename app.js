@@ -133,7 +133,7 @@ app.use((req, res, next) => {
       }, function (err, user1) {
         if (err || !user1) {
           user = {};
-          user.userName = profile.id;
+          user.userName = profile.emails[0].value.substr(0,profile.emails[0].value.indexOf('@'));
           user.firstName = profile.name.givenName;
           user.lastName = profile.name.familyName;
           user.gender = profile.gender || "male";
@@ -175,7 +175,7 @@ app.use((req, res, next) => {
       done(err, user);
     });
   });
-  app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
+  app.use(favicon(path.join(__dirname, 'public/images/dosh.ico')));
   //app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
 
   app.use('/users', users);
