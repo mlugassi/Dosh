@@ -175,7 +175,7 @@ app.use((req, res, next) => {
       done(err, user);
     });
   });
-  app.use(favicon(path.join(__dirname, 'public', 'images', 'dosh.ico')));
+  app.use(favicon(path.join(__dirname, 'public/images/dosh.ico')));
   //app.use('/', express.static(path.join(__dirname, 'views', 'dist', 'views')));
 
   app.use('/users', users);
