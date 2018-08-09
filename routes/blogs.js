@@ -72,7 +72,7 @@ router.get('/all_blogs', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (!result ) return res.json({
+        if (!result) return res.json({
             status: false,
             message: "There are no posts"
         });
@@ -87,7 +87,7 @@ router.get('/my_blogs', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (!result ) return res.json({
+        if (!result) return res.json({
             status: false,
             message: "There are no posts that belongs to you"
         });
@@ -104,7 +104,7 @@ router.get('/all_blogs_but_mine', checksession, function (req, res) {
         isActive: true
     }, function (err, result) {
         if (err) throw err;
-        if (!result ) return res.json({
+        if (!result) return res.json({
             status: false,
             message: "There are no posts that doesn't belong to you"
         });
@@ -122,7 +122,7 @@ router.get('/favorite_blogs', checksession, function (req, res) {
         }).limit(5).exec(
             function (err, result) {
                 if (err) throw err;
-                if (!result ) return res.json({
+                if (!result) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -142,7 +142,7 @@ router.get('/recent_posts', checksession, function (req, res) {
         }).limit(7).exec(
             function (err, result) {
                 if (err) throw err;
-                if (!result ) return res.json({
+                if (!result) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -162,7 +162,7 @@ router.get('/most_commented_blogs', checksession, function (req, res) {
         }).limit(5).exec(
             function (err, result) {
                 if (err) throw err;
-                if (!result ) return res.json({
+                if (!result) return res.json({
                     status: false,
                     message: "There are no posts"
                 });
@@ -188,7 +188,7 @@ router.get('/category/:catgory', checksession, function (req, res) {
             isActive: true
         }, function (err, result) {
             if (err) throw err;
-            if (!result ) return res.json({
+            if (!result) return res.json({
                 status: false,
                 message: "There are no posts in " + req.params.catgory + " category"
             });
@@ -245,42 +245,64 @@ router.post('/delete', checksession, function (req, res) {
             $or: [{
                 isBlogger: true
             }, {
-                price: true
+                isAdmin: true
             }],
             isActive: true
         }, function (err, user) {
             if (err) throw err;
-            if (user == null) return res.json({
+            if (!user) return res.json({
                 status: false,
                 message: "You do not have permission to delete this post"
             });
             else
-                Blog.findOneAndUpdate({
+                Blog.findOne({
                     id: req.body.id,
                     isActive: true
                 }, {
                     isActive: false
                 }, function (err, blog) {
+                    console.log(1);
                     if (err) throw err;
-                    if (blog == null) return res.json({
+                    if (!blog) return res.json({
                         status: false,
                         message: "Post doesn't exists"
                     });
-                    else {
-                        User.update({
-                            userName: blog.author,
-                            isBlogger: true,
+                    if (!user.isAdmin && user.userName != blog.author) return res.json({
+                        status: false,
+                        message: "You don't have promitions to delete this post"
+                    });
+                    Blog.findOneAndUpdate({
+                        id: blog.id,
+                        isActive: true
+                    }, {
+                        isActive: false
+                    }, function (err, blog2) {
+                        console.log("blog " + err);
+                        if (err || !blog2) throw err;
+                        Chat.findOneAndUpdate({
+                            id: blog.id,
                             isActive: true
                         }, {
-                            blogs: user.blogs - 1
-                        }, function (err, usr) {
-                            if (err || !usr) throw err;
-                            return res.json({
-                                status: true,
-                                message: "Post id: " + blog.id + " deleted successfully "
+                            isActive: false
+                        }, function (err, chat) {
+                            if (err || !chat) throw err;
+                            User.findOneAndUpdate({
+                                userName: blog.author,
+                                isBlogger: true,
+                                isActive: true
+                            }, {
+                                blogs: user.blogs - 1
+                            }, function (err, usr) {
+                                console.log("usr " + err);
+
+                                if (err || !usr) throw err;
+                                return res.json({
+                                    status: true,
+                                    message: "Post id: " + blog.id + " deleted successfully "
+                                });
                             });
                         });
-                    }
+                    });
                 });
         });
 });
