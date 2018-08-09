@@ -189,6 +189,7 @@ export class ChatComponent implements OnInit {
         this.activeChat = chat;
         this.activeChat.new_messages = 0;
         this.userMode = userMode;
+        this.activeChatMsgs=[];
         this.load_messages();
     }
 
