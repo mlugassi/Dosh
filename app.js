@@ -26,27 +26,6 @@ let login = require('./routes/login'); // it will be our controller for logging 
 
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-// chat1 = {};
-// chat1.id = 3;
-// chat1.owner = "sapirz1";
-// chat1.participates = ["refaelz1","sapirz1","shilatz1"];
-// chat1.messages = [{text:"Bla bla bla1",sender:"refaelz1",date: Date.now(), likes:["refaelz1"],unlike:[]},
-// {text:"Bla bla bla1",sender:"shilatz1",date:Date.now(), likes:["refaelz1"],unlike:[]},
-// {text:"Bla bla bla2",sender:"shilatz1",date:Date.now(), likes:["refaelz1"],unlike:[]},
-// {text:"Bla bla bla3",sender:"sapirz1",date:Date.now(), likes:["refaelz1"],unlike:[]},
-// {text:"Bla bla bla4",sender:"shilatz1",date:Date.now(), likes:["refaelz1","sapirz1","shilatz1","1","2","3"],unlike:[]},
-// {text:"Bla bla bla5",sender:"sapirz1",date:Date.now(), likes:["shilatz1"],unlike:[]},
-// {text:"Bla bla bla6",sender:"shilatz1",date:Date.now(), likes:["refaelz1","sapirz1"],unlike:[]}];
-// Chat.create(chat1);
-
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
-});
 
 (async () => {
   let MongoStore = connectMongo(session);
@@ -443,6 +422,12 @@ app.use((req, res, next) => {
 .catch(err => {
   console.log("Failure: " + err);
   process.exit(0);
+});
+
+process.on('uncaughtException', function(err) {
+  console.log('-------------------Exception-----------------');
+  console.log('Caught exception: ' + err);
+  console.log('---------------------------------------------');
 });
 
 module.exports = app;
