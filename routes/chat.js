@@ -78,10 +78,11 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
     req.params.expression = "";
   if (!index)
     index = 1;
-  size = (await Chat.findOne({
+  result = (await Chat.findOne({
     id: req.params.id
-  })).messages.length;
+  }));
 
+  size = (result && result.messages) ? result.messages.length : 0;
   if (index * mult > size + mult)
     return res.status(200).json([]);
 
@@ -89,6 +90,10 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   result = await Chat.findOne({
     id: req.params.id
   }, function (err, chat) {});
+
+  if (!result || !result.messages)
+    return res.status(200).json([]);
+
   if (req.params.expression != "" && req.params.expression != undefined) {
     result.messages.forEach(element => {
       if (element.text.includes(req.params.expression) && !element.isImage)

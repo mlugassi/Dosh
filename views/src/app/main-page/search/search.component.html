@@ -8,13 +8,13 @@
             <div *ngIf="!(i%3)" class="row">
               <div class="row">
                 <div class="col-lg-4">
-                  <app-blog-card [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                  <app-blog-card [blog]="blogs[i]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" [filter]="filter" (checkEvent)="onCheckChange($event)"></app-blog-card>
                 </div>
                 <div class="col-lg-4">
-                  <app-blog-card [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                  <app-blog-card [blog]="blogs[i + 1]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" [filter]="filter" (checkEvent)="onCheckChange($event)"></app-blog-card>
                 </div>
                 <div class="col-lg-4">
-                  <app-blog-card [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" (checkEvent)="onCheckChange($event)"></app-blog-card>
+                  <app-blog-card [blog]="blogs[i + 2]" [inManage]="inManage" [isAdmin]="isAdmin" [isOwn]="blog.author == watcher" [filter]="filter" (checkEvent)="onCheckChange($event)"></app-blog-card>
                 </div>
               </div>
             </div>

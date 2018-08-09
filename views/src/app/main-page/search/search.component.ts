@@ -43,7 +43,6 @@ export class SearchComponent implements OnInit {
     });
   }
 
-
   nextPage() {
 
     if (this.currentPage < this.pages)

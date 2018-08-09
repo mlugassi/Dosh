@@ -275,8 +275,10 @@ app.use((req, res, next) => {
     });
 
     socket.on('like', function (data) {
+      console.log(isNaN(Number(data.room)));
+      let room = isNaN(Number(data.room)) ? data.room.replace(data.user, '').replace('_', '') : data.room;
       console.log("----------------------like----------------");
-      console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
+      console.log("room: " + room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
       if (data.flag) {
         Chat.update({
           id: data.room,
@@ -305,7 +307,7 @@ app.use((req, res, next) => {
           console.log(response);
         });
       }
-      socket.broadcast.to(data.room).emit('new like', {
+      socket.broadcast.to(room).emit('new like', {
         user: data.user,
         idMessage: data.idMessage,
         flag: data.flag
@@ -313,6 +315,8 @@ app.use((req, res, next) => {
     });
 
     socket.on('unlike', function (data) {
+      console.log(isNaN(Number(data.room)));
+      let room = isNaN(Number(data.room)) ? data.room.replace(data.user, '').replace('_', '') : data.room;
       console.log("----------------------unlike----------------");
       console.log("room: " + data.room + ", user: " + data.user + ", id: " + data.idMessage + ", flag: " + data.flag);
       if (data.flag) {
@@ -343,13 +347,14 @@ app.use((req, res, next) => {
           console.log(response);
         });
       }
-      socket.broadcast.to(data.room).emit('new unlike', {
+      socket.broadcast.to(room).emit('new unlike', {
         user: data.user,
         idMessage: data.idMessage,
         flag: data.flag
       });
     });
     socket.on('message', function (data) {
+      console.log(isNaN(Number(data.room)));
       let room = isNaN(Number(data.room)) ? data.room.replace(data.sender, '').replace('_', '') : data.room;
       Chat.findOneAndUpdate({
         id: data.room
@@ -374,7 +379,7 @@ app.use((req, res, next) => {
           });
         } else Chat.create({
           id: data.room,
-          participates: [data.sender, data.room],
+          participates: [data.sender, room],
           messages: [data]
         }, function (err, newChat) {
           if (err) throw err;

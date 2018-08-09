@@ -31,6 +31,7 @@ import { BlogSmallCardComponent } from './main-page/home/recent-posts/blog-small
 import { MostCommentedComponent } from './main-page/home/most-commented/most-commented.component';
 import { AboutComponent } from './about/about.component';
 import { DateFormatePipe } from './date-formate.pipe';
+import { HighlightSearch } from './highlight-search.pipe';
 import { SearchComponent } from './main-page/search/search.component';
 import { ChatComponent } from './main-page/chat/chat.component';
 import { ChatMessageComponent } from './main-page/chat/chat-message/chat-message.component';
@@ -61,6 +62,7 @@ import { ChatMessageComponent } from './main-page/chat/chat-message/chat-message
     MostCommentedComponent,
     AboutComponent,
     DateFormatePipe,
+    HighlightSearch,
     SearchComponent,
     ChatComponent,
     ChatMessageComponent
