@@ -15,12 +15,12 @@ router.get('/getAll', checksession, async (req, res) => {
   let otherChats = [];
 
   myChatsTemp = await Chat.find({
-    isActive:true,
+    isActive: true,
     participates: req.session.passport.user
   }).exec();
 
   otherChatsTemp = await Chat.find({
-    isActive:true,
+    isActive: true,
     participates: {
       $ne: req.session.passport.user
     }
@@ -81,19 +81,22 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   if (!index)
     index = 1;
   result = (await Chat.findOne({
-    isActive:true,
+    isActive: true,
     id: req.params.id
   }));
 
+  console.log(result);
+  if (!result)
+    return res.json([]);
   size = (result && result.messages) ? result.messages.length : 0;
   if (index * mult > size + mult)
     return res.status(200).json([]);
 
   var messages = [];
   result = await Chat.findOne({
-    isActive:true,
+    isActive: true,
     id: req.params.id
-  }, function (err, chat) {});
+  }, function (err, chat) { });
 
   if (!result || !result.messages)
     return res.status(200).json([]);
@@ -124,14 +127,14 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
 router.get('/join/:id', checksession, async (req, res) => {
   Chat.findOne({
     id: req.params.id,
-    isActive:true,
+    isActive: true,
   }, function (err, chat) {
     if (!err && chat)
       User.update({
-          userName: chat.owner,
-          isBlogger: true,
-          isActive: true
-        }, {
+        userName: chat.owner,
+        isBlogger: true,
+        isActive: true
+      }, {
           $push: {
             inbox: [{
               kind: "chat" + chat.id,
