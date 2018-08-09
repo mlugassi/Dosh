@@ -78,6 +78,7 @@ export class ChatComponent implements OnInit {
                 chat.id = (this.currentUser.userName > data.userName) ? this.currentUser.userName + "_" + data.userName : data.userName + "_" + this.currentUser.userName;
                 chat.title = data.userName;
                 chat.imgPath = data.imgPath;
+                chat.new_messages = 0;
                 this.connectedUsers.push(chat);
             });
 
@@ -95,8 +96,12 @@ export class ChatComponent implements OnInit {
 
         this.chatService.newMessageReceived()
             .subscribe(data => {
-                if (!this.activeChat || data.room != this.activeChat.id)
-                    (this.myChats.find(chat => chat.id == data.room).new_messages)++;
+                if (!this.activeChat || data.room != this.activeChat.id) {
+                    var i = this.myChats.find(chat => chat.id == data.room);
+                    if (i) i.new_messages++;
+                    var j = this.connectedUsers.find(chat => chat.id == data.room);
+                    if (j) j.new_messages++;
+                }
                 //  else if (data.sender != this.currentUser.userName)
                 //     this.activeChatMsgs.push(data);
                 else {
