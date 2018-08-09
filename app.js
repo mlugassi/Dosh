@@ -133,7 +133,7 @@ app.use((req, res, next) => {
       }, function (err, user1) {
         if (err || !user1) {
           user = {};
-          user.userName = profile.id;
+          user.userName = profile.emails[0].value.substr(0,profile.emails[0].value.indexOf('@'));
           user.firstName = profile.name.givenName;
           user.lastName = profile.name.familyName;
           user.gender = profile.gender || "male";

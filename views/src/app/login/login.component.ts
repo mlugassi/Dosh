@@ -89,9 +89,10 @@ export class LoginComponent implements OnInit {
             this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
             this.appService.signup(this.user)
               .subscribe(res => {
-                alert(res.message);
                 if (res.status)
                   this.login(true);
+                else
+                  alert(res.message);
               })
           }
         })
@@ -120,43 +121,41 @@ export class LoginComponent implements OnInit {
     localStorage.setItem('DoshPassword', this.loginPassword);
   }
   resetPassword() {
-    if(this.emailReset){
-    this.appService.askToResetPassword(this.emailToReset)
-      .subscribe(res => {
-        if (res.message)
-          alert(res.message);
-        else
-          alert("Somthing went wrong..");
-      })
+    if (this.emailReset) {
+      this.appService.askToResetPassword(this.emailToReset)
+        .subscribe(res => {
+          if (res.message)
+            alert(res.message);
+          else
+            alert("Somthing went wrong..");
+        })
     }
-    else if(!this.code)
-    {
+    else if (!this.code) {
       this.appService.askToResetWithPhone(this.phoneToReset)
-      .subscribe(res => {
-        if (res.message){
-          alert(res.message);
-         this.codeMode(); 
-          this.code=true;
-        }
-        else
-          alert("Somthing went wrong..");
-      })
+        .subscribe(res => {
+          if (res.message) {
+            alert(res.message);
+            this.codeMode();
+            this.code = true;
+          }
+          else
+            alert("Somthing went wrong..");
+        })
     }
-    else{
+    else {
       this.appService.doResetWithPhone(this.codeToReset, this.phoneToReset)
-      .subscribe(res => {
-        if (res.status){
-          alert(res.message);
-          this.router.navigate(['/resetPassword/'+this.codeToReset]);
-        }
-        else
-          alert(res.message);
-      })
+        .subscribe(res => {
+          if (res.status) {
+            alert(res.message);
+            this.router.navigate(['/resetPassword/' + this.codeToReset]);
+          }
+          else
+            alert(res.message);
+        })
     }
   }
-  codeMode()
-  {
-    this.code=true;
+  codeMode() {
+    this.code = true;
     this.lableResetText = "Enter the code you got now";
     this.submitReset = "Reset my password";
     this.resetType = "number";
