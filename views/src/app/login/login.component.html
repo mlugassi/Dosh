@@ -242,15 +242,10 @@
               </div>
             </div>
           </form>
-          <div class="row">
-            <div class="col-xs-6 col-md-6">
-              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:red; color: white" (click)="google()">
-                <img src="/images/google_plus.png">google+</button>
-            </div>
-            <div class="col-xs-6 col-md-6">
-              <button class="btn btn-lg btn-primary btn-block signup-btn read-m" style="background:blue; color: white" (click)="google()">facebook+</button>
-            </div>
-          </div>
+          <button class="loginBtn loginBtn--google" style="margin-left: 40px ">
+            <a href="/google" style="color: white">
+              Login with Google</a>
+          </button>
         </div>
       </div>
     </div>
@@ -275,32 +270,16 @@
           <div class="tab-pane fade show active" id="content">
             <div class="container">
               <label for="mail">{{lableResetText}}</label>
-              <input *ngIf="emailReset" type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email" required>
-              <input *ngIf="!emailReset&&!code" type="number" name="phoneToReset" class="form-control" [(ngModel)]="phoneToReset" placeholder="Phone" required>
-              <input *ngIf="code" type="text" name="codeToReset" class="form-control" [(ngModel)]="codeToReset" placeholder="Your code" required>
+              <input *ngIf="emailReset" type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email"
+                required>
+              <input *ngIf="!emailReset&&!code" type="number" name="phoneToReset" class="form-control" [(ngModel)]="phoneToReset" placeholder="Phone"
+                required>
+              <input *ngIf="code" type="text" name="codeToReset" class="form-control" [(ngModel)]="codeToReset" placeholder="Your code"
+                required>
             </div>
             <br>
             <input class="btn btn-primary btn-block signup-btn read-m" type="submit" [value]="submitReset" [disabled]="!resetForm.form.valid">
           </div>
-
-
-          <!-- <div class="tab-pane fade" id="phone">
-            <div [hidden]="code">
-              <div class="container">
-                <label for="mail">Enter phone number</label>
-                <input type="text" name="emailToReset" class="form-control" [(ngModel)]="phoneToReset" placeholder="Phone number" [required]="!emailReset&&!code">
-              </div>
-              <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
-            </div>
-            <div [hidden]="!code">
-              <div class="container">
-                <label for="mail">Enter the code</label>
-                <input type="text" name="emailToReset" class="form-control" [(ngModel)]="theCodeReset" placeholder="code" [required]="!emailReset&&code">
-              </div>
-              <br>
-              <input class="btn btn-primary btn-block signup-btn read-m" type="submit" value="Reset my password" [disabled]="!resetForm.form.valid">
-            </div>
-          </div> -->
         </div>
       </form>
     </div>
