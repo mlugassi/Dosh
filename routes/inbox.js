@@ -145,6 +145,8 @@ router.post('/confirmInbox', checksession, function (req, res) {
                 Chat.findOneAndUpdate({ id: chatId },
                   { $push: { participates: sender } }, function (err, chat) {
                     if (err || !chat)
+                      return res.json({ status: false, message: "The user wasn't been a blogger." });
+                    else
                       return res.json({ status: true, message: "The user is a join to chat " + chatId + " now." });
                   });
             });
