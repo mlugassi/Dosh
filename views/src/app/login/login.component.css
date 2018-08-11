@@ -34,8 +34,19 @@ body {
   a.kinda-link:hover {
     cursor: pointer;
   }
-
-
+  li.nav-item:hover {
+    cursor: pointer;
+  }
+  li.nav-item {
+    cursor: pointer;
+    width: 45%;
+  }
+  .area-code {
+    /* for Firefox */
+    -moz-appearance: none;
+    /* for Chrome */
+    -webkit-appearance: none;
+  }
 /* Shared */
 .loginBtn {
   box-sizing: border-box;

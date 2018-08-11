@@ -45,8 +45,7 @@ Later:
 LAST REVIEW:
 Refael:
 X - 1. look at the careated at and update at
-X - 2. close the reset modal after sending the mail
-X - 14. אחרי האיפוס עם הטלפון נשאר מסך שחור
+15. להוסיף שדה של טלפון ביוזר
 
 11. לבדוק למה זה בוחר שתי צאטים
 

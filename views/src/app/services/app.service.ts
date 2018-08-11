@@ -46,12 +46,12 @@ export class AppService {
       .pipe(map(res => res as any || ""));
     return key;
   }
-  askToResetWithPhone(phone: string): Observable<any> {
-    return this.http.post(`${this.api_url}/askToResetWithPhone`, { phone: phone })
+  askToResetWithPhone(userName: string): Observable<any> {
+    return this.http.post(`${this.api_url}/askToResetWithPhone`, { userName: userName })
       .pipe(map(res => res as any || ""));
   }
-  doResetWithPhone(uuid: string, phone: string): Observable<any> {
-    return this.http.post(`${this.api_url}/doResetWithPhone`, { uuid: uuid, phone: phone })
+  doResetWithPhone(uuid: string, userName: string): Observable<any> {
+    return this.http.post(`${this.api_url}/doResetWithPhone`, { uuid: uuid, userName: userName })
       .pipe(map(res => res as any || ""));
   }
   askToResetPassword(email: string): Observable<any> {

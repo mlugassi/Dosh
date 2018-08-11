@@ -69,6 +69,7 @@ router.post('/signup', async (req, res, next) => {
       user.isResetReq = false;
       user.imgPath = "/images/users_profiles/" + user.gender + ".default.jpg" || "";
       user.blogs = 0;
+      user.phone = req.body.phone || "0525504031";
       user.inbox = [{kind:"other", title: "Welcome to our blog site", content: "We exiting for your join", sender: "System", date: Date.now(), isRead: false, isConfirm: true }];
       user.inboxCount = 1;
       user.uuid = "";
