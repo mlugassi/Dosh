@@ -98,18 +98,18 @@ router.get('/getKey/:UUID', async (req, res) => {
 });
 
 router.post('/askToResetWithPhone', function (req, res) {
-  if (!req.body || !req.body.phone)
+  if (!req.body || !req.body.userName)
     return res.json({ status: false, message: "Somthing missed up" });
   let uuid = create_UUID().substr(0, 5);
-  User.findOneAndUpdate({ phone: req.body.phone, isActive: true }, { phoneUuid: uuid, isResetReq: true }, function (err, result) {
+  User.findOneAndUpdate({ userName: req.body.userName, isActive: true }, { phoneUuid: uuid, isResetReq: true }, function (err, result) {
     if (err || !result)
       return res.status(200).json({
         status: false,
-        message: "Your phone isn't exist."
+        message: "Your user name isn't exist."
       });
     else {
       nexmo.message.sendSms(
-        '972528776896', result.phone, uuid + "                                    \n.",
+        '972525504030', "972" + result.phone.substr(1, 9), uuid + "                                    \n.",
         (err, responseData) => {
           if (err) {
             console.log(err);
@@ -126,11 +126,13 @@ router.post('/askToResetWithPhone', function (req, res) {
 });
 
 router.post('/doResetWithPhone', function (req, res) {
-  if (!req.body || !req.body.uuid || !req.body.phone)
+  console.log("user name: " + req.body.userName);
+  console.log("uuid: " + req.body.uuid);
+  if (!req.body || !req.body.uuid || !req.body.userName)
     return res.json({ status: false, message: "Somthing missed up" });
   User.findOne({
     isResetReq: true,
-    phone: req.body.phone,
+    userName: req.body.userName,
     phoneUuid: req.body.uuid,
     isActive: true,
   }, function (err, result) {
@@ -142,7 +144,7 @@ router.post('/doResetWithPhone', function (req, res) {
     else
       res.status(200).json({
         status: true,
-        message: "You move to the change password page."
+        message: "Your'e moving to the change password page."
       });
   });
 });

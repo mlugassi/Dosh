@@ -6,7 +6,7 @@ import User from '../models/User';
 import * as crypto from '../../../../node_modules/crypto-js';
 import * as md5 from '../../../../node_modules/md5';
 import { AuthGuard } from '../auth.guard';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   hide = false;
   rememME = false;
   emailToReset;
-  phoneToReset;
+  userNameToReset;
   codeToReset;
   MyKey;
   showPage = false;
@@ -36,9 +36,11 @@ export class LoginComponent implements OnInit {
   resetType;
   emailReset = false;
   code = false;
+  area_code;
+  modal;
   //isBlogger = false;
   // navHeader: NavHeader[] = [];
-  constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard) { }
+  constructor(private router: Router, private appService: AppService, private authGuard: AuthGuard, private modalService: NgbModal) { }
 
   ngOnInit() {
     if (localStorage.getItem('DoshUserName') && localStorage.getItem('DoshPassword')) {
@@ -87,6 +89,7 @@ export class LoginComponent implements OnInit {
           if (resKey.status && resKey.key) {
             this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
             this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
+            this.user.phone = this.area_code + this.user.phone;
             this.appService.signup(this.user)
               .subscribe(res => {
                 if (res.status)
@@ -124,6 +127,8 @@ export class LoginComponent implements OnInit {
     if (this.emailReset) {
       this.appService.askToResetPassword(this.emailToReset)
         .subscribe(res => {
+          if (res.status)
+            this.closeResetModal();
           if (res.message)
             alert(res.message);
           else
@@ -131,9 +136,9 @@ export class LoginComponent implements OnInit {
         })
     }
     else if (!this.code) {
-      this.appService.askToResetWithPhone(this.phoneToReset)
+      this.appService.askToResetWithPhone(this.userNameToReset)
         .subscribe(res => {
-          if (res.message) {
+          if (res.status) {
             alert(res.message);
             this.codeMode();
             this.code = true;
@@ -143,10 +148,11 @@ export class LoginComponent implements OnInit {
         })
     }
     else {
-      this.appService.doResetWithPhone(this.codeToReset, this.phoneToReset)
+      this.appService.doResetWithPhone(this.codeToReset, this.userNameToReset)
         .subscribe(res => {
           if (res.status) {
             alert(res.message);
+            this.closeResetModal();
             this.router.navigate(['/resetPassword/' + this.codeToReset]);
           }
           else
@@ -177,7 +183,13 @@ export class LoginComponent implements OnInit {
   }
   resetWithPhone() {
     this.emailReset = false;
-    this.lableResetText = "Enter phone number for reset password";
+    this.lableResetText = "Enter user name for reset password with phone";
     this.submitReset = "Send me a code";
+  }
+  openResetModal(content) {
+    this.modal = this.modalService.open(content, { centered: true });
+  }
+  closeResetModal() {
+    this.modal.close();
   }
 }

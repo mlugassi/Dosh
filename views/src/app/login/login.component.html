@@ -19,7 +19,6 @@
                 <small style="color:white">User name:</small>
                 <input type="text" name="userName" required class="form-control" [(ngModel)]="user.userName" placeholder="User name" /> </div>
               <div class="col-xs-6 col-md-6">
-
                 <small style="color:white">Gender:</small>
                 <select name="gender" required class="form-control" [(ngModel)]="user.gender">
                   <option value="Male">Male</option>
@@ -27,8 +26,29 @@
                 </select>
               </div>
             </div>
-            <small style="color:white">Email:</small>
-            <input type="email" name="email" required class="form-control" [(ngModel)]="user.email" placeholder="Your Email" />
+            <div class="row">
+              <div class="col-xs-6 col-md-6">
+                <small style="color:white">Email:</small>
+                <input type="email" name="email" required class="form-control" [(ngModel)]="user.email" placeholder="Your Email" />
+              </div>
+              <div class="col-xs-2 col-md-2">
+                <small style="color:white">Phone</small>
+                <select name="XXX" required class="form-control area-code" [(ngModel)]="area_code">
+                  <option value="050">050</option>
+                  <option value="052">052</option>
+                  <option value="053">053</option>
+                  <option value="054">054</option>
+                  <option value="055">055</option>
+                  <option value="057">057</option>
+                  <option value="058">058</option>
+                </select>
+              </div>
+              <div class="col-xs-4 col-md-4">
+                <small style="color:transparent">.</small>
+                <input type="tel" name="phone" maxlength="7" required class="form-control" [(ngModel)]="user.phone" placeholder="Your Phone"
+                />
+              </div>
+            </div>
             <div class="row">
               <div class="col-xs-6 col-md-6">
                 <small style="color:white">Password:</small>
@@ -225,7 +245,7 @@
             <!-- /.checkbox -->
             <span class="psw">
               <span style="color:white"> Forgot </span>
-              <a class="kinda-link" data-toggle="modal" data-target="#resetPassword-modal" style="color:#01cd74">password?</a>>
+              <a class="kinda-link" (click)="openResetModal(content)" style="color:#01cd74">password?</a>>
             </span>
 
             <div class="modal-footer">
@@ -255,36 +275,34 @@
 </body>
 
 
-<div class="modal fade" #resetModal id="resetPassword-modal" aria-hidden="true">
-  <div class="modal-dialog" style="background: white">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-    <div class="modal-body">
-      <form ngNativeValidate class="modal-content animate" (ngSubmit)="resetPassword()" #resetForm="ngForm">
-        <ul class="nav nav-tabs">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#content" (click)="resetWithEmail()">Email</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#content" (click)="resetWithPhone()">Phone</a>
-          </li>
-        </ul>
-        <div id="myTabContent" class="tab-content">
-          <div class="tab-pane fade show active" id="content">
-            <div class="container">
-              <label for="mail">{{lableResetText}}</label>
-              <input *ngIf="emailReset" type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email"
-                required>
-              <input *ngIf="!emailReset&&!code" type="number" name="phoneToReset" class="form-control" [(ngModel)]="phoneToReset" placeholder="Phone"
-                required>
-              <input *ngIf="code" type="text" name="codeToReset" class="form-control" [(ngModel)]="codeToReset" placeholder="Your code"
-                required>
-            </div>
-            <br>
-            <input class="btn btn-primary btn-block signup-btn read-m" type="submit" [value]="submitReset" [disabled]="!resetForm.form.valid">
+<ng-template class="modal fade" #content let-c="close" let-d="dismiss">
+  <div class="modal-body">
+    <button class="close" (click)="closeResetModal()">×</button>
+    <form ngNativeValidate class="modal-content animate" (ngSubmit)="resetPassword()" #resetForm="ngForm">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" data-toggle="tab" (click)="resetWithEmail()">Email</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" (click)="resetWithPhone()">Phone</a>
+        </li>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade show active" id="content">
+          <div class="container">
+            <label for="mail">{{lableResetText}}</label>
+            <input *ngIf="emailReset" type="email" name="emailToReset" class="form-control" [(ngModel)]="emailToReset" placeholder="Email"
+              required>
+            <input *ngIf="!emailReset&&!code" type="text" name="userNameToReset" class="form-control" [(ngModel)]="userNameToReset" placeholder="User name"
+              required>
+            <input *ngIf="code" type="text" name="codeToReset" class="form-control" [(ngModel)]="codeToReset" placeholder="Your code"
+              required>
           </div>
+          <br>
+          <input class="btn btn-primary btn-block signup-btn read-m" type="submit" [value]="submitReset" [disabled]="!resetForm.form.valid">
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   </div>
-</div>
+</ng-template>
 <app-footer *ngIf="showPage"></app-footer>
