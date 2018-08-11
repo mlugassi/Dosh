@@ -45,7 +45,6 @@ Later:
 LAST REVIEW:
 Refael:
 X - 1. look at the careated at and update at
-15. להוסיף שדה של טלפון ביוזר
 
 11. לבדוק למה זה בוחר שתי צאטים
 
