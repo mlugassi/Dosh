@@ -25,42 +25,45 @@ router.get('/getAll', checksession, async (req, res) => {
       $ne: req.session.passport.user
     }
   }).exec();
-  for (item of myChatsTemp) {
-    if (isNaN(Number(item.id)))
-      continue;
-    await Blog.findOne({
-      id: item.id
-    }, function (err, blog) {
-      if (err) throw err;
-      if (!blog) return;
-      newChat = {};
-      newChat.id = item.id;
-      newChat.owner = item.owner;
-      newChat.title = blog.title;
-      newChat.likes = blog.likes.count;
-      newChat.unlikes = blog.unlikes.count;
-      newChat.imgPath = blog.imgPath;
-      myChats.push(newChat);
-    });
-  };
-  for (item of otherChatsTemp) {
-    if (isNaN(Number(item.id)))
-      continue;
-    await Blog.findOne({
-      id: item.id
-    }, function (err, blog) {
-      if (err) throw err;
-      if (!blog) return;
-      newChat = {};
-      newChat.id = item.id;
-      newChat.owner = item.owner;
-      newChat.title = blog.title;
-      newChat.likes = blog.likes.count;
-      newChat.unlikes = blog.unlikes.count;
-      newChat.imgPath = blog.imgPath;
-      otherChats.push(newChat);
-    });
-  };
+
+  myChatsTemp.forEach(item => {
+    if (!isNaN(Number(item.id)))
+      (async () => {
+        await Blog.findOne({
+          id: item.id
+        }, function (err, blog) {
+          if (err) throw err;
+          if (!blog) return;
+          newChat = {};
+          newChat.id = item.id;
+          newChat.owner = item.owner;
+          newChat.title = blog.title;
+          newChat.likes = blog.likes.count;
+          newChat.unlikes = blog.unlikes.count;
+          newChat.imgPath = blog.imgPath;
+          myChats.push(newChat);
+        });
+      })()
+  });
+  otherChatsTemp.forEach(item => {
+    if (!isNaN(Number(item.id)))
+      (async () => {
+        await Blog.findOne({
+          id: item.id
+        }, function (err, blog) {
+          if (err) throw err;
+          if (!blog) return;
+          newChat = {};
+          newChat.id = item.id;
+          newChat.owner = item.owner;
+          newChat.title = blog.title;
+          newChat.likes = blog.likes.count;
+          newChat.unlikes = blog.unlikes.count;
+          newChat.imgPath = blog.imgPath;
+          otherChats.push(newChat);
+        });
+      })()
+  });
   img = await User.findOne({
     userName: req.session.passport.user
   }).exec();
@@ -96,7 +99,7 @@ router.get('/search/:id/:index/:expression?', checksession, async (req, res) => 
   result = await Chat.findOne({
     isActive: true,
     id: req.params.id
-  }, function (err, chat) { });
+  }, function (err, chat) {});
 
   if (!result || !result.messages)
     return res.status(200).json([]);
@@ -131,10 +134,10 @@ router.get('/join/:id', checksession, async (req, res) => {
   }, function (err, chat) {
     if (!err && chat)
       User.update({
-        userName: chat.owner,
-        isBlogger: true,
-        isActive: true
-      }, {
+          userName: chat.owner,
+          isBlogger: true,
+          isActive: true
+        }, {
           $push: {
             inbox: [{
               kind: "chat" + chat.id,
