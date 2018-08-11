@@ -143,6 +143,7 @@ router.post('/user', checksession, function (req, res) {
         user.isBlogger = result.isBlogger;
         user.isActive = result.isActive;
         user.inboxCount = result.inboxCount;
+        user.phone = result.phone;
         res.json(user);
     });
 });

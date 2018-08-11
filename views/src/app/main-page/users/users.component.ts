@@ -31,6 +31,7 @@ export class UsersComponent implements OnInit {
     form: FormGroup;
     modal;
     file: File;
+    area_code;
 
     constructor(private appService: AppService, private modalService: NgbModal) {
     }
@@ -63,6 +64,10 @@ export class UsersComponent implements OnInit {
         this.month = this.user.birthDay.substring(5, 7);
         this.year = this.user.birthDay.substring(0, 4);
         this.image = this.user.imgPath;
+        if (this.user.phone) {
+            this.area_code = this.user.phone.substr(0, 3) || "";
+            this.user.phone = this.user.phone.substr(3, 7) || "";
+        }
     }
 
     copyUser(src: User, tar: User) {
@@ -77,6 +82,7 @@ export class UsersComponent implements OnInit {
         tar.isBlogger = src.isBlogger;
         tar.lastName = src.lastName;
         tar.userName = src.userName;
+        tar.phone = src.phone;
     }
 
     openModal(content, userName) {
@@ -121,6 +127,7 @@ export class UsersComponent implements OnInit {
     sendUpdate() {
         this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
         this.user.imgPath = undefined;
+        this.user.phone = this.area_code + this.user.phone;
         this.appService.update_user(this.user)
             .subscribe(res => {
                 if (!res.status)

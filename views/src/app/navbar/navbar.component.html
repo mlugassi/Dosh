@@ -94,11 +94,25 @@
         </div>
         <br [hidden]="!editPass">
         <!-- mail and gender -->
+        <input type="email" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email" required/>
+        <br>
         <div class="row">
-          <div class="col-xs-7 col-md-7">
-            <input type="email" [(ngModel)]="user.email" name="email" class="form-control" placeholder="Email" required/>
+          <div class="col-xs-3 col-md-3">
+            <select name="XXX" required class="form-control area-code" [(ngModel)]="area_code">
+              <option value="050">050</option>
+              <option value="052">052</option>
+              <option value="053">053</option>
+              <option value="054">054</option>
+              <option value="055">055</option>
+              <option value="057">057</option>
+              <option value="058">058</option>
+            </select>
           </div>
           <div class="col-xs-5 col-md-5">
+            <input type="tel" name="phone" maxlength="7" required class="form-control" [(ngModel)]="user.phone" placeholder="Your Phone"
+            />
+          </div>
+          <div class="col-xs-4 col-md-4">
             <select [(ngModel)]="user.gender" name="gender" class="form-control" required>
               <option value="Male">Male</option>
               <option value="Female">Female</option>

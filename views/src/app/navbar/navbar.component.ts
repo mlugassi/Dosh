@@ -30,6 +30,7 @@ export class NavbarComponent implements OnInit {
   modal;
   file: File = null;
   unread = false;
+  area_code;
 
   constructor(private appService: AppService, private modalService: NgbModal, private router: Router) { }
 
@@ -50,11 +51,13 @@ export class NavbarComponent implements OnInit {
         this.year = this.user.birthDay.substring(0, 4);
         this.image = this.user.imgPath;
         this.user.imgPath = undefined;
+        this.area_code = this.user.phone.substr(0, 3);
+        this.user.phone = this.user.phone.substr(3, 7);
       })
   }
   openModal(content) {
     this.editPass = false;
-    this.password=this.confirmPassword =this.oldPassword="";
+    this.password = this.confirmPassword = this.oldPassword = "";
     this.load_user();
     this.modal = this.modalService.open(content, { centered: true });
   }
@@ -63,35 +66,55 @@ export class NavbarComponent implements OnInit {
     localStorage.removeItem('DoshPassword');
   }
   update() {
-    if (this.password != this.confirmPassword) {
-      this.password = this.confirmPassword = "";
-      return alert("The passwords are not match");
-    }
-    this.appService.getKey(new User(this.user.userName, ""))
-      .subscribe(resKey => {
-        if (resKey.status && resKey.key) {
-          if (this.password && this.oldPassword) {
-            this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
-            this.oldPassword = crypto.AES.encrypt(md5(this.oldPassword), resKey.key).toString();
+    if (this.editPass) {
+      if (this.password != this.confirmPassword) {
+        this.password = this.confirmPassword = "";
+        return alert("The passwords are not match");
+      }
+      this.appService.getKey(new User(this.user.userName, ""))
+        .subscribe(resKey => {
+          if (resKey.status && resKey.key) {
+            if (this.editPass) {
+              this.user.password = crypto.AES.encrypt(md5(this.password), resKey.key).toString();
+              var temp = crypto.AES.encrypt(md5(this.oldPassword), resKey.key).toString();
+            }
+            this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
+            this.user.phone = this.area_code + this.user.phone;
+            this.appService.update_user(this.user, temp)
+              .subscribe(res => {
+                this.password = this.confirmPassword = this.oldPassword = undefined;
+                if (res.status != true) {
+                  if (res.message)
+                    alert(res.message);
+                  else
+                    alert("Your updating was failed.");
+                  return;
+                }
+                this.uploadImage();
+                this.close_modal();
+              });
           }
-          this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
-          this.appService.update_user(this.user, this.oldPassword)
-            .subscribe(res => {
-              if (res.status != true) {
-                if (res.message)
-                  alert(res.message);
-                else
-                  alert("Your updating was failed.");
-                return;
-              }
-              this.uploadImage();
-              this.password = this.confirmPassword = this.oldPassword = undefined;
-              this.close_modal();
-            });
-        }
-        else
-          alert(resKey.message);
-      });
+          else
+            alert(resKey.message);
+        });
+    }
+    else {
+      this.password = this.confirmPassword = this.oldPassword = undefined;
+      this.user.birthDay = this.year + "-" + this.month + "-" + this.day;
+      this.user.phone = this.area_code + this.user.phone;
+      this.appService.update_user(this.user, this.oldPassword)
+        .subscribe(res => {
+          if (res.status != true) {
+            if (res.message)
+              alert(res.message);
+            else
+              alert("Your updating was failed.");
+            return;
+          }
+          this.uploadImage();
+          this.close_modal();
+        });
+    }
   }
   editPassword() {
     this.editPass = !this.editPass;
