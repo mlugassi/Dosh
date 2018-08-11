@@ -45,7 +45,3 @@ Later:
 LAST REVIEW:
 Refael:
 X - 1. look at the careated at and update at
-
-11. לבדוק למה זה בוחר שתי צאטים
-
-10. לבדוק תמונה בצד המקבל - שיראה אותה

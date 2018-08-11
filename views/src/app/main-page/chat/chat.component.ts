@@ -208,12 +208,12 @@ export class ChatComponent implements OnInit {
         message.imgPath = this.currentUser.imgPath;
         message.sender = this.currentUser.userName;
         message.text = this.messageInputText;
+        this.messageInputText = "";
         if (this.file) {
             message.isImage = true;
             message.contentImgPath = "/images/chat/" + this.activeChat.id + "_" + message.sender + "_" + Date.now() + ".jpg";
         }
         this.chatService.sendMessage(message);
-        this.messageInputText = "";
     }
     join() {
         this.chatService.joinRoom({ user: this.currentUser.userName, room: this.activeChat.id });
@@ -243,6 +243,5 @@ export class ChatComponent implements OnInit {
 
     ngOnDestroy() {
         this.chatService.serverDisconnection({ user: this.currentUser.userName });
-        this.myChats.forEach(chat => this.chatService.leaveRoom(chat.id));
     }
 }

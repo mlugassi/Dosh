@@ -8,7 +8,7 @@ import { ChatService } from '../../../services/chat.service';
   templateUrl: './chat-message.component.html',
   styleUrls: ['./chat-message.component.css']
 })
-export class ChatMessageComponent implements OnInit {
+export class ChatMessageComponent {
   @Input() message: Message;
   @Input() userName: String;
   @Input() room: String;
@@ -19,15 +19,6 @@ export class ChatMessageComponent implements OnInit {
     chatService.endUpload()
       .subscribe((data) => {
         if (this.message._id != data.id) return;
-        // alert("id " + this.message._id + "\n" +
-        //   "sender " + this.message.sender + "\n" +
-        //   "text " + this.message.text + "\n" +
-        //   "contentImgPath " + this.message.contentImgPath + "\n" +
-        //   "data.imagePath " + data.imgPath + "\n" +
-        //   "room " + this.message.room + "\n" +
-        //   "date " + this.message.date + "\n" +
-        //   "isImage " + this.message.isImage + "\n"
-        // );
         // for reload the image
         this.message.contentImgPath = "";
         this.cdRef.detectChanges();
@@ -36,11 +27,6 @@ export class ChatMessageComponent implements OnInit {
       })
   }
 
-  ngOnInit() {
-
-
-
-  }
   like(id) {
     if (!this.message.likes.find(user => user == this.userName)) {
       this.chatService.like({ idMessage: id, user: this.userName, room: this.room, flag: true });

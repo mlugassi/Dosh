@@ -213,6 +213,7 @@ var io = require('socket.io')(server);
 
 
     socket.on('leave', function (data) {
+      console.log("leave " + data);
       console.log(data.user + ' left the room : ' + data.room);
       Chat.update({
         id: data.room,
@@ -233,12 +234,10 @@ var io = require('socket.io')(server);
 
     socket.on('serverConnection', function (data) {
       if (connected_users.filter(user => user.userName == data.user).length == 0) {
-        connected_users.forEach(user => {
-          socket.broadcast.to(user.userName).emit('new user connected', {
-            userName: data.user,
-            imgPath: data.imgPath
-          });
-        })
+        socket.broadcast.emit('new user connected', {
+          userName: data.user,
+          imgPath: data.imgPath
+        });
         connected_users.push({
           userName: data.user,
           imgPath: data.imgPath
@@ -389,7 +388,7 @@ var io = require('socket.io')(server);
             id: files[data.name].id,
             imgPath: data.name
           });
-          socket.emit('end upload', {
+          io.emit('end upload', {
             id: files[data.name].id,
             imgPath: data.name
           });
@@ -424,7 +423,7 @@ var io = require('socket.io')(server);
   process.exit(0);
 });
 
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function (err) {
   console.log('-------------------Exception-----------------');
   console.log('Caught exception: ' + err);
   console.log('---------------------------------------------');
