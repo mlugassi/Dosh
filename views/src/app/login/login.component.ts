@@ -144,7 +144,7 @@ export class LoginComponent implements OnInit {
             this.code = true;
           }
           else
-            alert("Somthing went wrong..");
+            alert(res.message);
         })
     }
     else {
