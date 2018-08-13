@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, AfterViewChecked, ElementRef, ViewChild } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import Chat from '../../models/Chat';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -14,6 +14,7 @@ import * as $ from 'jquery';
 })
 
 export class ChatComponent implements OnInit {
+    @ViewChild('scrollMe') private myScrollContainer: ElementRef;
     activeChat: Chat;
     currentUser: { userName: String, imgPath: String };
     index: number;
@@ -25,6 +26,7 @@ export class ChatComponent implements OnInit {
     connectedUsers: Chat[];
     userMode: Boolean;
     file: File;
+    disableScrollDown = false
 
     // @HostListener('window:beforeunload', ['$event'])
     // beforeUnloadHander(event) {
@@ -96,6 +98,7 @@ export class ChatComponent implements OnInit {
 
         this.chatService.newMessageReceived()
             .subscribe(data => {
+                this.scrollToBottom();
                 if (!this.activeChat || data.room != this.activeChat.id) {
                     var i = this.myChats.find(chat => chat.id == data.room);
                     if (i) i.new_messages++;
@@ -184,10 +187,10 @@ export class ChatComponent implements OnInit {
                 }
                 else
                     read_more = this.activeChatMsgs.shift();
-
                 res.reverse().forEach(element => this.activeChatMsgs.unshift(element));
                 if (res.length == 5)
                     this.activeChatMsgs.unshift(read_more);
+                this.scrollToBottom();
             }
         });
     }
@@ -243,5 +246,26 @@ export class ChatComponent implements OnInit {
 
     ngOnDestroy() {
         this.chatService.serverDisconnection({ user: this.currentUser.userName });
+    }
+    ngAfterViewChecked() {
+        this.scrollToBottom();
+    }
+
+    onScroll() {
+        let element = this.myScrollContainer.nativeElement
+        let atBottom = element.scrollHeight - element.scrollTop === element.clientHeight
+        if (this.disableScrollDown && atBottom) {
+            this.disableScrollDown = false
+        } else {
+            this.disableScrollDown = true
+        }
+    }
+    scrollToBottom(): void {
+        if (this.disableScrollDown) {
+            return
+        }
+        try {
+            this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight;
+        } catch (err) {}
     }
 }

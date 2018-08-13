@@ -16,7 +16,7 @@
         </div>
         <h2 *ngIf="!activeChat">Please pick up one chat</h2>
       </div>
-      <div class="frame">
+      <div class="frame" #scrollMe (scroll)="onScroll()">
         <div *ngIf="activeChat && activeChatMsgs">
           <app-chat-message *ngFor="let item of activeChatMsgs" [message]="item" [userName]=currentUser.userName [room]=activeChat.id
             (loadMessage)="load_messages()"></app-chat-message>
