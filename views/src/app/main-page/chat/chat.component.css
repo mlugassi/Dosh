@@ -288,15 +288,7 @@ h4 {
   left: 50px;
 }
 
-.srchBar>div>i {
-  /* position: absolute; */
-  /* left: 250px; */
-  /* display: none; */
-  margin-left: 2px;
-  opacity: 0.0;
-}
-
-.srchBar>div>input {
+.srchBar>div>input[type="text"] {
   outline: none;
   border: solid 1px #ccc;
   padding: 9px 10px 9px 28px;
@@ -313,7 +305,7 @@ h4 {
   opacity: 0.3;
 }
 
-.srchBar>div:hover>input {
+.srchBar>div:hover>input[type="text"] {
   width: 300px;
   padding-left: 32px;
   color: #000;
@@ -322,11 +314,7 @@ h4 {
   opacity: 1;
 }
 
-.srchBar>div:hover>i {
-  opacity: 1;
-}
-
-.srchBar>div>input :focus {
+.srchBar>div>input[type="text"] :focus {
   width: 300px;
   padding-left: 32px;
   color: #000;
@@ -335,7 +323,7 @@ h4 {
   opacity: 1;
 }
 
-.srchBar>div>input :not(:placeholder-shown) {
+.srchBar>div>input[type="text"] :not(:placeholder-shown) {
   width: 300px;
   padding-left: 32px;
   color: #000;
